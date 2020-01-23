@@ -1,6 +1,0 @@
-VM name : I02A205	
-SSH key : T02A205	
-Public Ip : 52.79.156.12	
-Private Ip	 : 172.26.15.26	
-State : running	
-Ports : 22,80,443,3000-3999,5000,8000-8999
