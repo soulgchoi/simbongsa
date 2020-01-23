@@ -557,8 +557,8 @@ class InputForm extends React.Component<{}, {}> {
                     placeholder="여긴 인풋"
                     value={this.state.currentInput}
                     onChange={(e) => 
-											this.setState({ currentInput: e.target.value})
-										}
+                    	this.setState({ currentInput: e.target.value})
+					}
                 />
                 <button type="submit">이건 버튼</button>
             </form>
