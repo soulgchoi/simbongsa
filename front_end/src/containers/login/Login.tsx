@@ -121,10 +121,7 @@ class Login extends React.Component {
             name="이메일"
             type="text"
           />
-          <div className="error-text" v-if="error.email">
-            {this.state.error.email}
-          </div>
-
+          <ErrorMessage message={this.state.error.email} />
           <Input
             value={this.state.password}
             type="password"
@@ -134,9 +131,7 @@ class Login extends React.Component {
             placeholder="비밀번호를 입력하세요."
             name="비밀번호"
           />
-          <div className="error-text" v-if="error.password">
-            {this.state.error.password}
-          </div>
+          <ErrorMessage message={this.state.error.password} />
           <ActionButton
             placeholder="로그인"
             action={this.login}
