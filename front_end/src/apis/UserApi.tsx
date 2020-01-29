@@ -6,6 +6,10 @@ interface requestLoginData {
   email: string;
   password: string;
 }
+interface requestJoinData {
+  email: string;
+  password: string;
+}
 const requestLogin = (
   data: requestLoginData,
   callback: (response: AxiosResponse<any>) => void,
