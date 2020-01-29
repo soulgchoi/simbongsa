@@ -72,8 +72,8 @@
 		select * from emp where dept_id = #{dept_id}
 	</select> -->
 	
-	<insert id="addVol" parameterType="Emp">
-		insert into emp values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
+	<insert id="addVol" parameterType="Vol">
+		insert into vol values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
 	</insert>
 	
 </mapper>
