@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "assets/css/style.scss";
 import "assets/css/user.scss";
 import "assets/mycss/components.scss";
@@ -7,7 +6,7 @@ import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import KakaoLogin from "components/user/snsLogin/Kakao";
 import GoogleLogin from "components/user/snsLogin/Google";
-import UserApi from "apis/UserApi";
+import * as UserApi from "apis/UserApi";
 
 // 직접 제작한 Components
 import LinkButton from "components/button/LinkButton";
@@ -69,32 +68,30 @@ class Login extends React.Component {
   login = () => {
     if (this.state.isSubmit) {
       let { email, password } = this.state;
-      let data = {
-        email,
-        password
-      };
       //요청 후에는 버튼 비활성화
       this.setState({ isSubmit: false });
       // this.state.isSubmit = false;
 
-      UserApi.requestLogin(
-        data,
-        res => {
-          //통신을 통해 전달받은 값 콘솔에 출력
+      UserApi.localLogin(email, password); // 성공하면 Back쪽에서 넘겨주는 데이터를 리턴함.
 
-          //정상적인 응답이 와도 우선 로그인 실패로 간주하고 알람 띄우기
-          alert("로그인 실패하였습니다.");
+      // UserApi.requestLogin(
+      //   data,
+      //   res => {
+      //     //통신을 통해 전달받은 값 콘솔에 출력
 
-          //요청이 끝나면 버튼 활성화
-          this.setState({ isSubmit: true });
-          // this.state.isSubmit = true;
-        },
-        error => {
-          //요청이 끝나면 버튼 활성화
-          this.setState({ isSubmit: true });
-          //this.state.isSubmit = true;
-        }
-      );
+      //     //정상적인 응답이 와도 우선 로그인 실패로 간주하고 알람 띄우기
+      //     alert("로그인 실패하였습니다.");
+
+      //     //요청이 끝나면 버튼 활성화
+      //     this.setState({ isSubmit: true });
+      //     // this.state.isSubmit = true;
+      //   },
+      //   error => {
+      //     //요청이 끝나면 버튼 활성화
+      //     this.setState({ isSubmit: true });
+      //     //this.state.isSubmit = true;
+      //   }
+      // );
     }
   };
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
