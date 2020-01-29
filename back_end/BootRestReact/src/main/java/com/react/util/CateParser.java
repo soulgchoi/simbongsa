@@ -43,8 +43,10 @@ public class CateParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
+//				System.out.println(vol);
 				dao.addCate(vol);
-				System.out.println(vol);
+				//vol.setHignClsNm("ddffs");
+				//System.out.println(vol);
 			}
 			//System.out.println(list);
 		}catch(Exception e){
