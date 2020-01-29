@@ -1,0 +1,12 @@
+// 인증, 모집 label
+span {
+    &.tag {
+      color: white;
+    }
+    &.iscertificated {
+      background-color: orange;
+    }
+    &.full {
+      background-color: greenyellow;
+    }
+  }
