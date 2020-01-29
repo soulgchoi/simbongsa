@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성 namespace: 작업하는 테이블들을 
 	구분해주기 위한 식별자 -->
-<mapper namespace="employee">
+<mapper namespace="volunteer">
 <!-- 	<resultMap id="EmpResult" type="Emp">
 		<result property="num" column="num" />
 		<result property="name" column="name" />
@@ -72,8 +72,15 @@
 		select * from emp where dept_id = #{dept_id}
 	</select> -->
 	
-	<insert id="addVol" parameterType="Vol">
-		insert into vol values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
+<!-- 	<insert id="addVol" parameterType="Vol">
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_bgnTm, v_endTm, v_mBgnD, v_mEndD, v_url, v_many, v_day, v_detail, r_id, ca_id, v_Auth) values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
+	</insert> -->
+	
+	<insert id="addReg" parameterType="Region">
+		insert into region(r_sidoCd, r_gunguCd, r_sidoNm, r_gunguNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
 	</insert>
 	
+	<insert id="addCate" parameterType="Category">
+		insert into category(ca_highCd, ca_highNm) values(#{highClsCd}, #{hignClsNm})
+	</insert>
 </mapper>

@@ -8,6 +8,9 @@
 		  Java AIP에 대한 별칭 설정 정보 : org.apache.ibits.type.TypeAliasRegistry 
 		  -->
 		<typeAlias type="com.react.vo.Vol"	alias="Vol"/>
+		<typeAlias type="com.react.vo.Region"	alias="Region"/>
+		<typeAlias type="com.react.vo.Category"	alias="Category"/>
+		
 <!-- 		<typeAlias type="com.vue.vo.Dept"	alias="Dept"/>
 		<typeAlias type="com.vue.vo.DeptEmp"	alias="DeptEmp"/>
 		<typeAlias type="com.vue.vo.DeptCount"	alias="DeptCount"/> -->

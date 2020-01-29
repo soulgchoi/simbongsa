@@ -6,18 +6,23 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 
-import com.react.vo.Vol;
+import com.react.dao.CateDao;
+import com.react.vo.Category;
 
 //정보를 load하는 SAX Parser
-public class VolParser {
+public class CateParser {
+	@Autowired
+	CateDao dao;
+	
 	private String xml;
 	//private StringBuilder xml;
-	private List<Vol> list;
+	private List<Category> list;
 	
-	public VolParser() throws Exception {
-		xml = new CallRestWS_vol().restClient();
+	public CateParser() throws Exception {
+		xml = new CallRestWS_cate().restClient();
 		loadData();
 	}
 
@@ -25,11 +30,11 @@ public class VolParser {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try{
 			SAXParser parser = factory.newSAXParser();
-			VolHandler handler = new VolHandler();
+			CateHandler handler = new CateHandler();
 			parser.parse(new InputSource(new StringReader(xml)),handler);
 			list = handler.getList();
-//			Vol find;
-			for (Vol vol : list) {
+//			Category find;
+			for (Category vol : list) {
 //				find = volMap.get(vol.getName());
 //				if(find!=null) {
 //					vol.setCode(find.getCode());
@@ -38,7 +43,10 @@ public class VolParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
-				System.out.println(vol);
+//				System.out.println(vol);
+				dao.addCate(vol);
+				//vol.setHignClsNm("ddffs");
+				//System.out.println(vol);
 			}
 			//System.out.println(list);
 		}catch(Exception e){
@@ -46,16 +54,16 @@ public class VolParser {
 		}
 	}
 	
-	public List<Vol> getList() {
+	public List<Category> getList() {
 		return list;
 	}
 	
-	public void setList(List<Vol> list) {
+	public void setList(List<Category> list) {
 		this.list = list;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new VolParser();
+		new CateParser();
 	}
 	
 }
