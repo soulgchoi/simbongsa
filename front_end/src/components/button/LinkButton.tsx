@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import "assets/mycss/components.scss";
 interface Props {
@@ -6,18 +6,13 @@ interface Props {
   link: string;
   disabled?: boolean;
 }
-interface State {}
 
-export default class LinkButton extends Component<Props, State> {
-  state = {};
-
-  render() {
-    return (
-      <div>
-        <Link to={this.props.link} className="my--btn">
-          {this.props.placeholder}
-        </Link>
-      </div>
-    );
-  }
+export default function LinkButton({ link, placeholder }: Props): ReactElement {
+  return (
+    <div>
+      <Link to={link} className="my--btn">
+        {placeholder}
+      </Link>
+    </div>
+  );
 }

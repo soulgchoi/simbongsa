@@ -1,16 +1,12 @@
-import React, { Component } from "react";
-
+import React, { ReactElement } from "react";
 interface Props {
-  message : string
+  message: string;
 }
-interface State {}
 
-export default class ErrorMessage extends Component<Props, State> {
-  state = {};
-
-  render() {
-    return  <div className="error-text" v-if={this.props.message}>
-    {this.props.message}
-  </div>;
-  }
+export default function ErrorMessage({ message }: Props): ReactElement {
+  return (
+    <div className="error-text" v-if={message}>
+      {message}
+    </div>
+  );
 }
