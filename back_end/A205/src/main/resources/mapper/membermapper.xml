@@ -27,8 +27,7 @@
 	</delete>
 	
 	<insert id="insert" parameterType="member">
-		insert into `member`(m_id,m_password,m_userid,m_email,m_bgnTm, m_endTm, m_age, m_address ) 
-		  values(#{m_id},#{m_password}, #{m_userid}, #{m_email}, 
-							#{m_bgnTm}, #{m_endTm}, #{m_age}, #{m_address} )
+		insert into `member`(m_password,m_userid,m_email ) 
+		  values(#{m_password}, #{m_userid}, #{m_email})
 	</insert>
 </mapper>
