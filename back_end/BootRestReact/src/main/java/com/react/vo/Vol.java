@@ -17,7 +17,8 @@ public class Vol {
                         "sidoCd": 6440000,
                         "srvcClCode": "교육 > 전문교육",
                         "url": "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2605664",
-                        "yngbgsPosblAt": "Y"*/
+                        "yngbgsPosblAt": "Y"
+*/
 	protected String actBeginTm;
 	protected String actEndTm;
 	protected String actPlace;
