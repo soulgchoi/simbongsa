@@ -1,5 +1,5 @@
 import axios from "axios";
-const restBaseApi = "http://70.12.247.87:8080/rest/";
+const restBaseApi = "http://70.12.247.34:8080";
 export const checkEmailExists = (email: string) => {
   try {
     return axios.get(restBaseApi + "CheckEmail/" + email);
@@ -30,12 +30,19 @@ export const localRegister = (
     return true;
   }
 };
-export const localLogin = (email: string, password: string) => {
-  try {
-    return axios.post("/api/auth/login/local", { email, password });
-  } catch (error) {
-    return true;
-  }
+export const localLogin = (email: string, password: string): boolean => {
+  axios
+    .post(restBaseApi + "/login.do", {
+      m_userid: email,
+      m_password: password
+    })
+    .then(response => {
+      return response.data.data;
+    })
+    .catch(error => {
+      return error.data.data;
+    });
+  return false;
 };
 
 export const checkStatus = () => {

@@ -5,7 +5,8 @@ import "assets/mycss/components.scss";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import KakaoLogin from "components/user/snsLogin/Kakao";
-import GoogleLogin from "components/user/snsLogin/Google";
+// import GoogleLogin from "components/user/snsLogin/Google";
+import GoogleLogin from "react-google-login";
 import * as UserApi from "apis/UserApi";
 
 // 직접 제작한 Components
@@ -27,7 +28,6 @@ class Login extends React.Component {
     component: this
   };
   componentDidMount() {
-    console.log(window.location.href);
     this.state.passwordSchema
       .is()
       .min(8)
@@ -72,8 +72,13 @@ class Login extends React.Component {
       this.setState({ isSubmit: false });
       // this.state.isSubmit = false;
 
-      UserApi.localLogin(email, password); // 성공하면 Back쪽에서 넘겨주는 데이터를 리턴함.
-
+      let result = UserApi.localLogin(email, password); // 성공하면 Back쪽에서 넘겨주는 데이터를 리턴함.
+      console.log(result); // result == true 면 로그인 성공 , result == false면 로그인 실패
+      if (result) {
+        console.log("로그인 성공");
+      } else {
+        console.log("로그인 실패");
+      }
       // UserApi.requestLogin(
       //   data,
       //   res => {
@@ -140,9 +145,14 @@ class Login extends React.Component {
               <p>SNS 간편 로그인</p>
               <div className="bar"></div>
             </div>
-
             <KakaoLogin />
-            <GoogleLogin />
+            <GoogleLogin
+              clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
+              render={(props: any) => <div onClick={props.onClick} />}
+              onSuccess={result => console.log(result)}
+              onFailure={result => console.log(result)}
+              cookiePolicy={"single_host_origin"}
+            />
           </div>
           <div className="add-option">
             <div className="bar" />
