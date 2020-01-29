@@ -1,35 +1,54 @@
-/*
- User API 예시
- */
-import axios, { AxiosResponse, AxiosError } from "axios";
-interface requestLoginData {
-  email: string;
-  password: string;
-}
-const requestLogin = (
-  data: requestLoginData,
-  callback: (response: AxiosResponse<any>) => void,
-  errorCallback: (error: AxiosError<any>) => void
+import axios from "axios";
+const restBaseApi = "http://70.12.247.87:8080/rest/";
+export const checkEmailExists = (email: string) => {
+  try {
+    return axios.get(restBaseApi + "CheckEmail/" + email);
+  } catch (error) {
+    return false;
+  }
+};
+export const checkUsernameExists = (username: string) => {
+  try {
+    return axios.get(restBaseApi + "CheckId/" + username);
+  } catch (error) {
+    return true;
+  }
+};
+
+export const localRegister = (
+  email: string,
+  username: string,
+  password: string
 ) => {
-  //백앤드와 로그인 통신하는 부분
-  let url = "http://" + "localhost:8080" + "/account/login";
-  axios
-    .post(url, data)
-    .then(response => {
-      callback(response);
-      console.log(response);
-    })
-    .catch(error => {
-      errorCallback(error);
+  try {
+    return axios.post(restBaseApi + "Member", {
+      email,
+      username,
+      password
     });
+  } catch (error) {
+    return true;
+  }
+};
+export const localLogin = (email: string, password: string) => {
+  try {
+    return axios.post("/api/auth/login/local", { email, password });
+  } catch (error) {
+    return true;
+  }
 };
 
-const UserApi = {
-  requestLogin: (
-    data: requestLoginData,
-    callback: (response: AxiosResponse<any>) => void,
-    errorCallback: (error: AxiosError<any>) => void
-  ) => requestLogin(data, callback, errorCallback)
+export const checkStatus = () => {
+  try {
+    return axios.get("/api/auth/check");
+  } catch (error) {
+    return true;
+  }
 };
-
-export default UserApi;
+export const logout = () => {
+  try {
+    return axios.post("/api/auth/logout");
+  } catch (error) {
+    return true;
+  }
+};
