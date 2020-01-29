@@ -21,8 +21,8 @@ public class MemberServiceImp implements MemberService {
 	private MemberDAO dao;
 
 	@Override
-	public Member search(String id) {
-		return dao.search(id);
+	public Member search(String userId) {
+		return dao.search(userId);
 	}
 
 	@Override
@@ -43,6 +43,16 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean checkID(String id) {
 		Member member = dao.search(id);
+		if(member == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean checkEmail(String email) {
+		Member member = dao.search(email);
 		if(member == null) {
 			return false;
 		}else {

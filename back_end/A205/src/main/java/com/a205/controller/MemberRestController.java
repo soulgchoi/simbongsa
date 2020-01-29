@@ -55,17 +55,48 @@ public class MemberRestController {
 		}
 	}
 	
-	@GetMapping("/Member/{id}")
+	@GetMapping("/Member/{userId}")
 	@ApiOperation("ID에 해당하는 하나의 회원정보를 반환한다.")
-	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String id){
+	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String userId){
 		try {
-			Member member = service.search(id);
+			Member member = service.search(userId);
 			return response(member, true, HttpStatus.OK);
 		}catch(Exception e) {
 			logger.error("회원조회실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
+	
+	@GetMapping("/CheckId/{userId}")
+	@ApiOperation("현재 DB에서 id가 존재하는지 체크 후 boolean 값으로 반환")
+	public ResponseEntity<Map<String,Object>> checkId(@PathVariable String userId){
+		try {
+			if(service.checkID(userId)) {
+				return response(true, true, HttpStatus.OK);
+			}else {
+				return response(false, true, HttpStatus.OK);
+			}
+		}catch(Exception e) {
+			logger.error("회원조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@GetMapping("/CheckEmail/{email}")
+	@ApiOperation("현재 DB에서 email이 존재하는지 체크 후 boolean 값으로 반환")
+	public ResponseEntity<Map<String,Object>> checkEmail(@PathVariable String email){
+		try {
+			if(service.checkEmail(email)) {
+				return response(true, true, HttpStatus.OK);
+			}else {
+				return response(false, true, HttpStatus.OK);
+			}
+		}catch(Exception e) {
+			logger.error("회원조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
 	
 	@PostMapping("/Member")
 	@ApiOperation("전달받은 회원정보를 저장한다.")
