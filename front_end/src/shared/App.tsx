@@ -7,7 +7,7 @@ import FindPassword from "containers/findPassword/FindPassword";
 import JoinComplete from "containers/join/JoinComplete";
 import MailReSend from "containers/mailresend/MailReSend";
 import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
-import MainPage from 'containers/mainpage/MainPage'
+import MainPage from "containers/mainpage/MainPage";
 
 class App extends Component {
   render() {
