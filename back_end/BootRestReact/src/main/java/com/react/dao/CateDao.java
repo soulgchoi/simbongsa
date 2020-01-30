@@ -1,17 +1,18 @@
 package com.react.dao;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import com.react.util.MyBatisUtil2;
 import com.react.vo.Category;
 
 //@Repository
 public class CateDao {
-	@Autowired
-	SqlSession session;
 	
 	public boolean addCate(Category cate) throws Exception {//모든 직원 정보
-		return session.insert("volunteer.addCate", cate) >0;
+		SqlSession session = MyBatisUtil2.getSqlSession();
+		session.insert("volunteer.addCate", cate);
+		session.commit();
+		return true;
 	}
 
 }

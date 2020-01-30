@@ -1,4 +1,4 @@
-package com.react.util;
+package com.a205.util;
 
 import java.io.StringReader;
 import java.util.List;
@@ -6,22 +6,25 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
-import com.react.dao.RegDao;
-import com.react.vo.Region;
+import com.a205.dao.CateDao;
+import com.a205.dto.Category;
 
 //정보를 load하는 SAX Parser
-public class RegParser {
-	//@Autowired
-	RegDao dao;
+@Service
+public class CateParser {
+	@Autowired
+	CateDao dao;
 	
 	private String xml;
 	//private StringBuilder xml;
-	private List<Region> list;
+	private List<Category> list;
 	
-	public RegParser(int i) throws Exception {
-		xml = new CallRestWS_reg().restClient(i);
+	public CateParser() throws Exception {
+		xml = new CallRestWS_cate().restClient();
 		loadData();
 	}
 
@@ -29,11 +32,11 @@ public class RegParser {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try{
 			SAXParser parser = factory.newSAXParser();
-			RegHandler handler = new RegHandler();
+			CateHandler handler = new CateHandler();
 			parser.parse(new InputSource(new StringReader(xml)),handler);
 			list = handler.getList();
-//			Region find;
-			for (Region vol : list) {
+//			Category find;
+			for (Category vol : list) {
 //				find = volMap.get(vol.getName());
 //				if(find!=null) {
 //					vol.setCode(find.getCode());
@@ -42,9 +45,10 @@ public class RegParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
-				dao = new RegDao();
-				dao.addReg(vol);
 				System.out.println(vol);
+				dao.addCate(vol);
+				//vol.setHignClsNm("ddffs");
+				//System.out.println(vol);
 			}
 			//System.out.println(list);
 		}catch(Exception e){
@@ -52,18 +56,16 @@ public class RegParser {
 		}
 	}
 	
-	public List<Region> getList() {
+	public List<Category> getList() {
 		return list;
 	}
 	
-	public void setList(List<Region> list) {
+	public void setList(List<Category> list) {
 		this.list = list;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		for(int i=1; i<24; i++) {
-			new RegParser(i);
-		}
+		new CateParser();
 	}
 	
 }

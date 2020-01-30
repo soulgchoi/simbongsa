@@ -8,10 +8,10 @@ import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.io.CachedOutputStream;
 
 public class CallRestWS_reg {
-	public String restClient() throws Exception{ //일단 퍼블릭으로 바꿔봄
+	public String restClient(int i) throws Exception{ //일단 퍼블릭으로 바꿔봄
 		
 		/*
-		http://openapi.1365.go.kr/openapi/service/rest/VolunteerPartcptnService/getVltrSearchWordList?ServiceKey=es9jiHOYsOYG9C2%2BzmyeSFxtnzPNcWqLMis2T6Ol2mU1rXVIUntZUjLnFo6W%2B5dKu3den7QwTLrY%2FSTg%2Fa%2F%2BCQ%3D%3D&region=10&_type=json&pageNo=2
+		http://openapi.1365.go.kr/openapi/service/rest/CodeInquiryService/getAreaCodeInquiryList?ServiceKey=%2BasubWu9BwRVpFNzmiNaU0t4w%2FKK66aaXy2rekeO9%2F607W5gGVQgSsEYq6hqt0p7axNsIJjKzQsmZVpLQuuyrA%3D%3D
 		*/
 		String addr = "http://openapi.1365.go.kr/openapi/service/rest/CodeInquiryService/"+"getAreaCodeInquiryList"+"?ServiceKey=";
 		//getAreaCodeInquiryList : 지역. 1~23페이지까지 230개
@@ -24,7 +24,7 @@ public class CallRestWS_reg {
 		//parameter setting
 		//parameter = parameter + "&" + "region=10";
 		//parameter = parameter + "&" + "_type=json";
-		parameter = parameter + "&" + "pageNo=1"; //
+		parameter = parameter + "&" + "pageNo=" + i; //
 		
 		
 		addr = addr + serviceKey + parameter;

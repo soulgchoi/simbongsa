@@ -6,15 +6,15 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
 import com.react.dao.CateDao;
 import com.react.vo.Category;
 
 //정보를 load하는 SAX Parser
+@Service
 public class CateParser {
-	@Autowired
 	CateDao dao;
 	
 	private String xml;
@@ -42,8 +42,9 @@ public class CateParser {
 //					vol.setMaker(find.getMaker());
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
-//				}
-//				System.out.println(vol);
+//				
+				//System.out.println(vol);
+				dao = new CateDao();
 				dao.addCate(vol);
 				//vol.setHignClsNm("ddffs");
 				//System.out.println(vol);

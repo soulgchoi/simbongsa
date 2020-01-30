@@ -1,11 +1,12 @@
-package com.react.util;
+package com.a205.util;
 
 
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import org.apache.cxf.helpers.IOUtils;
+
 import org.apache.cxf.io.CachedOutputStream;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 
 public class CallRestWS_cate {
 	public String restClient() throws Exception{ //일단 퍼블릭으로 바꿔봄
@@ -24,7 +25,7 @@ public class CallRestWS_cate {
 		//parameter setting
 		//parameter = parameter + "&" + "region=10";
 		//parameter = parameter + "&" + "_type=json";
-		parameter = parameter + "&" + "pageNo=2"; //
+		parameter = parameter + "&" + "pageNo=1"; //
 		
 		
 		addr = addr + serviceKey + parameter;

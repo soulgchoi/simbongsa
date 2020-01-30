@@ -1,4 +1,4 @@
-package com.react.util;
+package com.a205.util;
 
 import java.io.StringReader;
 import java.util.List;
@@ -6,22 +6,25 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
-import com.react.dao.RegDao;
-import com.react.vo.Region;
+import com.a205.dao.RegDao;
+import com.a205.dto.Region;
 
 //정보를 load하는 SAX Parser
+@Service
 public class RegParser {
-	//@Autowired
+	@Autowired
 	RegDao dao;
 	
 	private String xml;
 	//private StringBuilder xml;
 	private List<Region> list;
 	
-	public RegParser(int i) throws Exception {
-		xml = new CallRestWS_reg().restClient(i);
+	public RegParser() throws Exception {
+		xml = new CallRestWS_reg().restClient();
 		loadData();
 	}
 
@@ -42,7 +45,6 @@ public class RegParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
-				dao = new RegDao();
 				dao.addReg(vol);
 				System.out.println(vol);
 			}
@@ -61,9 +63,7 @@ public class RegParser {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		for(int i=1; i<24; i++) {
-			new RegParser(i);
-		}
+		new RegParser();
 	}
 	
 }
