@@ -18,6 +18,6 @@ public class DetailHandler extends DefaultHandler {
 	}
 	
 	public void endElement(String uri, String localName, String qName) {
-		if(qName.eqa)
+		//if(qName.eqa)
 	}
 }

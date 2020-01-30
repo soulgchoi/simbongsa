@@ -30,12 +30,15 @@ public class VolHandler extends DefaultHandler {
 	}
 
 	public void startElement(String uri, String localName, String qName, Attributes att) {
-		if (qName.equals("item")) {
+		
+		final String name = qName == null ? localName : qName;
+		if (name.equals("item")) {
 			vol = new Vol();
 		}
 	}
 
 	public void endElement(String uri, String localName, String qName) {
+		final String name = qName == null ? localName : qName;
 		if (qName.equals("actBeginTm")) {
 			vol.setActBeginTm(temp);
 		} else if (qName.equals("actEndTm")) {
@@ -81,8 +84,11 @@ public class VolHandler extends DefaultHandler {
 			try {
 				temp2 = regdao.getRegCd(sidoCd, gugunCd);
 				vol.setRegionCd(temp2);
-				temp2 = catedao.getCateCd(srvcClCode);
-				vol.setCateCd(temp2);
+				
+				//파싱이 안됨 ..
+				//temp2 = catedao.getCateCd(srvcClCode);
+				//vol.setCateCd(temp2);
+				
 				list.add(vol);
 			} catch (Exception e) {
 				e.printStackTrace();

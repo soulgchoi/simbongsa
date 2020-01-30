@@ -30,10 +30,12 @@ public class VolParser {
 		try {
 			SAXParser parser = factory.newSAXParser();
 			VolHandler handler = new VolHandler();
-			//InputSource is = new InputSource(new StringReader(xml));
+			InputSource is = new InputSource(new StringReader(xml));
 			//is.setEncoding("ISO-8859-1");
-			//parser.parse(is, handler);
-			parser.parse(new InputSource(new StringReader(xml)), handler);
+			is.setEncoding("UTF-8");
+			parser.parse(is, handler);
+			
+			//parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
 //			Vol find;
 			for (Vol vol : list) {

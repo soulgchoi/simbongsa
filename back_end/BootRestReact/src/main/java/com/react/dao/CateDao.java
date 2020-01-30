@@ -18,9 +18,13 @@ public class CateDao {
 		return true;
 	}
 	
-	public int getCateCd(String lowNm) throws Exception {//모든 직원 정보
+	public int getCateCd(String highNm, String lowNm) throws Exception {//모든 직원 정보
 		SqlSession session = MyBatisUtil2.getSqlSession();
 		
-		return session.selectOne("volunteer.getCate", lowNm);
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("highNm", highNm);
+		map.put("lowNm", lowNm);
+		return session.selectOne("volunteer.getCate", map);
 	}
 }
