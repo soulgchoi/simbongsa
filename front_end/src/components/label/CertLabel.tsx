@@ -17,7 +17,7 @@ export default class CertLabel extends Component<Props, State> {
   };
 
   componentWillMount() {
-    if (this.props.isCert == "인증") {
+    if (this.props.isCert === "인증") {
       this.setState({visibility: "true"})
     } else {
       this.setState({visibility: "false"})
