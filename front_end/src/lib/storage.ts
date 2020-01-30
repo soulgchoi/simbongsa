@@ -19,7 +19,7 @@ const storage = {
       return localStorage[key];
     }
   },
-  remove: (key: string) => {
+  remove: (key: string): any => {
     if (!localStorage) return null;
 
     if (localStorage[key]) {

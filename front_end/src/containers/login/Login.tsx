@@ -1,9 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import "assets/css/style.scss";
 import "assets/css/user.scss";
 import "assets/mycss/components.scss";
 import PV from "password-validator";
-import * as EmailValidator from "email-validator";
 import KakaoLogin from "components/user/snsLogin/Kakao";
 import GoogleLogin from "components/user/snsLogin/Google";
 import * as UserApi from "lib/api/UserApi";
@@ -21,8 +21,8 @@ import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 import storage from "lib/storage";
 
-class Login extends React.Component {
-  handleChange = e => {
+class Login extends React.Component<any, any> {
+  handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { name, value } = e.target;
 
@@ -77,8 +77,7 @@ class Login extends React.Component {
             value={email}
             onChange={handleChange}
           />
-          {error.email && <AuthError>{error.email}</AuthError>}
-
+          {error.email && <AuthError error={error.email}></AuthError>}
           <Input
             id="password"
             name="password"
@@ -87,19 +86,16 @@ class Login extends React.Component {
             value={password}
             onChange={handleChange}
           />
-          {error.password && <AuthError>{error.password}</AuthError>}
+          {error.password && <AuthError error={error.password}></AuthError>}
           <ActionButton
             placeholder="로그인"
             action={handleLocalLogin}
-            disabled={!this.state.isSubmit}
           ></ActionButton>
-
           <div className="sns-login">
             <div className="text">
               <p>SNS 간편 로그인</p>
               <div className="bar"></div>
             </div>
-
             <KakaoLogin />
             <GoogleLogin />
           </div>
@@ -114,7 +110,7 @@ class Login extends React.Component {
   }
 }
 export default connect(
-  state => ({
+  (state: any) => ({
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
     result: state.auth.get("result")

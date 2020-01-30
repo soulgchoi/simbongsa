@@ -14,49 +14,62 @@ import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
-import debounce from "debounce";
+import debounce from "lodash/debounce";
 
-class Join extends React.Component {
+interface validate {
+  [name: string]: (value: string) => boolean;
+}
+
+class Join extends React.Component<any, any> {
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("register");
   }
-
-  validate = {
+  setError = (message: any, name: string) => {
+    const { AuthActions } = this.props;
+    AuthActions.setError({
+      form: "join",
+      message,
+      name
+    });
+  };
+  validate: validate = {
     email: (value: string) => {
       if (!validator.isEmail(value)) {
-        this.setError("잘못된 이메일 형식 입니다.", value);
+        this.setError("잘못된 이메일 형식 입니다.", "email");
         return false;
       }
+      this.setError(null, "email");
       return true;
     },
-    username: (value: string) => {
+    userid: (value: string) => {
       if (
         !validator.isAlphanumeric(value) ||
         !validator.isLength(value, { min: 4, max: 15 })
       ) {
         this.setError(
           "아이디는 4~15 글자의 알파벳 혹은 숫자로 이뤄져야 합니다.",
-          value
+          "userid"
         );
         return false;
       }
+      this.setError(null, "userid");
       return true;
     },
     password: (value: string) => {
       if (!validator.isLength(value, { min: 8 })) {
-        this.setError("비밀번호를 8자 이상 입력하세요.", value);
+        this.setError("비밀번호를 8자 이상 입력하세요.", "password");
         return false;
       }
-      this.setError(null, value); // 이메일과 아이디는 에러 null 처리를 중복확인 부분에서 하게 됩니다
+      this.setError(null, "password"); // 이메일과 아이디는 에러 null 처리를 중복확인 부분에서 하게 됩니다
       return true;
     },
     passwordConfirm: (value: string) => {
       if (this.props.form.get("password") !== value) {
-        this.setError("비밀번호확인이 일치하지 않습니다.", value);
+        this.setError("비밀번호확인이 일치하지 않습니다.", "passwordConfirm");
         return false;
       }
-      this.setError(null, value);
+      this.setError(null, "passwordConfirm");
       return true;
     }
   };
@@ -68,45 +81,46 @@ class Join extends React.Component {
     try {
       await AuthActions.checkEmailExists(email);
       if (this.props.exists.get("email")) {
-        this.setError("이미 존재하는 이메일입니다.");
+        this.setError("이미 존재하는 이메일입니다.", email);
       } else {
-        this.setError(null);
+        this.setError(null, email);
       }
     } catch (e) {
       console.log(e);
     }
   }, 300);
 
-  checkUsernameExists = debounce(async (username: string) => {
+  checkUsernameExists = debounce(async (userid: string) => {
     const { AuthActions } = this.props;
     try {
-      await AuthActions.checkUsernameExists(username);
+      await AuthActions.checkUsernameExists(userid);
       if (this.props.exists.get("username")) {
-        this.setError("이미 존재하는 아이디입니다.");
+        this.setError("이미 존재하는 아이디입니다.", userid);
       } else {
-        this.setError(null);
+        this.setError(null, userid);
       }
     } catch (e) {
       console.log(e);
     }
   }, 300);
 
-  handleChange = e => {
+  handleChange = (e: any) => {
     const { AuthActions } = this.props;
-    const { name, value } = e.target;
-
+    const { id, value } = e.target;
     AuthActions.changeInput({
-      name,
+      id,
       value,
-      form: "register"
+      form: "join"
     });
+    console.log();
     // 검증작업 진행
-    const validation = this.validate[name](value);
-    if (name.indexOf("password") > -1 || !validation) return; // 비밀번호 검증이거나, 검증 실패하면 여기서 마침
+
+    const validation = this.validate[id](value);
+    if (id.indexOf("password") > -1 || !validation) return; // 비밀번호 검증이거나, 검증 실패하면 여기서 마침
 
     // TODO: 이메일, 아이디 중복 확인
     const check =
-      name === "email" ? this.checkEmailExists : this.checkUsernameExists; // name 에 따라 이메일체크할지 아이디 체크 할지 결정
+      id === "email" ? this.checkEmailExists : this.checkUsernameExists; // name 에 따라 이메일체크할지 아이디 체크 할지 결정
     check(value);
   };
 
@@ -148,13 +162,14 @@ class Join extends React.Component {
           key === "email"
             ? "이미 존재하는 이메일입니다."
             : "이미 존재하는 아이디입니다.";
-        return this.setError(message);
+        return this.setError(message, email);
       }
-      this.setError("알 수 없는 에러가 발생했습니다.");
+      this.setError("알 수 없는 에러가 발생했습니다.", email);
     }
   };
   render() {
     const { error } = this.props;
+    const error2 = error.toJS();
     const { email, userid, password, passwordConfirm } = this.props.form.toJS();
     const { handleChange, handleLocalRegister } = this;
     return (
@@ -170,13 +185,13 @@ class Join extends React.Component {
                 }
               }}
               onChange={handleChange}
-              id="nickName"
+              id="userid"
               placeholder="아이디를 입력하세요."
               type="text"
             />
-            <label htmlFor="nickName">아이디</label>
+            <label htmlFor="userid">아이디</label>
             <div className="error-text">
-              {error.userid && <AuthError>{error.userid}</AuthError>}
+              {error2.userid && <AuthError error={error2.userid}></AuthError>}
             </div>
           </div>
           <div className="input-with-label">
@@ -194,7 +209,7 @@ class Join extends React.Component {
             />
             <label htmlFor="email">이메일</label>
             <div className="error-text">
-              {error.email && <AuthError>{error.email}</AuthError>}
+              {error2.email && <AuthError error={error2.email}></AuthError>}
             </div>
           </div>
 
@@ -213,7 +228,9 @@ class Join extends React.Component {
             />
             <label htmlFor="password">비밀번호</label>
             <div className="error-text">
-              {error.password && <AuthError>{error.password}</AuthError>}
+              {error2.password && (
+                <AuthError error={error2.password}></AuthError>
+              )}
             </div>
           </div>
 
@@ -232,8 +249,8 @@ class Join extends React.Component {
             />
             <label htmlFor="password">비밀번호 확인</label>
             <div className="error-text">
-              {error.passwordConfirm && (
-                <AuthError>{error.passwordConfirm}</AuthError>
+              {error2.passwordConfirm && (
+                <AuthError error={error2.passwordConfirm}></AuthError>
               )}
             </div>
           </div>
@@ -260,12 +277,7 @@ class Join extends React.Component {
             }}
             className="btn--back"
           >
-            <button
-              className="btn btn--back btn--join"
-              disabled={!this.state.isSubmit}
-            >
-              가입하기
-            </button>
+            <button className="btn btn--back btn--join">가입하기</button>
           </Link>
         </div>
       </div>
@@ -274,7 +286,7 @@ class Join extends React.Component {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     form: state.auth.getIn(["join", "form"]),
     error: state.auth.getIn(["join", "error"]),
     exists: state.auth.getIn(["join", "exists"]),

@@ -42,9 +42,7 @@ export const logout = createAction(LOGOUT, AuthAPI.logout);
 
 export const setError = createAction(SET_ERROR); // { form, message }
 
-interface initialStateParams {
-  setIn: any;
-  set: any;
+export interface AuthState {
   join: {
     form: {
       email: string;
@@ -111,15 +109,21 @@ const initialState = Map({
 export default handleActions<any>(
   {
     [CHANGE_INPUT]: (state, action) => {
-      const { form, name, value } = action.payload;
-      return state.setIn([form, "form", name], value);
+      const { form, id, value } = action.payload;
+      // console.log("aaaaa", action.payload);
+      // console.log("aaa", form, id, value);
+      // console.log("a", state);
+      return state.setIn([form, "form", id], value);
     },
-    [INITIALIZE_FORM]: (state, action: any) => {
+    [INITIALIZE_FORM]: (state, action) => {
       const initialForm = initialState.get(action.payload);
       return state.set(action.payload, initialForm);
     },
     [SET_ERROR]: (state, action) => {
       const { form, message, name } = action.payload;
+      // console.log("error", action.payload);
+      // console.log("error", name);
+
       return state.setIn([form, "error", name], message);
     },
     ...pender({

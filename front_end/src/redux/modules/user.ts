@@ -13,7 +13,17 @@ export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
 export const logout = createAction(LOGOUT, AuthAPI.logout);
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
-
+interface initialStateParams {
+  setIn: any;
+  set: any;
+  loggedInfo: {
+    // 현재 로그인중인 유저의 정보
+    thumbnail: null;
+    username: null;
+  };
+  logged: false; // 현재 로그인중인지 알려준다
+  validated: false; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+}
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
@@ -24,7 +34,7 @@ const initialState = Map({
   validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
 });
 
-export default handleActions(
+export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) =>
       state.set("loggedInfo", Map(action.payload)).set("logged", true),

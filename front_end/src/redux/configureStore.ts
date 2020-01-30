@@ -12,13 +12,13 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // Todo: 미들웨어 적용
-const configureStore = initialState => {
+const configureStore = () => {
   const store = createStore(
     modules,
-    initialState,
     composeEnhancers(applyMiddleware(penderMiddleware()))
   );
+  console.log("?!:", store);
   return store;
 };
-
-export default configureStore;
+const store = configureStore();
+export default store;

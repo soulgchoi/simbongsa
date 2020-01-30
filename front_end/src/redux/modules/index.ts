@@ -9,7 +9,6 @@ export default combineReducers({
   user,
   pender: penderReducer
 });
-export interface StoreState {
-  auth: AuthState;
-  user: UserState;
-}
+// export interface StoreState {
+//   auth: AuthState;
+// }

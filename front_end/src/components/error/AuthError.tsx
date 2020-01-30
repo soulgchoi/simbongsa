@@ -12,7 +12,9 @@ const Wrapper = styled.div`
   animation: ${transitions.shake} 0.3s ease-in;
   animation-fill-mode: forwards;
 `;
-
-const AuthError = (children: any) => <Wrapper>{children}</Wrapper>;
+interface Props {
+  error: string;
+}
+const AuthError = ({ error }: Props) => <Wrapper>{error}</Wrapper>;
 
 export default AuthError;

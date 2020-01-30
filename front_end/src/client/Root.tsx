@@ -1,12 +1,17 @@
-import * as React from "react";
-import { BrowserRouter } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import App from "shared/App";
+import { Provider } from "react-redux";
 
-// Root 컴포넌트는 React.FC 타입(FC : FunctionComponent)
-const Root: React.FC = () => (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+const Root = (s2: any) => {
+  console.log("Root: ", s2);
+  return (
+    <Provider store={s2.store}>
+      <BrowserRouter>
+        <Route path="/" component={App} />
+      </BrowserRouter>
+    </Provider>
+  );
+};
 
 export default Root;

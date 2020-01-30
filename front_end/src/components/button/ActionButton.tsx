@@ -3,7 +3,6 @@ import "assets/mycss/components.scss";
 interface Props {
   placeholder: string;
   action: () => void;
-  disabled: boolean;
 }
 interface State {}
 
@@ -13,11 +12,7 @@ export default class ActionButton extends Component<Props, State> {
   render() {
     return (
       <div>
-        <button
-          className="my--btn"
-          onClick={this.props.action}
-          disabled={this.props.disabled}
-        >
+        <button className="my--btn" onClick={this.props.action}>
           {this.props.placeholder}
         </button>
       </div>
