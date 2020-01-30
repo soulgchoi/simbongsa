@@ -15,7 +15,7 @@ public class CallRestWS_vol {
 		&region=10&_type=json&pageNo=2
 		*/
 		String addr = "http://openapi.1365.go.kr/openapi/service/rest/VolunteerPartcptnService/getVltrSearchWordList"+"?ServiceKey=";
-		String serviceKey = "es9jiHOYsOYG9C2%2BzmyeSFxtnzPNcWqLMis2T6Ol2mU1rXVIUntZUjLnFo6W%2B5dKu3den7QwTLrY%2FSTg%2Fa%2F%2BCQ%3D%3D";
+		String serviceKey = "lYBm2HG%2B%2FS29jIn%2B77tImRu6A5%2FZ3rJ4Yx3Sy2ezmQSRL2CLANF6lAJ7UqQuUjfPkmFvzY1EKnKZHDTAChpF4Q%3D%3D";
 		String parameter = "";
 		
 		//인증키(서비스키) url인코딩

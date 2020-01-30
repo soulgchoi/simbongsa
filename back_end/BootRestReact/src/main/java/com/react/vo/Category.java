@@ -36,15 +36,15 @@ public class Category {
 		return lowClsCd;
 	}
 	public void setLowClsCd(String lowClsCd) {
-		//this.lowClsCd = lowClsCd;
-		this.lowClsCd = null;
+		this.lowClsCd = lowClsCd;
+		//this.lowClsCd = null;
 	}
 	public String getLowClsNm() {
 		return lowClsNm;
 	}
 	public void setLowClsNm(String lowClsNm) {
-		//this.lowClsNm = lowClsNm;
-		this.lowClsNm = null;
+		this.lowClsNm = lowClsNm;
+		//this.lowClsNm = null;
 	}
 	
 	@Override

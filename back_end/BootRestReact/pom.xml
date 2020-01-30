@@ -92,10 +92,16 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
- 		<dependency>
+		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.11.2</version>
 		</dependency>
 
 	</dependencies>
