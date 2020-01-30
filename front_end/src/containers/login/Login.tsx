@@ -148,10 +148,10 @@ class Login extends React.Component {
             <KakaoLogin />
             <GoogleLogin
               clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
-              render={(props: any) => <div onClick={props.onClick} />}
               onSuccess={result => console.log(result)}
               onFailure={result => console.log(result)}
               cookiePolicy={"single_host_origin"}
+              redirectUri="http://www.naver.com"
             />
           </div>
           <div className="add-option">
