@@ -3,143 +3,98 @@ import "assets/css/style.scss";
 import "assets/css/user.scss";
 import "assets/mycss/components.scss";
 import PV from "password-validator";
-import * as EmailValidator from "email-validator";
 import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
 import GoogleLogin from "react-google-login";
-import * as UserApi from "apis/UserApi";
+import * as UserApi from "lib/api/UserApi";
 
 // 직접 제작한 Components
 import LinkButton from "components/button/LinkButton";
 import ActionButton from "components/button/ActionButton";
 import Input from "components/input/Input";
-import ErrorMessage from "components/error/ErrorMessage";
+import AuthError from "components/error/AuthError";
 
-class Login extends React.Component {
-  state = {
-    email: "",
-    password: "",
-    passwordSchema: new PV(),
-    error: {
-      email: "",
-      password: ""
-    },
-    isSubmit: false,
-    component: this
+// redux 관련
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authActions from "redux/modules/auth";
+import * as userActions from "redux/modules/user";
+import storage from "lib/storage";
+
+class Login extends React.Component<any, any> {
+  handleChange = (e: any) => {
+    const { AuthActions } = this.props;
+    const { name, value } = e.target;
+
+    AuthActions.changeInput({
+      name,
+      value,
+      form: "login"
+    });
   };
-  componentDidMount() {
-    this.state.passwordSchema
-      .is()
-      .min(8)
-      .is()
-      .max(100)
-      .has()
-      .digits()
-      .has()
-      .letters();
+
+  componentWillUnmount() {
+    const { AuthActions } = this.props;
+    AuthActions.initializeForm("login");
   }
-  checkForm = () => {
-    let error = { ...this.state.error };
-    if (
-      this.state.email.length >= 0 &&
-      !EmailValidator.validate(this.state.email)
-    ) {
-      error.email = "이메일 형식이 아닙니다.";
-    } else {
-      error.email = "";
-    }
-    if (
-      this.state.password.length >= 0 &&
-      !this.state.passwordSchema.validate(this.state.password)
-    )
-      error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-    else error.password = "";
-    this.setState({ error: error }, () => {
-      let isSubmit = true;
-      Object.values(this.state.error).map(v => {
-        if (v) isSubmit = false;
-        return v;
-      });
-      this.setState({
-        isSubmit: isSubmit
-      });
+  setError = (message: string) => {
+    const { AuthActions } = this.props;
+    AuthActions.setError({
+      form: "login",
+      message
     });
+    return false;
   };
-  login = () => {
-    if (this.state.isSubmit) {
-      let { email, password } = this.state;
-      //요청 후에는 버튼 비활성화
-      this.setState({ isSubmit: false });
-      // this.state.isSubmit = false;
 
-      let result = UserApi.localLogin(email, password); // 성공하면 Back쪽에서 넘겨주는 데이터를 리턴함.
-      console.log(result); // result == true 면 로그인 성공 , result == false면 로그인 실패
-      if (result) {
-        console.log("로그인 성공");
-      } else {
-        console.log("로그인 실패");
-      }
-      // UserApi.requestLogin(
-      //   data,
-      //   res => {
-      //     //통신을 통해 전달받은 값 콘솔에 출력
+  handleLocalLogin = async () => {
+    const { form, AuthActions, UserActions, history } = this.props;
+    const { email, password } = form.toJS();
 
-      //     //정상적인 응답이 와도 우선 로그인 실패로 간주하고 알람 띄우기
-      //     alert("로그인 실패하였습니다.");
+    try {
+      await AuthActions.localLogin({ email, password });
+      const loggedInfo = this.props.result.toJS();
 
-      //     //요청이 끝나면 버튼 활성화
-      //     this.setState({ isSubmit: true });
-      //     // this.state.isSubmit = true;
-      //   },
-      //   error => {
-      //     //요청이 끝나면 버튼 활성화
-      //     this.setState({ isSubmit: true });
-      //     //this.state.isSubmit = true;
-      //   }
-      // );
+      UserActions.setLoggedInfo(loggedInfo);
+      history.push("/");
+      storage.set("loggedInfo", loggedInfo);
+    } catch (e) {
+      console.log("a");
+      this.setError("잘못된 계정정보입니다.");
     }
   };
-  handleInput = (e: React.FormEvent<HTMLInputElement>) => {
-    // this.setState({ email: e.target.value });
-    this.setState({ email: e.currentTarget.value }, () => {
-      this.checkForm();
-    });
-  };
-  handleInput2 = (e: React.FormEvent<HTMLInputElement>) => {
-    this.setState({ password: e.currentTarget.value }, () => {
-      this.checkForm();
-    });
-  };
+
   render() {
+    const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
+    const { handleChange, handleLocalLogin } = this;
+    const { error } = this.props;
     return (
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">로그인</h1>
           <Input
-            value={this.state.email}
-            onChange={this.handleInput}
             id="email"
+            name="email"
             placeholder="이메일을 입력하세요."
-            name="이메일"
-            type="text"
+            type="email"
+            value={email}
+            onChange={handleChange}
           />
-          <ErrorMessage message={this.state.error.email} />
+
+          {error.email && <AuthError error={error.email}></AuthError>}
           <Input
-            value={this.state.password}
-            type="password"
             id="password"
-            onEnter={this.login}
-            onChange={this.handleInput2}
+            name="password"
             placeholder="비밀번호를 입력하세요."
-            name="비밀번호"
+            type="password"
+            value={password}
+            onChange={handleChange}
           />
-          <ErrorMessage message={this.state.error.password} />
+
+          {error.password && <AuthError error={error.password}></AuthError>}
           <ActionButton
             placeholder="로그인"
-            action={this.login}
-            disabled={!this.state.isSubmit}
+            action={handleLocalLogin}
           ></ActionButton>
-
           <div className="sns-login">
             <div className="text">
               <p>SNS 간편 로그인</p>
@@ -164,5 +119,14 @@ class Login extends React.Component {
     );
   }
 }
-
-export default Login;
+export default connect(
+  (state: any) => ({
+    form: state.auth.getIn(["login", "form"]),
+    error: state.auth.getIn(["login", "error"]),
+    result: state.auth.get("result")
+  }),
+  dispatch => ({
+    AuthActions: bindActionCreators(authActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
+  })
+)(Login);

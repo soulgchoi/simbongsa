@@ -2,8 +2,8 @@ import React, { ReactElement } from "react";
 import "assets/mycss/components.scss";
 interface Props {
   placeholder: string;
+  disabled : boolean
   action: () => void;
-  disabled: boolean;
 }
 interface State {}
 
