@@ -1,12 +1,25 @@
 // 인증, 모집 label
-span {
+div {
     &.tag {
       color: white;
+      margin: 1px;
+      display: inline;
+      padding: 3px;
+      border-radius: 5px;
     }
-    &.iscertificated {
+    &.iscert {
       background-color: orange;
     }
     &.full {
       background-color: greenyellow;
+    }
+    &.n-full {
+      background-color: skyblue;
+    }
+    &#true {
+      visibility: visible;
+    }
+    &#false {
+      visibility: hidden;
     }
   }

@@ -13,7 +13,7 @@ export default class MainPage extends Component {
                 <h1 className="title">
                     봉사활동 리스트
                 </h1>
-                <div className="wrapB">
+                <div>
                     <VolList/>
                 </div>
             </div>
