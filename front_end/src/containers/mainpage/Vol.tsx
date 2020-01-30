@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CertLabel from '../../components/label/CertLabel'
 
 interface Props {
     volunteer: {
@@ -19,7 +20,8 @@ interface Props {
     }
 }
 
-interface State {}
+interface State {
+}
 
 
 export default class Vol extends Component<Props, State> {
@@ -27,7 +29,9 @@ export default class Vol extends Component<Props, State> {
     render() {
         return (
             <div>
-                이름: {this.props.volunteer.title}
+
+                이름: {this.props.volunteer.title}<br/>
+                staus: {this.props.volunteer.status} <br /><br/>
             </div>
         )
     }
