@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import 'assets/mycss/tag.scss';
+import 'assets/mycss/mainpage.scss';
 
 interface Props {
   isCert: string;

@@ -1,0 +1,44 @@
+// 인증, 모집 label
+div {
+    &.tag {
+      color: white;
+      margin-right: 2px;
+      display: inline;
+      padding: 3px;
+      border-radius: 5px;
+    }
+    &.iscert {
+      background-color: #EB6C6C;
+    }
+    &.full {
+      background-color: #84DE62;
+    }
+    &.n-full {
+      background-color: #00ADE0;
+    }
+    &#true {
+      visibility: visible;
+    }
+    &#false {
+      visibility: hidden;
+    }
+  }
+
+
+div {
+  &.list {
+    color: rgb(59, 59, 59);
+    border: 1px solid #A1A1A1;
+    border-radius: 8px;
+    width: 95%;
+    font-weight: 600;
+    box-shadow: none;
+    line-height: 20px;
+    margin-top: 8px;
+    outline: none;
+    padding: 10px;
+  }
+  &.listtitle {
+    margin-top: 5px;
+  }
+}

@@ -26,7 +26,7 @@ class VolList extends Component<Props, State> {
     render() {
         const volunteers = this.state.temp.map( (volunteer, i) => {
             return (
-                <div>
+                <div className="list">
                     <Vol volunteer={volunteer} key={i}/>
                 </div>
             )

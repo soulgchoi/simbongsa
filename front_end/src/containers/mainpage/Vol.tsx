@@ -37,7 +37,7 @@ export default class Vol extends Component<Props, State> {
     }
 
     componentWillMount() {
-        if (this.props.volunteer.status === 1) {
+        if (this.props.volunteer.status === 0) {
             this.setState({isCert: "인증"})
             this.setState({isCertClass: "tag iscert"})
         }
@@ -58,9 +58,8 @@ export default class Vol extends Component<Props, State> {
                     isCertClass={this.state.isCertClass}
                     isFull={this.state.isFull}
                     isFullClass={this.state.isFullClass}
-                /><br/>
-                이름: {this.props.volunteer.title}<br/>
-                staus: {this.props.volunteer.status} <br /><br/>
+                />
+                <div className="listtitle">{this.props.volunteer.title}</div>
             </div>
         )
     }
