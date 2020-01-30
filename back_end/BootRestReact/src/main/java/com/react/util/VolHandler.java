@@ -1,22 +1,31 @@
 package com.react.util;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.react.dao.CateDao;
+import com.react.dao.RegDao;
 import com.react.vo.Vol;
 
 //url에서 volunteer정보를 읽어 파싱하는 핸들러 클래스
 public class VolHandler extends DefaultHandler {
+	RegDao regdao;
+	CateDao catedao;
 	private List<Vol> list;
 	private Vol vol;
 	private String temp;
+	private String gunguCd, sidoCd, srvcClCode;
+	private String[] cateCd;
+	private int temp2;
 
 	public VolHandler() {
 		list = new LinkedList<Vol>();
+		cateCd = new String[2];
+		regdao = new RegDao();
+		catedao = new CateDao();
 	}
 
 	public void startElement(String uri, String localName, String qName, Attributes att) {
@@ -34,8 +43,8 @@ public class VolHandler extends DefaultHandler {
 			vol.setActPlace(temp);
 		} else if (qName.equals("adultPosblAt")) {
 			vol.setAdultPosblAt(temp);
-		} else if (qName.equals("gugunCd")) {
-			vol.setGugunCd(temp);
+		} else if (qName.equals("gunguCd")) {
+			gunguCd = temp;
 		} else if (qName.equals("nanmmbyNm")) {
 			vol.setNanmmbyNm(temp);
 		} else if (qName.equals("noticeBgnde")) {
@@ -53,11 +62,20 @@ public class VolHandler extends DefaultHandler {
 		} else if (qName.equals("progrmSttusSe")) {
 			vol.setProgrmSttusSe(temp);
 		} else if (qName.equals("sidoCd")) {
-			vol.setSidoCd(temp);
+			sidoCd = temp;
 		} else if (qName.equals("srvcClCode")) {
-			vol.setSrvcClCode(temp);
+			srvcClCode = temp;
 		}else if(qName.equals("item")) { 
-			list.add(vol);
+			cateCd = srvcClCode.split(" > ");
+			try {
+				temp2 = regdao.getRegCd(sidoCd, gunguCd);
+				vol.setRegionCd(temp2);
+				temp2 = catedao.getCateCd(cateCd[0], cateCd[1]);
+				vol.setCateCd(temp2);
+				list.add(vol);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

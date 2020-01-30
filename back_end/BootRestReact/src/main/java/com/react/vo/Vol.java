@@ -23,7 +23,7 @@ public class Vol {
 	protected String actEndTm;
 	protected String actPlace;
 	protected String adultPosblAt;
-	protected String gugunCd;
+	//protected String gugunCd;
 	protected String nanmmbyNm;
 	protected String noticeBgnde;
 	protected String noticeEndde;
@@ -32,41 +32,16 @@ public class Vol {
 	protected String progrmRegistNo;
 	protected String progrmSj;
 	protected String progrmSttusSe;
-	protected String sidoCd;
-	protected String srvcClCode;
+	//protected String sidoCd;
+	protected int cateCd;
 	protected String url;
 	protected String yngbgsPosblAt;
 	protected String actWkdy; //
 	protected String progrmCn; //
+	protected int regionCd;
 	
 	public Vol() {}
-	public Vol(String actBeginTm, String actEndTm, String actPlace, String adultPosblAt, String gugunCd,
-			String nanmmbyNm, String noticeBgnde, String noticeEndde, String progrmBgnde, String progrmEndde,
-			String progrmRegistNo, String progrmSj, String progrmSttusSe, String sidoCd, String srvcClCode, String url,
-			String yngbgsPosblAt, String actWkdy, String progrmCn) {
-		this.actBeginTm = actBeginTm;
-		this.actEndTm = actEndTm;
-		this.actPlace = actPlace;
-		this.adultPosblAt = adultPosblAt;
-		this.gugunCd = gugunCd;
-		this.nanmmbyNm = nanmmbyNm;
-		this.noticeBgnde = noticeBgnde;
-		this.noticeEndde = noticeEndde;
-		this.progrmBgnde = progrmBgnde;
-		this.progrmEndde = progrmEndde;
-		this.progrmRegistNo = progrmRegistNo;
-		this.progrmSj = progrmSj;
-		this.progrmSttusSe = progrmSttusSe;
-		this.sidoCd = sidoCd;
-		this.srvcClCode = srvcClCode;
-		this.url = url;
-		this.yngbgsPosblAt = yngbgsPosblAt;
-		this.actWkdy = actWkdy;
-		this.progrmCn = progrmCn;
-	}
 
-
-	//19가지 정보의 게터 세터
 	public String getActBeginTm() {
 		return actBeginTm;
 	}
@@ -90,12 +65,6 @@ public class Vol {
 	}
 	public void setAdultPosblAt(String adultPosblAt) {
 		this.adultPosblAt = adultPosblAt;
-	}
-	public String getGugunCd() {
-		return gugunCd;
-	}
-	public void setGugunCd(String gugunCd) {
-		this.gugunCd = gugunCd;
 	}
 	public String getNanmmbyNm() {
 		return nanmmbyNm;
@@ -145,18 +114,6 @@ public class Vol {
 	public void setProgrmSttusSe(String progrmSttusSe) {
 		this.progrmSttusSe = progrmSttusSe;
 	}
-	public String getSidoCd() {
-		return sidoCd;
-	}
-	public void setSidoCd(String sidoCd) {
-		this.sidoCd = sidoCd;
-	}
-	public String getSrvcClCode() {
-		return srvcClCode;
-	}
-	public void setSrvcClCode(String srvcClCode) {
-		this.srvcClCode = srvcClCode;
-	}
 	public String getUrl() {
 		return url;
 	}
@@ -181,15 +138,21 @@ public class Vol {
 	public void setProgrmCn(String progrmCn) {
 		this.progrmCn = progrmCn;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vol [actBeginTm=" + actBeginTm + ", actEndTm=" + actEndTm + ", actPlace=" + actPlace + ", adultPosblAt="
-				+ adultPosblAt + ", gugunCd=" + gugunCd + ", nanmmbyNm=" + nanmmbyNm + ", noticeBgnde=" + noticeBgnde
-				+ ", noticeEndde=" + noticeEndde + ", progrmBgnde=" + progrmBgnde + ", progrmEndde=" + progrmEndde
-				+ ", progrmRegistNo=" + progrmRegistNo + ", progrmSj=" + progrmSj + ", progrmSttusSe=" + progrmSttusSe
-				+ ", sidoCd=" + sidoCd + ", srvcClCode=" + srvcClCode + ", url=" + url + ", yngbgsPosblAt="
-				+ yngbgsPosblAt + ", actWkdy=" + actWkdy + ", progrmCn=" + progrmCn + "]";
+
+	public int getCateCd() {
+		return cateCd;
+	}
+
+	public void setCateCd(int cateCd) {
+		this.cateCd = cateCd;
+	}
+
+	public int getRegionCd() {
+		return regionCd;
+	}
+
+	public void setRegionCd(int regionCd) {
+		this.regionCd = regionCd;
 	}
 	
 }

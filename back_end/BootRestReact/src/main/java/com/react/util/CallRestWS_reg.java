@@ -12,6 +12,7 @@ public class CallRestWS_reg {
 		
 		/*
 		http://openapi.1365.go.kr/openapi/service/rest/CodeInquiryService/getAreaCodeInquiryList?ServiceKey=%2BasubWu9BwRVpFNzmiNaU0t4w%2FKK66aaXy2rekeO9%2F607W5gGVQgSsEYq6hqt0p7axNsIJjKzQsmZVpLQuuyrA%3D%3D
+		
 		*/
 		String addr = "http://openapi.1365.go.kr/openapi/service/rest/CodeInquiryService/"+"getAreaCodeInquiryList"+"?ServiceKey=";
 		//getAreaCodeInquiryList : 지역. 1~23페이지까지 230개

@@ -13,13 +13,13 @@ import com.react.vo.Region;
 
 //정보를 load하는 SAX Parser
 public class RegParser {
-	//@Autowired
+	// @Autowired
 	RegDao dao;
-	
+
 	private String xml;
-	//private StringBuilder xml;
+	// private StringBuilder xml;
 	private List<Region> list;
-	
+
 	public RegParser(int i) throws Exception {
 		xml = new CallRestWS_reg().restClient(i);
 		loadData();
@@ -27,10 +27,10 @@ public class RegParser {
 
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		try{
+		try {
 			SAXParser parser = factory.newSAXParser();
 			RegHandler handler = new RegHandler();
-			parser.parse(new InputSource(new StringReader(xml)),handler);
+			parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
 //			Region find;
 			for (Region vol : list) {
@@ -46,24 +46,24 @@ public class RegParser {
 				dao.addReg(vol);
 				System.out.println(vol);
 			}
-			//System.out.println(list);
-		}catch(Exception e){
+			// System.out.println(list);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<Region> getList() {
 		return list;
 	}
-	
+
 	public void setList(List<Region> list) {
 		this.list = list;
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		for(int i=1; i<24; i++) {
+		for (int i = 1; i < 24; i++) {
 			new RegParser(i);
 		}
 	}
-	
+
 }

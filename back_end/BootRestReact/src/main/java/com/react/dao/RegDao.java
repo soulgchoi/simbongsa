@@ -1,5 +1,8 @@
 package com.react.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.react.util.MyBatisUtil2;
@@ -13,5 +16,14 @@ public class RegDao {
 		session.commit();
 		return true;
 	}
-
+	
+	public int getRegCd(String sidoCd, String gunguCd) throws Exception {//모든 직원 정보
+		SqlSession session = MyBatisUtil2.getSqlSession();
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("sidoCd", sidoCd);
+		map.put("gunguCd", gunguCd);
+		return session.selectOne("volunteer.getReg", map);
+	}
+	
 }

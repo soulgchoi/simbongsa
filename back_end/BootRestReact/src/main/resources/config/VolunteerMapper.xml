@@ -72,15 +72,29 @@
 		select * from emp where dept_id = #{dept_id}
 	</select> -->
 	
-<!-- 	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_bgnTm, v_endTm, v_mBgnD, v_mEndD, v_url, v_many, v_day, v_detail, r_id, ca_id, v_Auth) values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
-	</insert> -->
+	<select id="getReg" parameterType="java.util.Map">
+		select r_id
+		from region
+		where
+		r_sidoCd = #{sidoCd} and r_gunguCd = #{gunguCd}
+	</select>
+	
+	<select id="getCate" parameterType="java.util.Map">
+		select ca_id
+		from category
+		where
+		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
+	</select>
+	
+ 	<insert id="addVol" parameterType="Vol">
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, r_id, ca_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{}, #{}, #{progrmRegistNo})
+	</insert>
 	
 	<insert id="addReg" parameterType="Region">
 		insert into region(r_sidoCd, r_gunguCd, r_sidoNm, r_gunguNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
 	</insert>
 	
 	<insert id="addCate" parameterType="Category">
-		insert into category(ca_highCd, ca_highNm) values(#{highClsCd}, #{hignClsNm})
+		insert into category(ca_highCd, ca_highNm, ca_lowCd, ca_lowNm) values(#{highClsCd}, #{hignClsNm}, #{lowClsCd}, #{lowClsNm})
 	</insert>
 </mapper>
