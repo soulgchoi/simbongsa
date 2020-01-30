@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.react.dao.CateDao;
@@ -17,13 +18,13 @@ public class VolHandler extends DefaultHandler {
 	private List<Vol> list;
 	private Vol vol;
 	private String temp;
-	private String gunguCd, sidoCd, srvcClCode;
+	private String gugunCd, sidoCd, srvcClCode;
 	private String[] cateCd;
 	private int temp2;
 
 	public VolHandler() {
 		list = new LinkedList<Vol>();
-		cateCd = new String[2];
+		//cateCd = new String[2];
 		regdao = new RegDao();
 		catedao = new CateDao();
 	}
@@ -43,8 +44,9 @@ public class VolHandler extends DefaultHandler {
 			vol.setActPlace(temp);
 		} else if (qName.equals("adultPosblAt")) {
 			vol.setAdultPosblAt(temp);
-		} else if (qName.equals("gunguCd")) {
-			gunguCd = temp;
+		} else if (qName.equals("gugunCd")) {
+			gugunCd = temp;
+			System.out.println("gugun****" + gugunCd);
 		} else if (qName.equals("nanmmbyNm")) {
 			vol.setNanmmbyNm(temp);
 		} else if (qName.equals("noticeBgnde")) {
@@ -63,14 +65,23 @@ public class VolHandler extends DefaultHandler {
 			vol.setProgrmSttusSe(temp);
 		} else if (qName.equals("sidoCd")) {
 			sidoCd = temp;
+			System.out.println("sido****" + sidoCd);
 		} else if (qName.equals("srvcClCode")) {
 			srvcClCode = temp;
-		}else if(qName.equals("item")) { 
-			cateCd = srvcClCode.split(" > ");
+			System.out.println(srvcClCode);
+		} else if (qName.equals("url")) {
+			vol.setUrl(temp);
+		} else if (qName.equals("yngbgsPosblAt")) {
+			vol.setYngbgsPosblAt(temp);
+		} else if(qName.equals("item")) { 
+			//cateCd = srvcClCode.split(">");
+//			System.out.println(cateCd[0]+"000");
+//			System.out.println("DFASASDFASD");
+//			System.out.println(cateCd[1]+"111");
 			try {
-				temp2 = regdao.getRegCd(sidoCd, gunguCd);
+				temp2 = regdao.getRegCd(sidoCd, gugunCd);
 				vol.setRegionCd(temp2);
-				temp2 = catedao.getCateCd(cateCd[0], cateCd[1]);
+				temp2 = catedao.getCateCd(srvcClCode);
 				vol.setCateCd(temp2);
 				list.add(vol);
 			} catch (Exception e) {
@@ -91,6 +102,12 @@ public class VolHandler extends DefaultHandler {
 		temp = new String(ch, start, length).trim();
 	}
 
+	/*
+	 * @Override public void characters(char[] ch, int start, int length) throws
+	 * SAXException { temp = String.copyValueOf(ch, start, length).trim(); temp =
+	 * temp.replace("&", "&amp;") }
+	 */
+	
 	public List<Vol> getList() {
 		return list;
 	}

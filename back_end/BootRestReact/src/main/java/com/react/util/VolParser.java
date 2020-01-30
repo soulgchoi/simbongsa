@@ -26,9 +26,13 @@ public class VolParser {
 
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setNamespaceAware(true);//
 		try {
 			SAXParser parser = factory.newSAXParser();
 			VolHandler handler = new VolHandler();
+			//InputSource is = new InputSource(new StringReader(xml));
+			//is.setEncoding("ISO-8859-1");
+			//parser.parse(is, handler);
 			parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
 //			Vol find;

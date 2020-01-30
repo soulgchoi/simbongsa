@@ -72,26 +72,26 @@
 		select * from emp where dept_id = #{dept_id}
 	</select> -->
 	
-	<select id="getReg" parameterType="java.util.Map">
+	<select id="getReg" parameterType="java.util.Map" resultType="int">
 		select r_id
 		from region
 		where
-		r_sidoCd = #{sidoCd} and r_gunguCd = #{gunguCd}
+		r_sidoCd = #{sidoCd} and r_gugunCd = #{gugunCd}
 	</select>
 	
-	<select id="getCate" parameterType="java.util.Map">
+	<select id="getCate" resultType="int">
 		select ca_id
 		from category
 		where
-		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
+		ca_lowNm = #{lowNm}
 	</select>
 	
  	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, r_id, ca_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{}, #{}, #{progrmRegistNo})
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, r_id, ca_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{regionCd}, #{cateCd}, #{progrmRegistNo})
 	</insert>
 	
 	<insert id="addReg" parameterType="Region">
-		insert into region(r_sidoCd, r_gunguCd, r_sidoNm, r_gunguNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
+		insert into region(r_sidoCd, r_gugunCd, r_sidoNm, r_gugunNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
 	</insert>
 	
 	<insert id="addCate" parameterType="Category">

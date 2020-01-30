@@ -5,7 +5,7 @@ public class Vol {
                         "actEndTm": 16,
                         "actPlace": "교육(보령시자원봉사센터 2층 교육실), 봉사장소(관내 축제장 및 행사장)",
                         "adultPosblAt": "N",
-                        "gugunCd": 4510000,
+                        "gunguCd": 4510000,
                         "nanmmbyNm": "충청남도 보령시",
                         "noticeBgnde": 20200108,
                         "noticeEndde": 20200229,
@@ -23,7 +23,7 @@ public class Vol {
 	protected String actEndTm;
 	protected String actPlace;
 	protected String adultPosblAt;
-	//protected String gugunCd;
+	//protected String gunguCd;
 	protected String nanmmbyNm;
 	protected String noticeBgnde;
 	protected String noticeEndde;

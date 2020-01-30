@@ -17,12 +17,12 @@ public class RegDao {
 		return true;
 	}
 	
-	public int getRegCd(String sidoCd, String gunguCd) throws Exception {//모든 직원 정보
+	public int getRegCd(String sidoCd, String gugunCd) throws Exception {//모든 직원 정보
 		SqlSession session = MyBatisUtil2.getSqlSession();
 		Map<String, String> map = new HashMap<>();
 		
 		map.put("sidoCd", sidoCd);
-		map.put("gunguCd", gunguCd);
+		map.put("gugunCd", gugunCd);
 		return session.selectOne("volunteer.getReg", map);
 	}
 	
