@@ -78,8 +78,8 @@ class Login extends React.Component<any, any> {
           <h1 className="title">로그인</h1>
           <Input
             id="email"
-            nametag="email"
-            placeholder="이메일을 입력하세요."
+            nametag="ID"
+            placeholder="아이디를 입력하세요."
             type="text"
             value={email}
             onChange={handleChange}
