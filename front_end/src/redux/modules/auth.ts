@@ -15,6 +15,10 @@ const LOGOUT = "auth/LOGOUT"; // 로그아웃
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
 
+type CreatePayload = string;
+type RemovePayload = number;
+type TogglePayload = number;
+type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 
@@ -80,7 +84,7 @@ const initialState = Map({
     }),
     exists: Map({
       email: false,
-      userid: false
+      password: false
     }),
     error: Map({
       email: null,
@@ -124,15 +128,12 @@ export default handleActions<any>(
     ...pender({
       type: CHECK_EMAIL_EXISTS,
       onSuccess: (state, action) =>
-        state.setIn(["join", "exists", "email"], action.payload.data.data)
+        state.setIn(["join", "exists", "email"], action.payload.data.exists)
     }),
     ...pender({
       type: CHECK_USERNAME_EXISTS,
-      onSuccess: (state, action) => {
-        console.log("exists", action.payload.data["data"]);
-        state.setIn(["join", "exists", "userid"], action.payload.data["data"]);
-        console.log("state", state.toJS());
-      }
+      onSuccess: (state, action) =>
+        state.setIn(["join", "exists", "userid"], action.payload.data.exists)
     }),
     ...pender({
       type: LOCAL_LOGIN,
