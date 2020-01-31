@@ -26,7 +26,7 @@ export default class CertLabel extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         <div className={this.props.isCertClass} id={this.state.visibility}>
           {this.props.isCert}
         </div>
