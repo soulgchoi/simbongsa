@@ -49,11 +49,11 @@ public class PostRestController {
 		return new ResponseEntity<>(resultMap, hstatus);
 	}
 
-	@GetMapping("/Titles/{no}")
+	@GetMapping("/Titles/{no1}/{no2}")
 	@ApiOperation("제목 /페이지 번호")
-	public ResponseEntity<Map<String, Object>> getVol(@PathVariable int no) {
+	public ResponseEntity<Map<String, Object>> getVol(@PathVariable int no1, @PathVariable int no2) {
 		try {
-			List<String> a = service2.search(10, no);
+			List<String> a = service2.search(no1, no2);
 			return response(a, true, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("회원조회실패", e);

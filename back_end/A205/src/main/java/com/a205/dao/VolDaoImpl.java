@@ -23,7 +23,7 @@ public class VolDaoImpl implements VolDao {
 		
 		Map<String, Integer> map = new HashMap<>();
 		map.put("listSize", listSize);
-		map.put("startList", startList);
+		map.put("startList", (startList-1)*listSize);
 		return session.selectList(statement, map);
 	}
 
