@@ -24,10 +24,10 @@ import storage from "lib/storage";
 class Login extends React.Component<any, any> {
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
-    const { name, value } = e.target;
-
+    const { id, value } = e.target;
+    console.log(id, value);
     AuthActions.changeInput({
-      name,
+      id,
       value,
       form: "login"
     });
@@ -69,7 +69,7 @@ class Login extends React.Component<any, any> {
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">로그인</h1>
-          <Input
+          <input
             id="email"
             name="email"
             placeholder="이메일을 입력하세요."
@@ -78,7 +78,7 @@ class Login extends React.Component<any, any> {
             onChange={handleChange}
           />
           {error.email && <AuthError error={error.email}></AuthError>}
-          <Input
+          <input
             id="password"
             name="password"
             placeholder="비밀번호를 입력하세요."

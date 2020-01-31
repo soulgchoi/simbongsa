@@ -1,15 +1,38 @@
 import axios from "axios";
 const restBaseApi = "http://70.12.247.87:8080/rest/";
-export const checkEmailExists = (email: string) => {
-  try {
-    return axios.get(restBaseApi + "CheckEmail/" + email);
-  } catch (error) {
-    return false;
-  }
+export const checkEmailExists = (email: any) => {
+  axios
+    .get(restBaseApi + "CheckEmail/" + email)
+    .then(response => {
+      console.log("ax response:", response);
+
+      return true;
+    })
+    .catch(error => {
+      console.log("ax error:", error);
+      return false;
+    });
+  // try {
+  //   return axios.get(restBaseApi + "CheckEmail/" + email);
+  // } catch (error) {
+  //   return true;
+  // }
 };
-export const checkUsernameExists = (username: string) => {
+export const checkUsernameExists = (userid: string) => {
+  // axios
+  //   .get(restBaseApi + "CheckId/" + userid)
+  //   .then(response => {
+  //     console.log("ax response:", response);
+
+  //     return true;
+  //   })
+  //   .catch(error => {
+  //     console.log("ax error:", error);
+  //     return false;
+  //   });
+  // };
   try {
-    return axios.get(restBaseApi + "CheckId/" + username);
+    return axios.get(restBaseApi + "CheckId/" + userid);
   } catch (error) {
     return true;
   }
@@ -17,18 +40,30 @@ export const checkUsernameExists = (username: string) => {
 
 export const localRegister = (
   email: string,
-  username: string,
+  userid: string,
   password: string
 ) => {
-  try {
-    return axios.post(restBaseApi + "Member", {
-      email,
-      username,
-      password
+  let data = {
+    m_email: email,
+    m_userid: userid,
+    m_password: password
+  };
+  axios
+    .post(restBaseApi + "Member", data)
+    .then(response => {
+      console.log("ax response:", response);
+      return true;
+    })
+    .catch(error => {
+      console.log("ax error:", error);
+      return false;
     });
-  } catch (error) {
-    return true;
-  }
+  // try {
+  //   return axios.post(restBaseApi + "Member", data);
+  // } catch (error) {
+  //   console.log(error);
+  //   return true;
+  // }
 };
 export const localLogin = (email: string, password: string) => {
   try {
