@@ -29,6 +29,8 @@ button {
   box-shadow: none;
   height: 50px;
   line-height: 50px;
+  float: right;
+  color: black;
   margin-top: 5px;
   outline: none;
   text-align-last: center;
@@ -49,6 +51,7 @@ button {
     height: 50px;
     line-height: 1em;
     padding: 0 15px 0 105px;
+    padding-right: 50px;
     box-sizing: border-box;
     color: #000;
     border: 1px solid #000;
@@ -77,9 +80,6 @@ button {
       }
     }
   }
-  input[type="password"] {
-    padding-right: 50px;
-  }
   label {
     position: absolute;
     left: 15px;
@@ -91,11 +91,9 @@ button {
 }
 // Input css 끝
 
-// 에러 메세지 css 시작
+// 에러 메세지 css 시작 (지금은 사용안함)
 .error-text {
   @include wrap;
-  color: $red;
-  margin-bottom: 10px;
   display: flex;
   justify-content: flex-end;
 }

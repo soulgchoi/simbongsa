@@ -7,10 +7,9 @@ interface Props {
   onEnter?: (e: React.FormEvent<HTMLInputElement>) => void;
   id: string;
   placeholder: string;
-  name: string;
+  nametag: string;
   type: string;
 }
-interface State {}
 export default function Input({
   value,
   onChange,
@@ -18,7 +17,7 @@ export default function Input({
   placeholder,
   type,
   onEnter,
-  name
+  nametag
 }: Props): ReactElement {
   return (
     <div>
@@ -35,7 +34,7 @@ export default function Input({
             }
           }}
         />
-        <label htmlFor={id}>{name}</label>
+        <label htmlFor={id}>{nametag}</label>
       </div>
     </div>
   );

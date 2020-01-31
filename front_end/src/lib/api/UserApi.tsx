@@ -1,7 +1,9 @@
 import axios from "axios";
-const restBaseApi = "http://70.12.247.34:8080";
+// const restBaseApi = "http://70.12.247.34:8080";
+const restBaseApi = "http://70.12.247.87:8080"; // 이신호
 export const checkEmailExists = (email: string) => {
   try {
+    console.log("체크 : ", email);
     return axios.get(restBaseApi + "CheckEmail/" + email);
   } catch (error) {
     return false;
@@ -30,11 +32,14 @@ export const localRegister = (
     return true;
   }
 };
-export const localLogin = (email: string, password: string): boolean => {
+export const localLogin = (data: {
+  email: string;
+  password: string;
+}): boolean => {
   axios
     .post(restBaseApi + "/login.do", {
-      m_userid: email,
-      m_password: password
+      m_userid: data.email,
+      m_password: data.password
     })
     .then(response => {
       return response.data.data;

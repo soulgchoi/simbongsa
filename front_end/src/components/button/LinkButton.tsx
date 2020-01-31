@@ -9,10 +9,8 @@ interface Props {
 
 export default function LinkButton({ link, placeholder }: Props): ReactElement {
   return (
-    <div>
-      <Link to={link} className="my--btn">
-        {placeholder}
-      </Link>
-    </div>
+    <Link to={link} className="my--btn">
+      {placeholder}
+    </Link>
   );
 }
