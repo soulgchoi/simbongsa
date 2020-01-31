@@ -57,7 +57,7 @@ class Login extends React.Component<any, any> {
       let data = { sessionId: loggedInfo.data };
       UserActions.setLoggedInfo(data);
       // UserActions.setLoggedFlag(true);
-      history.push("/");
+      history.push("/mainpage");
       storage.set("loggedInfo", data);
       console.log("로그인 3: ", this.props);
     } catch (e) {
@@ -76,7 +76,7 @@ class Login extends React.Component<any, any> {
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">로그인</h1>
-          <input
+          <Input
             id="email"
             nametag="email"
             placeholder="이메일을 입력하세요."
