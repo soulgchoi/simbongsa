@@ -67,11 +67,15 @@ public class MemberController {
 			boolean result = false;
 			
 			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
-				session.setAttribute("id", selected.getM_id());
+				session.setAttribute("id", selected.getM_userid());
 				session.setAttribute("member", selected);
 				model.addAttribute("member", selected);
+				System.out.println(model.toString());
+				System.out.println(session.getId());
+
+				System.out.println(session.getAttribute("id"));
 				result = true;
-				return response(result, true, HttpStatus.OK);
+				return response(session.getId(), true, HttpStatus.OK);
 			}else {
 				model.addAttribute("message", "비밀번호가 틀렸습니다");
 				result = false;
@@ -84,9 +88,15 @@ public class MemberController {
 	}
 	
 	@GetMapping("logout.do")
-	public String getLogout(HttpSession session) {
+	public ResponseEntity<Map<String, Object>> getLogout(HttpSession session) {
+		System.out.println(session.getId());
+		System.out.println(session.getAttribute("id"));
+
+
 		session.invalidate();
-		return "redirect:/index.do";
+		System.out.println("-----"+session.getId());
+
+		return response(true, true, HttpStatus.OK);
 	}
 	
 	@GetMapping("index.do")
