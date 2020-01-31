@@ -62,7 +62,7 @@ public class MemberRestController {
 		try {
 			
 			Member member = service.search(userId);
-// 현재 유저검색은 로그인 된 
+// 현재 유저검색은 로그인 된 사람만 가능
 			if (member.getM_userid().equals(session.getAttribute("userid")) ) {
 				System.out.println(member.getM_userid() + ", " + session.getAttribute("userid"));
 
