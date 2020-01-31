@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "assets/css/style.scss";
 import "assets/css/user.scss";
 import "assets/mycss/components.scss";
 import PV from "password-validator";
-import KakaoLogin from "components/user/snsLogin/Kakao";
-import GoogleLogin from "components/user/snsLogin/Google";
+// import KakaoLogin from "components/user/snsLogin/Kakao";
+// import GoogleLogin from "components/user/snsLogin/Google";
+import GoogleLogin from "react-google-login";
+import KakaoLogin from "react-kakao-login";
 import * as UserApi from "lib/api/UserApi";
 
 // 직접 제작한 Components
@@ -25,39 +26,44 @@ class Login extends React.Component<any, any> {
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { id, value } = e.target;
-    console.log(id, value);
     AuthActions.changeInput({
       id,
       value,
       form: "login"
     });
   };
+
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("login");
   }
-  setError = (message: string) => {
+  setError = (message: any, name: string) => {
     const { AuthActions } = this.props;
     AuthActions.setError({
       form: "login",
-      message
+      message,
+      name
     });
     return false;
   };
+
   handleLocalLogin = async () => {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
 
     try {
       await AuthActions.localLogin({ email, password });
-      const loggedInfo = this.props.result.toJS();
-
-      UserActions.setLoggedInfo(loggedInfo);
+      const loggedInfo = this.props.result;
+      let data = { sessionId: loggedInfo.data };
+      UserActions.setLoggedInfo(data);
+      // UserActions.setLoggedFlag(true);
       history.push("/");
-      storage.set("loggedInfo", loggedInfo);
+      storage.set("loggedInfo", data);
+      console.log("로그인 3: ", this.props);
     } catch (e) {
+      console.log(e);
       console.log("a");
-      this.setError("잘못된 계정정보입니다.");
+      this.setError("잘못된 계정정보입니다.", email);
     }
   };
 
@@ -65,28 +71,30 @@ class Login extends React.Component<any, any> {
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin } = this;
     const { error } = this.props;
+    const error2 = error.toJS();
     return (
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">로그인</h1>
           <input
             id="email"
-            name="email"
+            nametag="email"
             placeholder="이메일을 입력하세요."
-            type="email"
+            type="text"
             value={email}
             onChange={handleChange}
           />
-          {error.email && <AuthError error={error.email}></AuthError>}
-          <input
+          <AuthError error={error2.email}></AuthError>
+          <Input
             id="password"
-            name="password"
+            nametag="password"
             placeholder="비밀번호를 입력하세요."
             type="password"
             value={password}
             onChange={handleChange}
           />
-          {error.password && <AuthError error={error.password}></AuthError>}
+
+          <AuthError error={error2.password}></AuthError>
           <ActionButton
             placeholder="로그인"
             action={handleLocalLogin}
@@ -96,8 +104,19 @@ class Login extends React.Component<any, any> {
               <p>SNS 간편 로그인</p>
               <div className="bar"></div>
             </div>
-            <KakaoLogin />
-            <GoogleLogin />
+            {/* <KakaoLogin
+              jsKey="kakao-js-key"
+              onSuccess={result => console.log(result)}
+              onFailure={result => console.log(result)}
+              getProfile={true}
+            /> */}
+            <GoogleLogin
+              clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
+              onSuccess={result => console.log(result)}
+              onFailure={result => console.log(result)}
+              cookiePolicy={"single_host_origin"}
+              redirectUri="http://www.naver.com"
+            />
           </div>
           <div className="add-option">
             <div className="bar" />
@@ -113,7 +132,9 @@ export default connect(
   (state: any) => ({
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
-    result: state.auth.get("result")
+    result: state.auth.get("result"),
+    sessionId: state.user.get("loggedInfo").toJS(),
+    logged: state.user.get("logged")
   }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),

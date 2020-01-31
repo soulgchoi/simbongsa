@@ -1,17 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
+
 // import "assets/css/user.scss";
 import "assets/mycss/components.scss";
 import validator from "validator";
-import AuthError from "components/error/AuthError";
+
 //storage = 데이터를 조금 더 편하게 넣고 조회하기 위한 헬퍼 모듈
 import storage from "lib/storage";
+
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
+
+// 직접 제작한 Components
+import LinkButton from "components/button/LinkButton";
+import ActionButton from "components/button/ActionButton";
+import Input from "components/input/Input";
+import AuthError from "components/error/AuthError";
 
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
@@ -79,6 +87,7 @@ class Join extends React.Component<any, any> {
   checkEmailExists = debounce(async (email: string) => {
     const { AuthActions } = this.props;
     try {
+      console.log("체크1: ", email);
       await AuthActions.checkEmailExists(email);
       if (this.props.exists.get("email")) {
         this.setError("이미 존재하는 이메일입니다.", email);
@@ -109,6 +118,7 @@ class Join extends React.Component<any, any> {
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { id, value } = e.target;
+    console.log(e.target);
     AuthActions.changeInput({
       id,
       value,
@@ -121,16 +131,10 @@ class Join extends React.Component<any, any> {
     if (id.indexOf("password") > -1 || !validation) return; // 비밀번호 검증이거나, 검증 실패하면 여기서 마침
 
     // TODO: 이메일, 아이디 중복 확인
-    // name 에 따라 이메일체크할지 아이디 체크 할지 결정
-
-    // const check = (id: string, value: string) => {
-    //   if (id === "email") {
-    //     this.checkEmailExists(value);
-    //   } else if (id === "userid") {
-    //     this.checkUsernameExists(value);
-    //   }
-    // };
-    // check(id, value);
+    const check =
+      id === "email" ? this.checkEmailExists : this.checkUsernameExists; // name 에 따라 이메일체크할지 아이디 체크 할지 결정
+    // console.log("체크2 : ", value);
+    check(value);
   };
 
   handleLocalRegister = async () => {
@@ -174,85 +178,51 @@ class Join extends React.Component<any, any> {
   render() {
     const { error } = this.props;
     const error2 = error.toJS();
+    console.log("에러: ", typeof error2.email);
     const { email, userid, password, passwordConfirm } = this.props.form.toJS();
     const { handleChange, handleLocalRegister } = this;
     return (
       <div className="user" id="join">
         <div className="wrapC">
           <h1 className="title">가입하기</h1>
-          <div className="input-with-label">
-            <input
-              value={userid}
-              onChange={handleChange}
-              id="userid"
-              placeholder="아이디를 입력하세요."
-              type="text"
-            />
-            <label htmlFor="userid">아이디</label>
-            <div className="error-text">
-              {error2.userid && <AuthError error={error2.userid}></AuthError>}
-            </div>
-          </div>
-          <div className="input-with-label">
-            <input
-              value={email}
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  //this.login();
-                }
-              }}
-              onChange={handleChange}
-              id="email"
-              placeholder="이메일을 입력하세요."
-              type="text"
-            />
-            <label htmlFor="email">이메일</label>
-            <div className="error-text">
-              {error2.email && <AuthError error={error2.email}></AuthError>}
-            </div>
-          </div>
+          <Input
+            value={userid}
+            onChange={handleChange}
+            id="userid"
+            placeholder="아이디를 입력하세요"
+            type="text"
+            nametag="아이디"
+          />
+          <AuthError error={error2.userid}></AuthError>
+          <Input
+            value={email}
+            onChange={handleChange}
+            id="email"
+            placeholder="이메일을 입력하세요"
+            type="text"
+            nametag="이메일"
+          />
+          <AuthError error={error2.email}></AuthError>
 
-          <div className="input-with-label">
-            <input
-              value={password}
-              type="password"
-              id="password"
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  //this.login();
-                }
-              }}
-              onChange={handleChange}
-              placeholder="비밀번호를 입력하세요."
-            />
-            <label htmlFor="password">비밀번호</label>
-            <div className="error-text">
-              {error2.password && (
-                <AuthError error={error2.password}></AuthError>
-              )}
-            </div>
-          </div>
+          <Input
+            value={password}
+            onChange={handleChange}
+            id="password"
+            placeholder="비밀번호를 입력하세요"
+            type="password"
+            nametag="비밀번호"
+          />
+          <AuthError error={error2.password}></AuthError>
 
-          <div className="input-with-label">
-            <input
-              value={passwordConfirm}
-              type="password"
-              id="passwordConfirm"
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  //this.login();
-                }
-              }}
-              onChange={handleChange}
-              placeholder="비밀번호를 다시한번 입력하세요."
-            />
-            <label htmlFor="password">비밀번호 확인</label>
-            <div className="error-text">
-              {error2.passwordConfirm && (
-                <AuthError error={error2.passwordConfirm}></AuthError>
-              )}
-            </div>
-          </div>
+          <Input
+            value={passwordConfirm}
+            onChange={handleChange}
+            id="passwordConfirm"
+            placeholder="비밀번호를 다시한번 입력하세요"
+            type="password"
+            nametag="비밀번호 확인"
+          />
+          <AuthError error={error2.passwordConfirm}></AuthError>
 
           {/* <label>
             <input
@@ -269,13 +239,16 @@ class Join extends React.Component<any, any> {
           </span>
           <br />
           <br />
-
-          <button
-            className="btn btn--back btn--join"
-            onClick={handleLocalRegister}
+          <Link
+            to={{
+              pathname: "/join/complete",
+              state: { email: email }
+            }}
+            className="my--btn"
           >
             가입하기
-          </button>
+          </Link>
+          {/* <LinkButton link="/join/complete" placeholder="가입하기" /> */}
         </div>
       </div>
     );

@@ -1,22 +1,13 @@
 import axios from "axios";
-const restBaseApi = "http://70.12.247.87:8080/rest/";
-export const checkEmailExists = (email: any) => {
-  axios
-    .get(restBaseApi + "CheckEmail/" + email)
-    .then(response => {
-      console.log("ax response:", response);
-
-      return true;
-    })
-    .catch(error => {
-      console.log("ax error:", error);
-      return false;
-    });
-  // try {
-  //   return axios.get(restBaseApi + "CheckEmail/" + email);
-  // } catch (error) {
-  //   return true;
-  // }
+// const restBaseApi = "http://70.12.247.34:8080";
+const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+export const checkEmailExists = (email: string) => {
+  try {
+    console.log("체크 : ", email);
+    return axios.get(restBaseApi + "CheckEmail/" + email);
+  } catch (error) {
+    return false;
+  }
 };
 export const checkUsernameExists = (userid: string) => {
   // axios
@@ -65,9 +56,12 @@ export const localRegister = (
   //   return true;
   // }
 };
-export const localLogin = (email: string, password: string) => {
+export const localLogin = (data: { email: string; password: string }) => {
   try {
-    return axios.post("/api/auth/login/local", { email, password });
+    return axios.post(restBaseApi + "/login.do", {
+      m_userid: data.email,
+      m_password: data.password
+    });
   } catch (error) {
     return true;
   }

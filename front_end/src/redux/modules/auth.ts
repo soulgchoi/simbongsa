@@ -109,6 +109,7 @@ export default handleActions<any>(
       // console.log("aaaaa", action.payload);
       // console.log("aaa", form, id, value);
       // console.log("a", state);
+
       return state.setIn([form, "form", id], value);
     },
     [INITIALIZE_FORM]: (state, action) => {
@@ -117,8 +118,6 @@ export default handleActions<any>(
     },
     [SET_ERROR]: (state, action) => {
       const { form, message, name } = action.payload;
-      console.log("error", action.payload);
-      // console.log("error", name);
 
       return state.setIn([form, "error", name], message);
     },
@@ -137,8 +136,9 @@ export default handleActions<any>(
     }),
     ...pender({
       type: LOCAL_LOGIN,
-      onSuccess: (state, action) =>
-        state.set("result", Record(action.payload.data))
+      onSuccess: (state, action) => {
+        return state.set("result", action.payload.data);
+      }
     }),
     ...pender({
       type: LOCAL_REGISTER,
