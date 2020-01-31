@@ -31,7 +31,7 @@ interface validate {
 class Join extends React.Component<any, any> {
   componentWillUnmount() {
     const { AuthActions } = this.props;
-    AuthActions.initializeForm("register");
+    AuthActions.initializeForm("join");
   }
   setError = (message: any, name: string) => {
     const { AuthActions } = this.props;
@@ -102,11 +102,13 @@ class Join extends React.Component<any, any> {
   checkUsernameExists = debounce(async (userid: string) => {
     const { AuthActions } = this.props;
     try {
+      console.log("아이디 체크");
+
       await AuthActions.checkUsernameExists(userid);
-      if (this.props.exists.get("username")) {
-        this.setError("이미 존재하는 아이디입니다.", userid);
+      if (this.props.exists.get("userid")) {
+        this.setError("이미 존재하는 아이디입니다.", "userid");
       } else {
-        this.setError(null, userid);
+        this.setError(null, "userid");
       }
     } catch (e) {
       console.log(e);
@@ -138,44 +140,39 @@ class Join extends React.Component<any, any> {
   handleLocalRegister = async () => {
     const { form, AuthActions, UserActions, error, history } = this.props;
     const { email, userid, password, passwordConfirm } = form.toJS();
-
     const { validate } = this;
-
-    if (error) return; // 현재 에러가 있는 상태라면 진행하지 않음
+    if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
     if (
       !validate["email"](email) ||
-      !validate["username"](userid) ||
+      !validate["userid"](userid) ||
       !validate["password"](password) ||
       !validate["passwordConfirm"](passwordConfirm)
     ) {
       // 하나라도 실패하면 진행하지 않음
       return;
     }
-
     try {
-      await AuthActions.localRegister({
-        email,
-        userid,
-        password
-      });
+      if (
+        !(await AuthActions.localRegister({
+          email,
+          userid,
+          password
+        }))
+      ) {
+
+      }
+      console.log("왓다");
       const loggedInfo = this.props.result.toJS();
-      console.log(loggedInfo);
+      console.log("로그인", loggedInfo);
       // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
       storage.set("loggedInfo", loggedInfo);
       UserActions.setLoggedInfo(loggedInfo);
       UserActions.setValidated(true);
-      history.push("/"); // 회원가입 성공시 홈페이지로 이동
+      history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
     } catch (e) {
-      // 에러 처리하기
-      if (e.response.status === 409) {
-        const { key } = e.response.data;
-        const message =
-          key === "email"
-            ? "이미 존재하는 이메일입니다."
-            : "이미 존재하는 아이디입니다.";
-        return this.setError(message, email);
-      }
-      this.setError("알 수 없는 에러가 발생했습니다.", email);
+      console.log("에러가뭔지", e);
+      alert("통신 실패");
+      // TODO: 실패시 실패 ERROR 표현
     }
   };
   render() {

@@ -76,7 +76,7 @@ class Login extends React.Component<any, any> {
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">로그인</h1>
-          <Input
+          <input
             id="email"
             nametag="email"
             placeholder="이메일을 입력하세요."
