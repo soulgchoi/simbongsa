@@ -32,22 +32,15 @@ export const localRegister = (
     return true;
   }
 };
-export const localLogin = (data: {
-  email: string;
-  password: string;
-}): boolean => {
-  axios
-    .post(restBaseApi + "/login.do", {
+export const localLogin = (data: { email: string; password: string }) => {
+  try {
+    return axios.post(restBaseApi + "/login.do", {
       m_userid: data.email,
       m_password: data.password
-    })
-    .then(response => {
-      return response.data.data;
-    })
-    .catch(error => {
-      return error.data.data;
     });
-  return false;
+  } catch (error) {
+    return true;
+  }
 };
 
 export const checkStatus = () => {

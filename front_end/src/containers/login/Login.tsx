@@ -53,12 +53,15 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-      const loggedInfo = this.props.result.toJS();
-
-      UserActions.setLoggedInfo(loggedInfo);
+      const loggedInfo = this.props.result;
+      let data = { sessionId: loggedInfo.data };
+      UserActions.setLoggedInfo(data);
+      // UserActions.setLoggedFlag(true);
       history.push("/");
-      storage.set("loggedInfo", loggedInfo);
+      storage.set("loggedInfo", data);
+      console.log("로그인 3: ", this.props);
     } catch (e) {
+      console.log(e);
       console.log("a");
       this.setError("잘못된 계정정보입니다.", email);
     }
@@ -129,7 +132,9 @@ export default connect(
   (state: any) => ({
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
-    result: state.auth.get("result")
+    result: state.auth.get("result"),
+    sessionId: state.user.get("loggedInfo").toJS(),
+    logged: state.user.get("logged")
   }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),
