@@ -6,39 +6,35 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
-import com.react.dao.VolDao;
-import com.react.vo.Vol;
+import com.react.dao.CateDao;
+import com.react.vo.Category;
 
 //정보를 load하는 SAX Parser
-public class VolParser {
-	VolDao dao;
+@Service
+public class CateParser { //카테고리에서 국제행사 2개는  쓰지말자!
+	CateDao dao;
 
 	private String xml;
 	// private StringBuilder xml;
-	private List<Vol> list;
+	private List<Category> list;
 
-	public VolParser(int i) throws Exception {
-		xml = new CallRestWS_vol().restClient(i);
+	public CateParser(int i) throws Exception {
+		xml = new CallRestWS_cate().restClient(i);
 		loadData();
 	}
 
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		factory.setNamespaceAware(true);//
 		try {
 			SAXParser parser = factory.newSAXParser();
-			VolHandler handler = new VolHandler();
-			InputSource is = new InputSource(new StringReader(xml));
-			//is.setEncoding("ISO-8859-1");
-			is.setEncoding("UTF-8");
-			parser.parse(is, handler);
-			
-			//parser.parse(new InputSource(new StringReader(xml)), handler);
+			CateHandler handler = new CateHandler();
+			parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
-//			Vol find;
-			for (Vol vol : list) {
+//			Category find;
+			for (Category vol : list) {
 //				find = volMap.get(vol.getName());
 //				if(find!=null) {
 //					vol.setCode(find.getCode());
@@ -46,10 +42,12 @@ public class VolParser {
 //					vol.setMaker(find.getMaker());
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
-//				}
-				dao = new VolDao();
-				dao.addVol(vol);
-				System.out.println(vol);
+//				
+				// System.out.println(vol);
+				dao = new CateDao();
+				dao.addCate(vol);
+				// vol.setHignClsNm("ddffs");
+				// System.out.println(vol);
 			}
 			// System.out.println(list);
 		} catch (Exception e) {
@@ -57,18 +55,17 @@ public class VolParser {
 		}
 	}
 
-	public List<Vol> getList() {
+	public List<Category> getList() {
 		return list;
 	}
 
-	public void setList(List<Vol> list) {
+	public void setList(List<Category> list) {
 		this.list = list;
 	}
 
 	public static void main(String[] args) throws Exception {
-		for (int i = 1; i < 413; i++) {
-		//for (int i = 1; i < 5; i++) {
-			new VolParser(i);
+		for (int i = 1; i < 9; i++) {
+			new CateParser(i);
 		}
 	}
 

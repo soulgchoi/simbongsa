@@ -15,10 +15,17 @@ public class MemberDAOImp implements MemberDAO {
 
 	@Autowired
 	SqlSession session;
+	
 	@Override
-	public Member search(String id) {
+	public Member search(String userId) {
 		String statement = ns+"select";
-		return session.selectOne(statement, id);
+		return session.selectOne(statement, userId);
+	}
+	
+	@Override
+	public Member searchByEmail(String email) {
+		String statement = ns+"selectByEmail";
+		return session.selectOne(statement, email);
 	}
 
 	@Override

@@ -1,64 +1,104 @@
 package com.react.util;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.react.dao.CateDao;
+import com.react.dao.RegDao;
 import com.react.vo.Vol;
 
 //url에서 volunteer정보를 읽어 파싱하는 핸들러 클래스
 public class VolHandler extends DefaultHandler {
+	RegDao regdao;
+	CateDao catedao;
 	private List<Vol> list;
 	private Vol vol;
-	private String temp;
+	//private String temp;
+	private StringBuilder temp = new StringBuilder();
+	private String gugunCd, sidoCd, srvcClCode;
+	private String[] cateCd = new String[2];;
+	private int temp2;
 
 	public VolHandler() {
 		list = new LinkedList<Vol>();
+		//cateCd = new String[2];
+		regdao = new RegDao();
+		catedao = new CateDao();
 	}
 
 	public void startElement(String uri, String localName, String qName, Attributes att) {
-		if (qName.equals("item")) {
+		
+		final String name = qName == null ? localName : qName;
+		if (name.equals("item")) {
 			vol = new Vol();
+			temp.setLength(0);
 		}
 	}
 
 	public void endElement(String uri, String localName, String qName) {
+		final String name = qName == null ? localName : qName;
 		if (qName.equals("actBeginTm")) {
-			vol.setActBeginTm(temp);
+			vol.setActBeginTm(temp.toString());
 		} else if (qName.equals("actEndTm")) {
-			vol.setActEndTm(temp);
+			vol.setActEndTm(temp.toString());
 		} else if (qName.equals("actPlace")) {
-			vol.setActPlace(temp);
+			vol.setActPlace(temp.toString());
 		} else if (qName.equals("adultPosblAt")) {
-			vol.setAdultPosblAt(temp);
+			vol.setAdultPosblAt(temp.toString());
 		} else if (qName.equals("gugunCd")) {
-			vol.setGugunCd(temp);
+			gugunCd = temp.toString();
+			System.out.println("gugun****" + gugunCd);
 		} else if (qName.equals("nanmmbyNm")) {
-			vol.setNanmmbyNm(temp);
+			vol.setNanmmbyNm(temp.toString());
 		} else if (qName.equals("noticeBgnde")) {
-			vol.setNoticeBgnde(temp);
+			vol.setNoticeBgnde(temp.toString());
 		} else if (qName.equals("noticeEndde")) {
-			vol.setNoticeEndde(temp);
+			vol.setNoticeEndde(temp.toString());
 		} else if (qName.equals("progrmBgnde")) {
-			vol.setProgrmBgnde(temp);
+			vol.setProgrmBgnde(temp.toString());
 		} else if (qName.equals("progrmEndde")) {
-			vol.setProgrmEndde(temp);
+			vol.setProgrmEndde(temp.toString());
 		} else if (qName.equals("progrmRegistNo")) {
-			vol.setProgrmRegistNo(temp);
+			vol.setProgrmRegistNo(temp.toString());
 		} else if (qName.equals("progrmSj")) {
-			vol.setProgrmSj(temp);
+			vol.setProgrmSj(temp.toString());
 		} else if (qName.equals("progrmSttusSe")) {
-			vol.setProgrmSttusSe(temp);
+			vol.setProgrmSttusSe(temp.toString());
 		} else if (qName.equals("sidoCd")) {
-			vol.setSidoCd(temp);
+			sidoCd = temp.toString();
+			System.out.println("sido****" + sidoCd);
 		} else if (qName.equals("srvcClCode")) {
-			vol.setSrvcClCode(temp);
-		}else if(qName.equals("item")) { 
-			list.add(vol);
+			srvcClCode = temp.toString();
+			System.out.println(srvcClCode);
+		} else if (qName.equals("url")) {
+			vol.setUrl(temp.toString());
+		} else if (qName.equals("yngbgsPosblAt")) {
+			vol.setYngbgsPosblAt(temp.toString());
+		} else if(qName.equals("item")) { 
+			cateCd = srvcClCode.split(" > ");
+			System.out.println(cateCd[0]+"000");
+			System.out.println("-----------------");
+			System.out.println(cateCd[1]+"111");
+			try {
+				temp2 = regdao.getRegCd(sidoCd, gugunCd);
+				vol.setRegionCd(temp2);
+				
+				//파싱이 안됨 ..
+				//temp2 = catedao.getCateCd(srvcClCode);
+				//vol.setCateCd(temp2);
+				temp2 = catedao.getCateCd(cateCd[0], cateCd[1]);
+				vol.setCateCd(temp2);
+				
+				list.add(vol);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		temp.setLength(0);
 	}
 
 	/*
@@ -70,9 +110,16 @@ public class VolHandler extends DefaultHandler {
 	 */
 
 	public void characters(char[] ch, int start, int length) {
-		temp = new String(ch, start, length).trim();
+		//temp = new String(ch, start, length).trim();
+		temp.append(ch, start, length);
 	}
 
+	/*
+	 * @Override public void characters(char[] ch, int start, int length) throws
+	 * SAXException { temp = String.copyValueOf(ch, start, length).trim(); temp =
+	 * temp.replace("&", "&amp;") }
+	 */
+	
 	public List<Vol> getList() {
 		return list;
 	}

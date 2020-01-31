@@ -8,37 +8,32 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 
-import com.react.dao.VolDao;
-import com.react.vo.Vol;
+import com.react.dao.RegDao;
+import com.react.vo.Region;
 
 //정보를 load하는 SAX Parser
-public class VolParser {
-	VolDao dao;
+public class RegParser {
+	// @Autowired
+	RegDao dao;
 
 	private String xml;
 	// private StringBuilder xml;
-	private List<Vol> list;
+	private List<Region> list;
 
-	public VolParser(int i) throws Exception {
-		xml = new CallRestWS_vol().restClient(i);
+	public RegParser(int i) throws Exception {
+		xml = new CallRestWS_reg().restClient(i);
 		loadData();
 	}
 
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		factory.setNamespaceAware(true);//
 		try {
 			SAXParser parser = factory.newSAXParser();
-			VolHandler handler = new VolHandler();
-			InputSource is = new InputSource(new StringReader(xml));
-			//is.setEncoding("ISO-8859-1");
-			is.setEncoding("UTF-8");
-			parser.parse(is, handler);
-			
-			//parser.parse(new InputSource(new StringReader(xml)), handler);
+			RegHandler handler = new RegHandler();
+			parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
-//			Vol find;
-			for (Vol vol : list) {
+//			Region find;
+			for (Region vol : list) {
 //				find = volMap.get(vol.getName());
 //				if(find!=null) {
 //					vol.setCode(find.getCode());
@@ -47,8 +42,8 @@ public class VolParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
-				dao = new VolDao();
-				dao.addVol(vol);
+				dao = new RegDao();
+				dao.addReg(vol);
 				System.out.println(vol);
 			}
 			// System.out.println(list);
@@ -57,18 +52,17 @@ public class VolParser {
 		}
 	}
 
-	public List<Vol> getList() {
+	public List<Region> getList() {
 		return list;
 	}
 
-	public void setList(List<Vol> list) {
+	public void setList(List<Region> list) {
 		this.list = list;
 	}
 
 	public static void main(String[] args) throws Exception {
-		for (int i = 1; i < 413; i++) {
-		//for (int i = 1; i < 5; i++) {
-			new VolParser(i);
+		for (int i = 1; i < 24; i++) {
+			new RegParser(i);
 		}
 	}
 

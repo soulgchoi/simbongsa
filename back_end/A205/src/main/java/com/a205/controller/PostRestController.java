@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a205.dto.Member;
-import com.a205.dto.Post;
 import com.a205.dto.Pagination;
+import com.a205.dto.Post;
 import com.a205.service.PostService;
+import com.a205.service.VolService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -38,6 +38,9 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
+	
+	@Autowired
+	VolService service2;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -46,6 +49,18 @@ public class PostRestController {
 		return new ResponseEntity<>(resultMap, hstatus);
 	}
 
+	@GetMapping("/Titles/{no1}/{no2}")
+	@ApiOperation("제목 /페이지 번호")
+	public ResponseEntity<Map<String, Object>> getVol(@PathVariable int no1, @PathVariable int no2) {
+		try {
+			List<String> a = service2.search(no1, no2);
+			return response(a, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("제목리스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
 	@GetMapping("/Post")
 	@ApiOperation("전체 공지사항 정보를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getAllMember() {

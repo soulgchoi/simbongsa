@@ -1,11 +1,16 @@
 package com.a205.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.a205.dto.Member;
 import com.a205.service.MemberService;
 
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @CrossOrigin
 public class MemberController {
@@ -25,31 +32,71 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
+	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hStatus){ 
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", status);
+		resultMap.put("data", data);
+		return new ResponseEntity<>(resultMap, hStatus);
+	}
+	
+//	@PostMapping("login.do")
+//	public String getLogin(@RequestBody Member member, Model model, HttpSession session) {
+//		try {
+//			Member selected = service.search(member.getM_userid());
+//			
+//			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
+//				session.setAttribute("id", selected.getM_id());
+//				session.setAttribute("member", selected);
+//				model.addAttribute("member", selected);
+//				return "redirect:index.do";
+//			}else {
+//				model.addAttribute("message", "비밀번호가 틀렸습니다");
+//				return "redirect:index.do";
+//			}
+//		}catch(RuntimeException e) {
+//			model.addAttribute("message","문제 내용 - 로그인 중 오류 발생");
+//			return "Error";
+//		}
+//	}
 	
 	@PostMapping("login.do")
-	public String getLogin(Member member, Model model, HttpSession session) {
+	@ApiOperation("전달받은 회원정보를 저장한다.")
+	public ResponseEntity<Map<String, Object>> getLogin(@RequestBody Member member, Model model, HttpSession session){
 		try {
-			Member selected = service.search(member.getM_id());
+			Member selected = service.search(member.getM_userid());
+			boolean result = false;
 			
 			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
-				session.setAttribute("id", selected.getM_id());
+				session.setAttribute("userid", selected.getM_userid());
 				session.setAttribute("member", selected);
 				model.addAttribute("member", selected);
-				return "redirect:/index.do";
+				System.out.println(model.toString());
+				System.out.println(session.getId());
+
+				System.out.println(session.getAttribute("userid"));
+				result = true;
+				return response(session.getId(), true, HttpStatus.OK);
 			}else {
 				model.addAttribute("message", "비밀번호가 틀렸습니다");
-				return "redirect:/index.do";
+				result = false;
+				return response(result, false, HttpStatus.OK);
 			}
 		}catch(RuntimeException e) {
 			model.addAttribute("message","문제 내용 - 로그인 중 오류 발생");
-			return "Error";
+			return response(false, false, HttpStatus.CONFLICT);
 		}
 	}
 	
 	@GetMapping("logout.do")
-	public String getLogout(HttpSession session) {
+	public ResponseEntity<Map<String, Object>> getLogout(HttpSession session) {
+		System.out.println(session.getId());
+		System.out.println(session.getAttribute("userid"));
+
+
 		session.invalidate();
-		return "redirect:/index.do";
+		System.out.println("-----"+session.getId());
+
+		return response(true, true, HttpStatus.OK);
 	}
 	
 	@GetMapping("index.do")
