@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성 namespace: 작업하는 테이블들을 
+	구분해주기 위한 식별자 -->
+<mapper namespace="customer">
+
+	<!-- 리절트 맵 정의 : select 한 후의 결과 처리를 위해 정의 해 놓음 -->
+	<!-- 여기서 Customer객체의 디폴트 생성자!로 생성이 된후 setter로 내용을 넣는다. -->
+	<resultMap id="CustomerResult" type="Customer">
+		<result property="num" column="num" />
+		<result property="name" column="name" />
+		<result property="address" column="address" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="CustomerResult">
+		select * from customer
+	</select>
+
+	<select id="selectOne" parameterType="java.lang.String"
+		resultMap="CustomerResult">
+		select * from customer where num = #{x}
+	</select>
+
+	<insert id="insert" parameterType="Customer">
+		insert into customer
+		values(#{num}, #{name}, #{address})
+	</insert>
+
+	<update id="update" parameterType="Customer">
+		update customer set address = #{address} , name = #{name} 
+		where num = #{num}
+	</update>
+
+	<select id="findAddress" parameterType="java.lang.String"
+		resultMap="CustomerResult">
+		select * from customer where address = #{address}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from customer where num
+		= #{num}
+	</delete>
+
+</mapper>
