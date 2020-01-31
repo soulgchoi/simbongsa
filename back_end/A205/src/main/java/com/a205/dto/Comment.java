@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Comment {
 
-    int c_code;
-    int no;
-    String commen;
-    String writer;
-    String reg_time;
+    int c_id;
+    String c_content;
+    int m_id ;
+    int p_id;
 
 }
