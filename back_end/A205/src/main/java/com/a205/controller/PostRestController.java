@@ -56,7 +56,7 @@ public class PostRestController {
 			List<String> a = service2.search(no1, no2);
 			return response(a, true, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("회원조회실패", e);
+			logger.error("제목리스트조회실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}

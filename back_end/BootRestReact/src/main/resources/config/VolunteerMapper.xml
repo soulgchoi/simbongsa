@@ -83,12 +83,12 @@
 		select ca_id
 		from category
 		where
-		ca_highNum = #{highNm} and ca_lowNm = #{lowNm}
+		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
 	</select>
 	
 	<!-- 카테고리 코드는 빼두기 -->
  	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, r_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{regionCd}, #{progrmRegistNo})
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo})
 	</insert>
 	
 	<insert id="addReg" parameterType="Region">
