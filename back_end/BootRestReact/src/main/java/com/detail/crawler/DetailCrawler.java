@@ -25,7 +25,7 @@ public class DetailCrawler {
 	}
 
 	public static void main(String[] args) {
-		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2609596";
+		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2540555";
 		// getCurrencyRate에서 발생하는 예외처리를 받아서 단순 출력 처리합니다.
 		try {
 			getCurrencyRate(url);

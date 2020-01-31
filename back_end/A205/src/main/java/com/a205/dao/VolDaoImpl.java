@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.a205.dto.Vol;
 
 @Repository
-public class VolDaoImpl {
+public class VolDaoImpl implements VolDao {
 
 	private final static String ns = "com.a205.model.volmapper.";
 

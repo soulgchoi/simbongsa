@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.a205.dto.Pagination;
 import com.a205.dto.Post;
 import com.a205.service.PostService;
-import com.a205.service.VolServiceImpl;
+import com.a205.service.VolService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -39,7 +39,8 @@ public class PostRestController {
 	@Autowired
 	PostService service;
 	
-	VolServiceImpl service2;
+	@Autowired
+	VolService service2;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
