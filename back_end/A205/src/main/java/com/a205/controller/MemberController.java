@@ -69,6 +69,7 @@ public class MemberController {
 			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
 				session.setAttribute("userid", selected.getM_userid());
 				session.setAttribute("member", selected);
+				
 				model.addAttribute("member", selected);
 				System.out.println(model.toString());
 				System.out.println(session.getId());
