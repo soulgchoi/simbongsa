@@ -6,10 +6,10 @@ import FindPassword from "containers/findPassword/FindPassword";
 import JoinComplete from "containers/join/JoinComplete";
 import MailReSend from "containers/mailresend/MailReSend";
 import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
-import Calendar from 'components/Calendar/Calendar'
+import Calendar from "components/Calendar/Calendar";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
-
+import Location from "containers/location/Location";
 class App extends Component {
   render() {
     return (
@@ -23,6 +23,7 @@ class App extends Component {
         <Route path="/calendar" component={Calendar} />
         <Route exact path="/mainpage" component={MainPage} />
         <Route exact path="/mainpage/detail/:voltitle" component={VolDetail} />
+        <Route path="/location" component={Location} />
       </div>
     );
   }

@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.main--text {
+    text-align: center;
+    margin-top: 70px;
+    font-size: 15pt;
+
+    #text {
+        position: relative;
+
+        #image {
+            position: relative;
+            top: -85px;
+            left: -79px;
+        }
+    }
+}
