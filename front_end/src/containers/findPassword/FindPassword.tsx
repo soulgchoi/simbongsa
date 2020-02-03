@@ -77,7 +77,6 @@ class FindPassword extends React.Component {
           <div className="input-with-label">
             <input
               value={this.state.email}
-              v-bind="{error : error.password, complete:!error.password&&password.length!==0}"
               onKeyDown={event => {
                 if (event.key === "Enter") {
                   // this.login();

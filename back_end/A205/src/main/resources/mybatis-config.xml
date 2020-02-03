@@ -6,14 +6,17 @@
 
 	<typeAliases>
 		<typeAlias type="com.a205.dto.Post" alias="post" />
-		<typeAlias type="com.a205.dto.Comment" alias="comment" />
+		<!-- <typeAlias type="com.a205.dto.Comment" alias="comment" /> -->
 		<typeAlias type="com.a205.dto.Member" alias="member" />
+		<typeAlias type="com.a205.dto.Vol" alias="vol" />
+		<typeAlias type="com.a205.dto.Vol_Mini" alias="volmini" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="mapper/membermapper.xml" />
 		<mapper resource="mapper/postmapper.xml" />
-		<mapper resource="mapper/commentmapper.xml" />
+		<!-- <mapper resource="mapper/commentmapper.xml" /> -->
+		<mapper resource="mapper/volmapper.xml"/>
 	</mappers>
 
 </configuration>
