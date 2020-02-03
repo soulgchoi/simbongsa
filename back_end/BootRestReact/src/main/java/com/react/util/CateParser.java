@@ -7,13 +7,18 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 
 import com.react.dao.CateDao;
 import com.react.vo.Category;
 
 //정보를 load하는 SAX Parser
+@Service
 public class CateParser {
+	
 	@Autowired
 	CateDao dao;
 	
@@ -43,8 +48,9 @@ public class CateParser {
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
 //				}
-//				System.out.println(vol);
-				dao.addCate(vol);
+				System.out.println(vol);
+				dao.prin();
+//				dao.addCate(vol);
 				//vol.setHignClsNm("ddffs");
 				//System.out.println(vol);
 			}

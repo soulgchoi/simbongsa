@@ -36,8 +36,8 @@ public class Vol {
 	protected String srvcClCode;
 	protected String url;
 	protected String yngbgsPosblAt;
-	protected String actWkdy; //
-	protected String progrmCn; //
+	protected String actWkdy;
+	protected String progrmCn;
 	
 	public Vol() {}
 	public Vol(String actBeginTm, String actEndTm, String actPlace, String adultPosblAt, String gugunCd,
@@ -181,7 +181,6 @@ public class Vol {
 	public void setProgrmCn(String progrmCn) {
 		this.progrmCn = progrmCn;
 	}
-	
 	@Override
 	public String toString() {
 		return "Vol [actBeginTm=" + actBeginTm + ", actEndTm=" + actEndTm + ", actPlace=" + actPlace + ", adultPosblAt="
