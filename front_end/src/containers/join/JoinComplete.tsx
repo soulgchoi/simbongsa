@@ -1,5 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// redux 관련
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authActions from "redux/modules/auth";
+import * as userActions from "redux/modules/user";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
 import "assets/mycss/components.scss";
@@ -10,19 +15,11 @@ interface Iprops {
     };
   };
 }
-interface IState {
-  email: string;
-}
 
-class JoinComplete extends React.Component<Iprops, IState> {
-  state = {
-    email: ""
-  };
-  componentDidMount() {
-    console.log(this.props);
-    this.setState({ email: this.props.location.state.email });
-  }
+class JoinComplete extends React.Component<any, any> {
   render() {
+    console.log("form", this.props.form);
+    const { email } = this.props.form.toJS();
     return (
       <div className="user" id="login">
         <div className="wrapC">
@@ -33,7 +30,7 @@ class JoinComplete extends React.Component<Iprops, IState> {
           <Link
             to={{
               pathname: "/mailresend",
-              state: { email: this.state.email }
+              state: { email: email }
             }}
             className="btn--back"
           >
@@ -50,4 +47,15 @@ class JoinComplete extends React.Component<Iprops, IState> {
   }
 }
 
-export default JoinComplete;
+export default connect(
+  (state: any) => ({
+    form: state.auth.getIn(["join", "form"]),
+    error: state.auth.getIn(["join", "error"]),
+    exists: state.auth.getIn(["join", "exists"]),
+    result: state.auth.get("result")
+  }),
+  dispatch => ({
+    AuthActions: bindActionCreators(authActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
+  })
+)(JoinComplete);

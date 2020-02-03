@@ -52,7 +52,7 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean checkEmail(String email) {
-		Member member = dao.search(email);
+		Member member = dao.searchByEmail(email);
 		if(member == null) {
 			return false;
 		}else {

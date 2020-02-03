@@ -17,26 +17,24 @@ import com.react.vo.Category;
 
 //정보를 load하는 SAX Parser
 @Service
-public class CateParser {
-	
-	@Autowired
+public class CateParser { //카테고리에서 국제행사 2개는  쓰지말자!
 	CateDao dao;
-	
+
 	private String xml;
-	//private StringBuilder xml;
+	// private StringBuilder xml;
 	private List<Category> list;
-	
-	public CateParser() throws Exception {
-		xml = new CallRestWS_cate().restClient();
+
+	public CateParser(int i) throws Exception {
+		xml = new CallRestWS_cate().restClient(i);
 		loadData();
 	}
 
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		try{
+		try {
 			SAXParser parser = factory.newSAXParser();
 			CateHandler handler = new CateHandler();
-			parser.parse(new InputSource(new StringReader(xml)),handler);
+			parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
 //			Category find;
 			for (Category vol : list) {
@@ -47,29 +45,31 @@ public class CateParser {
 //					vol.setMaker(find.getMaker());
 //					vol.setMaterial(find.getMaterial());
 //					vol.setImg(find.getImg());
-//				}
-				System.out.println(vol);
-				dao.prin();
-//				dao.addCate(vol);
-				//vol.setHignClsNm("ddffs");
-				//System.out.println(vol);
+//				
+				// System.out.println(vol);
+				dao = new CateDao();
+				dao.addCate(vol);
+				// vol.setHignClsNm("ddffs");
+				// System.out.println(vol);
 			}
-			//System.out.println(list);
-		}catch(Exception e){
+			// System.out.println(list);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<Category> getList() {
 		return list;
 	}
-	
+
 	public void setList(List<Category> list) {
 		this.list = list;
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		new CateParser();
+		for (int i = 1; i < 9; i++) {
+			new CateParser(i);
+		}
 	}
-	
+
 }

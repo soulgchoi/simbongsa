@@ -72,15 +72,30 @@
 		select * from emp where dept_id = #{dept_id}
 	</select> -->
 	
-<!-- 	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_bgnTm, v_endTm, v_mBgnD, v_mEndD, v_url, v_many, v_day, v_detail, r_id, ca_id, v_Auth) values(#{id}, #{name}, #{mailid}, sysdate(), #{manager_id}, #{title}, #{dept_id}, #{salary}, #{commission_pct})
-	</insert> -->
+	<select id="getReg" parameterType="java.util.Map" resultType="int">
+		select r_id
+		from region
+		where
+		r_sidoCd = #{sidoCd} and r_gugunCd = #{gugunCd}
+	</select>
+	
+	<select id="getCate" resultType="int">
+		select ca_id
+		from category
+		where
+		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
+	</select>
+	
+	<!-- 카테고리 코드는 빼두기 -->
+ 	<insert id="addVol" parameterType="Vol">
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo})
+	</insert>
 	
 	<insert id="addReg" parameterType="Region">
-		insert into region(r_sidoCd, r_gunguCd, r_sidoNm, r_gunguNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
+		insert into region(r_sidoCd, r_gugunCd, r_sidoNm, r_gugunNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
 	</insert>
 	
 	<insert id="addCate" parameterType="Category">
-		insert into category(ca_highCd, ca_highNm) values(#{highClsCd}, #{hignClsNm})
+		insert into category(ca_highCd, ca_highNm, ca_lowCd, ca_lowNm) values(#{highClsCd}, #{hignClsNm}, #{lowClsCd}, #{lowClsNm})
 	</insert>
 </mapper>

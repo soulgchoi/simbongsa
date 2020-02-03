@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.a205.dto.Member;
-import com.a205.dto.Post;
 import com.a205.dto.Pagination;
+import com.a205.dto.Post;
 import com.a205.service.PostService;
+import com.a205.service.VolService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -45,7 +45,7 @@ public class PostRestController {
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hstatus);
 	}
-
+	
 	@GetMapping("/Post")
 	@ApiOperation("전체 공지사항 정보를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getAllMember() {

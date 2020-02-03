@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.a205.model.volmapper">
+
+	<select id="selectList" resultType="volmini" parameterType="java.util.Map">
+		select v_id, v_title, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD, r_id, ca_id, v_Auth from vol
+		limit #{listSize} offset #{startList}
+	</select>
+	
+	<select id="selectOne" resultType="vol" parameterType="int">
+		select * from vol
+		where v_id = #{v_id};
+	</select>
+	
+</mapper>

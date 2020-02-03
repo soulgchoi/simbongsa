@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!-- MyBatis Query를 위한 Xml에서 resultType, parametertype 으로  
+		     사용할  VO 클래스에 대한 별칭 설정 
+		  Java AIP에 대한 별칭 설정 정보 : org.apache.ibits.type.TypeAliasRegistry 
+		  -->
+		<typeAlias type="com.react.vo.Vol"	alias="Vol"/>
+		<typeAlias type="com.react.vo.Region"	alias="Region"/>
+		<typeAlias type="com.react.vo.Category"	alias="Category"/>
+		
+<!-- 		<typeAlias type="com.vue.vo.Dept"	alias="Dept"/>
+		<typeAlias type="com.vue.vo.DeptEmp"	alias="DeptEmp"/>
+		<typeAlias type="com.vue.vo.DeptCount"	alias="DeptCount"/> -->
+	</typeAliases>
+	
+	<!-- 2. db setting -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://70.12.247.126:3306/volunteer?serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+                <property name="username" value="ssafy" />
+                <property name="password" value="ssafy" />
+            </dataSource>
+        </environment>
+    </environments>
+	
+	<mappers>
+	 <mapper resource="config/VolunteerMapper.xml" />
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
