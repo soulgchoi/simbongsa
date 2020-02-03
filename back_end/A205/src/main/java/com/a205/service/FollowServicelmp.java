@@ -19,6 +19,7 @@ public class FollowServicelmp implements FollowServive {
 	private FollowDAO followDao;
 	
 	public boolean add(String userId, String followee) {
+		System.out.println("----followservice");
 		return followDao.add(userId, followee);
 	}
 	
