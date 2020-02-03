@@ -4,26 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="com.a205.model.followmapper">
- <select id="searchFollowee" resultType="follow" parameterType="int">
- 	select * from 'follow'
-	where f_followee = #{userId}
- </select>
-
- <select id="searchFollower" resultType="follow" parameterType="int">
- 	select * from 'follow'
-	where f_follower = #{userId}
- </select>
- 
- 	<insert id="insert" parameterType="follow">
-		insert into `follow`(f_followee_id,f_follower_id ) 
-		  values(#{f_followee_id}, #{f_follower_id})
+	 <select id="searchFollowee" resultType="follow" parameterType="int">
+	 	select * from 'follow'
+		where f_followee = #{userId}
+	 </select>
+	
+	 <select id="searchFollower" resultType="follow" parameterType="int">
+	 	select * from 'follow'
+		where f_follower = #{userId}
+	 </select>
+	 
+	<insert id="insert"  parameterType="java.util.Map">
+		insert into `follow`(f_follower_id, f_followee_id ) 
+		  values(#{userId_pk}, #{followee_pk} )
 	</insert>
- 
-  	<select id="select" resultType="member" parameterType="string">
-		select * from `member` 
-		<if test ="value!=null">
-			where m_userid = #{userId}
-		</if>
-	</select>
- 
+	 
+	<delete id="delete" parameterType="java.util.Map">
+			delete from `follow` 
+			where f_follower_id=#{userId_pk} and f_followee_id=#{followee_pk} 
+	</delete>
+	 
+  
  </mapper>
