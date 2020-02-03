@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="com.a205.model.followmapper">
+ <select id="searchFollowee" resultType="follow" parameterType="int">
+ 	select * from 'follow'
+	where f_followee = #{userId}
+ </select>
+
+ <select id="searchFollower" resultType="follow" parameterType="int">
+ 	select * from 'follow'
+	where f_follower = #{userId}
+ </select>
+ 
+ 	<insert id="insert" parameterType="follow">
+		insert into `follow`(f_followee_id,f_follower_id ) 
+		  values(#{f_followee_id}, #{f_follower_id})
+	</insert>
+ 
+  	<select id="select" resultType="member" parameterType="string">
+		select * from `member` 
+		<if test ="value!=null">
+			where m_userid = #{userId}
+		</if>
+	</select>
+ 
+ </mapper>
