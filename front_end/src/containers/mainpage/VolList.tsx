@@ -5,27 +5,21 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 interface Props {}
 
-// interface State {
-//     getDataArray: Array<object>;
-//     v_id: number;
-//     v_title: string;
-//     pageNum: number;
-//     url: string;
-// }
-
 class VolList extends Component<Props, {}> {
     state = {
         getDataArray: Array(),
         v_id: 0,
         v_title: "",
         pageNum: 1,
-        url: "http://70.12.247.126:8080/vol/titles/10/"
+        url: "http://70.12.247.126:8080/vol/titles/10/",
+        v_pStatus: 0,
+        v_Auth: 0,
     }
     componentWillMount(){
         axios.get(this.state.url + this.state.pageNum.toString())
         .then(response => {
             const data = response.data.data.map( (d: any) => {
-                return {v_id: d.v_id, v_title: d.v_title}
+                return {v_id: d.v_id, v_title: d.v_title, v_pStatus: d.v_pStatus, v_Auth: d.v_Auth}
             })
             this.setState({getDataArray: data})
             this.setState({pageNum: this.state.pageNum + 1})
@@ -39,7 +33,7 @@ class VolList extends Component<Props, {}> {
         axios.get(this.state.url + this.state.pageNum.toString())
         .then(response => {
             const data = response.data.data.map( (d: any) => {
-                return {v_id: d.v_id, v_title: d.v_title}
+                return {v_id: d.v_id, v_title: d.v_title, v_pStatus: d.v_pStatus, v_Auth: d.v_Auth}
             })
             this.setState({getDataArray: this.state.getDataArray.concat(data)})
             this.setState({pageNum: this.state.pageNum + 1})

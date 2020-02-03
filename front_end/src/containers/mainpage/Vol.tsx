@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CertLabel from '../../components/label/CertLabel'
+import CertLabel from 'components/label/CertLabel'
 import VolDetail from './VolDetail'
 import { Link, match } from 'react-router-dom'
 
@@ -7,6 +7,8 @@ interface Props {
     volunteer: {
         "v_id": number;
         "v_title": string;
+        "v_pStatus": number;
+        "v_Auth": number;
     }
 }
 
@@ -26,29 +28,30 @@ export default class Vol extends Component<Props, State> {
         isFullClass: ""
     }
 
-    // componentWillMount() {
-    //     if (this.props.data.status === 0) {
-    //         this.setState({isCert: "인증"})
-    //         this.setState({isCertClass: "tag iscert"})
-    //     }
-    //     if (this.props.volunteer.many === 1) {
-    //         this.setState({isFull: "모집완료"})
-    //         this.setState({isFullClass: "tag full"})
-    //     } else if (this.props.volunteer.many === 0) {
-    //         this.setState({isFull: "모집중"})
-    //         this.setState({isFullClass: "tag n-full"})
-    //     }
-    // }
+    componentWillMount() {
+        if (this.props.volunteer.v_Auth > 0) {
+            this.setState({isCert: "인증"})
+            this.setState({isCertClass: "tag iscert"})
+        }
+        if (this.props.volunteer.v_pStatus == 3) {
+            this.setState({isFull: "모집완료"})
+            this.setState({isFullClass: "tag full"})
+        } else if (this.props.volunteer.v_pStatus == 2) {
+            this.setState({isFull: "모집중"})
+            this.setState({isFullClass: "tag n-full"})
+        } else if (this.props.volunteer.v_pStatus == 1) {
+            this.setState({isFull: "모집중"})
+            this.setState({isFullClass: "tag n-full"})
+        }
+    }
 
     render() {
-        // const volunteer = this.props.volunteers.map( volTitle => {
-
         return (<div className="list">
             <CertLabel
-                isCert="인증"
-                isCertClass="tag iscert"
-                isFull="모집중"
-                isFullClass="tag n-full"
+                isCert={this.state.isCert}
+                isCertClass={this.state.isCertClass}
+                isFull={this.state.isFull}
+                isFullClass={this.state.isFullClass}
             />
             <div className="linktodetail">
             <Link to={{
@@ -62,11 +65,6 @@ export default class Vol extends Component<Props, State> {
             </div>
             </div>
         )
-        
-        // return (
-        //     <div>
-        //         {volunteer}
-        //     </div>
-        // )
+
     }
 }
