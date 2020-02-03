@@ -1,90 +1,93 @@
+
 .Calendar{
-  user-select: none;
-  .head{
+  background-color: #fbfaff;
+  .Head{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 12px 8px;
+    padding: 0.5rem 0;
+    .title{
+      padding: 0.5rem 0.5rem;
+      font-size: 1.1rem;
+      color: #8d95b0;
+      border-radius: 5px;
+      user-select: none;
+      cursor: pointer;
+      &:hover{
+        background-color: rgba(#5f91ff, 0.1);
+      }
+    }
     button{
       cursor: pointer;
-      outline: none;
       display: inline-flex;
-      background: transparent;
+      align-items: stretch;
+      font-size: 1.25rem;
+      color: #9898a4;
+      background-color: transparent;
       border: none;
-      font-size: 20pt;
-      padding: 4px;
-      border-radius: 4px;
-      &:hover{
-        background-color: rgba(gray,0.1);
-      }
-      &:active{
-        background-color: rgba(gray,0.2);
-      }
-    }
-    span.title{
-      cursor:pointer;
-      border-radius: 5px;
-      padding: 4px 12px;
-      &:hover{
-        background-color: rgba(gray,0.1);
-      }
-      &:active{
-        background-color: rgba(gray,0.2);
-      }
+      padding: 0 0.5rem;
     }
   }
-  .body{
+
+  .Body{
     .row{
       display: flex;
-      cursor: pointer;
       &:first-child{
-        cursor: initial;
         .box{
-          font-weight: bold;
-        }
-        .box:hover > span.text{
-          background-color: white;
+          span.text{
+            font-weight: bold;
+            &:hover{
+              cursor: initial;
+              background-color: transparent;
+            }
+          }
         }
       }
       .box{
         position: relative;
-        display: inline-flex;
+        text-align: center;
+        font-size: 0.8rem;
+        display: inline-block;
         width: calc(100%/7);
         height: 0;
         padding-bottom: calc(100%/7);
-        font-size: 12pt;
         &:first-child{
-          color: red;
-        }
-        &:last-child{
-          color: #588dff;
-        }
-        &.grayed{
-          color: gray;
-        }
-        &:hover{
           span.text{
-            background-color: rgba(#588dff, 0.1);
+            color: red;
           }
         }
-        &.selected{
+        &:last-child{
           span.text{
-            background-color: #588dff;
-            color: white;
+            color: #5f91ff;
           }
         }
         span.text{
+          cursor: pointer;
+          user-select: none;
           border-radius: 100%;
           display: inline-flex;
           justify-content: center;
           align-items: center;
-          width: 60%;
-          height: 60%;
+          width: 70%;
+          height: 70%;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%,-50%);
+          &:hover{
+            background-color: rgba(#5f91ff, 0.1);
+          }
+          &.today{
+            background-color: rgba(red,0.1);
+          }
+          &.selected{
+            background-color: #5f91ff;
+            color: white;
+          }
+          &.grayed{
+            color: #b0b0b0;
+          }
         }
+        
       }
     }
   }
