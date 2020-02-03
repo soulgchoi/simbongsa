@@ -4,7 +4,7 @@ import moment, { Moment as MomentTypes } from "moment";
 import { connect } from 'react-redux';
 import { changeDate } from 'redux/modules/calendar';
 import { bindActionCreators } from 'redux';
-import Calendar from 'components/Calendar';
+import Calendar from 'components/calendar';
 
 interface Props {
     date: MomentTypes
