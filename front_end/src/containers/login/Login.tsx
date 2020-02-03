@@ -53,12 +53,12 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-      const loggedInfo = this.props.result;
-      let data = { sessionId: loggedInfo.data };
-      UserActions.setLoggedInfo(data);
+      const loggedInfo = this.props.result.toJS()
+      console.log(loggedInfo)
+      UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       history.push("/mainpage");
-      storage.set("loggedInfo", data);
+      storage.set("loggedInfo", loggedInfo);
       console.log("로그인 3: ", this.props);
     } catch (e) {
       console.log(e);
@@ -133,7 +133,6 @@ export default connect(
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
     result: state.auth.get("result"),
-    sessionId: state.user.get("loggedInfo").toJS(),
     logged: state.user.get("logged")
   }),
   dispatch => ({

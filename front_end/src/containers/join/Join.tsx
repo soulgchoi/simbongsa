@@ -87,12 +87,13 @@ class Join extends React.Component<any, any> {
   checkEmailExists = debounce(async (email: string) => {
     const { AuthActions } = this.props;
     try {
-      console.log("체크1: ", email);
+      console.log("email 체크 함수:", email);
       await AuthActions.checkEmailExists(email);
+      console.log("이메일확인결과", this.props.exists.toJS())
       if (this.props.exists.get("email")) {
-        this.setError("이미 존재하는 이메일입니다.", email);
+        this.setError("이미 존재하는 이메일입니다.", "email");
       } else {
-        this.setError(null, email);
+        this.setError(null, "email");
       }
     } catch (e) {
       console.log(e);
@@ -105,6 +106,7 @@ class Join extends React.Component<any, any> {
       console.log("아이디 체크");
 
       await AuthActions.checkUsernameExists(userid);
+
       if (this.props.exists.get("userid")) {
         this.setError("이미 존재하는 아이디입니다.", "userid");
       } else {
@@ -152,25 +154,18 @@ class Join extends React.Component<any, any> {
       return;
     }
     try {
-      if (
-        !(await AuthActions.localRegister({
-          email,
-          userid,
-          password
-        }))
-      ) {
-
-      }
+      await AuthActions.localRegister({
+        email, userid, password
+      });
       console.log("왓다");
-      const loggedInfo = this.props.result.toJS();
-      console.log("로그인", loggedInfo);
-      // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
-      storage.set("loggedInfo", loggedInfo);
-      UserActions.setLoggedInfo(loggedInfo);
+      // const loggedInfo = this.props.result.toJS();
+      // console.log("로그인", loggedInfo);
+      // // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
+      // storage.set("loggedInfo", loggedInfo);
+      // UserActions.setLoggedInfo(loggedInfo);
       UserActions.setValidated(true);
       history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
     } catch (e) {
-      console.log("에러가뭔지", e);
       alert("통신 실패");
       // TODO: 실패시 실패 ERROR 표현
     }
@@ -186,15 +181,6 @@ class Join extends React.Component<any, any> {
         <div className="wrapC">
           <h1 className="title">가입하기</h1>
           <Input
-            value={userid}
-            onChange={handleChange}
-            id="userid"
-            placeholder="아이디를 입력하세요"
-            type="text"
-            nametag="아이디"
-          />
-          <AuthError error={error2.userid}></AuthError>
-          <Input
             value={email}
             onChange={handleChange}
             id="email"
@@ -202,8 +188,16 @@ class Join extends React.Component<any, any> {
             type="text"
             nametag="이메일"
           />
-          <AuthError error={error2.email}></AuthError>
-
+          <AuthError error={error2.email} />
+          <Input
+            value={userid}
+            onChange={handleChange}
+            id="userid"
+            placeholder="닉네임을 입력하세요"
+            type="text"
+            nametag="아이디"
+          />
+          <AuthError error={error2.userid} />
           <Input
             value={password}
             onChange={handleChange}
@@ -212,7 +206,7 @@ class Join extends React.Component<any, any> {
             type="password"
             nametag="비밀번호"
           />
-          <AuthError error={error2.password}></AuthError>
+          <AuthError error={error2.password} />
 
           <Input
             value={passwordConfirm}
@@ -222,7 +216,7 @@ class Join extends React.Component<any, any> {
             type="password"
             nametag="비밀번호 확인"
           />
-          <AuthError error={error2.passwordConfirm}></AuthError>
+          <AuthError error={error2.passwordConfirm} />
 
           {/* <label>
             <input
@@ -239,15 +233,8 @@ class Join extends React.Component<any, any> {
           </span>
           <br />
           <br />
-          <Link
-            to={{
-              pathname: "/join/complete",
-              state: { email: email }
-            }}
-            className="my--btn"
-          >
-            가입하기
-          </Link>
+
+          <button onClick={handleLocalRegister} className="my--btn">가입하기</button>
           {/* <LinkButton link="/join/complete" placeholder="가입하기" /> */}
         </div>
       </div>
