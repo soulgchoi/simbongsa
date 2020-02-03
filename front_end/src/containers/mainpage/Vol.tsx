@@ -4,8 +4,10 @@ import VolDetail from './VolDetail'
 import { Link, match } from 'react-router-dom'
 
 interface Props {
-    // volunteer: string;
-    volunteers: Array<string>;
+    volunteer: {
+        "v_id": number;
+        "v_title": string;
+    }
 }
 
 interface State {
@@ -39,29 +41,32 @@ export default class Vol extends Component<Props, State> {
     // }
 
     render() {
-        const volunteer = this.props.volunteers.map( volTitle => {
+        // const volunteer = this.props.volunteers.map( volTitle => {
 
-            return <div className="list">
-                <CertLabel
-                    isCert="인증"
-                    isCertClass="tag iscert"
-                    isFull="모집중"
-                    isFullClass="tag n-full"
-                />
-                <div className="linktodetail">
-                <Link to={`mainpage/detail/${volTitle}`}>상세보기</Link>
-                </div>
-                <div className="listtitle">
-                
-                {volTitle}
-                </div>
-                </div>
-        })
-        
-        return (
-            <div>
-                {volunteer}
+        return (<div className="list">
+            <CertLabel
+                isCert="인증"
+                isCertClass="tag iscert"
+                isFull="모집중"
+                isFullClass="tag n-full"
+            />
+            <div className="linktodetail">
+            <Link to={{
+                pathname: `vol/detail/${this.props.volunteer.v_id}`,
+                state: this.props.volunteer.v_id
+            }}>
+                상세보기</Link>
+            </div>
+            <div className="listtitle">
+                {this.props.volunteer.v_title}
+            </div>
             </div>
         )
+        
+        // return (
+        //     <div>
+        //         {volunteer}
+        //     </div>
+        // )
     }
 }
