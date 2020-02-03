@@ -38,27 +38,12 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
-	
-	@Autowired
-	VolService service2;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", status);
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hstatus);
-	}
-
-	@GetMapping("/Titles/{no1}/{no2}")
-	@ApiOperation("제목 /페이지 번호")
-	public ResponseEntity<Map<String, Object>> getVol(@PathVariable int no1, @PathVariable int no2) {
-		try {
-			List<String> a = service2.search(no1, no2);
-			return response(a, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("제목리스트조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
 	}
 	
 	@GetMapping("/Post")
