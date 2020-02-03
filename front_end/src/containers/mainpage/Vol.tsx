@@ -40,8 +40,8 @@ export default class Vol extends Component<Props, State> {
             this.setState({isFull: "모집중"})
             this.setState({isFullClass: "tag n-full"})
         } else if (this.props.volunteer.v_pStatus == 1) {
-            this.setState({isFull: "모집중"})
-            this.setState({isFullClass: "tag n-full"})
+            this.setState({isFull: "모집대기"})
+            this.setState({isFullClass: "tag w-full"})
         }
     }
 
