@@ -134,20 +134,22 @@ export default handleActions<any>(
     }),
     ...pender({
       type: CHECK_USERNAME_EXISTS,
-      onSuccess: (state, action) =>
-        state.setIn(["join", "exists", "userid"], action.payload.data.data)
+      onSuccess: (state, action) => {
+        return state.setIn(["join", "exists", "userid"], action.payload.data.data)
+      }
     }),
     ...pender({
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
         console.log(action.payload.data.token)
-        return state.set("result", Map(action.payload.data.token));
+        return state.set("result", Map(action.payload.data));
       }
     }),
     ...pender({
       type: LOCAL_REGISTER,
-      onSuccess: (state, action) =>
-        state.set("result", Record(action.payload.data))
+      onSuccess: (state, action) => {
+        return state.set("result", Map(action.payload.data))
+      }
     })
   },
   initialState

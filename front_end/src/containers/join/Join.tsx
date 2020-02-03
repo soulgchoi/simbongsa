@@ -166,8 +166,13 @@ class Join extends React.Component<any, any> {
       UserActions.setValidated(true);
       history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
     } catch (e) {
-      alert("통신 실패");
       // TODO: 실패시 실패 ERROR 표현
+      if (e.response.status === 409) {
+        const { key } = e.response.data;
+        const message = key === 'email' ? '이미 존재하는 이메일입니다.' : '이미 존재하는 아이디입니다.';
+        return this.setError(message, key);
+
+      }
     }
   };
   render() {
