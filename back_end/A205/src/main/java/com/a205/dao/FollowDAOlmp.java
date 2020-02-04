@@ -27,11 +27,25 @@ public class FollowDAOlmp implements FollowDAO {
 	SqlSession session;
 
 	@Override
-	public boolean add(String userId, String followee) {
+	public List<Member> searchFollowers(String userId){
+		String statement = ns+ "searchFollowers";
+		int userId_pk = memberDao.search(userId).getM_id();
+		return session.selectList(statement, userId_pk);
+	}
+	
+	@Override
+	public List<Member> searchFollowees(String userId){
+		String statement = ns+ "searchFollowees";
+		int userId_pk = memberDao.search(userId).getM_id();
+		return session.selectList(statement, userId_pk);
+	}
+	
+	@Override
+	public boolean add(String userEmail, String followee) {
 		String statement = ns+ "insert";
 		System.out.println("___followdao");
 
-		int userId_pk = memberDao.search(userId).getM_id();
+		int userId_pk = memberDao.searchByEmail(userEmail).getM_id();
 		int followee_pk = memberDao.search(followee).getM_id();
 		System.out.println(userId_pk);
 		System.out.println(followee_pk);
@@ -43,10 +57,10 @@ public class FollowDAOlmp implements FollowDAO {
 	}
 
 	@Override
-	public boolean remove(String userId, String followee) {
+	public boolean remove(String userEmail, String followee) {
 		String statement = ns+"delete";
 		
-		int userId_pk = memberDao.search(userId).getM_id();
+		int userId_pk = memberDao.searchByEmail(userEmail).getM_id();
 		int followee_pk = memberDao.search(followee).getM_id();
 		
 		Map<String, Integer> map = new HashMap<>();

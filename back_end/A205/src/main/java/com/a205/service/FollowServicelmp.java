@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.a205.dao.FollowDAO;
 import com.a205.dto.Follow;
+import com.a205.dto.Member;
 
 @Service
 public class FollowServicelmp implements FollowServive {
@@ -18,12 +19,22 @@ public class FollowServicelmp implements FollowServive {
 	@Autowired
 	private FollowDAO followDao;
 	
-	public boolean add(String userId, String followee) {
-		System.out.println("----followservice");
-		return followDao.add(userId, followee);
+	@Override
+	public List<Member> searchFollowers(String userId) {
+		return followDao.searchFollowers(userId);
+	}
+
+	@Override
+	public List<Member> searchFollowees(String userId) {
+		return followDao.searchFollowees(userId);
 	}
 	
-	public boolean remove(String userId, String followee) {
-		return followDao.remove(userId, followee);
+	public boolean add(String userEmail, String followee) {
+		System.out.println("----followservice");
+		return followDao.add(userEmail, followee);
+	}
+	
+	public boolean remove(String userEmail, String followee) {
+		return followDao.remove(userEmail, followee);
 	}
 }

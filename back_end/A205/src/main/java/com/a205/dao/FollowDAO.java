@@ -7,9 +7,13 @@ import com.a205.dto.Follow;
 
 public interface FollowDAO {
 
-	public boolean add(String userId, String followee);
+	public List<Member> searchFollowers(String userId);
 	
-	public boolean remove(String userId, String followee);
+	public List<Member> searchFollowees(String userId);
+
+	public boolean add(String userEmail, String followee);
+	
+	public boolean remove(String userEmail, String followee);
 
 
 }

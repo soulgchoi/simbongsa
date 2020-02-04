@@ -4,14 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <mapper namespace="com.a205.model.followmapper">
-	 <select id="searchFollowee" resultType="follow" parameterType="int">
-	 	select * from 'follow'
-		where f_followee = #{userId}
+	 <select id="searchFollowers" resultType="member" parameterType="int">
+		select * from member
+		where m_id in(select f_follower_id from follow
+			where f_followee_id = #{userId_pk})
 	 </select>
 	
-	 <select id="searchFollower" resultType="follow" parameterType="int">
-	 	select * from 'follow'
-		where f_follower = #{userId}
+	 <select id="searchFollowees" resultType="member" parameterType="int">
+		select * from member
+		where m_id in(select f_followee_id from follow
+			where f_follower_id = #{userId_pk})
 	 </select>
 	 
 	<insert id="insert"  parameterType="java.util.Map">
