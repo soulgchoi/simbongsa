@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 
-// const restBaseApi = "http://70.12.247.34:8080";
-const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
+const restBaseApi = "http://70.12.247.87:8080/"; // 신호꺼
+// const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
 export const checkEmailExists = (email: string) => {
   try {
     console.log("API email check : ", email);
     return axios.get(restBaseApi + "rest/CheckEmail/" + email);
   } catch (error) {
+    console.log(error)
     return false;
   }
 };

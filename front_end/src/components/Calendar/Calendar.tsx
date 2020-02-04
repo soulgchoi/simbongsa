@@ -26,6 +26,9 @@ function Head(props: Props) {
         </div>
     )
 }
+function footer() {
+
+}
 function Body(props: Props) {
 
     function generate() {
@@ -44,6 +47,7 @@ function Body(props: Props) {
                             return (
                                 <div className={`box`} key={i} onClick={() => props.changeDate(current)}>
                                     <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
+                                    <div className={'count'}>hi</div>
                                 </div>
                             )
                         })
