@@ -97,7 +97,7 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
                     </tr>
                     <tr>
                         <td>활동요일</td>
-                        <td>{this.state.v_actWkdy}</td>
+                        <td>{this.state.v_actWkdy.replace(/,/g, ', ')}</td>
                     </tr>
                     <tr>
                         <td>봉사분야</td>
