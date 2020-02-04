@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.react.util.MyBatisUtil2;
 import com.react.vo.Category;
 
-//@Repository
+@Repository
 public class CateDao {
 	
 	public boolean addCate(Category cate) throws Exception {//모든 직원 정보

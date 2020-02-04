@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Vol;
+import com.a205.dto.Vol_Mini;
 
 @Repository
 public class VolDaoImpl implements VolDao {
@@ -18,13 +19,20 @@ public class VolDaoImpl implements VolDao {
 	@Autowired
 	SqlSession session;
 
-	public List<String> searchVolPage(int listSize, int startList) {
-		String statement = ns + "select";
+	public List<Vol_Mini> searchVolPage(int listSize, int startList) {
+		String statement = ns + "selectList";
 		
 		Map<String, Integer> map = new HashMap<>();
 		map.put("listSize", listSize);
 		map.put("startList", (startList-1)*listSize);
+		
 		return session.selectList(statement, map);
+	}
+	
+	public Vol searchVol(int v_id) {
+		String statement = ns + "selectOne";
+		
+		return session.selectOne(statement, v_id);
 	}
 
 }

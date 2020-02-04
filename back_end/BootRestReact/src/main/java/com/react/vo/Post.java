@@ -1,4 +1,4 @@
-package com.a205.dto;
+package com.react.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class Post {
 
-    int c_id;
-    String c_content;
-    int m_id ;
-    int p_id;
-
+	String m_id;
+	String v_id;
+	String p_img;
+	String p_content;
+	String p_status;
+	
 }

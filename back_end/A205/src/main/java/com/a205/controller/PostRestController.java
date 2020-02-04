@@ -38,9 +38,6 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
-	
-	@Autowired
-	VolService service2;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -48,68 +45,53 @@ public class PostRestController {
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hstatus);
 	}
-
-	@GetMapping("/Titles/{no1}/{no2}")
-	@ApiOperation("제목 /페이지 번호")
-	public ResponseEntity<Map<String, Object>> getVol(@PathVariable int no1, @PathVariable int no2) {
-		try {
-			List<String> a = service2.search(no1, no2);
-			return response(a, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("제목리스트조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
 	
-	@GetMapping("/Post")
-	@ApiOperation("전체 공지사항 정보를 반환한다.")
-	public ResponseEntity<Map<String, Object>> getAllMember() {
-		try {
-			List<Post> list = service.searchAll();
-			return response(list, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("목록조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
+//	@GetMapping("/Post")
+//	@ApiOperation("전체 공지사항 정보를 반환한다.")
+//	public ResponseEntity<Map<String, Object>> getAllMember() {
+//		try {
+//			List<Post> list = service.searchAll();
+//			return response(list, true, HttpStatus.OK);
+//		} catch (Exception e) {
+//			logger.error("목록조회실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//		}
+//	}
 
 	@GetMapping("/Post/{no}")
-	@ApiOperation("No에 해당하는 하나의 공지사항 정보를 반환한다.")
+	@ApiOperation("No에 해당하는 하나의 포스트 정보를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getMember(@PathVariable int no) {
 		try {
-			Post Post = service.search(no);
+			Post Post = service.selectOne(no);
 			return response(Post, true, HttpStatus.OK);
 		} catch (Exception e) {
-			logger.error("회원조회실패", e);
+			logger.error("포스트조회실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/Post/Page")
-	@ApiOperation("공지사항 페이지를 반환한다.")
-	public ResponseEntity<Map<String, Object>> getFoodPage(@RequestParam  Map<String,String> params) {
-		try {
-			
-			Integer page= Integer.parseInt(params.get("page"));
-			Integer range= Integer.parseInt(params.get("range"));
-
-			Integer foodlistCnt = service.getTotalPostListCnt();
-
-			Pagination p = new Pagination();
-		
-			p.pageInfo(page, range, foodlistCnt);
-		
-			List<Post> foodres = service.getPostpage(p);
-			HashMap<String,Object> res=new HashMap<>();
-			res.put("items", foodres);
-			res.put("pagination", p);
-
-			return response(res, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("공지사항조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
+	/*
+	 * @RequestMapping(method = RequestMethod.GET, value = "/Post/Page")
+	 * 
+	 * @ApiOperation("공지사항 페이지를 반환한다.") public ResponseEntity<Map<String, Object>>
+	 * getFoodPage(@RequestParam Map<String,String> params) { try {
+	 * 
+	 * Integer page= Integer.parseInt(params.get("page")); Integer range=
+	 * Integer.parseInt(params.get("range"));
+	 * 
+	 * Integer foodlistCnt = service.getTotalPostListCnt();
+	 * 
+	 * Pagination p = new Pagination();
+	 * 
+	 * p.pageInfo(page, range, foodlistCnt);
+	 * 
+	 * List<Post> foodres = service.getPostpage(p); HashMap<String,Object> res=new
+	 * HashMap<>(); res.put("items", foodres); res.put("pagination", p);
+	 * 
+	 * return response(res, true, HttpStatus.OK); } catch (Exception e) {
+	 * logger.error("공지사항조회실패", e); return response(e.getMessage(), false,
+	 * HttpStatus.CONFLICT); } }
+	 */
 
 
 	@PostMapping("/Post")
@@ -151,22 +133,22 @@ public class PostRestController {
 		}
 	}
 
-	@GetMapping("Post/search")
-	public ResponseEntity<Map<String, Object>> getPostListView(@RequestParam String condition,
-			@RequestParam String key) {
-		try {
-			System.out.printf("c %s  k %s \n", condition, key);
-			List<Post> Postlist = service.searchByCondition(condition, key);
-			System.out.println(Postlist);
-			return response(Postlist, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("공지 검색  실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-			// TODO: handle exception
-		}
-
-		// System.out.println(service.searchAll());
-
-	}
+//	@GetMapping("Post/search")
+//	public ResponseEntity<Map<String, Object>> getPostListView(@RequestParam String condition,
+//			@RequestParam String key) {
+//		try {
+//			System.out.printf("c %s  k %s \n", condition, key);
+//			List<Post> Postlist = service.searchByCondition(condition, key);
+//			System.out.println(Postlist);
+//			return response(Postlist, true, HttpStatus.OK);
+//		} catch (Exception e) {
+//			logger.error("공지 검색  실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//			// TODO: handle exception
+//		}
+//
+//		// System.out.println(service.searchAll());
+//
+//	}
 
 }
