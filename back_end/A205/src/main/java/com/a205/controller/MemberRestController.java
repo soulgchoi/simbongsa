@@ -1,7 +1,6 @@
 package com.a205.controller;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import com.a205.dto.Member;
 import com.a205.service.MemberService;
 
 import io.swagger.annotations.ApiOperation;
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/rest")
@@ -65,7 +63,7 @@ public class MemberRestController {
 			
 			Member member = service.search(userId);
 // 현재 유저검색은 로그인 된 사람만 가능
-			if (member.getM_userid() !=  null ) {
+			if (member.getM_userid().equals(session.getAttribute("userid")) ) {
 				System.out.println(member.getM_userid() + ", " + session.getAttribute("userid"));
 
 				return response(member, true, HttpStatus.OK);

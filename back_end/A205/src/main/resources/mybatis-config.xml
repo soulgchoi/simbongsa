@@ -10,7 +10,6 @@
 		<typeAlias type="com.a205.dto.Member" alias="member" />
 		<typeAlias type="com.a205.dto.Vol" alias="vol" />
 		<typeAlias type="com.a205.dto.Vol_Mini" alias="volmini" />
-		<typeAlias type="com.a205.dto.Follow" alias="follow" />
 	</typeAliases>
 
 	<mappers>
@@ -18,7 +17,6 @@
 		<mapper resource="mapper/postmapper.xml" />
 		<!-- <mapper resource="mapper/commentmapper.xml" /> -->
 		<mapper resource="mapper/volmapper.xml"/>
-		<mapper resource="mapper/followmapper.xml"/>
 	</mappers>
 
 </configuration>

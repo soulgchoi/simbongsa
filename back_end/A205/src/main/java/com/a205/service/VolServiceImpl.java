@@ -22,7 +22,5 @@ public class VolServiceImpl implements VolService {
 	public Vol searchVolDetail(int v_id) {
 		return dao.searchVol(v_id);
 	}
-	public List<Vol> searchAll(){
-		return dao.searchAll();
-	}
+
 }

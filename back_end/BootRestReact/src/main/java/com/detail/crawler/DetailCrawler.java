@@ -11,15 +11,10 @@ import org.jsoup.select.Elements;
 
 // Jsoup 임포트 
 public class DetailCrawler {
-	// Jsoup은 예외 처리를 해주어야 합니다.
-	// 여기서는 getCurrencyRate를 호출한 Caller에서 예외처리를 하도록 throws로 선언합니다.
-	public static Map<String, String> getCurrencyRate(String url) throws IOException {
-		//String URL = url;
-		String URL = url;
+	public static Map<String, String> getCurrencyRate(String url) throws IOException { //스태틱 아니어야 함
 		Map<String, String> map = new HashMap<>();
 		
-		Document doc = Jsoup.connect(URL).get();
-		// Jsoup을 이용하여, 해당 URL을 get 메소드로 로드하여 Document 변수에 담습니다.
+		Document doc = Jsoup.connect(url).get();
 		Element elem = doc.selectFirst("div[class=\"board_data type2\"]");
 		
 		Elements elems = elem.getElementsByTag("dl");
@@ -32,7 +27,12 @@ public class DetailCrawler {
 		String appnow = elems.get(5).child(1).text().replace(" 명", "");
 		String target = elems.get(11).child(1).text();
 		
-		String detail = doc.selectFirst("div[class=\"bb_txt\"]").child(0).text(); //상세정보
+		Element image = elems.get(12).child(1).child(0); //첨부파일
+		
+		String imageurl = "https://www.1365.go.kr" + image.attr("href");
+		
+		String detail = doc.selectFirst("div[class=\"bb_txt\"]").tagName("pre").text();
+				//.child.text(); //상세정보
 //		System.out.println(elems.toString());
 //		System.out.println("*******");
 		
@@ -44,18 +44,18 @@ public class DetailCrawler {
 		map.put("target", target);
 		map.put("detail", detail);
 		
-//		System.out.println(detail.length());
+		System.out.println(imageurl);
 //		System.out.println(map.toString());
 		
 		return map;
 	}
 
-//	public static void main(String[] args) {
-//		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2615027";
-//		try {
-//			getCurrencyRate(url);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public static void main(String[] args) {
+		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2609218";
+		try {
+			getCurrencyRate(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
