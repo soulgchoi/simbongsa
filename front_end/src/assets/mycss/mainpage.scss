@@ -16,6 +16,9 @@ div {
     &.n-full {
       background-color: #00ADE0;
     }
+    &.w-full {
+      background-color: lightgray;
+    }
     &#true {
       visibility: visible;
     }
