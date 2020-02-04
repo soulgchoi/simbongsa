@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = "*")
 public class VolRestController {
 	private static final Logger logger = LoggerFactory.getLogger(VolRestController.class);
-
+	
 	@Autowired
 	VolService service;
 
