@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Post {
 
-	Integer no;
-	String id;
-	String title;
-	String content;
-	Integer viewcnt;
-
+	String p_id;
+	String p_date;
+	String m_id;
+	String p_img;
+	String v_id;
+	String p_status;
+	String p_content;
+	
 }

@@ -1,13 +1,10 @@
 package com.a205.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.a205.dto.Post;
-import com.a205.dto.Pagination;
 import com.a205.dao.PostDao;
+import com.a205.dto.Post;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -16,14 +13,14 @@ public class PostServiceImpl implements PostService {
 	private PostDao dao;
 
 	@Override
-	public Post search(int no) {
-		return dao.search(no);
+	public Post selectOne(int no) {
+		return dao.selectOne(no);
 	}
 
-	@Override
-	public List<Post> searchAll() {
-		return dao.searchAll();
-	}
+//	@Override
+//	public List<Post> searchAll() {
+//		return dao.searchAll();
+//	}
 
 	@Override
 	public boolean update(Post Post) {
@@ -40,6 +37,7 @@ public class PostServiceImpl implements PostService {
 		return dao.add(Post);
 	}
 
+	/*
 	@Override
 	public Integer addViewCnt(Integer no) {
 		
@@ -70,4 +68,5 @@ public class PostServiceImpl implements PostService {
 	
 		return dao.searchbypage(p);
 	}
+	*/
 }

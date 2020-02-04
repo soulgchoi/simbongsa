@@ -11,6 +11,7 @@ public class Vol_Mini {
 
 	String v_id;
 	String v_title;
+	String v_pStatus;
 	String v_pBgnD;
 	String v_pEndD;
 	String v_mBgnD;
