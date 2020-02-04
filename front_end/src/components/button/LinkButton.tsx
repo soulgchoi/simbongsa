@@ -7,10 +7,10 @@ interface Props {
   disabled?: boolean;
 }
 
-export default function LinkButton({ link, placeholder }: Props): ReactElement {
+export default function LinkButton({ link, placeholder, disabled }: Props): ReactElement {
   return (
     <Link to={link} className="my--btn">
-      {placeholder}
+      <button>{placeholder}</button>
     </Link>
   );
 }

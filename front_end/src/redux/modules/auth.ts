@@ -5,6 +5,7 @@ import { Record, Map } from "immutable";
 // input, form 관련
 const CHANGE_INPUT = "auth/CHANGE_INPUT"; // input 값 변경
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM"; // form 초기화
+const CHECK_FORM = "auth/CHECK_FORM"; // 폼이 제대로 되었는지 체크한다.
 // 중복 환인 관련
 const CHECK_EMAIL_EXISTS = "auth/CHECK_EMAIL_EXISTS"; // 이메일 중복 확인
 const CHECK_USERNAME_EXISTS = "auth/CHECK_USERNAME_EXISTS"; // 아이디 중복 확인
@@ -80,7 +81,7 @@ const initialState = Map({
       email: "",
       userid: "",
       password: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
     }),
     exists: Map({
       email: false,
@@ -96,7 +97,7 @@ const initialState = Map({
   login: Map({
     form: Map({
       email: "",
-      password: ""
+      password: "",
     }),
     error: Map({
       email: null,
@@ -127,24 +128,28 @@ export default handleActions<any>(
     },
     ...pender({
       type: CHECK_EMAIL_EXISTS,
-      onSuccess: (state, action) =>
-        state.setIn(["join", "exists", "email"], action.payload.data.exists)
+      onSuccess: (state, action) => {
+        return state.setIn(["join", "exists", "email"], action.payload.data.data)
+      }
     }),
     ...pender({
       type: CHECK_USERNAME_EXISTS,
-      onSuccess: (state, action) =>
-        state.setIn(["join", "exists", "userid"], action.payload.data.exists)
+      onSuccess: (state, action) => {
+        return state.setIn(["join", "exists", "userid"], action.payload.data.data)
+      }
     }),
     ...pender({
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
-        return state.set("result", action.payload.data);
+        console.log(action.payload.data.token)
+        return state.set("result", Map(action.payload.data));
       }
     }),
     ...pender({
       type: LOCAL_REGISTER,
-      onSuccess: (state, action) =>
-        state.set("result", Record(action.payload.data))
+      onSuccess: (state, action) => {
+        return state.set("result", Map(action.payload.data))
+      }
     })
   },
   initialState
