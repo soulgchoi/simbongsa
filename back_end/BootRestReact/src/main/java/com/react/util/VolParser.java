@@ -8,22 +8,28 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 
+import com.react.dao.PostDao;
 import com.react.dao.VolDao;
+import com.react.vo.Post;
 import com.react.vo.Vol;
 
 //정보를 load하는 SAX Parser
 public class VolParser {
 	VolDao dao;
-
+	//PostDao dao2;
+	
 	private String xml;
 	// private StringBuilder xml;
 	private List<Vol> list;
 
 	public VolParser(int i) throws Exception {
+	//public VolParser(int i, int cnt) throws Exception {
 		xml = new CallRestWS_vol().restClient(i);
+		//loadData(cnt);
 		loadData();
 	}
 
+	//private void loadData(int cnt) {
 	private void loadData() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(true);//
@@ -49,6 +55,7 @@ public class VolParser {
 //				}
 				dao = new VolDao();
 				dao.addVol(vol);
+				//dao2.addPost(new Post("0", ""+cnt++, null, null, "0"));
 				System.out.println(vol);
 			}
 			// System.out.println(list);
@@ -66,9 +73,11 @@ public class VolParser {
 	}
 
 	public static void main(String[] args) throws Exception {
-		for (int i = 80; i < 413; i++) {
+		//int cnt = 1;
+		for (int i = 1; i < 413; i++) {
 		//for (int i = 1; i < 5; i++) {
 			new VolParser(i);
+			//cnt += 10;
 		}
 	}
 

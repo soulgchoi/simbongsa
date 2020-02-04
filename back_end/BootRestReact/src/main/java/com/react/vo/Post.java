@@ -1,4 +1,4 @@
-package com.a205.dto;
+package com.react.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -88,7 +88,7 @@
 	
 	<!-- 카테고리 코드는 빼두기 -->
  	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo})
+		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth, v_bgnTm, v_endTm, v_actWkdy, v_wanted, v_appnow, v_target, v_detail) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo}, #{actBeginTm}, #{actEndTm}, #{actWkdy}, #{wanted}, #{appnow}, #{target}, #{progrmCn})
 	</insert>
 	
 	<insert id="addReg" parameterType="Region">
