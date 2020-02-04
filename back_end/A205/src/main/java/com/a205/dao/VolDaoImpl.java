@@ -1,4 +1,4 @@
-		package com.a205.dao;
+package com.a205.dao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +33,12 @@ public class VolDaoImpl implements VolDao {
 		String statement = ns + "selectOne";
 		
 		return session.selectOne(statement, v_id);
+	}
+
+	@Override
+	public List<Vol> searchAll() {
+		String statement = ns +"select";
+		return session.selectList(statement);
 	}
 
 }

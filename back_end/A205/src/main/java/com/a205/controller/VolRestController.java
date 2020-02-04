@@ -61,4 +61,16 @@ public class VolRestController {
 		}
 	}
 	
+	@GetMapping("/All")
+	@ApiOperation("봉사활동의 모든 정보를 반환한다.")
+	public ResponseEntity<Map<String, Object>> getVolAll() {
+		try {
+			List<Vol> list = service.searchAll();
+			return response(list, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("봉사리스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
 }
