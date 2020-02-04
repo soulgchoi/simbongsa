@@ -1,17 +1,28 @@
 @charset "utf-8";
 
 .main--text {
-    text-align: center;
-    margin-top: 70px;
-    font-size: 15pt;
+  position: relative;
+  font-size: 20px;
 
-    #text {
-        position: relative;
+  #text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60px;
 
-        #image {
-            position: relative;
-            top: -85px;
-            left: -79px;
-        }
+    #bold {
+      position: relative;
+
+      #image {
+        position: absolute;
+        left: 60%;
+        transform: translateX(-50%);
+        top: -270%;
+      }
     }
+  }
+}
+
+.vol--info {
+  // display: none;
 }

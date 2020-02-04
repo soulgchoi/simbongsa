@@ -129,13 +129,16 @@ class Login extends React.Component<any, any> {
   }
 }
 export default connect(
-  (state: any) => ({
-    form: state.auth.getIn(["login", "form"]),
-    error: state.auth.getIn(["login", "error"]),
-    result: state.auth.get("result"),
-    sessionId: state.user.get("loggedInfo").toJS(),
-    logged: state.user.get("logged")
-  }),
+  (state: any) => {
+    console.log("로그인 connect", state);
+    return {
+      form: state.auth.getIn(["login", "form"]), // store에 있는 state를 this.pros로 연결
+      error: state.auth.getIn(["login", "error"]),
+      result: state.auth.get("result"),
+      sessionId: state.user.get("loggedInfo").toJS(),
+      logged: state.user.get("logged")
+    };
+  },
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),
     UserActions: bindActionCreators(userActions, dispatch)

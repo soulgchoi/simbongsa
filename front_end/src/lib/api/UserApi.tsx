@@ -1,6 +1,6 @@
 import axios from "axios";
-// const restBaseApi = "http://70.12.247.34:8080";
-const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+// const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+const restBaseApi = "http://70.12.247.34:8080"; // 박정환
 export const checkEmailExists = (email: string) => {
   try {
     console.log("체크 : ", email);
@@ -10,18 +10,6 @@ export const checkEmailExists = (email: string) => {
   }
 };
 export const checkUsernameExists = (userid: string) => {
-  // axios
-  //   .get(restBaseApi + "CheckId/" + userid)
-  //   .then(response => {
-  //     console.log("ax response:", response);
-
-  //     return true;
-  //   })
-  //   .catch(error => {
-  //     console.log("ax error:", error);
-  //     return false;
-  //   });
-  // };
   try {
     return axios.get(restBaseApi + "CheckId/" + userid);
   } catch (error) {
