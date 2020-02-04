@@ -26,18 +26,15 @@ class PostingForm extends React.Component<IProps, {}> {
     }
 
     handleFileChange = (e: any) => {
-        this.setState({
-            selectedFile: e.target.files[0]
-        })
-
-        let reader = new FileReader();
-        reader.onloadend = () => {
-            this.setState({
-                imagePreview: reader.result as string
-            })
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        if (file && file.type.match('image.*')) {
+            reader.readAsDataURL(file);
+            this.setState({selectedFile: file})
         }
-
-        reader.readAsDataURL(e.target.files[0])
+        reader.onloadend = () => {
+            this.setState({imagePreview: reader.result as string })
+        }
     }
 
     handleSubmit = (e: any) => {
@@ -84,7 +81,7 @@ class PostingForm extends React.Component<IProps, {}> {
                     onChange={this.handleFileChange}
                 />
                 <label htmlFor="file" className="btn-1">이미지 업로드</label>
-                {$imagePreview}
+                    {$imagePreview}
                 <button className="my--btn" type="submit" onClick={this.handleSubmit}>게시글 등록하기</button>
                 
              </form>
