@@ -14,4 +14,11 @@
 		where v_id = #{v_id}
 	</select>
 	
+	<select id="select" resultType="vol" parameterType="string">
+		select * from `vol` 
+		<if test ="value!=null">
+			where v_id = #{v_id}
+		</if>
+	</select>
+	
 </mapper>

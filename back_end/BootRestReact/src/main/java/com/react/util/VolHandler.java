@@ -14,7 +14,7 @@ import com.react.vo.Vol;
 
 //url에서 volunteer정보를 읽어 파싱하는 핸들러 클래스
 public class VolHandler extends DefaultHandler {
-	RegDao regdao;
+	RegDao regdao;	
 	CateDao catedao;
 	private List<Vol> list;
 	private Vol vol;
