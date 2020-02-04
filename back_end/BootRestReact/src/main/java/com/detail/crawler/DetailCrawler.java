@@ -44,17 +44,18 @@ public class DetailCrawler {
 		map.put("target", target);
 		map.put("detail", detail);
 		
-		System.out.println(map.toString());
+//		System.out.println(detail.length());
+//		System.out.println(map.toString());
 		
 		return map;
 	}
 
-	public static void main(String[] args) {
-		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2611502";
-		try {
-			getCurrencyRate(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2615027";
+//		try {
+//			getCurrencyRate(url);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
