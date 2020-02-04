@@ -20,8 +20,8 @@ public class VolHandler extends DefaultHandler {
 	private Vol vol;
 	//private String temp;
 	private StringBuilder temp = new StringBuilder();
-	private String gugunCd, sidoCd, srvcClCode, url;
-	private String[] cateCd = new String[2];;
+	private String gugunCd, sidoCd, srvcClCode, url, volcode;
+	private String[] cateCd = new String[2];
 	private int temp2;
 	DetailCrawler crawler;
 	Map<String, String> map;
@@ -67,7 +67,8 @@ public class VolHandler extends DefaultHandler {
 		} else if (qName.equals("progrmEndde")) {
 			vol.setProgrmEndde(temp.toString());
 		} else if (qName.equals("progrmRegistNo")) {
-			vol.setProgrmRegistNo(temp.toString());
+			volcode = temp.toString();
+			vol.setProgrmRegistNo(volcode);
 		} else if (qName.equals("progrmSj")) {
 			vol.setProgrmSj(temp.toString());
 		} else if (qName.equals("progrmSttusSe")) {
@@ -79,8 +80,8 @@ public class VolHandler extends DefaultHandler {
 			srvcClCode = temp.toString();
 			System.out.println(srvcClCode);
 		} else if (qName.equals("url")) {
-			url = temp.toString();
-			vol.setUrl(url);
+			//url = temp.toString();
+			//vol.setUrl(url);
 		} else if (qName.equals("yngbgsPosblAt")) {
 			vol.setYngbgsPosblAt(temp.toString());
 		} else if(qName.equals("item")) { 
@@ -89,6 +90,9 @@ public class VolHandler extends DefaultHandler {
 //			System.out.println("-----------------");
 //			System.out.println(cateCd[1]+"111");
 			try {
+				url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=" + volcode;
+				vol.setUrl(url);
+				
 				temp2 = regdao.getRegCd(sidoCd, gugunCd);
 				vol.setRegionCd(temp2);
 				

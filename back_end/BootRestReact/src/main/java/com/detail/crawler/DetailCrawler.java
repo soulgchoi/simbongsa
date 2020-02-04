@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 public class DetailCrawler {
 	// Jsoup은 예외 처리를 해주어야 합니다.
 	// 여기서는 getCurrencyRate를 호출한 Caller에서 예외처리를 하도록 throws로 선언합니다.
-	public Map<String, String> getCurrencyRate(String url) throws IOException {
+	public static Map<String, String> getCurrencyRate(String url) throws IOException {
 		//String URL = url;
 		String URL = url;
 		Map<String, String> map = new HashMap<>();
@@ -44,18 +44,17 @@ public class DetailCrawler {
 		map.put("target", target);
 		map.put("detail", detail);
 		
-//		System.out.println(bgnTm);
-//		System.out.println(endTm);
+		System.out.println(map.toString());
 		
 		return map;
 	}
 
-//	public static void main(String[] args) {
-//		String url = "https://www.1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2608554";
-//		try {
-//			getCurrencyRate(url);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public static void main(String[] args) {
+		String url = "https://1365.go.kr/vols/P9210/partcptn/timeCptn.do?type=show&progrmRegistNo=2611502";
+		try {
+			getCurrencyRate(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
