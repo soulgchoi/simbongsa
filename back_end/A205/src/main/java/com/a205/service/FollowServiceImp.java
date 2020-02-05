@@ -13,8 +13,8 @@ import com.a205.dto.Follow;
 import com.a205.dto.Member;
 
 @Service
-public class FollowServicelmp implements FollowServive {
-	private static Logger Logger = LoggerFactory.getLogger(MemberServiceImp.class);
+public class FollowServiceImp implements FollowServive {
+	private static Logger Logger = LoggerFactory.getLogger(FollowServiceImp.class);
 	
 	@Autowired
 	private FollowDAO followDao;
