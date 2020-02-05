@@ -26,9 +26,12 @@ function Head(props: Props) {
         </div>
     )
 }
-function footer() {
-
+function ShowList() {
+    return (
+        <div>hi</div>
+    )
 }
+
 function Body(props: Props) {
 
     function generate() {
@@ -44,10 +47,11 @@ function Body(props: Props) {
                             let isSelected = props.date.format('YYYYMMDD') === current.format('YYYYMMDD') ? 'selected' : '';
                             let isToday = moment().format('YYYYMMDD') === current.format('YYYYMMDD') ? 'today' : '';
                             let isGrayed = current.format('MM') === props.date.format('MM') ? '' : 'grayed';
+                            let isCounted = current.format('D')
                             return (
                                 <div className={`box`} key={i} onClick={() => props.changeDate(current)}>
                                     <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
-                                    <div className={'count'}>hi</div>
+                                    <button className={`count`}>[{isCounted}]</button>
                                 </div>
                             )
                         })
