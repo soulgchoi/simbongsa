@@ -53,17 +53,18 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-      const loggedInfo = this.props.result;
-      let data = { sessionId: loggedInfo.data };
-      UserActions.setLoggedInfo(data);
+      console.log("최초확인용", this.props);
+      const loggedInfo = this.props.result.toJS();
+      console.log("loggedInfo:", loggedInfo);
+
+      UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       history.push("/mainpage");
-      storage.set("loggedInfo", data);
-      console.log("로그인 3: ", this.props);
+      storage.set("loggedInfo", loggedInfo);
+      console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       console.log(e);
-      console.log("a");
-      this.setError("잘못된 계정정보입니다.", email);
+      this.setError("잘못된 계정정보입니다.", "email");
     }
   };
 
@@ -84,7 +85,6 @@ class Login extends React.Component<any, any> {
             value={email}
             onChange={handleChange}
           />
-          <AuthError error={error2.email}></AuthError>
           <Input
             id="password"
             nametag="password"
@@ -93,8 +93,7 @@ class Login extends React.Component<any, any> {
             value={password}
             onChange={handleChange}
           />
-
-          <AuthError error={error2.password}></AuthError>
+          <AuthError error={error2.email}></AuthError>
           <ActionButton
             placeholder="로그인"
             action={handleLocalLogin}
@@ -129,16 +128,13 @@ class Login extends React.Component<any, any> {
   }
 }
 export default connect(
-  (state: any) => {
-    console.log("로그인 connect", state);
-    return {
-      form: state.auth.getIn(["login", "form"]), // store에 있는 state를 this.pros로 연결
-      error: state.auth.getIn(["login", "error"]),
-      result: state.auth.get("result"),
-      sessionId: state.user.get("loggedInfo").toJS(),
-      logged: state.user.get("logged")
-    };
-  },
+  (state: any) => ({
+    form: state.auth.getIn(["login", "form"]),
+    error: state.auth.getIn(["login", "error"]),
+    result: state.auth.get("result"),
+    logged: state.user.get("logged"),
+    loggedInfo: state.user.get("loggedInfo")
+  }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),
     UserActions: bindActionCreators(userActions, dispatch)
