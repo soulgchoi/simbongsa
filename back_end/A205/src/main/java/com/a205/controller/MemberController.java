@@ -25,7 +25,7 @@ import com.a205.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
