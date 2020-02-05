@@ -7,13 +7,14 @@ import './Calendar.scss';
 interface Props {
     date: MomentTypes
     changeDate: Function
+    toggle: boolean
 }
 function Calendar(props: Props) {
     console.log("여기", props);
     return (
         <div className="Calendar">
-            <Head date={props.date} changeDate={props.changeDate} />
-            <Body date={props.date} changeDate={props.changeDate} />
+            <Head date={props.date} changeDate={props.changeDate} toggle={props.toggle} />
+            <Body date={props.date} changeDate={props.changeDate} toggle={props.toggle} />
         </div>
     )
 }
@@ -26,14 +27,8 @@ function Head(props: Props) {
         </div>
     )
 }
-function ShowList() {
-    return (
-        <div>hi</div>
-    )
-}
 
 function Body(props: Props) {
-
     function generate() {
         const startWeek = props.date.clone().startOf('month').week();
         const endWeek = props.date.clone().endOf('month').week() === 1 ? 53 : props.date.clone().endOf('month').week();
@@ -49,14 +44,14 @@ function Body(props: Props) {
                             let isGrayed = current.format('MM') === props.date.format('MM') ? '' : 'grayed';
                             let isCounted = current.format('D')
                             return (
-                                <div className={`box`} key={i} onClick={() => props.changeDate(current)}>
+                                <div className={`box`} key={i} onClick={() => props.changeDate({ date: current, toggle: !props.toggle })}>
                                     <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
-                                    <button className={`count`}>[{isCounted}]</button>
+                                    <div className={`count`} key={i} onClick={() => props.changeDate({ date: current, toggle: !props.toggle })}>[{isCounted}]</div>
                                 </div>
                             )
                         })
                     }
-                </div>
+                </div >
             )
         }
         return calendar;
