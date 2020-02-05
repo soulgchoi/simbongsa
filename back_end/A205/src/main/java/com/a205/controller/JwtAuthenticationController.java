@@ -41,14 +41,18 @@ public class JwtAuthenticationController {
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
+		final int id = userDetailsService.loadUserIdByUsername(authenticationRequest.getUsername());
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
+		final String token = jwtTokenUtil.generateToken(userDetails, id);
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody Member member) throws Exception {
+		
+		System.out.println(member.getM_userid()+" "+member.getM_email()+" "+member.getM_password());
+		
 		return ResponseEntity.ok(userDetailsService.save(member));
 	}
 
