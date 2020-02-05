@@ -33,7 +33,7 @@ class Location extends Component<Props, State> {
     window.navigator.geolocation.getCurrentPosition(position => {
       this.setLocation(position.coords.latitude, position.coords.longitude);
     });
-    console.log("getVols 실행");
+    console.log("Location.tsx의 constructor의 getVols 실행");
     this.getVols();
   }
 
@@ -51,9 +51,15 @@ class Location extends Component<Props, State> {
   getVols = async () => {
     const { VolActions } = this.props;
     try {
-      console.log("getVols1", this.props.volunteers.toJS());
+      console.log(
+        "Location.tsx의 getVols() 의 getVols1",
+        this.props.volunteers.toJS()
+      );
       await VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
-      console.log("getVols2", this.props.volunteers.toJS());
+      console.log(
+        "Location.tsx의 getVols() 의 getVols2",
+        this.props.volunteers.toJS()
+      );
     } catch (e) {
       console.log(e);
     }
@@ -61,13 +67,11 @@ class Location extends Component<Props, State> {
 
   render() {
     const volunteers = this.props.volunteers.toJS();
-    console.log("Location.tsx 자원봉사 : ", volunteers);
+    console.log("Location.tsx 의 render() 의 자원봉사 : ", volunteers);
     return (
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">봉사 위치</h1>
-          {/* "x": "126.743129182117",
-            "y": "37.5143122532892" */}
           <Map init_location={this.state.location}></Map>
           <div className="main--text">
             <div id="text">

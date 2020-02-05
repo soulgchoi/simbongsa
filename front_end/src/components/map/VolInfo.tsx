@@ -18,7 +18,7 @@ class VolInfo extends Component<Props, State> {
 
   render() {
     const { selectedVolunteer } = this.props;
-    console.log("VolInfo.tsx", selectedVolunteer.toJS());
+    console.log("VolInfo.tsx의 selectedVolunteer", selectedVolunteer.toJS());
     return <div className="vol--info">상세정보에요 {selectedVolunteer}</div>;
   }
 }
