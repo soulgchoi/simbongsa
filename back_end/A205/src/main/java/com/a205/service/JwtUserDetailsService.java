@@ -32,12 +32,16 @@ public class JwtUserDetailsService implements UserDetailsService {
 				new ArrayList<>());
 	}
 	
+	public int loadUserIdByUsername(String username) {
+		Member member = memberDao.searchByEmail(username);
+		return member.getM_id();
+	}
+	
 	public Member save(Member member) {
 		Member newMember = new Member();
 		newMember.setM_userid(member.getM_userid());
 		newMember.setM_email(member.getM_email());
 		newMember.setM_password(bcryptEncoder.encode(member.getM_password()));
-		System.out.println(newMember.getM_password());
 		memberDao.add(newMember);
 		return memberDao.searchByEmail(newMember.getM_email());
 	}
