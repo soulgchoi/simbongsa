@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,13 +15,18 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.a205.config.FileUploadProperties;
+import com.a205.dao.FileDao;
+import com.a205.dto.UploadFile;
 import com.a205.exception.FileDownloadException;
 import com.a205.exception.FileUploadException;
 
 @Service
 public class FileUploadDownloadService {
 	private final Path fileLocation;
-
+	
+	@Autowired
+	FileDao dao;
+	
 	@Autowired
 	public FileUploadDownloadService(FileUploadProperties prop) {
 		this.fileLocation = Paths.get(prop.getUploadDir()).toAbsolutePath().normalize();
@@ -32,7 +38,7 @@ public class FileUploadDownloadService {
 		}
 	}
 	
-	public String storeFile(MultipartFile file) {
+	public UploadFile storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         
         try {
@@ -44,7 +50,11 @@ public class FileUploadDownloadService {
             
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             
-            return fileName;
+            UploadFile uploadFile = new UploadFile(fileName, file.getSize(), file.getContentType());
+            dao.save(uploadFile);
+            
+            return uploadFile;
+            
         }catch(Exception e) {
             throw new FileUploadException("["+fileName+"] 파일 업로드에 실패하였습니다. 다시 시도하십시오.",e);
         }
@@ -64,5 +74,25 @@ public class FileUploadDownloadService {
             throw new FileDownloadException(fileName + " 파일을 찾을 수 없습니다.", e);
         }
     }
+	
+	public Iterable<UploadFile> getFileList(){
+        Iterable<UploadFile> iterable = dao.findAll();
+        
+        if(null == iterable) {
+            throw new FileDownloadException("업로드 된 파일이 존재하지 않습니다.");
+        }
+        
+        return  iterable;
+    }
+    
+    public Optional<UploadFile> getUploadFile(int id) {
+        Optional<UploadFile> uploadFile = dao.findById(id);
+        
+        if(null == uploadFile) {
+            throw new FileDownloadException("해당 아이디["+id+"]로 업로드 된 파일이 존재하지 않습니다.");
+        }
+        return uploadFile;
+    }
+
 
 }
