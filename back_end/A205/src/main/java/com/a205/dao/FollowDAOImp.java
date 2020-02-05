@@ -15,7 +15,7 @@ import com.a205.dto.Follow;
 
 
 @Repository
-public class FollowDAOlmp implements FollowDAO {
+public class FollowDAOImp implements FollowDAO {
 	
 	
 	@Autowired

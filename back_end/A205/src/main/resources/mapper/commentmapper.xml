@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.a205.model.commentmapper">
+
+	<insert id="insert"  parameterType="comment_sobj">
+		insert into `comment`(p_id, m_id,c_content  ) 
+		  values(#{p_id}, #{m_id},#{c_content}  )
+	</insert>
+
+	<select id="searchOne" resultType="comment" parameterType="int">
+		select * from `comment`
+		where c_id = #{c_id}
+	</select>
+
+
+	<select id="searchListComments" resultType="comment" parameterType="int">
+		select * from `comment`
+		where p_id = #{p_id}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from comment
+		where c_id = #{c_id}
+	</delete>
+	
+	<update id="update" parameterType="comment">
+		update comment set
+		c_content = #{c_content}
+		where c_id = #{c_id}
+	</update>
+	
+
+
+
+</mapper>
