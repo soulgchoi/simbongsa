@@ -22,9 +22,11 @@ class CommentList extends React.Component<IProps, {}> {
                 const data = res.data.map( (d: any) => {
                     return {c_id: d.id, p_id: d.p_id, c_content: d.c_content}
                 })
-                this.setState({
-                    getComments: this.state.getComments.concat(data)
-                })
+                if (data.p_id == this.props.inP_id) {
+                    this.setState({
+                        getComments: this.state.getComments.concat(data)
+                    })
+                }
             }
         })
         .catch( err => console.log(err))
