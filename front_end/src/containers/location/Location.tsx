@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import "assets/mycss/location.scss";
 import iconSrc from "assets/images/location_marker.svg";
 
@@ -34,6 +33,8 @@ class Location extends Component<Props, State> {
     window.navigator.geolocation.getCurrentPosition(position => {
       this.setLocation(position.coords.latitude, position.coords.longitude);
     });
+    console.log("getVols 실행");
+    this.getVols();
   }
 
   setLocation(y: number, x: number) {
@@ -50,15 +51,13 @@ class Location extends Component<Props, State> {
   getVols = async () => {
     const { VolActions } = this.props;
     try {
-      await VolActions.getVolById("1"); // 성공하면 store의 volunteer에 저장돼있음
+      console.log("getVols1", this.props.volunteers.toJS());
+      await VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
+      console.log("getVols2", this.props.volunteers.toJS());
     } catch (e) {
       console.log(e);
     }
   };
-
-  componentDidMount() {
-    this.getVols();
-  }
 
   render() {
     const volunteers = this.props.volunteers.toJS();
@@ -81,7 +80,7 @@ class Location extends Component<Props, State> {
               </b>
               를 클릭하면 봉사정보가 나와요
             </div>
-            <VolInfo clickedVolId={this.props.clickedVolId} />
+            <VolInfo />
           </div>
         </div>
       </div>

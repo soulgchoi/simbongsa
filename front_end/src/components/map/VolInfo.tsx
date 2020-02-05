@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { Component } from "react";
 import "assets/mycss/location.scss";
 
 //redux 관련
@@ -7,17 +7,27 @@ import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
 
 interface Props {
-  clickedVolId: number;
+  // clickedVolId: number;
+  selectedVolunteer: any;
 }
 
-function VolInfo({ clickedVolId }: Props): ReactElement {
-  return <div className="vol--info">상세정보에요 {clickedVolId}</div>;
+interface State {}
+
+class VolInfo extends Component<Props, State> {
+  state = {};
+
+  render() {
+    const { selectedVolunteer } = this.props;
+    console.log("VolInfo.tsx", selectedVolunteer.toJS());
+    return <div className="vol--info">상세정보에요 {selectedVolunteer}</div>;
+  }
 }
 
 export default connect(
   (state: any) => {
+    // console.log("state : ", state.vol.toJS());
     return {
-      volunteers: state.vol.get("clickedVolId") // store에 있는 state를 this.pros로 연결
+      selectedVolunteer: state.vol.get("selectedVolunteer") // store에 있는 state를 this.pros로 연결
     };
   },
   dispatch => ({
