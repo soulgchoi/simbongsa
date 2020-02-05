@@ -55,6 +55,7 @@ public class VolParser {
 				find = handler2.getVol();
 //				find = volMap.get(vol.getName());
 				if(find!=null) { //
+					
 					vol.setActWkdy(find.getActWkdy());
 					vol.setProgrmCn(find.getProgrmCn());
 					vol.setWanted(find.getWanted());
