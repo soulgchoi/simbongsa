@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import "assets/mycss/location.scss";
 import iconSrc from "assets/images/location_marker.svg";
-
+import { Map } from "immutable"; // json 형태의 객체 -> Map으로 만들어 immutable 속성 유지
+import axios from "axios";
 // 직접 제작한 Component
-import Map from "components/map/Map";
+import VolMap from "components/map/VolMap";
 import VolInfo from "components/map/VolInfo";
+import ActionButton from "components/button/ActionButton";
 
 // redux 관련
 import { connect } from "react-redux";
@@ -16,75 +18,82 @@ import Vol from "containers/mainpage/Vol";
 interface Props {
   volunteers: any;
   VolActions: typeof volActions;
-  clickedVolId: number;
+  selectedVolunteer: any;
+  initLocation: any;
 }
-interface State {
-  location: {
-    y: number;
-    x: number;
-  };
-}
-
+interface State {}
 //constructor -> render -> componentDidMount -> render
 class Location extends Component<Props, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = { location: { y: 0, x: 0 } };
-    window.navigator.geolocation.getCurrentPosition(position => {
-      this.setLocation(position.coords.latitude, position.coords.longitude);
-    });
-    console.log("Location.tsx의 constructor의 getVols 실행");
+  componentDidMount() {
+    console.log("componentDidMout");
     this.getVols();
   }
-
-  setLocation(y: number, x: number) {
-    this.setState(prevState => ({
-      location: {
-        // object that we want to update
-        ...prevState.location, // keep all other key-value pairs
-        y: y,
-        x: x // update the value of specific key
-      }
-    }));
-  }
-
-  getVols = async () => {
+  getVols = () => {
     const { VolActions } = this.props;
     try {
-      console.log(
-        "Location.tsx의 getVols() 의 getVols1",
-        this.props.volunteers.toJS()
-      );
-      await VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
-      console.log(
-        "Location.tsx의 getVols() 의 getVols2",
-        this.props.volunteers.toJS()
-      );
+      VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
     } catch (e) {
       console.log(e);
     }
   };
+  componentDidUpdate() {
+    console.log("componentDidUpdate");
+  }
+  setLocation = () => {
+    const { VolActions } = this.props;
+    window.navigator.geolocation.getCurrentPosition(position => {
+      VolActions.setInitLocation({
+        y: position.coords.latitude,
+        x: position.coords.longitude
+      });
+    });
+    // this.setState(prevState => ({
+    //   location: {
+    //     // object that we want to update
+    //     ...prevState.location, // keep all other key-value pairs
+    //     y: y,
+    //     x: x // update the value of specific key
+    //   }
+    // }));
+  };
 
   render() {
-    const volunteers = this.props.volunteers.toJS();
-    console.log("Location.tsx 의 render() 의 자원봉사 : ", volunteers);
+    console.log("render");
+    const { VolActions } = this.props;
+    const volunteers = this.props.volunteers;
+    const initLocation = this.props.initLocation;
+    const selectedVolunteer = this.props.selectedVolunteer;
+    // console.log("Location.tsx 의 render() 의 자원봉사 : ", volunteers);
+    // console.log("selected Volddd", selectedVolunteer);
     return (
       <div className="user" id="login">
         <div className="wrapC">
           <h1 className="title">봉사 위치</h1>
-          <Map init_location={this.state.location}></Map>
+          <ActionButton placeholder="내위치" action={this.setLocation} />
+          <VolMap
+            initLocation={initLocation}
+            volunteers={volunteers}
+            VolActions={VolActions}
+          ></VolMap>
           <div className="main--text">
-            <div id="text">
-              지도에서
-              <b id="bold">
-                위치
-                <span id="image">
-                  <img src={iconSrc} alt="마커아이콘" width="64" height="69" />
-                </span>
-              </b>
-              를 클릭하면 봉사정보가 나와요
-            </div>
-            <VolInfo />
+            {!selectedVolunteer.v_id && (
+              <div id="text">
+                지도에서
+                <b id="bold">
+                  위치
+                  <span id="image">
+                    <img
+                      src={iconSrc}
+                      alt="마커아이콘"
+                      width="64"
+                      height="69"
+                    />
+                  </span>
+                </b>
+                를 클릭하면 봉사정보가 나와요
+              </div>
+            )}
+            <VolInfo selectedVolunteer={selectedVolunteer} />
           </div>
         </div>
       </div>
@@ -93,10 +102,14 @@ class Location extends Component<Props, State> {
 }
 
 export default connect(
-  (state: any) => {
+  ({ vol }: any) => {
+    // console.log("connect 호출");
+    // console.log("vol", vol.toJS());
     return {
-      volunteers: state.vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
-      clickedVolId: state.vol.get("clickedVolId")
+      volunteers: vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
+      selectedVolunteer: vol.get("selectedVolunteer"),
+      initLocation: vol.get("initLocation"),
+      map: vol.get("map")
     };
   },
   dispatch => ({

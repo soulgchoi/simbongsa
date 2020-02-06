@@ -11,99 +11,44 @@ type ChangeInputPayload = string;
 
 // 가장 아래 있는 handleActions와 연결해줌
 const GET_VOL_BY_ID = "vol/GET_VOL_BY_ID"; // v_id로 봉사정보 가져오기
-const CLICK_VOL = "vol/CLICK_VOL"; // 마커를 클릭했을 때 하단에 봉사정보를 표현해 주는 액션
 const GET_VOL_LIST = "vol/GET_VOL_LIST";
+const RESET_SELECTED_VOL = "vol/RESET_SELECTED_VOL";
+const SET_INIT_LOCATION = "vol/SET_INIT_LOCATION";
 
 export const getVolById = createAction(GET_VOL_BY_ID, VolApi.getVolById);
-export const clickVol = createAction(CLICK_VOL);
+export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
 export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolList); // 이후 list 받는 api로 수정해야함
+export const setInitLocation = createAction(SET_INIT_LOCATION);
 export interface volState {
-  volunteers: {
-    id: number;
-    status: number;
-    many: number;
-    bgnTm: number;
-    endTm: number;
-    location: string;
-    adult: number;
-    young: number;
-    mBgnD: number;
-    mEndD: number;
-    pBgnD: number;
-    pEndD: number;
-    title: string;
-    url: string;
-  }[];
-  selectedVolunteer: {
-    id: number;
-    status: number;
-    many: number;
-    bgnTm: number;
-    endTm: number;
-    location: string;
-    adult: number;
-    young: number;
-    mBgnD: number;
-    mEndD: number;
-    pBgnD: number;
-    pEndD: number;
-    title: string;
-    url: string;
-  };
-  clickedVolId: number;
+  volunteers: [];
+  initLocation: {};
+  selectedVolunteer: {};
 }
 
 const initialState = Map({
-  volunteers: List([
-    Map({
-      id: null,
-      status: null,
-      many: null,
-      bgnTm: null,
-      endTm: null,
-      location: "",
-      adult: null,
-      young: null,
-      mBgnD: null,
-      mEndD: null,
-      pBgnD: null,
-      pEndD: null,
-      title: "",
-      url: ""
-    })
-  ]),
-  selectedVolunteer: Map({
-    id: null,
-    status: null,
-    many: null,
-    bgnTm: null,
-    endTm: null,
-    location: "",
-    adult: null,
-    young: null,
-    mBgnD: null,
-    mEndD: null,
-    pBgnD: null,
-    pEndD: null,
-    title: "",
-    url: ""
-  }),
-  clickedVolId: -1
+  volunteers: [],
+  initLocation: { y: 37.5668260054857, x: 126.978656785931 }, // 우선 서울 위치로 초기화 했는데 사용자 정보를 받아오면 사용자 정보로 초기화 합시다.
+  selectedVolunteer: Map({})
 });
 
 export default handleActions<any>(
   {
-    [CLICK_VOL]: (state, action) => {
-      const id = action.payload;
-      return state.set("clickedVolId", id);
+    [SET_INIT_LOCATION]: (state, action) => {
+      // console.log("store initLocation 초기화", action.payload);
+      return state
+        .setIn(["initLocation", "y"], action.payload.y)
+        .setIn(["initLocation", "x"], action.payload.x);
+    },
+    [RESET_SELECTED_VOL]: state => {
+      return state.setIn(["selectedVolunteer", "v_id"], null);
     },
     ...pender({
       type: GET_VOL_BY_ID,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("vos.ts의 selectedVolunteer", data);
+        // console.log("vos.ts의 selectedVolunteer", data);
         // console.log("vol.ts 의 state", state.toJS());
-        return state.set("selectedVolunteers", data);
+        return state.set("selectedVolunteer", Map(data));
       }
     }),
     ...pender({
@@ -114,7 +59,7 @@ export default handleActions<any>(
         // console.log("vol.ts 의 state", state.toJS());
         // let temp = List([data]);
         // console.log("temp", temp);
-        return state.set("volunteers", List(data));
+        return state.set("volunteers", data);
       }
     })
   },

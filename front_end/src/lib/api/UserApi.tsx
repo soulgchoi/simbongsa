@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 // const restBaseApi = "http://70.12.247.87:8080"; // 이신호
 const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 // const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
