@@ -13,6 +13,9 @@
 		<typeAlias type="com.a205.dto.Comment" alias="comment" />
 		<typeAlias type="com.a205.dto.Comment_special_obj" alias="comment_sobj" />
 		<typeAlias type="com.a205.dto.Comment_mini" alias="comment_mini" />
+		<typeAlias type="com.a205.dto.Member_has_region" alias="member_has_region" />
+		<typeAlias type="com.a205.dto.Region" alias="region" />
+		<typeAlias type="com.a205.dto.Category" alias="category" />
 		
 	</typeAliases>
 
@@ -22,6 +25,9 @@
 		<mapper resource="mapper/volmapper.xml"/>
 		<mapper resource="mapper/followmapper.xml"/>
 		<mapper resource="mapper/commentmapper.xml"/>
+		<mapper resource="mapper/memberhasregionmapper.xml"/>
+		<mapper resource="mapper/regionmapper.xml"/>
+		<mapper resource="mapper/categorymapper.xml"/>
 
 	</mappers>
 
