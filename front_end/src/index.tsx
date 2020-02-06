@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Root from "client/Root";
 import * as serviceWorker from "serviceWorker";
 import store from "redux/configureStore";
+import 'semantic-ui-css/semantic.min.css';
 console.log("index: ", store);
 ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 

@@ -1,10 +1,12 @@
 import React from "react";
+import PV from "password-validator";
+
+// CSS
 import "assets/css/style.scss";
 import "assets/css/user.scss";
 import "assets/mycss/components.scss";
-import PV from "password-validator";
-// import KakaoLogin from "components/user/snsLogin/Kakao";
-// import GoogleLogin from "components/user/snsLogin/Google";
+
+// API 관련
 import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import * as UserApi from "lib/api/UserApi";
@@ -14,15 +16,20 @@ import LinkButton from "components/button/LinkButton";
 import ActionButton from "components/button/ActionButton";
 import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
+// local storage에 저장하는 component
 
+import storage from "lib/storage";
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-import storage from "lib/storage";
+
+// Login Class Component
 
 class Login extends React.Component<any, any> {
+
+  // 이벤트에 따라 인풋의 변화를 State로 갱신하는 함수.
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { id, value } = e.target;
@@ -33,10 +40,14 @@ class Login extends React.Component<any, any> {
     });
   };
 
+  // 컴포넌트가 종료될때 로그인 폼을 초기화 시킨다.
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("login");
   }
+
+  // 에러 메세지 설정
+
   setError = (message: any, name: string) => {
     const { AuthActions } = this.props;
     AuthActions.setError({
@@ -47,22 +58,33 @@ class Login extends React.Component<any, any> {
     return false;
   };
 
+  // 로그인 처리
+
   handleLocalLogin = async () => {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
 
+
+    // 로그인을 시도
+
     try {
       await AuthActions.localLogin({ email, password });
+      // 성공하면
       console.log("최초확인용", this.props)
       const loggedInfo = this.props.result.toJS()
       console.log("loggedInfo:", loggedInfo)
 
+      // 유저 정보에 설정
       UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
+      // 로그인 성공시 메인페이지로 보낸다.
       history.push("/mainpage");
+
+      // 로컬 스토리지에 JWT을 저장.
       storage.set("loggedInfo", loggedInfo)
       console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
+      // error 발생시
       console.log(e);
       this.setError("잘못된 계정정보입니다.", "email");
     }
@@ -127,8 +149,10 @@ class Login extends React.Component<any, any> {
     );
   }
 }
+// State와 action을 연결짓는 connect
 export default connect(
   (state: any) => ({
+    // props로 받아오는 정보들...
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
     result: state.auth.get("result"),

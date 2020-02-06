@@ -11,7 +11,7 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-
+import UserSetting from "containers/usersetting/UserSetting"
 class App extends Component {
   render() {
     return (
@@ -27,6 +27,8 @@ class App extends Component {
         <Route exact path="/vol/detail/:id" component={VolDetail} />
         <Route exact path="/write" component={PostingForm} />
         <Route exact path="/list" component={PostingItem} />
+        <Route exact path="/setting" component={UserSetting} />
+
       </div>
     );
   }
