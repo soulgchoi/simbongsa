@@ -1,20 +1,33 @@
 import React, { ReactElement } from 'react'
 import "assets/mycss/location.scss";
+import iconSrc from "assets/images/location_marker.svg";
+
+//직접 만든 컴포넌트
+import LinkButton from "components/button/LinkButton";
 
 //redux 관련
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as volActions from "redux/modules/vol";
 
-import { Link, match } from 'react-router-dom'
 interface Props {
-  // clickedVolId: number;
   selectedVolunteer: any;
 }
 
-export default function VolInfo({ selectedVolunteer }: Props): ReactElement {
+function VolInfo({ selectedVolunteer }: Props): ReactElement {
+  console.log("render");
+  console.log(selectedVolunteer);
   return (
-    <div>
+    <div className="main--text">
+      {!selectedVolunteer.v_id &&
+        <div id="text">
+          지도에서
+          <b id="bold">
+            위치
+            <span id="image">
+              <img src={iconSrc} alt="마커아이콘" width="64" height="69" />
+            </span>
+          </b>
+          를 클릭하면 봉사정보가 나와요
+      </div>}
       {selectedVolunteer.v_id &&
         <div className="vol--info">
           <div>
@@ -29,12 +42,16 @@ export default function VolInfo({ selectedVolunteer }: Props): ReactElement {
           <div>
             모집정보: {selectedVolunteer.v_mBgnD} ~ {selectedVolunteer.v_mEndD}
           </div>
-          <Link to={{
-            pathname: `vol/detail/${selectedVolunteer.v_id}`,
-            state: selectedVolunteer.v_id
-          }}>
-            상세보기</Link>
+          <LinkButton link={`vol/detail/${selectedVolunteer.v_id}`} placeholder="상세보기" />
         </div>}
     </div>
   )
 }
+
+export default connect(
+  ({ vol }: any) => {
+    return {
+      selectedVolunteer: vol.get("selectedVolunteer")
+    };
+  }
+)(VolInfo);
