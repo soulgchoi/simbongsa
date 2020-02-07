@@ -1,9 +1,12 @@
 package com.a205.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a205.dto.Member;
+import com.a205.model.MemberPatchRequest;
 import com.a205.service.MemberService;
 
 import io.swagger.annotations.ApiOperation;
@@ -56,19 +61,20 @@ public class MemberRestController {
 		}
 	}
 	
+	@SuppressWarnings("null")
 	@GetMapping("/Member/{userId}")
-	@ApiOperation("ID에 해당하는 하나의 회원정보를 반환한다. 요청을 보낸 userid(session에 저장한 데이터)와 검색대상의 userid가 같을 경우에만 값 반환 .")
-	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String userId, HttpSession session){
+	@ApiOperation("ID에 해당하는 하나의 회원정보를 반환한다. ")
+	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String userId){
 		try {
 			
 			Member member = service.search(userId);
 // 현재 유저검색은 로그인 된 사람만 가능
-			if (member.getM_userid().equals(session.getAttribute("userid")) ) {
-				System.out.println(member.getM_userid() + ", " + session.getAttribute("userid"));
+			if (member != null ) {
+				System.out.println(member.getM_userid());
 
 				return response(member, true, HttpStatus.OK);
 			} else {
-				System.out.println(member.getM_userid() + ", " + session.getAttribute("userid"));
+				System.out.println(member.getM_userid() );
 				return response(null, true, HttpStatus.OK);
 			}
 		}catch(Exception e) {
@@ -108,23 +114,25 @@ public class MemberRestController {
 	}
 	
 	
-	@PostMapping("/Member")
-	@ApiOperation("전달받은 회원정보를 저장한다.")
-	public ResponseEntity<Map<String, Object>> insertMember(@RequestBody Member member){
-		try {
-			boolean result = service.add(member);
-			System.out.println("---------------------" + member + "---------------------");
-
-			return response(result, true, HttpStatus.CREATED);
-		}catch(RuntimeException e) {
-			logger.error("회원 가입 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
-	
-	@PutMapping("/Member")
+//	@PostMapping("/Member")
+//	@ApiOperation("전달받은 회원정보를 저장한다.")
+//	public ResponseEntity<Map<String, Object>> insertMember(@RequestBody Member member){
+//		try {
+//			boolean result = service.add(member);
+//			System.out.println("---------------------" + member + "---------------------");
+//
+//			return response(result, true, HttpStatus.CREATED);
+//		}catch(RuntimeException e) {
+//			logger.error("회원 가입 실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//		}
+//	}
+//	
+	@PutMapping("/Member/{userId}")
 	@ApiOperation("전달받은 회원정보를 업데이트한다.")
 	public ResponseEntity<Map<String, Object>> updateMember(@RequestBody Member member){
+		
+		
 		try {
 			boolean result = service.update(member);
 			return response(result, true, HttpStatus.OK);
@@ -133,8 +141,19 @@ public class MemberRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-
 	
+	@PatchMapping("/Member/{userId}")
+	@ApiOperation("전달받은 회원정보 를 가지고 세부정보를 등록한다.(야메방법)")
+	public ResponseEntity<Map<String, Object>> patchMember(@PathVariable String userId, @RequestBody MemberPatchRequest memberPatchRequest){
+		try {
+			boolean result = service.patchUpdate(userId, memberPatchRequest);
+			return response(result, true, HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("회원정보 수정 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
 	
 	@DeleteMapping("/Member/{id}")
 	@ApiOperation("전달받은 회원정보를 삭제한다.")
