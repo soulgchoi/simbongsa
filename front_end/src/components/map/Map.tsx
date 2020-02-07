@@ -81,7 +81,11 @@ const getVols = (VolActions: any) => {
   }
 };
 
-const makeMarker = (volunteers: [], volMap: any, VolActions: any) => {
+const makeMarker = (
+  volunteers: { v_id: string; v_x: number; v_y: number }[],
+  volMap: any,
+  VolActions: any
+) => {
   // console.log("Map.tsx의 makeMarker 봉사지역들 : ", volunteers);
   const { kakao } = window;
   var normalIconSrc = normalIcon, // 마커이미지의 주소입니다
@@ -99,18 +103,18 @@ const makeMarker = (volunteers: [], volMap: any, VolActions: any) => {
   });
 
   let selectedMarker = null; // 클릭한 마커를 담을 변수
-  //console.log("volunteers", volunteers);
+  console.log("volunteers", volunteers);
   //console.log("전", positions.toJS());
-  if (positions.size >= 1)
-    positions = positions.setIn(
-      [0, "latlng"],
-      new kakao.maps.LatLng(37.4730725331551, 126.703563159448)
-    );
-  if (positions.size >= 2)
-    positions = positions.setIn(
-      [1, "latlng"],
-      new kakao.maps.LatLng(37.4735032126755, 126.704281582484)
-    );
+  // if (positions.size >= 1)
+  //   positions = positions.setIn(
+  //     [0, "latlng"],
+  //     new kakao.maps.LatLng(37.4730725331551, 126.703563159448)
+  //   );
+  // if (positions.size >= 2)
+  //   positions = positions.setIn(
+  //     [1, "latlng"],
+  //     new kakao.maps.LatLng(37.4735032126755, 126.704281582484)
+  //   );
   //console.log("후", positions.toJS());
   // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
   let markerImage = new kakao.maps.MarkerImage(
@@ -127,11 +131,13 @@ const makeMarker = (volunteers: [], volMap: any, VolActions: any) => {
     // 마커를 생성합니다
     var marker = new kakao.maps.Marker({
       map: volMap, // 마커를 표시할 지도
-      position: positions.getIn([i, "latlng"]), // 마커의 위치
+      // position: positions.getIn([i, "latlng"]), // 마커의 위치
+      position: new kakao.maps.LatLng(volunteers[i].v_x, volunteers[i].v_y), // 마커의 위치
       image: markerImage
     });
 
-    let id = positions.getIn([i, "content", "v_id"]);
+    // let id = positions.getIn([i, "content", "v_id"]);
+    let id = volunteers[i].v_id;
     window.kakao.maps.event.addListener(
       marker,
       "click",
