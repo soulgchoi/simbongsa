@@ -12,9 +12,11 @@ interface Props {
 class CommentItem extends React.Component<Props, {}>{
     render() {
         return (
-            <div>
-                {this.props.comment.c_content}
-            </div>
+            <li>
+                <p>
+                    {this.props.comment.c_content}
+                </p>
+            </li>
         )
     }
 };

@@ -9,8 +9,10 @@ import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
-import PostingItem from "containers/posting/PostingItem";
+// import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
+// import Postings from "containers/posting/Postings"
+import Post from 'containers/posting/timeline/Post'
 
 class App extends Component {
   render() {
@@ -26,7 +28,7 @@ class App extends Component {
         <Route exact path="/mainpage" component={MainPage} />
         <Route exact path="/vol/detail/:id" component={VolDetail} />
         <Route exact path="/write" component={PostingForm} />
-        <Route exact path="/list" component={PostingItem} />
+        <Route exact path="/list" component={Post} />
       </div>
     );
   }

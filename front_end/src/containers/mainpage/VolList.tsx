@@ -11,11 +11,11 @@ class VolList extends Component<Props, {}> {
         v_id: 0,
         v_title: "",
         pageNum: 1,
-        url: "http://70.12.247.126:8080/vol/titles/10/",
+        url: "http://13.124.127.232:8080/A205/vol/titles/10/",
         v_pStatus: 0,
         v_Auth: 0,
     }
-    componentWillMount(){
+    componentDidMount(){
         axios.get(this.state.url + this.state.pageNum.toString())
         .then(response => {
             const data = response.data.data.map( (d: any) => {

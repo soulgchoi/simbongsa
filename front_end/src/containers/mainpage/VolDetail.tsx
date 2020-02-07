@@ -2,6 +2,8 @@ import React from 'react';
 import { RouteComponentProps, Route } from 'react-router-dom'
 import axios from 'axios'
 
+import PostingButton from 'components/button/PostingButton'
+
 // import "assets/css/style.scss";
 import "assets/mycss/detailtable.scss"
 
@@ -12,7 +14,7 @@ interface MatchParams {
 
 class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
     state = {
-        v_id: this.props.history.location.state,
+        v_id: this.props.history.location.state as string,
         v_title: "",
         v_organ: "",
         v_pBgnD: "",
@@ -34,7 +36,7 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
         r_id: "",
         ca_id: "",
         v_Auth: "",
-        url: "http://70.12.247.126:8080/vol/detail/",
+        url: "http://13.124.127.232:8080/A205/vol/detail/",
     }
 
     componentDidMount(){
@@ -75,7 +77,9 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
         return (
             <div className="">
                 <h3 className="">
-                    {this.state.v_title}
+                    {this.state.v_title}<br />
+                    {this.state.v_id}
+                    {typeof (this.state.v_id)}
                 </h3>
                 <table className="">
                     <tbody>
@@ -129,7 +133,9 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
                     </tr>
                     </tbody>
                 </table>
-
+                <PostingButton 
+                    v_id={this.state.v_id}
+                />
             </div>
         );
     }
