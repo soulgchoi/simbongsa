@@ -1,0 +1,18 @@
+.main{
+    position: relative;
+    font-size:4vw;
+    #one{
+        position: absolute;
+        left:50%;
+        transform: translateX(-50%);
+        top:100px;
+        #two{
+            position: absolute;
+            left: 0%;
+            left : 50%;
+            transform: translateX(-50%);
+            top:-100%;
+        }
+    }
+    
+}
