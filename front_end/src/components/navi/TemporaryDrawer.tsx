@@ -9,81 +9,85 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
-import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
-import NaviLink from './NaviLink';
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
+import EmojiPeopleRoundedIcon from "@material-ui/icons/EmojiPeopleRounded";
+import NaviLink from "./NaviLink";
 const styles = {
-    root: {
-        flexGrow: 1
-    },
-    menuButton: {
-        marginRight: "auto"
-    }
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: "auto"
+  }
 };
 
 interface Iprops {
-    classes: {
-        root: string;
-        menuButton: string;
-    };
+  classes: {
+    root: string;
+    menuButton: string;
+  };
 }
 interface Istate {
-    toggle: boolean;
+  toggle: boolean;
 }
 
 class TemporaryDrawer extends React.Component<Iprops, Istate> {
-    state = {
-        toggle: false
-    };
-    handleDrawerToggle = () => this.setState({ toggle: !this.state.toggle });
-    sideList = () => {
-        const { classes } = this.props;
-        return (
-            <div className={classes.root} onClick={this.handleDrawerToggle}>
-                <List>
-                    {["로그아웃"].map(
-                        (text: string, index: number) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {<ExitToAppRoundedIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    )}
-                </List>
-                <Divider />
-                <List>
-                    {["만든이", "설정"].map((text: string, index: number) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <EmojiPeopleRoundedIcon /> : <NaviLink to={"/setting"}><SettingsRoundedIcon /></NaviLink>}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-            </div>
-        );
-    };
-    render() {
-        const { classes } = this.props;
-        return (
-            <div>
-                <AppBar position="static" color="default">
-                    <IconButton
-                        className={classes.menuButton}
-                        color="inherit"
-                        onClick={this.handleDrawerToggle}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </AppBar>
-                <Drawer open={this.state.toggle}>{this.sideList()}</Drawer>
-            </div>
-        );
-    }
+  state = {
+    toggle: false
+  };
+  handleDrawerToggle = () => this.setState({ toggle: !this.state.toggle });
+  sideList = () => {
+    const { classes } = this.props;
+    console.log("루트: ", classes.root);
+    return (
+      <div className={classes.root} onClick={this.handleDrawerToggle}>
+        <List>
+          <ListItem>心봉사 </ListItem>
+        </List>
+        <Divider />
+        <List>
+          {["로그아웃"].map((text: string, index: number) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{<ExitToAppRoundedIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          {["만든이", "설정"].map((text: string, index: number) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? (
+                  <EmojiPeopleRoundedIcon />
+                ) : (
+                  <NaviLink to={"/setting"}>
+                    <SettingsRoundedIcon />
+                  </NaviLink>
+                )}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
+  };
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <AppBar position="static" color="default">
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            onClick={this.handleDrawerToggle}
+          >
+            <MenuIcon />
+          </IconButton>
+        </AppBar>
+        <Drawer open={this.state.toggle}>{this.sideList()}</Drawer>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(TemporaryDrawer);

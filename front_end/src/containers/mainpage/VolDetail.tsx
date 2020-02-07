@@ -1,15 +1,17 @@
-import React from 'react';
-import { RouteComponentProps, Route } from 'react-router-dom'
-import axios from 'axios'
+import React from "react";
+import { RouteComponentProps, Route } from "react-router-dom";
+import axios from "axios";
 
 import PostingButton from 'components/button/PostingButton'
 
 // import "assets/css/style.scss";
-import "assets/mycss/detailtable.scss"
+// redux 관련
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as volActions from "redux/modules/vol";
 
-
-interface MatchParams {
-    v_id: string;
+interface IProps {
+  selectedVolunteer: any;
 }
 
 class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
@@ -141,4 +143,11 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
     }
 }
 
-export default VolDetail;
+export default connect(
+  ({ vol }: any) => {
+    return { selectedVolunteer: vol.get("selectedVolunteer") };
+  },
+  dispatch => ({
+    VolActions: bindActionCreators(volActions, dispatch)
+  })
+)(VolDetail);
