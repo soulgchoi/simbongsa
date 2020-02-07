@@ -13,6 +13,7 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
+import Main from "containers/main/Main";
 
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
@@ -23,6 +24,7 @@ class App extends Component {
       <div>
         <TemporaryDrawer />
         <Route exact path="/" component={Login} />
+        <Route exact path="/main" component={Main} />
         <Route exact path="/join" component={Join} />
         <Route path="/findpassword" component={FindPassword} />
         <Route path="/findpasswordmailsend" component={FindPasswordMailSend} />
