@@ -31,7 +31,7 @@ import com.a205.service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 public class FollowController {
 

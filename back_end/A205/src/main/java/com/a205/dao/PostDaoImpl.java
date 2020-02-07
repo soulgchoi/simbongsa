@@ -39,12 +39,18 @@ public class PostDaoImpl implements PostDao {
 		return session.update(statement, Post) > 0;
 	}
 
+//	@Override
+//	public boolean remove(int p_id, int m_id) {
+//		String statement = ns + "delete";
+//		return session.delete(statement, p_id) > 0;
+//	}
+	
 	@Override
 	public boolean remove(int p_id) {
 		String statement = ns + "delete";
 		return session.delete(statement, p_id) > 0;
 	}
-
+	
 	/*
 	@Override
 	public int addViewCnt(int no) {

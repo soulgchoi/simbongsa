@@ -8,9 +8,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 
-import com.react.dao.PostDao;
 import com.react.dao.VolDao;
-import com.react.vo.Post;
 import com.react.vo.Vol;
 
 //정보를 load하는 SAX Parser
@@ -43,18 +41,36 @@ public class VolParser {
 			
 			//parser.parse(new InputSource(new StringReader(xml)), handler);
 			list = handler.getList();
-//			Vol find;
+
+			Vol find;
 			for (Vol vol : list) {
+				SAXParser parser2 = factory.newSAXParser();
+				xml = new CallRestWS_detail().restClient(vol.getProgrmRegistNo());
+				InputSource is2 = new InputSource(new StringReader(xml));
+				//is.setEncoding("ISO-8859-1");
+				is2.setEncoding("UTF-8");
+				VolHandler2 handler2 = new VolHandler2();
+				parser2.parse(is2, handler2);
+				
+				find = handler2.getVol();
 //				find = volMap.get(vol.getName());
-//				if(find!=null) {
-//					vol.setCode(find.getCode());
-//					vol.setName(find.getName());
-//					vol.setMaker(find.getMaker());
-//					vol.setMaterial(find.getMaterial());
-//					vol.setImg(find.getImg());
-//				}
+				if(find!=null) { //
+					
+					vol.setActWkdy(find.getActWkdy());
+					vol.setProgrmCn(find.getProgrmCn());
+					vol.setWanted(find.getWanted());
+					vol.setActBeginTm(find.getActBeginTm());
+					vol.setActEndTm(find.getActEndTm());
+					vol.setAppnow(find.getAppnow());
+					vol.setTarget(find.getTarget());
+				}
+				
 				dao = new VolDao();
-				dao.addVol(vol);
+				try {
+					dao.addVol(vol);
+				} finally {
+					//dao에 넣지 못해도 넘어가자
+				}
 				//dao2.addPost(new Post("0", ""+cnt++, null, null, "0"));
 				System.out.println(vol);
 			}
@@ -74,7 +90,7 @@ public class VolParser {
 
 	public static void main(String[] args) throws Exception {
 		//int cnt = 1;
-		for (int i = 1; i < 413; i++) {
+		for (int i = 1; i < 20; i++) {
 		//for (int i = 1; i < 5; i++) {
 			new VolParser(i);
 			//cnt += 10;

@@ -1,5 +1,6 @@
 package com.react.util;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,9 @@ public class VolHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) {
 		//final String name = qName == null ? localName : qName;
 		if (qName.equals("actBeginTm")) {
-			//vol.setActBeginTm(temp.toString());
+			vol.setActBeginTm(temp.toString());
 		} else if (qName.equals("actEndTm")) {
-			//vol.setActEndTm(temp.toString());
+			vol.setActEndTm(temp.toString());
 		} else if (qName.equals("actPlace")) {
 			vol.setActPlace(temp.toString());
 		} else if (qName.equals("adultPosblAt")) {
@@ -96,25 +97,13 @@ public class VolHandler extends DefaultHandler {
 				temp2 = regdao.getRegCd(sidoCd, gugunCd);
 				vol.setRegionCd(temp2);
 				
-				//파싱이 안됨 ..
-				//temp2 = catedao.getCateCd(srvcClCode);
-				//vol.setCateCd(temp2);
 				temp2 = catedao.getCateCd(cateCd[0], cateCd[1]);
 				vol.setCateCd(temp2);
 				
-				map = crawler.getCurrencyRate(url);
-				vol.setActBeginTm(map.get("bgnTm"));
-				vol.setActEndTm(map.get("endTm"));
-				vol.setWanted(map.get("wanted"));
-				vol.setActWkdy(map.get("Wkdy"));
-				vol.setAppnow(map.get("appnow"));
-				vol.setTarget(map.get("target"));
-				vol.setProgrmCn(map.get("detail"));
-				
-				list.add(vol);
-				
+				list.add(vol);////
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.out.println(volcode + "missed~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			}
 		}
 		temp.setLength(0);

@@ -27,7 +27,7 @@ import com.a205.dto.Member;
 import com.a205.service.MemberService;
 
 import io.swagger.annotations.ApiOperation;
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest")
 public class MemberRestController {

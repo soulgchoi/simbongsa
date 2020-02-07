@@ -14,4 +14,13 @@
 		where v_id = #{v_id}
 	</select>
 	
+	<select id="update" parameterType="vol">
+		update vol set
+		v_bgnTm = #{v_bgnTm},
+		v_endTm = #{v_endTm},
+		v_appnow = #{v_appnow}, 
+		v_target = #{v_target}
+		where v_id = #{v_id}
+	</select>
+	
 </mapper>

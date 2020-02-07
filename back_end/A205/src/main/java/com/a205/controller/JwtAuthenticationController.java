@@ -23,7 +23,7 @@ import com.a205.model.JwtRequest;
 import com.a205.model.JwtResponse;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 
 	@Autowired
