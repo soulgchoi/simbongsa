@@ -103,7 +103,7 @@ const makeMarker = (
   });
 
   let selectedMarker = null; // 클릭한 마커를 담을 변수
-  console.log("volunteers", volunteers);
+  // console.log("volunteers", volunteers);
   //console.log("전", positions.toJS());
   // if (positions.size >= 1)
   //   positions = positions.setIn(
@@ -132,10 +132,10 @@ const makeMarker = (
     var marker = new kakao.maps.Marker({
       map: volMap, // 마커를 표시할 지도
       // position: positions.getIn([i, "latlng"]), // 마커의 위치
-      position: new kakao.maps.LatLng(volunteers[i].v_x, volunteers[i].v_y), // 마커의 위치
+      position: new kakao.maps.LatLng(volunteers[i].v_y, volunteers[i].v_x), // 마커의 위치
       image: markerImage
     });
-
+    // console.log("위치", marker);
     // let id = positions.getIn([i, "content", "v_id"]);
     let id = volunteers[i].v_id;
     window.kakao.maps.event.addListener(
