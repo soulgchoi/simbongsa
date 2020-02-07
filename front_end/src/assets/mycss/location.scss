@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+.main--text {
+  position: relative;
+  font-size: 20px;
+
+  #text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60px;
+
+    #bold {
+      position: relative;
+
+      #image {
+        position: absolute;
+        left: 60%;
+        transform: translateX(-50%);
+        top: -270%;
+      }
+    }
+  }
+}
+
+.vol--info {
+  // display: none;
+}

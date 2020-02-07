@@ -53,14 +53,14 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-      console.log("최초확인용", this.props)
-      const loggedInfo = this.props.result.toJS()
-      console.log("loggedInfo:", loggedInfo)
+      console.log("최초확인용", this.props);
+      const loggedInfo = this.props.result.toJS();
+      console.log("loggedInfo:", loggedInfo);
 
       UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       history.push("/mainpage");
-      storage.set("loggedInfo", loggedInfo)
+      storage.set("loggedInfo", loggedInfo);
       console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       console.log(e);
