@@ -14,7 +14,7 @@ class UserSetting extends React.Component<any> {
     render() {
         const { props } = this;
         const placeholder = '지역을 입력하세요.'
-        const list = [{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' }, { key: 'ax', value: 'ax', flag: 'ax', text: 'Aland Islands' }]
+        const list = [{ key: 'afg', flag: 'af', value: 'a', text: 'Afghanistan' }, { key: 'af', value: 'af', flag: 'af', text: 'Aland Islands' }]
         return (
             <Fragment>
                 <SearchSelection placeholder={placeholder} optionlist={list}></SearchSelection>
