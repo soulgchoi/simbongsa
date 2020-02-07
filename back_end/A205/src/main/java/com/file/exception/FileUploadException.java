@@ -1,4 +1,4 @@
-package com.a205.exception;
+package com.file.exception;
 
 public class FileUploadException extends RuntimeException {
     public FileUploadException(String message) {

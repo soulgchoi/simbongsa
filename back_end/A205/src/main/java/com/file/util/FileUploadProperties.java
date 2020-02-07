@@ -1,4 +1,4 @@
-package com.a205.config;
+package com.file.util;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

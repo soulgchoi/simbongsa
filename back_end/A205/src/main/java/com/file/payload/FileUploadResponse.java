@@ -1,4 +1,4 @@
-package com.a205.payload;
+package com.file.payload;
 
 public class FileUploadResponse {
     private String fileName;

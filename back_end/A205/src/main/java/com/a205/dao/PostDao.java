@@ -11,9 +11,10 @@ public interface PostDao {
 
 	public boolean update(Post Post) ;
 
-	public boolean remove(int p_id) ;
+	//boolean remove(int p_id, int m_id);
 	
-
+	boolean remove(int p_id);
+	
 //	public int addViewCnt(int no);
 //	public int getViewCnt(int no);
 //	

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.a205.config.FileUploadProperties;
+import com.file.util.FileUploadProperties;
 
 @SpringBootApplication
 @EnableTransactionManagement

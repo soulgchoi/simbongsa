@@ -29,8 +29,9 @@
 
 	<update id="update" parameterType="post">
 		update post set
+		v_id = #{v_id},
 		p_content = #{p_content},
-		p_img = #{p_img}
+		p_status = #{p_status}
 		where p_id = #{p_id}
 	</update>
 
@@ -41,8 +42,8 @@
 
 	<insert id="insert" parameterType="post">
 		insert into
-		post(m_id, v_id, p_img, p_content, p_status)
-		values(#{m_id}, #{v_id}, #{p_img}, #{p_content}, #{p_status})
+		post(v_id, p_content, m_id, p_status,)
+		values(#{v_id}, #{p_content}, #{m_id}, #{p_status})
 	</insert>
 
 <!-- 	<select id="getViewCnt" parameterType="int">

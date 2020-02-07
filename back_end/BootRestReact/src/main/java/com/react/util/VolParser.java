@@ -66,7 +66,11 @@ public class VolParser {
 				}
 				
 				dao = new VolDao();
-				dao.addVol(vol);
+				try {
+					dao.addVol(vol);
+				} finally {
+					//dao에 넣지 못해도 넘어가자
+				}
 				//dao2.addPost(new Post("0", ""+cnt++, null, null, "0"));
 				System.out.println(vol);
 			}
@@ -86,7 +90,7 @@ public class VolParser {
 
 	public static void main(String[] args) throws Exception {
 		//int cnt = 1;
-		for (int i = 1; i < 413; i++) {
+		for (int i = 1; i < 20; i++) {
 		//for (int i = 1; i < 5; i++) {
 			new VolParser(i);
 			//cnt += 10;

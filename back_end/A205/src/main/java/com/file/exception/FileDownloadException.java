@@ -1,4 +1,4 @@
-package com.a205.exception;
+package com.file.exception;
 
 public class FileDownloadException extends RuntimeException {
     public FileDownloadException(String message) {
