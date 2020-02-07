@@ -49,6 +49,8 @@
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-pender": "^2.0.12",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "styled-components": "^5.0.0",
     "typescript": "^3.7.5",
     "validator": "^12.2.0"
