@@ -129,7 +129,8 @@ export default handleActions<any>(
     ...pender({
       type: CHECK_EMAIL_EXISTS,
       onSuccess: (state, action) => {
-        return state.setIn(["join", "exists", "email"], action.payload.data.data)
+        const { data } = action.payload.data;
+        return state.setIn(["join", "exists", "email"], data)
       }
     }),
     ...pender({

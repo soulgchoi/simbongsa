@@ -13,11 +13,28 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
-
-class App extends Component {
+// 로컬에 저장
+import storage from 'lib/storage'
+// redux 관련
+import * as userActions from 'redux/modules/user';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import jwt from 'jsonwebtoken'
+class App extends Component<any>{
+  initializeUserInfo = () => {
+    const loggedInfo = storage.get('loggedInfo'); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
+    console.log('loggedInfo', loggedInfo)
+    const temp = jwt.decode(loggedInfo.token)
+    console.log('temp', temp)
+    const { UserActions } = this.props;
+    UserActions.setLoggedInfo(loggedInfo);
+  }
+  componentDidMount() {
+    this.initializeUserInfo();
+  }
   render() {
     return (
       <div>
@@ -40,4 +57,9 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  null,
+  (dispatch) => ({
+    UserActions: bindActionCreators(userActions, dispatch)
+  })
+)(App);
