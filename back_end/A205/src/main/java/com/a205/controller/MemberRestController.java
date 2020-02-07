@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.transaction.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +148,11 @@ public class MemberRestController {
 	public ResponseEntity<Map<String, Object>> patchMember(@PathVariable String userId, @RequestBody MemberPatchRequest memberPatchRequest){
 		try {
 			boolean result = service.patchUpdate(userId, memberPatchRequest);
-			return response(result, true, HttpStatus.OK);
+			if (!result) {
+				throw new TransactionException();
+
+			}
+ 			return response(result, true, HttpStatus.OK);
 		}catch(Exception e) {
 			logger.error("회원정보 수정 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
