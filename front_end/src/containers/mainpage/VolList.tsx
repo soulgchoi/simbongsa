@@ -16,11 +16,7 @@ class VolList extends Component<Props, {}> {
         v_Auth: 0,
 
     }
-<<<<<<< HEAD
-    componentWillMount() {
-=======
-    componentDidMount(){
->>>>>>> ea5230d97c2beafb607691fbf2f1e6fe59a9084a
+    componentDidMount() {
         axios.get(this.state.url + this.state.pageNum.toString())
             .then(response => {
                 const data = response.data.data.map((d: any) => {

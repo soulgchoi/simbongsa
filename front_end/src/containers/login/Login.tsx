@@ -69,29 +69,19 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-<<<<<<< HEAD
       // 성공하면
       console.log("최초확인용", this.props)
       const loggedInfo = this.props.result.toJS()
       console.log("loggedInfo:", loggedInfo)
-=======
-      console.log("최초확인용", this.props);
-      const loggedInfo = this.props.result.toJS();
-      console.log("loggedInfo:", loggedInfo);
->>>>>>> ea5230d97c2beafb607691fbf2f1e6fe59a9084a
 
       // 유저 정보에 설정
       UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       // 로그인 성공시 메인페이지로 보낸다.
       history.push("/mainpage");
-<<<<<<< HEAD
 
       // 로컬 스토리지에 JWT을 저장.
       storage.set("loggedInfo", loggedInfo)
-=======
-      storage.set("loggedInfo", loggedInfo);
->>>>>>> ea5230d97c2beafb607691fbf2f1e6fe59a9084a
       console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       // error 발생시
