@@ -22,10 +22,17 @@ public class MemberHasRegionDAOImp implements MemberHasRegionDAO{
 		return session.insert(statement, member_has_region)>0;
 	}
 
-	public List<Integer> searchByM_id(Integer m_id){
-		String statement = ns+"searchByM_id";
+	public List<Member_has_region> searchByM_id(Integer m_id){
+		String statement = ns+"selectByM_id";
 
 		return session.selectList(statement, m_id);
 	}
+	
+	public boolean remove(Member_has_region member_has_region) {
+		String statement = ns+"delete";
+		return session.delete(statement, member_has_region)>0;
+
+	}
+
 
 }

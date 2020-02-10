@@ -149,10 +149,10 @@ public class MemberRestController {
 	public ResponseEntity<Map<String, Object>> patchMember(@PathVariable String userId, @RequestBody MemberPatchRequest memberPatchRequest){
 		try {
 			boolean result = service.patchUpdate(userId, memberPatchRequest);
-			if (!result) {
-				throw new TransactionException();
-
-			}
+//			if (!result) {
+//				throw new TransactionException();
+//
+//			}
  			return response(result, true, HttpStatus.OK);
 		}catch(Exception e) {
 			logger.error("회원정보 수정 실패", e);
@@ -178,17 +178,17 @@ public class MemberRestController {
 
 	@GetMapping("/Member/{userId}/PreferDetail")
 	@ApiOperation("ID에 해당하는 유저의 선호정보까지 반환한다. ")
-	public ResponseEntity<Map<String, Object>> getMemberㅖㄱㄷㄹㄷㄱㅇㄷㅅ먀ㅣ(@PathVariable String userId){
+	public ResponseEntity<Map<String, Object>> getMemberPreferDetail(@PathVariable String userId){
 		try {
 			
-			Member_detail member_detail = service.search(userId);
+			Member_detail member_detail = service.searchDetail(userId);
 // 현재 유저검색은 로그인 된 사람만 가능
-			if (member != null ) {
-				System.out.println(member.getM_userid());
+			if (member_detail != null ) {
+				System.out.println(member_detail.getM_userid());
 
-				return response(member, true, HttpStatus.OK);
+				return response(member_detail, true, HttpStatus.OK);
 			} else {
-				System.out.println(member.getM_userid() );
+				System.out.println(member_detail.getM_userid() );
 				return response(null, true, HttpStatus.OK);
 			}
 		}catch(Exception e) {

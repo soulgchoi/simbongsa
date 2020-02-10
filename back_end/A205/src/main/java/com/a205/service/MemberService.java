@@ -21,7 +21,7 @@ public interface MemberService {
 
 	public boolean update(Member member);
 
-	public boolean patchUpdate(String userId,MemberPatchRequest memberPatch);
+	public boolean patchUpdate(String userId, MemberPatchRequest memberPatch);
 
 	public Member_detail searchDetail(String userId); 
 	

@@ -7,10 +7,16 @@
 		insert into `member_has_region`(m_id, r_id ) 
 		  values(#{m_id}, #{r_id} )
 	</insert>
- 	<select id="selectByM_id" resultType="java.lang.integer" parameterType="int">
-		select r_id from `member_has_region` 
+ 	
+ 	<select id="selectByM_id" resultType="member_has_region" parameterType="int">
+		select * from `member_has_region` 
 			where m_id = #{m_id}
 
 	</select>
+
+	<delete id="delete" parameterType="member_has_region">
+			delete from `member_has_region` 
+			where m_id=#{m_id} and r_id=#{r_id} 
+	</delete>
 
  </mapper>
