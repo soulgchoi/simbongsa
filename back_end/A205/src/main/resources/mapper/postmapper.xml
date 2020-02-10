@@ -3,14 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.postmapper">
+	<select id="nextPostId" resultType="int">
+		select max(p_id) from
+		`post`;
+	</select>
 
 	<select id="selectOne" resultType="post" parameterType="int">
-		select * from post
+		select *
+		from post
 		where p_id = #{p_id}
 	</select>
-	
+
 	<!-- 포스트 검색?? -->
-	<select id="searchByCondition" resultType="post" parameterType="java.util.Map">
+	<select id="searchByCondition" resultType="post"
+		parameterType="java.util.Map">
 		select * from post
 		<where>
 			<choose>
@@ -21,7 +27,7 @@
 					content like #{key}
 				</when>
 				<otherwise>
-					
+
 				</otherwise>
 			</choose>
 		</where>
@@ -37,39 +43,22 @@
 
 	<delete id="delete" parameterType="int">
 		delete from post
-		where p_id = #{p_id}
+		where p_id =
+		#{p_id}
 	</delete>
 
 	<insert id="insert" parameterType="post">
 		insert into
-		post(v_id, p_content, m_id, p_status,)
-		values(#{v_id}, #{p_content}, #{m_id}, #{p_status})
+		post(v_id,
+		p_content, m_id, p_status)
+		values(#{v_id}, #{p_content}, #{m_id},
+		#{p_status})
 	</insert>
 
-<!-- 	<select id="getViewCnt" parameterType="int">
-		select viewcnt from post
-		where no = #{id}
-	</select>
-
-
-	<update id="addViewCnt" parameterType="int">
-		update post
-		set
-		viewcnt=viewcnt+1
-		where no = #{id}
-	</update>
-
-
-	<select id="getBoardList" resultType="post">
-		SELECT * FROM post
-		ORDER BY no DESC
-		LIMIT #{startList}, #{listSize}
-	</select>
-	
-	<select id="getBoardListCnt" resultType="int">
-
-		SELECT count(*) as listCnt
-		FROM post
-
-	</select> -->
+	<!-- <select id="getViewCnt" parameterType="int"> select viewcnt from post 
+		where no = #{id} </select> <update id="addViewCnt" parameterType="int"> update 
+		post set viewcnt=viewcnt+1 where no = #{id} </update> <select id="getBoardList" 
+		resultType="post"> SELECT * FROM post ORDER BY no DESC LIMIT #{startList}, 
+		#{listSize} </select> <select id="getBoardListCnt" resultType="int"> SELECT 
+		count(*) as listCnt FROM post </select> -->
 </mapper>

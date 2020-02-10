@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -18,6 +20,7 @@ import com.a205.dao.FileDao;
 import com.a205.dto.UploadFile;
 import com.file.exception.FileDownloadException;
 import com.file.exception.FileUploadException;
+import com.file.util.CommonUtils;
 import com.file.util.FileUploadProperties;
 
 @Service
@@ -37,7 +40,8 @@ public class FileUploadDownloadService {
 		}
 	}
 
-	public String storeFile(MultipartFile file) {
+	// 파일저장~~~~ 완료~
+	public String storeFile(MultipartFile file, int p_id) {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
 		try {
@@ -45,11 +49,24 @@ public class FileUploadDownloadService {
 			if (fileName.contains(".."))
 				throw new FileUploadException("파일명에 부적합 문자가 포함되어 있습니다. " + fileName);
 
-			Path targetLocation = this.fileLocation.resolve(fileName);
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			// 디비저장용으로 두 정보를 만들었어용
+			String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+			String storedFileName = CommonUtils.getRandomString() + fileExtension;
+			
+			Path targetLocation = this.fileLocation.resolve(storedFileName);
 
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-			return fileName;
+			
+			map.put("p_id", p_id);
+			map.put("originalFileName", fileName);
+			map.put("storedFileName", storedFileName);
+			map.put("file_size", file.getSize());
+			
+			dao.insertFile(map);
+			
+			return storedFileName;
 		} catch (Exception e) {
 			throw new FileUploadException("[" + fileName + "] 파일 업로드에 실패하였습니다. 다시 시도하십시오.", e);
 		}
@@ -70,21 +87,21 @@ public class FileUploadDownloadService {
 		}
 	}
 
-	public Iterable<UploadFile> getFileList() {
-		Iterable<UploadFile> iterable = dao.findAll();
+//	public Iterable<UploadFile> getFileList() {
+//		Iterable<UploadFile> iterable = dao.findAll();
+//
+//		if (null == iterable) {
+//			throw new FileDownloadException("업로드 된 파일이 존재하지 않습니다.");
+//		}
+//
+//		return iterable;
+//	}
 
-		if (null == iterable) {
-			throw new FileDownloadException("업로드 된 파일이 존재하지 않습니다.");
-		}
-
-		return iterable;
-	}
-
-	public Optional<UploadFile> getUploadFile(int id) {
-		Optional<UploadFile> uploadFile = dao.findById(id);
+	public List<UploadFile> getUploadFile(int p_id) {
+		List<UploadFile> uploadFile = dao.findById(p_id);
 
 		if (null == uploadFile) {
-			throw new FileDownloadException("해당 아이디[" + id + "]로 업로드 된 파일이 존재하지 않습니다.");
+			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
 		}
 		return uploadFile;
 	}
