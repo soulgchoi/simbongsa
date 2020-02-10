@@ -29,8 +29,10 @@ class App extends Component<any>{
     console.log('loggedInfo', loggedInfo)
     const temp = jwt.decode(loggedInfo.token)
     console.log('temp', temp)
-    const { UserActions } = this.props;
-    UserActions.setLoggedInfo(loggedInfo);
+    const { UserActions, history } = this.props;
+
+    UserActions.setLoggedInfo(temp);
+    history.push("/mainpage");
   }
   componentDidMount() {
     this.initializeUserInfo();
