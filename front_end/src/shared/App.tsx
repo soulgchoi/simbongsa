@@ -13,16 +13,13 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 // import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-<<<<<<< HEAD
 import UserSetting from "containers/usersetting/UserSetting"
-=======
 // import Postings from "containers/posting/Postings"
-import Post from 'containers/posting/timeline/Post'
 
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
+import TodosContainer from "containers/usersetting/TodosContainer";
 
->>>>>>> ea5230d97c2beafb607691fbf2f1e6fe59a9084a
 class App extends Component {
   render() {
     return (
@@ -40,14 +37,10 @@ class App extends Component {
         <Route path="/location" component={Location} />
         <Route exact path="/vol/detail/:id" component={VolDetail} />
         <Route exact path="/write" component={PostingForm} />
-<<<<<<< HEAD
-        <Route exact path="/list" component={PostingItem} />
         <Route exact path="/setting" component={UserSetting} />
+        <Route exact path="/setting2" component={TodosContainer} />
 
-=======
-        <Route exact path="/list" component={Post} />
->>>>>>> ea5230d97c2beafb607691fbf2f1e6fe59a9084a
-      </div>
+      </div >
     );
   }
 }

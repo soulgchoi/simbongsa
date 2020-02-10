@@ -16,10 +16,11 @@ class UserSetting extends React.Component<any> {
         const placeholder = '지역을 입력하세요.'
         const list = [{ key: 'afg', flag: 'af', value: 'a', text: 'Afghanistan' }, { key: 'af', value: 'af', flag: 'af', text: 'Aland Islands' }]
         return (
-            <Fragment>
+            <div>
                 <SearchSelection placeholder={placeholder} optionlist={list}></SearchSelection>
-                <div><CheckBox label={"안녕하세요"}></CheckBox></div>
-            </Fragment>
+                <div><CheckBox label={"오전"}></CheckBox></div>
+                <div><CheckBox label={"오후"}></CheckBox></div>
+            </div>
         )
     }
 }
