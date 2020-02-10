@@ -12,7 +12,7 @@ export default function main({}: Props): ReactElement {
     <div className="user" id="login">
       <div className="wrapC">
         <div className="image">
-          <img alt="로고" src={Logo} width="25%" height="25%" />
+          <img alt="로고" src={Logo} width="10%" height="10%" />
         </div>
         <LinkButton placeholder="달력" link="/calendar" />
         <LinkButton placeholder="지도" link="/location" />

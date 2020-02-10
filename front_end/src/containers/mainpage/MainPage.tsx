@@ -9,7 +9,11 @@ export default class MainPage extends Component {
       <div className="user" id="login">
         <div className="wrapC">
           <div>
-            <img className="titleimg" src="/images/volunteer.png" />
+            <img
+              alt="타이틀"
+              className="titleimg"
+              src="/images/volunteer.png"
+            />
             <h1 className="title titleheader">최신 봉사활동 정보</h1>
           </div>
           <div>

@@ -13,7 +13,7 @@ export default function LinkButton({
   disabled
 }: Props): ReactElement {
   return (
-    <div>
+    <div id="btn-div">
       <Link to={link} className="my--btn">
         <button>{placeholder}</button>
       </Link>
