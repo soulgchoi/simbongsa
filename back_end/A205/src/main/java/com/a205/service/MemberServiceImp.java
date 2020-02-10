@@ -22,6 +22,7 @@ import com.a205.dao.RegionDAO;
 import com.a205.dto.Member;
 import com.a205.dto.Region;
 import com.a205.dto.MemberException;
+import com.a205.dto.Member_detail;
 import com.a205.dto.Member_has_category;
 import com.a205.dto.Member_has_region;
 import com.a205.model.MemberPatchRequest;
@@ -118,14 +119,14 @@ public class MemberServiceImp implements MemberService {
 			for(String cate:list2) {
 				List<String> cate_bucket = java.util.Arrays.asList(cate.split("-"));
 				Member_has_category member_has_category = new Member_has_category();
-				member_has_category.setM_id(m_id.toString());
+				member_has_category.setM_id(m_id);
 				// r_sidoCd
 				System.out.println(cate_bucket.get(0));
 				
 				// r_gugunCd
 				System.out.println(cate_bucket.get(1));
 				Integer ca_id = categoryDao.selectOne(cate_bucket.get(0),cate_bucket.get(1)).getCa_id();
-				member_has_category.setCa_id(ca_id.toString());
+				member_has_category.setCa_id(ca_id);
 				boolean member_has_category_created = member_has_category_dao.add(member_has_category);
 				System.out.println(member_has_category_created);
 			}		
@@ -145,6 +146,29 @@ public class MemberServiceImp implements MemberService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Member_detail searchDetail(String userId) {
+		Member member = dao.search(userId);
+		Integer m_id = member.getM_id();
+		List<Integer> m_prefer_category = member_has_category_dao.searchByM_id(m_id);
+		List<Integer> m_prefer_region = member_has_region_dao.searchByM_id(m_id);
+		
+		
+		Member_detail member_detail = new Member_detail();
+		member_detail.setM_address(member.getM_address());
+		member_detail.setM_age(member.getM_age());
+		member_detail.setM_bgnTm(member.getM_bgnTm());
+		member_detail.setM_email(member.getM_email());
+		member_detail.setM_endTm(member.getM_endTm());
+		member_detail.setM_id(m_id);
+		member_detail.setM_password(member.getM_password());
+		member_detail.setM_userid(member.getM_userid());
+		member_detail.setM_prefer_category(m_prefer_category);
+		member_detail.setM_prefer_region(m_prefer_region);
+		
+		return member_detail;
 	}
 
 

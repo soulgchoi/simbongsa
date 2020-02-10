@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member_has_category {
 	
-	private String m_id;
-	private String ca_id;
+	private Integer m_id;
+	private Integer ca_id;
 
 }

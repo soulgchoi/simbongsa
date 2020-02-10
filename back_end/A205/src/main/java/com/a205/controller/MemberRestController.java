@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a205.dto.Member;
+import com.a205.dto.Member_detail;
 import com.a205.model.MemberPatchRequest;
 import com.a205.service.MemberService;
 
@@ -175,6 +176,26 @@ public class MemberRestController {
 		}
 	}
 
+	@GetMapping("/Member/{userId}/PreferDetail")
+	@ApiOperation("ID에 해당하는 유저의 선호정보까지 반환한다. ")
+	public ResponseEntity<Map<String, Object>> getMemberㅖㄱㄷㄹㄷㄱㅇㄷㅅ먀ㅣ(@PathVariable String userId){
+		try {
+			
+			Member_detail member_detail = service.search(userId);
+// 현재 유저검색은 로그인 된 사람만 가능
+			if (member != null ) {
+				System.out.println(member.getM_userid());
+
+				return response(member, true, HttpStatus.OK);
+			} else {
+				System.out.println(member.getM_userid() );
+				return response(null, true, HttpStatus.OK);
+			}
+		}catch(Exception e) {
+			logger.error("회원조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
 
 
 

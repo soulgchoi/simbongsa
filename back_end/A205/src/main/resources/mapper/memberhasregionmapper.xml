@@ -7,5 +7,10 @@
 		insert into `member_has_region`(m_id, r_id ) 
 		  values(#{m_id}, #{r_id} )
 	</insert>
+ 	<select id="selectByM_id" resultType="java.lang.integer" parameterType="int">
+		select r_id from `member_has_region` 
+			where m_id = #{m_id}
+
+	</select>
 
  </mapper>
