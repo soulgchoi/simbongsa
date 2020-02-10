@@ -14,29 +14,29 @@ import PostingForm from "containers/posting/PostingForm";
 // import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 // import Postings from "containers/posting/Postings"
-import Post from 'containers/posting/timeline/Post'
+// import Post from 'containers/posting/timeline/Post'
 
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 // 로컬에 저장
-import storage from 'lib/storage'
+import storage from "lib/storage";
 // redux 관련
-import * as userActions from 'redux/modules/user';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import jwt from 'jsonwebtoken'
-class App extends Component<any>{
+import * as userActions from "redux/modules/user";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import jwt from "jsonwebtoken";
+class App extends Component<any> {
   initializeUserInfo = () => {
-    const loggedInfo = storage.get('loggedInfo'); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    const loggedInfo = storage.get("loggedInfo"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
     if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
-    console.log('loggedInfo', loggedInfo)
-    const temp = jwt.decode(loggedInfo.token)
-    console.log('temp', temp)
+    console.log("loggedInfo", loggedInfo);
+    const temp = jwt.decode(loggedInfo.token);
+    console.log("temp", temp);
     const { UserActions, history } = this.props;
 
     UserActions.setLoggedInfo(temp);
-    history.push("/mainpage");
-  }
+    // history.push("/mainpage");
+  };
   componentDidMount() {
     this.initializeUserInfo();
   }
@@ -56,15 +56,12 @@ class App extends Component<any>{
         <Route path="/location" component={Location} />
         <Route exact path="/vol/detail/:id" component={VolDetail} />
         <Route exact path="/write" component={PostingForm} />
-        <Route exact path="/list" component={Post} />
+        {/* <Route exact path="/list" component={Post} /> */}
       </div>
     );
   }
 }
 
-export default connect(
-  null,
-  (dispatch) => ({
-    UserActions: bindActionCreators(userActions, dispatch)
-  })
-)(App);
+export default connect(null, dispatch => ({
+  UserActions: bindActionCreators(userActions, dispatch)
+}))(App);
