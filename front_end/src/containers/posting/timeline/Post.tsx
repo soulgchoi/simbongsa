@@ -24,7 +24,7 @@ class Post extends React.Component<Props, {}>{
                 </div>
                 <div>
                     <p>text</p>
-                    <Comments p_id={this.props.p_id}/>
+                    <Comments inP_id={this.props.p_id}/>
                     <AddComment p_id={this.props.p_id}/>
                 </div>
             </div>

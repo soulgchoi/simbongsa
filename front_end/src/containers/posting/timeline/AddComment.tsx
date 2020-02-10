@@ -12,13 +12,16 @@ class AddComment extends React.Component<Props, {}> {
     }
 
     handleChange = (e:any) =>{
-        let {name, value} = e.target;
+        console.log(this.state.c_content)
         this.setState({
-            [name]: value
+            "c_content": e.target.value
         })
     }
+
     handleClick = () => {
-        axios.post('url')
+        axios.post('http://localhost:3002/comment',{
+            'c_content': this.state.c_content
+        })
         .then(res => {
             this.setState({
                 "c_content": "",
@@ -34,7 +37,7 @@ class AddComment extends React.Component<Props, {}> {
                     <img src="#" alt=""/>
                 </div>
                 <form>
-                    <input type="textarea"
+                    <input type="text"
                         value={this.state.c_content}
                         onChange={this.handleChange}
                     ></input>

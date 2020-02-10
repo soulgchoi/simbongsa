@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 interface Props {
-    p_id: string;
+    inP_id: string;
 }
 
 
@@ -21,7 +21,7 @@ class Comments extends React.Component<Props, {}> {
             console.log(res)
             if (res.data.length > 0) {
                 const data = res.data.map( (d: any) => {
-                    // if (data.p_id === this.props.p_id) {
+                    // if (data.p_id === this.props.inP_id) {
                         return {c_id: d.id, p_id: d.p_id, c_content: d.c_content}
                     // }
                 })
@@ -37,12 +37,12 @@ class Comments extends React.Component<Props, {}> {
     }
 
     render() {
-        const prints = this.state.comments.map( (comment) => {
-            if (comment.p_id == this.props.p_id) {
+        const prints = this.state.comments.map( (comment, i) => {
+            if (comment.p_id == this.props.inP_id) {
                 return (
-                    <p>{comment.c_content}</p>
+                    <p key={i}>{comment.c_content}</p>
                 )
-            }
+            } else return undefined
         })
 
         return (
