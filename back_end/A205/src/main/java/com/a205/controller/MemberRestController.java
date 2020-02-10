@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
+import com.a205.dto.Post;
 import com.a205.model.MemberPatchRequest;
 import com.a205.service.MemberService;
 
@@ -175,7 +176,19 @@ public class MemberRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
+	@GetMapping("/Member/{userId}/Post")
+	@ApiOperation("ID에 해당하는 유저가 생성한 글들을 불러온다.(내가 쓴 포스트)")
+	public ResponseEntity<Map<String, Object>> getUserPost(@PathVariable String userId){
+		try {
+			List<Post> postList = service.searchPost(userId);
+			return response(postList, true, HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("목록조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
 
+	}
+	
 	@GetMapping("/Member/{userId}/PreferDetail")
 	@ApiOperation("ID에 해당하는 유저의 선호정보까지 반환한다. ")
 	public ResponseEntity<Map<String, Object>> getMemberPreferDetail(@PathVariable String userId){
@@ -188,7 +201,6 @@ public class MemberRestController {
 
 				return response(member_detail, true, HttpStatus.OK);
 			} else {
-				System.out.println(member_detail.getM_userid() );
 				return response(null, true, HttpStatus.OK);
 			}
 		}catch(Exception e) {

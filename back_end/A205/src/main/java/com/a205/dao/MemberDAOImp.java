@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
+import com.a205.dto.Post;
 
 @Repository
 public class MemberDAOImp implements MemberDAO {
@@ -54,6 +55,14 @@ public class MemberDAOImp implements MemberDAO {
 		return session.delete(statement, id)>0;
 	}
 	
-	
+	@Override
+	public List<Post> searchPost(Integer m_id){
+		
+		String statement = ns+"selectListPost";
+		
+		return session.selectList(statement, m_id);
+
+	}
+
 
 }
