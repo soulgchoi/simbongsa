@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Member;
+import com.a205.dto.Member_detail;
 
 @Repository
 public class MemberDAOImp implements MemberDAO {
@@ -52,4 +53,7 @@ public class MemberDAOImp implements MemberDAO {
 		String statement = ns+"delete";
 		return session.delete(statement, id)>0;
 	}
+	
+	
+
 }

@@ -16,4 +16,6 @@ public interface MemberDAO {
 	public boolean update(Member member);
 
 	public boolean remove(String id);
+	
+	
 }
