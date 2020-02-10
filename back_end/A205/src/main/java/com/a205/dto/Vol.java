@@ -31,5 +31,7 @@ public class Vol {
 	String r_id;
 	String ca_id;
 	String v_Auth;
+	String v_x;
+	String v_y;
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a205.dao.VolDao;
+import com.a205.dto.MyFilter;
 import com.a205.dto.Vol;
 import com.a205.dto.Vol_Mini;
 
@@ -21,6 +22,11 @@ public class VolServiceImpl implements VolService {
 	
 	public Vol searchVolDetail(int v_id) {
 		return dao.searchVol(v_id);
+	}
+
+	@Override
+	public List<Vol> searchByFilter(int listSize, int startList, MyFilter my) {
+		return dao.searchByFilter(listSize, startList, my);
 	}
 
 }

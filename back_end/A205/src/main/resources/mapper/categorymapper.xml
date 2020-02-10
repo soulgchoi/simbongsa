@@ -8,5 +8,9 @@
 		where ca_highCd = #{ca_highCd} and ca_lowCd = #{ca_lowCd}
 	</select>
 	
-	
+	<select id="selectList" resultType="category" parameterType="java.lang.String">
+		select * from `category`
+		where ca_highNm = #{ca_highNm}
+	</select>
+
 </mapper>
