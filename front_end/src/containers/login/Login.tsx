@@ -91,6 +91,7 @@ class Login extends React.Component<any, any> {
   };
 
   render() {
+    console.log(this.props.loggedInfo.toJS())
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin } = this;
     const { error } = this.props;

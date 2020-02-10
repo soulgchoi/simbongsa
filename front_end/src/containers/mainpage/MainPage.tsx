@@ -11,6 +11,7 @@ import "assets/mycss/mainpage.scss";
 
 
 export default class MainPage extends Component {
+
     render() {
         return (
             <div className="user" id="login">
