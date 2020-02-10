@@ -2,13 +2,13 @@ import React from 'react';
 import axios from 'axios';
 
 interface Props {
-    "p_id": string;
+    "inP_id": string;
 }
 
 class AddComment extends React.Component<Props, {}> {
     state = {
         "c_content": "",
-        inP_id: this.props.p_id
+        "inP_id": ""
     }
 
     handleChange = (e:any) =>{
@@ -20,11 +20,13 @@ class AddComment extends React.Component<Props, {}> {
 
     handleClick = () => {
         axios.post('http://localhost:3002/comment',{
-            'c_content': this.state.c_content
+            'c_content': this.state.c_content,
+            'p_id': this.props.inP_id
         })
         .then(res => {
             this.setState({
                 "c_content": "",
+                "p_id": "",
 
             })
         })

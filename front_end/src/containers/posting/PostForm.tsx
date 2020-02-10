@@ -1,15 +1,15 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
 import GoBackButton from 'components/button/GoBackButton';
 
-
-
-
 interface IProps {
-    v_id?: string;
-    // v_id 가 있으면 같이 저장
+    volunteer: {
+        "v_id": number;
+        "v_title": string;
+        "v_pStatus": number;
+        "v_Auth": number;
+    }
 }
 
 class PostingForm extends React.Component<IProps, {}> {
@@ -17,12 +17,11 @@ class PostingForm extends React.Component<IProps, {}> {
         p_content: "",
         selectedFile: new File([""], "", {type: ""}),
         imagePreview: "",
-        v_id: null
     }
 
     handleChange = (e: any) => {
         this.setState({
-            [e.target.name]: e.target.value
+            p_content: e.target.value
         })
     }
 
@@ -44,8 +43,8 @@ class PostingForm extends React.Component<IProps, {}> {
         const fd = new FormData();
         fd.append("image", this.state.selectedFile);
         fd.set("data", this.state.p_content)
-        if (this.props.v_id) {
-            fd.append("v_id", this.props.v_id as string)
+        if (this.props.volunteer.v_id) {
+            fd.append("v_id", this.props.volunteer.v_id.toString())
         }
 
         axios.post("http://localhost:3002/post", fd)
@@ -59,16 +58,16 @@ class PostingForm extends React.Component<IProps, {}> {
             p_content: "",
             selectedFile: new File([""], "", {type: ""}),
             imagePreview: "",
-            v_id: null
+            v_id: 0
         })
     }
 
     render() {
-        let $imagePreview = (
+        let imagepreview = (
             <div></div>
         );
         if (this.state.imagePreview) {
-            $imagePreview = (
+            imagepreview = (
                 <div>
                     <img src={this.state.imagePreview} alt="uploaded image" width="200" />
                 </div>
@@ -81,6 +80,7 @@ class PostingForm extends React.Component<IProps, {}> {
                 onSubmit={this.handleSubmit}
                 className="posting-form">
                 <input
+                    value={this.state.p_content}
                     className="posting"
                     type="textarea"
                     name="content"
@@ -89,10 +89,11 @@ class PostingForm extends React.Component<IProps, {}> {
                 <input
                     type="file"
                     id="file"
+                    multiple
                     onChange={this.handleFileChange}
                 />
                 <label htmlFor="file" className="btn-1">이미지 업로드</label>
-                    {$imagePreview}
+                    {imagepreview}
                 <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
                 <GoBackButton
                     text="취소하기"
