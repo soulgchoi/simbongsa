@@ -50,6 +50,12 @@ public class PostDaoImpl implements PostDao {
 		String statement = ns + "delete";
 		return session.delete(statement, p_id) > 0;
 	}
+
+	@Override
+	public int getid() {
+		String statement = ns + "nextPostId";
+		return session.selectOne(statement);
+	}
 	
 	/*
 	@Override

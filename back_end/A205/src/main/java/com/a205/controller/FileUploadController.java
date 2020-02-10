@@ -32,28 +32,24 @@ public class FileUploadController {
     @Autowired
     private FileUploadDownloadService service;
     
-//    @GetMapping("/")
-//    public String controllerMain() {
-//        return "Hello~ File Upload Test.";
-//    }
-    
-    @PostMapping("/uploadFile") //단일 파일 업로드
-    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = service.storeFile(file);
+    //@PostMapping("/uploadFile") //단일 파일 업로드
+    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, int p_id) {
+        
+    	String storedFileName = service.storeFile(file, p_id);
         
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                                 .path("/downloadFile/")
-                                .path(fileName)
+                                .path(storedFileName)
                                 .toUriString();
         
-        return new FileUploadResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+        return new FileUploadResponse(file.getOriginalFilename(), fileDownloadUri, file.getContentType(), file.getSize());
     }
     
     @PostMapping("/uploadMultipleFiles") //다중 파일 업로드
-    public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files){
+    public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, int p_id){
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(file))
+                .map(file -> uploadFile(file, p_id))
                 .collect(Collectors.toList());
     }
     
@@ -80,4 +76,6 @@ public class FileUploadController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
+    
+    
 }

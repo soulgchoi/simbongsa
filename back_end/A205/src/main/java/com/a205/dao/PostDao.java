@@ -15,6 +15,8 @@ public interface PostDao {
 	
 	boolean remove(int p_id);
 	
+	int getid();
+	
 //	public int addViewCnt(int no);
 //	public int getViewCnt(int no);
 //	

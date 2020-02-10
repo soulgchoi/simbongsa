@@ -10,6 +10,8 @@ public interface PostService {
 	public boolean add(Post Post);
 	public boolean update(Post Post);
 	public boolean remove(int no);
+
+	public int getid();
 	
 //	Integer getViewCnt(Integer no);
 //	Integer addViewCnt(Integer no);
