@@ -1,29 +1,17 @@
 import axios, { AxiosResponse } from "axios";
-
-const restBaseApi = "http://70.12.247.87:8080/"; // 신호꺼
+// const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 // const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
 export const checkEmailExists = (email: string) => {
   try {
     console.log("API email check : ", email);
     return axios.get(restBaseApi + "rest/CheckEmail/" + email);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return false;
   }
 };
 export const checkUsernameExists = (userid: string) => {
-  // axios
-  //   .get(restBaseApi + "CheckId/" + userid)
-  //   .then(response => {
-  //     console.log("ax response:", response);
-
-  //     return true;
-  //   })
-  //   .catch(error => {
-  //     console.log("ax error:", error);
-  //     return false;
-  //   });
-  // };
   try {
     return axios.get(restBaseApi + "rest/CheckId/" + userid);
   } catch (error) {
@@ -31,15 +19,23 @@ export const checkUsernameExists = (userid: string) => {
   }
 };
 interface Iregister {
-  email: string
-  password: string
-  userid: string
+  email: string;
+  password: string;
+  userid: string;
 }
-export const localRegister: ({ email, password, userid }: Iregister) => false | Promise<AxiosResponse<any>> = ({ email, password, userid }: Iregister) => {
+export const localRegister: ({
+  email,
+  password,
+  userid
+}: Iregister) => false | Promise<AxiosResponse<any>> = ({
+  email,
+  password,
+  userid
+}: Iregister) => {
   let data = {
     m_email: email,
     m_password: password,
-    m_userid: userid,
+    m_userid: userid
   };
   try {
     console.log("체크 : ", data);
@@ -55,10 +51,16 @@ export const localRegister: ({ email, password, userid }: Iregister) => false | 
   // }
 };
 interface Ilogin {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
-export const localLogin: ({ email, password }: Ilogin) => false | Promise<AxiosResponse<any>> = ({ email, password }: Ilogin) => {
+export const localLogin: ({
+  email,
+  password
+}: Ilogin) => false | Promise<AxiosResponse<any>> = ({
+  email,
+  password
+}: Ilogin) => {
   let data = {
     password: password,
     username: email
