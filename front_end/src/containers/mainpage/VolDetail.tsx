@@ -9,21 +9,28 @@ import PostingButton from 'components/button/PostingButton'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
+import { HistoryLocation } from "@reach/router";
 
-interface IProps {
+interface MatchParams {
   selectedVolunteer: any;
 }
 
-class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
+interface Props {
+    volunteer: {
+        v_id: string,
+        v_title: string,
+        v_pStatus: string,
+        v_Auth: string
+    }
+}
+
+class VolDetail extends React.Component<Props, {}>{
     state = {
-        v_id: this.props.history.location.state as string,
-        v_title: "",
         v_organ: "",
         v_pBgnD: "",
         v_pEndD: "",
         v_mBgnD: "",
         v_mEndD: "",
-        v_pStatus: 0,
         v_location: "",
         v_adult: "",
         v_young: "",
@@ -37,12 +44,14 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
         v_detail: "",
         r_id: "",
         ca_id: "",
-        v_Auth: "",
         url: "http://13.124.127.232:8080/A205/vol/detail/",
     }
 
+    componentWillMount() {
+    }
+
     componentDidMount(){
-        axios.get(this.state.url + this.state.v_id)
+        axios.get(this.state.url + this.state.volunteer.v_id)
         .then(response => {
             const data = response.data.data
             console.log(response.data.data)
@@ -78,10 +87,11 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
     render() {
         return (
             <div className="">
+                {this.state.volunteer.v_id}
                 <h3 className="">
-                    {this.state.v_title}<br />
-                    {this.state.v_id}
-                    {typeof (this.state.v_id)}
+                    {this.state.volunteer.v_title}<br />
+                    {this.state.volunteer.v_id}
+                    {typeof (this.state.volunteer.v_id)}
                 </h3>
                 <table className="">
                     <tbody>
@@ -136,12 +146,13 @@ class VolDetail extends React.Component<RouteComponentProps<MatchParams>, {}>{
                     </tbody>
                 </table>
                 <PostingButton 
-                    v_id={this.state.v_id}
+                    volunteer={this.state.volunteer}
                 />
             </div>
         );
     }
 }
+
 
 export default connect(
   ({ vol }: any) => {
