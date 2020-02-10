@@ -18,9 +18,7 @@ import UserSetting from "containers/usersetting/UserSetting"
 
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
-<<<<<<< HEAD
 import TodosContainer from "containers/usersetting/TodosContainer";
-=======
 // 로컬에 저장
 import storage from 'lib/storage'
 // redux 관련
@@ -36,10 +34,9 @@ class App extends Component<any>{
     const temp = jwt.decode(loggedInfo.token)
     console.log('temp', temp)
     const { UserActions, history } = this.props;
->>>>>>> 56a7bfaed12c4fefbff50054b7545c6902b2050b
 
     UserActions.setLoggedInfo(temp);
-    history.push("/mainpage");
+    // history.push("/mainpage");
   }
   componentDidMount() {
     this.initializeUserInfo();

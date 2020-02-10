@@ -67,10 +67,6 @@ export const localLogin: ({
       username: email
     };
     try {
-<<<<<<< HEAD
-=======
-      console.log(restBaseApi, data)
->>>>>>> 56a7bfaed12c4fefbff50054b7545c6902b2050b
       return axios.post(restBaseApi + "authenticate", data);
     } catch (error) {
       return false;

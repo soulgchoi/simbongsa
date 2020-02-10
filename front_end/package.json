@@ -10,11 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/debounce": "^1.2.0",
-<<<<<<< HEAD
-    "@types/faker": "^4.1.9",
-=======
     "@types/jsonwebtoken": "^8.3.7",
->>>>>>> 56a7bfaed12c4fefbff50054b7545c6902b2050b
     "@types/lodash": "^4.14.149",
     "@types/reach__router": "^1.2.6",
     "@types/react-addons-update": "^0.14.20",

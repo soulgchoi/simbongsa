@@ -8,12 +8,19 @@ class TodosContainer extends Component<any, any> {
 
     handleChange = (e: any) => {
         const { TodoActions } = this.props;
-        TodoActions.changeInput(e.target.value);
+        if (e.target.getElementsByTagName('span')[0].innerText) {
+            console.log("event target", e.target.getElementsByTagName('span')[0].innerText);
+            TodoActions.changeInput(e.target.getElementsByTagName('span')[0].innerText);
+            const { input } = this.props;
+
+        }
+        else {
+
+        }
     }
 
     handleInsert = () => {
-        const { TodoActions } = this.props;
-        const { input } = this.props;
+        const { TodoActions, input } = this.props;
         TodoActions.insert(input);
         TodoActions.changeInput('');
     }
