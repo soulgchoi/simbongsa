@@ -7,5 +7,17 @@
 		insert into `member_has_category`(m_id, ca_id ) 
 		  values(#{m_id}, #{ca_id} )
 	</insert>
+ 	
+ 	<select id="selectByM_id" resultType="member_has_category" parameterType="int">
+		select * from `member_has_category` 
+			where m_id = #{m_id}
 
+	</select>
+	
+	<delete id="delete" parameterType="member_has_category">
+			delete from `member_has_category` 
+			where m_id=#{m_id} and ca_id=#{ca_id} 
+	</delete>
+	
+	
  </mapper>
