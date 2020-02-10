@@ -25,6 +25,7 @@ import com.a205.dto.MemberException;
 import com.a205.dto.Member_detail;
 import com.a205.dto.Member_has_category;
 import com.a205.dto.Member_has_region;
+import com.a205.dto.Post;
 import com.a205.model.MemberPatchRequest;
 
 import io.jsonwebtoken.lang.Arrays;
@@ -202,6 +203,11 @@ public class MemberServiceImp implements MemberService {
 		return member_detail;
 	}
 
+	@Override
+	public List<Post> searchPost(String userId){
+		Integer m_id = dao.search(userId).getM_id(); 
+		return dao.searchPost(m_id);
+	}
 
 	@Override
 	public boolean update(Member member) {

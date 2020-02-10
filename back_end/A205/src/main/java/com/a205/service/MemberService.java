@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
+import com.a205.dto.Post;
 import com.a205.model.MemberPatchRequest;
 
 public interface MemberService {
 	public Member search(String userId);
 
 	public List<Member> searchAll();
+
+	public List<Post> searchPost(String userId);
 
 	public boolean login(String id, String pw);
 
