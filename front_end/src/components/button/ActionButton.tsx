@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "assets/mycss/components.scss";
+import "assets/mycss";
 interface Props {
   placeholder: string;
   // disabled : boolean

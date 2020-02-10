@@ -14,7 +14,7 @@ import PostingForm from "containers/posting/PostingForm";
 import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Main from "containers/main/Main";
-
+import Header from "components/header/Header";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 
@@ -22,7 +22,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <TemporaryDrawer />
+        {/* <TemporaryDrawer /> */}
+        {/* <div className="wrapC"> */}
+        <Route path="/" component={Header} />
         <Route exact path="/" component={Login} />
         <Route exact path="/main" component={Main} />
         <Route exact path="/join" component={Join} />
@@ -38,6 +40,7 @@ class App extends Component {
         <Route exact path="/write" component={PostingForm} />
         <Route exact path="/list" component={PostingItem} />
       </div>
+      // </div>
     );
   }
 }

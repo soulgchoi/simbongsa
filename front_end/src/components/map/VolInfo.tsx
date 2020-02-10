@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import "assets/mycss/location.scss";
+import React, { ReactElement } from "react";
+import "assets/mycss";
 import iconSrc from "assets/images/location_marker.svg";
 
 //직접 만든 컴포넌트
@@ -17,7 +17,7 @@ function VolInfo({ selectedVolunteer }: Props): ReactElement {
   console.log(selectedVolunteer);
   return (
     <div className="main--text">
-      {!selectedVolunteer.v_id &&
+      {!selectedVolunteer.v_id && (
         <div id="text">
           지도에서
           <b id="bold">
@@ -27,31 +27,31 @@ function VolInfo({ selectedVolunteer }: Props): ReactElement {
             </span>
           </b>
           를 클릭하면 봉사정보가 나와요
-      </div>}
-      {selectedVolunteer.v_id &&
+        </div>
+      )}
+      {selectedVolunteer.v_id && (
         <div className="vol--info">
+          <div>봉사활동명 : {selectedVolunteer.v_title}</div>
           <div>
-            봉사활동명 : {selectedVolunteer.v_title}
+            봉사일정: {selectedVolunteer.v_pBgnD} ~ {selectedVolunteer.v_pEndD}{" "}
+            / {selectedVolunteer.v_bgnTm} ~ {selectedVolunteer.v_endTm}
           </div>
-          <div>
-            봉사일정: {selectedVolunteer.v_pBgnD} ~ {selectedVolunteer.v_pEndD} / {selectedVolunteer.v_bgnTm} ~ {selectedVolunteer.v_endTm}
-          </div>
-          <div>
-            봉사장소: {selectedVolunteer.v_location}
-          </div>
+          <div>봉사장소: {selectedVolunteer.v_location}</div>
           <div>
             모집정보: {selectedVolunteer.v_mBgnD} ~ {selectedVolunteer.v_mEndD}
           </div>
-          <LinkButton link={`vol/detail/${selectedVolunteer.v_id}`} placeholder="상세보기" />
-        </div>}
+          <LinkButton
+            link={`vol/detail/${selectedVolunteer.v_id}`}
+            placeholder="상세보기"
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default connect(
-  ({ vol }: any) => {
-    return {
-      selectedVolunteer: vol.get("selectedVolunteer")
-    };
-  }
-)(VolInfo);
+export default connect(({ vol }: any) => {
+  return {
+    selectedVolunteer: vol.get("selectedVolunteer")
+  };
+})(VolInfo);

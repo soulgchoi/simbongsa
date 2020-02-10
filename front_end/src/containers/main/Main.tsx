@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
-import "assets/mycss/components.scss";
-import "assets/mycss/main.scss";
+import "assets/mycss";
 
 import VolList from "containers/mainpage/VolList";
 import Logo from "assets/images/logo.png";
+import LinkButton from "components/button/LinkButton";
+
 interface Props {}
 
 export default function main({}: Props): ReactElement {
@@ -11,9 +12,11 @@ export default function main({}: Props): ReactElement {
     <div className="user" id="login">
       <div className="wrapC">
         <div className="image">
-          <img src={Logo} width="50%" height="50%" />
+          <img alt="로고" src={Logo} width="25%" height="25%" />
         </div>
-        <VolList />
+        <LinkButton placeholder="달력" link="/calendar" />
+        <LinkButton placeholder="지도" link="/location" />
+        {/* <VolList /> */}
       </div>
     </div>
   );

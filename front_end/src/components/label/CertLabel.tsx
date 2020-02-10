@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import 'assets/mycss/mainpage.scss';
+import "assets/mycss";
 
 interface Props {
   isCert: string;
@@ -8,7 +8,7 @@ interface Props {
   isFullClass: string;
 }
 interface State {
-    visibility: string;
+  visibility: string;
 }
 
 export default class CertLabel extends Component<Props, State> {
@@ -18,22 +18,20 @@ export default class CertLabel extends Component<Props, State> {
 
   componentWillMount() {
     if (this.props.isCert === "인증") {
-      this.setState({visibility: "true"})
+      this.setState({ visibility: "true" });
     } else {
-      this.setState({visibility: "false"})
+      this.setState({ visibility: "false" });
     }
   }
 
   render() {
     return (
-      <div style={{display: 'inline'}}>
+      <div style={{ display: "inline" }}>
         <div className={this.props.isCertClass} id={this.state.visibility}>
           {this.props.isCert}
         </div>
-        <div className={this.props.isFullClass}>
-          {this.props.isFull}
-        </div>
+        <div className={this.props.isFullClass}>{this.props.isFull}</div>
       </div>
-    )
+    );
   }
 }

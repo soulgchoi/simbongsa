@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "assets/mycss/location.scss";
+import "assets/mycss";
 // 직접 제작한 Component
 import Map from "components/map/Map";
 import VolInfo from "components/map/VolInfo";

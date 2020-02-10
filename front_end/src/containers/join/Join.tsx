@@ -1,9 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import "assets/css/style.scss";
-
-// import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss";
 import validator from "validator";
 
 //storage = 데이터를 조금 더 편하게 넣고 조회하기 위한 헬퍼 모듈
@@ -89,7 +86,7 @@ class Join extends React.Component<any, any> {
     try {
       console.log("email 체크 함수:", email);
       await AuthActions.checkEmailExists(email);
-      console.log("이메일확인결과", this.props.exists.toJS())
+      console.log("이메일확인결과", this.props.exists.toJS());
       if (this.props.exists.get("email")) {
         this.setError("이미 존재하는 이메일입니다.", "email");
       } else {
@@ -155,7 +152,9 @@ class Join extends React.Component<any, any> {
     }
     try {
       await AuthActions.localRegister({
-        email, userid, password
+        email,
+        userid,
+        password
       });
       console.log("왓다");
       // const loggedInfo = this.props.result.toJS();
@@ -169,9 +168,11 @@ class Join extends React.Component<any, any> {
       // TODO: 실패시 실패 ERROR 표현
       if (e.response.status === 409) {
         const { key } = e.response.data;
-        const message = key === 'email' ? '이미 존재하는 이메일입니다.' : '이미 존재하는 아이디입니다.';
+        const message =
+          key === "email"
+            ? "이미 존재하는 이메일입니다."
+            : "이미 존재하는 아이디입니다.";
         return this.setError(message, key);
-
       }
     }
   };
@@ -239,7 +240,9 @@ class Join extends React.Component<any, any> {
           <br />
           <br />
 
-          <button onClick={handleLocalRegister} className="my--btn">가입하기</button>
+          <button onClick={handleLocalRegister} className="my--btn">
+            가입하기
+          </button>
           {/* <LinkButton link="/join/complete" placeholder="가입하기" /> */}
         </div>
       </div>

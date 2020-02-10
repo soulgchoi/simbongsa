@@ -1,7 +1,5 @@
 import React from "react";
-import "assets/css/style.scss";
-import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss";
 import PV from "password-validator";
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -75,53 +73,51 @@ class Login extends React.Component<any, any> {
     const error2 = error.toJS();
     return (
       <div className="user" id="login">
-        <div className="wrapC">
-          <h1 className="title">로그인</h1>
-          <Input
-            id="email"
-            nametag="ID"
-            placeholder="아이디를 입력하세요."
-            type="text"
-            value={email}
-            onChange={handleChange}
-          />
-          <Input
-            id="password"
-            nametag="password"
-            placeholder="비밀번호를 입력하세요."
-            type="password"
-            value={password}
-            onChange={handleChange}
-          />
-          <AuthError error={error2.email}></AuthError>
-          <ActionButton
-            placeholder="로그인"
-            action={handleLocalLogin}
-          ></ActionButton>
-          <div className="sns-login">
-            <div className="text">
-              <p>SNS 간편 로그인</p>
-              <div className="bar"></div>
-            </div>
-            {/* <KakaoLogin
+        <h1 className="title">로그인</h1>
+        <Input
+          id="email"
+          nametag="ID"
+          placeholder="아이디를 입력하세요."
+          type="text"
+          value={email}
+          onChange={handleChange}
+        />
+        <Input
+          id="password"
+          nametag="password"
+          placeholder="비밀번호를 입력하세요."
+          type="password"
+          value={password}
+          onChange={handleChange}
+        />
+        <AuthError error={error2.email}></AuthError>
+        <ActionButton
+          placeholder="로그인"
+          action={handleLocalLogin}
+        ></ActionButton>
+        <div className="sns-login">
+          <div className="text">
+            <p>SNS 간편 로그인</p>
+            <div className="bar"></div>
+          </div>
+          {/* <KakaoLogin
               jsKey="kakao-js-key"
               onSuccess={result => console.log(result)}
               onFailure={result => console.log(result)}
               getProfile={true}
             /> */}
-            <GoogleLogin
-              clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
-              onSuccess={result => console.log(result)}
-              onFailure={result => console.log(result)}
-              cookiePolicy={"single_host_origin"}
-              redirectUri="http://www.naver.com"
-            />
-          </div>
-          <div className="add-option">
-            <div className="bar" />
-            <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
-            <LinkButton placeholder="회원가입" link="/join" />
-          </div>
+          <GoogleLogin
+            clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
+            onSuccess={result => console.log(result)}
+            onFailure={result => console.log(result)}
+            cookiePolicy={"single_host_origin"}
+            redirectUri="http://www.naver.com"
+          />
+        </div>
+        <div className="add-option">
+          <div className="bar" />
+          <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
+          <LinkButton placeholder="회원가입" link="/join" />
         </div>
       </div>
     );

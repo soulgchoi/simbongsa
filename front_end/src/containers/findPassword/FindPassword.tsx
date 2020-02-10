@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss/error.scss";
 import * as EmailValidator from "email-validator";
 // import UserApi from "apis/UserApi";
 
