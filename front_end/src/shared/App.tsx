@@ -10,9 +10,9 @@ import Calendar from "components/Calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
-import PostingForm from "containers/posting/PostingForm";
-// import PostingItem from "containers/posting/PostingItem";
+import PostingForm from "containers/posting/PostForm"
 import CalendarContainer from "containers/calendar/CalendarContainer";
+import Wall from 'containers/posting/Wall'
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
 // 직접 만든 component

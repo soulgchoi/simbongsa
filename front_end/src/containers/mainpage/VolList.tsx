@@ -2,68 +2,53 @@ import React, { Component } from "react";
 import axios from 'axios';
 import Vol from './Vol';
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { connect } from "react-redux";
+import * as volActions from "redux/modules/volunteer";
+import { bindActionCreators } from "redux";
 
-interface Props { }
-
-class VolList extends Component<Props, {}> {
+class VolList extends React.Component<any, any> {
     state = {
-        getDataArray: Array(),
-        v_id: 0,
-        v_title: "",
         pageNum: 1,
-        url: "http://13.124.127.232:8080/A205/vol/titles/10/",
-        v_pStatus: 0,
-        v_Auth: 0,
-
     }
     componentDidMount(){
-        axios.get(this.state.url + this.state.pageNum.toString())
-            .then(response => {
-                const data = response.data.data.map((d: any) => {
-                    return { v_id: d.v_id, v_title: d.v_title, v_pStatus: d.v_pStatus, v_Auth: d.v_Auth }
-                })
-                this.setState({ getDataArray: data })
-                this.setState({ pageNum: this.state.pageNum + 1 })
-            })
-            .catch(err =>
-                console.log(err))
-
+        const { VolActions } = this.props;
+        VolActions.getInitailList(this.state.pageNum);
     }
 
-    loadMoreData() {
-        axios.get(this.state.url + this.state.pageNum.toString())
-            .then(response => {
-                const data = response.data.data.map((d: any) => {
-                    return { v_id: d.v_id, v_title: d.v_title, v_pStatus: d.v_pStatus, v_Auth: d.v_Auth }
-                })
-                this.setState({ getDataArray: this.state.getDataArray.concat(data) })
-                this.setState({ pageNum: this.state.pageNum + 1 })
-                console.log('현재 들어오는 정보: ', this.state.getDataArray)
-                console.log('페이지 넘버: ', this.state.pageNum)
-            })
-            .catch(err =>
-                console.log(err))
+    loadMoreData(){
+        this.setState({ pageNum: this.state.pageNum + 1 })
+        const { VolActions } = this.props;
+        VolActions.appendList(this.state.pageNum);
     }
-
-
+    
     render() {
-        const volunteers = this.state.getDataArray.map((volunteer, i) => {
+        const { volunteers } = this.props;
+        console.log(volunteers)
+        const PrintArray = volunteers.map(( vol:any, i:any ) => {
             return (
-                <Vol volunteer={volunteer} key={i} />
+                <Vol v_id={vol.v_id} key={i} />
             )
         })
+
         return (
             <InfiniteScroll
-                dataLength={this.state.getDataArray.length}
+                dataLength={this.state.pageNum * 10}
                 next={this.loadMoreData.bind(this)}
                 hasMore={true}
                 loader={<h4>봉사활동 목록을 불러오는중</h4>}
                 endMessage={<h3>모든 정보를 확인했습니다.</h3>}
             >
-                {volunteers}
+                {PrintArray}
             </InfiniteScroll>
         )
     }
 }
-
-export default VolList;
+        
+export default connect(
+    (state: any) => ({
+        volunteers: state.volunteer.get("volunteers"),
+    }),
+    dispatch => ({
+        VolActions: bindActionCreators(volActions, dispatch)
+    })
+)(VolList);
