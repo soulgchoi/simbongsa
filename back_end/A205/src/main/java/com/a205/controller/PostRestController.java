@@ -40,7 +40,7 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
-	
+
 	@Autowired
 	FileUploadDownloadService f_service;
 
@@ -67,7 +67,7 @@ public class PostRestController {
 			}
 			resultMap.put("result", result);
 			resultMap.put("fileResponses", fileResponses);
-			
+
 			return response(resultMap, true, HttpStatus.CREATED);
 			// return response(fileResponse, true, HttpStatus.CREATED);
 		} catch (RuntimeException e) {
@@ -75,7 +75,7 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-	
+
 //	@GetMapping("/Post")
 //	@ApiOperation("전체 포스트 정보를 반환한다.")
 //	public ResponseEntity<Map<String, Object>> getAllMember() {
@@ -94,12 +94,12 @@ public class PostRestController {
 		try {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			Post post = service.selectOne(p_id);
-			
-			String[] uris = getMultipleFiles(p_id);
-			
+
+			List<String> uris = getMultipleFiles(p_id);
+
 			resultMap.put("post", post);
 			resultMap.put("uris", uris);
-			
+
 			return response(resultMap, true, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("포스트조회실패", e);
@@ -130,9 +130,8 @@ public class PostRestController {
 	 * HttpStatus.CONFLICT); } }
 	 */
 
+	//// 업데이트는 일단 보류
 
-	////업데이트는 일단 보류
-	
 //	@PutMapping("/Post")
 //	@ApiOperation("전달받은 포스트 정보를 업데이트한다.")
 //	public ResponseEntity<Map<String, Object>> updateMember(@RequestBody Post Post) {
@@ -190,6 +189,7 @@ public class PostRestController {
 		return new FileUploadResponse(file.getOriginalFilename(), fileDownloadUri, file.getContentType(),
 				file.getSize());
 	}
+
 	// @PostMapping("/uploadMultipleFiles") // 다중 파일 업로드
 	public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, int p_id) {
 		return Arrays.asList(files).stream().map(file -> uploadFile(file, p_id)).collect(Collectors.toList());
@@ -197,9 +197,9 @@ public class PostRestController {
 
 	//////////////////////////
 	// 이 아래로 포스트에 해당하는 파일의 경로들을 받아옴
-	private String[] getMultipleFiles(int p_id) {
-		
+	private List<String> getMultipleFiles(int p_id) {
+
 		return null;
 	}
-	
+
 }
