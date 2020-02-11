@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import 'assets/mycss/mainpage.scss';
+import "assets/mycss";
 
 interface Props {
   volunteer: {
@@ -8,6 +8,7 @@ interface Props {
   }
 }
 interface State {
+<<<<<<< HEAD
     visibility: string;
     isCert: string;
     isCertClass: string;
@@ -37,8 +38,21 @@ export default class CertLabel extends Component<Props, State> {
   visibilityFunc(): void {
     if (this.state.isCert === "인증") {
       this.setState({visibility: "true"})
+=======
+  visibility: string;
+}
+
+export default class CertLabel extends Component<Props, State> {
+  state = {
+    visibility: ""
+  };
+
+  componentWillMount() {
+    if (this.props.isCert === "인증") {
+      this.setState({ visibility: "true" });
+>>>>>>> ca2c51cf04e81e9795f14d38caa6eac539332395
     } else {
-      this.setState({visibility: "false"})
+      this.setState({ visibility: "false" });
     }
   }
 
@@ -53,6 +67,7 @@ export default class CertLabel extends Component<Props, State> {
 
   render() {
     return (
+<<<<<<< HEAD
 
 
       <div style={{display: 'inline'}}>
@@ -62,7 +77,14 @@ export default class CertLabel extends Component<Props, State> {
         <div className={this.state.isFullClass}>
           {this.state.isFull}
         </div>
+=======
+      <div style={{ display: "inline" }}>
+        <div className={this.props.isCertClass} id={this.state.visibility}>
+          {this.props.isCert}
+        </div>
+        <div className={this.props.isFullClass}>{this.props.isFull}</div>
+>>>>>>> ca2c51cf04e81e9795f14d38caa6eac539332395
       </div>
-    )
+    );
   }
 }

@@ -5,9 +5,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-// import "assets/css/style.scss";
-// import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss";
+
 interface Iprops {
   location: {
     state: {

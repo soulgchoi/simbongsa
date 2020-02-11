@@ -25,17 +25,17 @@ class PostingForm extends React.Component<IProps, {}> {
         })
     }
 
-    handleFileChange = (e: any) => {
-        var file = e.target.files[0];
-        var reader = new FileReader();
-        if (file && file.type.match('image.*')) {
-            reader.readAsDataURL(file);
-            this.setState({selectedFile: file})
-        }
-        reader.onloadend = () => {
-            this.setState({imagePreview: reader.result as string })
-        }
+  handleFileChange = (e: any) => {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    if (file && file.type.match("image.*")) {
+      reader.readAsDataURL(file);
+      this.setState({ selectedFile: file });
     }
+    reader.onloadend = () => {
+      this.setState({ imagePreview: reader.result as string });
+    };
+  };
 
     handleSubmit = (e: any) => {
         e.preventDefault();
@@ -102,7 +102,6 @@ class PostingForm extends React.Component<IProps, {}> {
              </div>
         );
     }
-};
-
+  }
 
 export default PostingForm;

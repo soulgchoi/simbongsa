@@ -3,7 +3,7 @@ import { RouteComponentProps } from "@reach/router";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss/error.scss";
 
 interface IProps {
   location: {
