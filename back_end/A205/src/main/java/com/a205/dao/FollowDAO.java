@@ -11,6 +11,9 @@ public interface FollowDAO {
 	
 	public List<Member> searchFollowees(String userId);
 
+	public List<Integer> searchFolloweesByClient(String userId);
+
+	
 	public boolean add(String userEmail, String followee);
 	
 	public boolean remove(String userEmail, String followee);

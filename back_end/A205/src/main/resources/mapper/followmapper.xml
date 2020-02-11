@@ -15,6 +15,13 @@
 		where m_id in(select f_followee_id from follow
 			where f_follower_id = #{userId_pk})
 	 </select>
+
+	 <select id="searchFolloweesByClient" resultType="java.lang.Integer" parameterType="int">
+		select m_id from member
+		where m_id in(select f_followee_id from follow
+			where f_follower_id = #{userId_pk})
+	 </select>
+
 	 
 	<insert id="insert"  parameterType="java.util.Map">
 		insert into `follow`(f_follower_id, f_followee_id ) 

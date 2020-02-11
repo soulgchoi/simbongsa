@@ -34,6 +34,14 @@ public class FollowDAOImp implements FollowDAO {
 	}
 	
 	@Override
+	public List<Integer> searchFolloweesByClient(String userId){
+		String statement = ns+ "searchFollowees";
+		int userId_pk = memberDao.search(userId).getM_id();
+		return session.selectList(statement, userId_pk);
+
+	}
+
+	@Override
 	public List<Member> searchFollowees(String userId){
 		String statement = ns+ "searchFollowees";
 		int userId_pk = memberDao.search(userId).getM_id();
