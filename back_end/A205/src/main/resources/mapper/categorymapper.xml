@@ -12,7 +12,7 @@
 		select * from `category`
 		where ca_highNm = #{ca_highNm}
 	</select>
-	<select id="selectListbyhighcd" resultType="category" parameterType="java.lang.String">
+	<select id="selectListByHighCd" resultType="category" parameterType="java.lang.String">
 		select * from `category`
 		where ca_highCd = #{ca_highCd}
 	</select>
