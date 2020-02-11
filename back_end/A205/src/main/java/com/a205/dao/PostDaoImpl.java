@@ -1,14 +1,10 @@
 package com.a205.dao;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Post;
-import com.a205.dto.Pagination;
 
 @Repository
 public class PostDaoImpl implements PostDao {
@@ -19,17 +15,17 @@ public class PostDaoImpl implements PostDao {
 	SqlSession session;
 
 	@Override
-	public Post search(int no) {
-		String statement = ns + "select";
-		return session.selectOne(statement, no);
+	public Post selectOne(int p_id) {
+		String statement = ns + "selectOne";
+		return session.selectOne(statement, p_id);
 	}
-
-	@Override
-	public List<Post> searchAll() {
-		String statement = ns + "select";
-
-		return session.selectList(statement);
-	}
+	
+//	@Override
+//	public List<Post> searchAll() {
+//		String statement = ns + "select";
+//
+//		return session.selectList(statement);
+//	}
 
 	@Override
 	public boolean add(Post Post) {
@@ -43,12 +39,25 @@ public class PostDaoImpl implements PostDao {
 		return session.update(statement, Post) > 0;
 	}
 
+//	@Override
+//	public boolean remove(int p_id, int m_id) {
+//		String statement = ns + "delete";
+//		return session.delete(statement, p_id) > 0;
+//	}
+	
 	@Override
-	public boolean remove(int no) {
+	public boolean remove(int p_id) {
 		String statement = ns + "delete";
-		return session.delete(statement, no) > 0;
+		return session.delete(statement, p_id) > 0;
 	}
 
+	@Override
+	public int getid() {
+		String statement = ns + "nextPostId";
+		return session.selectOne(statement);
+	}
+	
+	/*
 	@Override
 	public int addViewCnt(int no) {
 		// TODO Auto-generated method stub
@@ -85,4 +94,5 @@ public class PostDaoImpl implements PostDao {
 		
 		return session.selectList(ns + "getBoardList",p);
 	}
+	*/
 }

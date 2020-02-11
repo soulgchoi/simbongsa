@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.map.model.volmapper">
+
+	<select id="selectOne" resultType="vol" parameterType="int">
+		select * from `vol`
+		where v_id = #{v_id};
+	</select>
+	
+	<select id="select" resultType="vol" parameterType="string">
+		select * from `vol` 
+		<if test ="value!=null">
+			where v_id = #{v_id}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="vol">
+		update `vol` set v_x=#{v_x}, v_y=#{v_y} where v_id=#{v_id} 
+	</update>
+</mapper>

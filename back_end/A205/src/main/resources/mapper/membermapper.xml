@@ -9,6 +9,13 @@
 			where m_userid = #{userId}
 		</if>
 	</select>
+ 	<select id="selectListPost" resultType="post" parameterType="int">
+		select * from `post` 
+			where m_id = #{m_id}
+	</select>
+		
+	
+	
 
  	<select id="selectByEmail" resultType="member" parameterType="string">
 		select * from `member` 
@@ -30,4 +37,10 @@
 		insert into `member`(m_password,m_userid,m_email ) 
 		  values(#{m_password}, #{m_userid}, #{m_email})
 	</insert>
+	
+	<insert id="insertNoPassword" parameterType="member">
+		insert into `member`(m_userid,m_email ) 
+		  values(#{m_userid}, #{m_email})
+	</insert>
+	
 </mapper>
