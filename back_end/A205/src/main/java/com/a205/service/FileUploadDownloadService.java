@@ -72,6 +72,7 @@ public class FileUploadDownloadService {
 		}
 	}
 
+	//
 	public Resource loadFileAsResource(String fileName) {
 		try {
 			Path filePath = this.fileLocation.resolve(fileName).normalize();
@@ -96,13 +97,13 @@ public class FileUploadDownloadService {
 //
 //		return iterable;
 //	}
-
+	
 	public List<UploadFile> getUploadFile(int p_id) {
 		List<UploadFile> uploadFile = dao.findById(p_id);
 
-		if (null == uploadFile) {
-			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
-		}
+//		if (null == uploadFile) {
+//			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
+//		}
 		return uploadFile;
 	}
 

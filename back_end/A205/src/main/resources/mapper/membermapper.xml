@@ -14,9 +14,6 @@
 			where m_id = #{m_id}
 	</select>
 		
-	
-	
-
  	<select id="selectByEmail" resultType="member" parameterType="string">
 		select * from `member` 
 		<if test ="value!=null">
