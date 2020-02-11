@@ -1,6 +1,8 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import "assets/mycss/components.scss";
+
+
 interface Props {
   placeholder: string;
   link: string;
