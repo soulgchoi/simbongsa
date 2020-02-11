@@ -7,7 +7,7 @@ interface Props {
   onEnter?: (e: React.FormEvent<HTMLInputElement>) => void;
   id: string;
   placeholder: string;
-  nametag: string;
+  nametag?: string;
   type: string;
 }
 export default function Input({

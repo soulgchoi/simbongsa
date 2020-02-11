@@ -13,12 +13,12 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 // import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-import UserSetting from "containers/usersetting/UserSetting"
+import SearchContainer from "containers/usersetting/SearchContainer";
 // import Postings from "containers/posting/Postings"
 
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
-import TodosContainer from "containers/usersetting/TodosContainer";
+import TodosContainer from "containers/usersetting/SearchContainer";
 // 로컬에 저장
 import storage from 'lib/storage'
 // redux 관련
@@ -31,17 +31,20 @@ class App extends Component<any>{
     const loggedInfo = storage.get('loggedInfo'); // 로그인 정보를 로컬스토리지에서 가져옵니다.
     if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
     console.log('loggedInfo', loggedInfo)
-    const temp = jwt.decode(loggedInfo.token)
+    const temp: any = jwt.decode(loggedInfo.token)
     console.log('temp', temp)
     const { UserActions, history } = this.props;
 
     UserActions.setLoggedInfo(temp);
+
+    // console.log(this.props.username)
     // history.push("/mainpage");
   }
   componentDidMount() {
     this.initializeUserInfo();
   }
   render() {
+
     return (
       <div>
         <TemporaryDrawer />
@@ -57,8 +60,7 @@ class App extends Component<any>{
         <Route path="/location" component={Location} />
         <Route exact path="/vol/detail/:id" component={VolDetail} />
         <Route exact path="/write" component={PostingForm} />
-        <Route exact path="/setting" component={UserSetting} />
-        <Route exact path="/setting2" component={TodosContainer} />
+        <Route exact path="/setting" component={SearchContainer} />
 
       </div >
     );

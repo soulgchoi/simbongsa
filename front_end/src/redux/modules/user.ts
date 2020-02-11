@@ -27,7 +27,7 @@ interface initialStateParams {
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
-    username: null
+    username: ""
   }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
@@ -37,7 +37,9 @@ export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
       console.log("SET_LOGGED", action.payload)
-      return state.setIn(['loggedInfo'], Map(action.payload)).set('logged', true)
+      const { sub } = action.payload
+      console.log("sub", sub)
+      return state.setIn(['loggedInfo', 'username'], sub)
     },
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
     ...pender({

@@ -1,16 +1,16 @@
 import React, { ReactElement } from "react";
 import "assets/mycss/components.scss";
 interface Props {
-  placeholder: string;
+  placeholder?: string;
   // disabled : boolean
   action: () => void;
 }
-interface State {}
+interface State { }
 
 export default function ActionButton({
-  action,
+  placeholder,
+  action
   // disabled,
-  placeholder
 }: Props): ReactElement {
   return (
     <div>
