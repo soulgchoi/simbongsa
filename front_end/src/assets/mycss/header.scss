@@ -1,0 +1,13 @@
+.vol-header {
+    position: fixed;
+    display: flex;
+    top: 100%;
+    width: 100%;
+    left: 50%;
+    right: 0;
+    transform: translate(-50%, -50px);
+
+    .vol-header-item {
+        flex: 1;
+    }
+}

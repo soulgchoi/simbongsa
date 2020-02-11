@@ -13,9 +13,8 @@ import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
 // import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-// import Postings from "containers/posting/Postings"
-// import Post from 'containers/posting/timeline/Post'
-
+import Main from "containers/main/Main";
+import Header from "components/header/Header";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 // 로컬에 저장
@@ -43,21 +42,35 @@ class App extends Component<any> {
   render() {
     return (
       <div>
-        <TemporaryDrawer />
-        <Route exact path="/" component={Login} />
-        <Route exact path="/join" component={Join} />
-        <Route path="/findpassword" component={FindPassword} />
-        <Route path="/findpasswordmailsend" component={FindPasswordMailSend} />
-        <Route path="/join/complete" component={JoinComplete} />
-        <Route path="/mailresend" component={MailReSend} />
-        <Route path="/calendar" component={CalendarContainer} />
-        <Route exact path="/mainpage" component={MainPage} />
-        <Route exact path="/mainpage/detail/:voltitle" component={VolDetail} />
-        <Route path="/location" component={Location} />
-        <Route exact path="/vol/detail/:id" component={VolDetail} />
-        <Route exact path="/write" component={PostingForm} />
-        {/* <Route exact path="/list" component={Post} /> */}
+        <div>
+          {/* <TemporaryDrawer /> */}
+          {/* <div className="wrapC"> */}
+          {/* <Route path="/" component={Header} /> */}
+          <Route exact path="/" component={Login} />
+          <Route exact path="/main" component={Main} />
+          <Route exact path="/join" component={Join} />
+          <Route path="/findpassword" component={FindPassword} />
+          <Route
+            path="/findpasswordmailsend"
+            component={FindPasswordMailSend}
+          />
+          <Route path="/join/complete" component={JoinComplete} />
+          <Route path="/mailresend" component={MailReSend} />
+          <Route path="/calendar" component={CalendarContainer} />
+          <Route exact path="/mainpage" component={MainPage} />
+          <Route
+            exact
+            path="/mainpage/detail/:voltitle"
+            component={VolDetail}
+          />
+          <Route path="/location" component={Location} />
+          <Route exact path="/vol/detail/:id" component={VolDetail} />
+          <Route exact path="/write" component={PostingForm} />
+          {/* <Route exact path="/list" component={Post} /> */}
+        </div>
+        <Header />
       </div>
+      // </div>
     );
   }
 }
