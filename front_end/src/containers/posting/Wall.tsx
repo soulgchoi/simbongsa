@@ -46,7 +46,7 @@ render(){
                          <Post
                              key={post.p_id}
                              p_id={post.p_id}
-                             volunteer={post.volunteer}
+                            //  volunteer={post.volunteer}
                              p_content={post.p_content}
                          />
                      )
