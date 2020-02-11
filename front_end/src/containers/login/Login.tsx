@@ -20,6 +20,9 @@ import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 import storage from "lib/storage";
 
+// jwt
+import jwt from "jsonwebtoken";
+
 class Login extends React.Component<any, any> {
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
@@ -52,14 +55,13 @@ class Login extends React.Component<any, any> {
     try {
       await AuthActions.localLogin({ email, password });
       console.log("최초확인용", this.props);
-      const loggedInfo = this.props.result.toJS();
-      console.log("loggedInfo:", loggedInfo);
-
-      UserActions.setLoggedInfo(loggedInfo);
+      const token = this.props.result.toJS().token;
+      const userEmail = jwt.decode(token);
+      UserActions.setLoggedInfo(userEmail);
       // UserActions.setLoggedFlag(true);
+      storage.set("loggedInfo", token);
       history.push("/mainpage");
-      storage.set("loggedInfo", loggedInfo);
-      console.log("로그인 후: ", this.props.loggedInfo.toJS());
+      // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       console.log(e);
       this.setError("잘못된 계정정보입니다.", "email");
@@ -67,7 +69,7 @@ class Login extends React.Component<any, any> {
   };
 
   render() {
-    console.log(this.props.loggedInfo.toJS())
+    console.log(this.props.loggedInfo.toJS());
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin } = this;
     const { error } = this.props;
@@ -112,7 +114,8 @@ class Login extends React.Component<any, any> {
             onSuccess={result => console.log(result)}
             onFailure={result => console.log(result)}
             cookiePolicy={"single_host_origin"}
-            redirectUri="http://www.naver.com"
+            // uxMode="redirect"
+            redirectUri="http://localhost:3000/main"
           />
         </div>
         <div className="add-option">

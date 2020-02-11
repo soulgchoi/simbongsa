@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
 
+import storage from "lib/storage";
+
 declare global {
   interface Window {
     kakao: any;
@@ -107,7 +109,8 @@ class Map extends Component<IProps> {
 
 const getVols = (VolActions: any) => {
   try {
-    VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
+    const token = storage.get("loggedInfo");
+    VolActions.getVolList(token); // 성공하면 store의 volunteers에 저장돼있음
   } catch (e) {
     console.log(e);
   }

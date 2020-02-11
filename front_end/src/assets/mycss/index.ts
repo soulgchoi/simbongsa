@@ -8,3 +8,4 @@ import "./main.scss";
 import "./mainpage.scss";
 import "./posting.scss";
 import "./temp.scss";
+import "./profile.scss";

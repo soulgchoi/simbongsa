@@ -11,6 +11,7 @@ import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostingForm";
+import UserProfile from "containers/temp/temp";
 // import PostingItem from "containers/posting/PostingItem";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Main from "containers/main/Main";
@@ -27,13 +28,13 @@ import jwt from "jsonwebtoken";
 class App extends Component<any> {
   initializeUserInfo = () => {
     const loggedInfo = storage.get("loggedInfo"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    console.log("APP init loggedInfo", loggedInfo);
     if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
     console.log("loggedInfo", loggedInfo);
-    const temp = jwt.decode(loggedInfo.token);
-    console.log("temp", temp);
-    const { UserActions, history } = this.props;
-
-    UserActions.setLoggedInfo(temp);
+    const token = jwt.decode(loggedInfo);
+    console.log("token", token);
+    const { UserActions } = this.props;
+    UserActions.setLoggedInfo(token);
     // history.push("/mainpage");
   };
   componentDidMount() {
@@ -67,6 +68,7 @@ class App extends Component<any> {
           <Route exact path="/vol/detail/:id" component={VolDetail} />
           <Route exact path="/write" component={PostingForm} />
           {/* <Route exact path="/list" component={Post} /> */}
+          <Route exact path="/userprofile" component={UserProfile} />
         </div>
         <Header />
       </div>
