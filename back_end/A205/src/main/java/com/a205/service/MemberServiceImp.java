@@ -158,14 +158,34 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public List<Post> searchPost(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public Member_detail searchDetail(String userId) {
+		
+		Member member = dao.search(userId);
+		Integer m_id = member.getM_id();
+		List<Member_has_category> m_prefer_category = member_has_category_dao.searchByM_id(m_id);
+		List<Member_has_region> m_prefer_region = member_has_region_dao.searchByM_id(m_id);
+		
+		
+		Member_detail member_detail = new Member_detail();
+		member_detail.setM_address(member.getM_address());
+		member_detail.setM_age(member.getM_age());
+		member_detail.setM_bgnTm(member.getM_bgnTm());
+		member_detail.setM_email(member.getM_email());
+		member_detail.setM_endTm(member.getM_endTm());
+		member_detail.setM_id(m_id);
+		member_detail.setM_password(member.getM_password());
+		member_detail.setM_userid(member.getM_userid());
+		member_detail.setM_prefer_category(m_prefer_category);
+		member_detail.setM_prefer_region(m_prefer_region);
+		
+		return member_detail;
 	}
 
 	@Override
-	public Member_detail searchDetail(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Post> searchPost(String userId){
+		Integer m_id = dao.search(userId).getM_id(); 
+		return dao.searchPost(m_id);
 	}
+
 }
