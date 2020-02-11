@@ -23,7 +23,7 @@ class Todos extends Component<Props, State> {
     const check = todos.filter((todo: any) => todo.text === data.value);
     if (check.size === 0) {
       TodoActions.changeInput(data.value);
-      if (e.nativeEvent !== null) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") {
         TodoActions.insert(data.value);
         TodoActions.changeInput("");
       }
@@ -42,7 +42,7 @@ class Todos extends Component<Props, State> {
     const { TodoActions } = this.props;
     TodoActions.remove(id);
   };
-  handleKeyDown = (event: any) => {
+  handleKeyDown = (event: any, data: any) => {
     const { TodoActions, todos, input } = this.props;
     if (event.key === "Enter") {
       const check = todos.filter((todo: any) => todo.text === input);
