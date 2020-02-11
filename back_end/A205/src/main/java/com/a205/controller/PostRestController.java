@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.a205.config.JwtTokenUtil;
+import com.a205.dao.FollowDAO;
+import com.a205.dao.MemberDAO;
 import com.a205.dto.Post;
 import com.a205.service.FileUploadDownloadService;
 import com.a205.service.JwtUserDetailsService;
@@ -44,6 +46,12 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
+	
+	@Autowired
+	MemberDAO memberDao;
+	
+	@Autowired
+	FollowDAO followDao;
 	
 	@Autowired
 	FileUploadDownloadService f_service;
@@ -111,6 +119,11 @@ public class PostRestController {
 		userEmail = jwtTokenUtil.getUsernameFromToken(jwtToken);
 
 		try {
+			String userId = memberDao.searchByEmail(userEmail).getM_userid();
+			
+			List<Integer> my_following_m_ids = followDao.searchFolloweesByClient(userId);
+			
+			
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			Post post = service.selectOne(p_id);
 			
