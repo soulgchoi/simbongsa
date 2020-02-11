@@ -60,7 +60,7 @@ public class PostRestController {
 			boolean result = service.add(post);
 			// service.add(Post);
 			List<FileUploadResponse> fileResponses = null;
-			if (files.length != 0) {
+			if (files != null) {
 				int p_id = service.getid();
 				// List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
 				fileResponses = uploadMultipleFiles(files, p_id);
@@ -95,10 +95,10 @@ public class PostRestController {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			Post post = service.selectOne(p_id);
 
-			List<String> uris = getMultipleFiles(p_id);
+			List<String> storedFileNames = getMultipleFiles(p_id);
 
 			resultMap.put("post", post);
-			resultMap.put("uris", uris);
+			resultMap.put("uris", storedFileNames);
 
 			return response(resultMap, true, HttpStatus.OK);
 		} catch (Exception e) {
@@ -198,8 +198,7 @@ public class PostRestController {
 	//////////////////////////
 	// 이 아래로 포스트에 해당하는 파일의 경로들을 받아옴
 	private List<String> getMultipleFiles(int p_id) {
-
-		return null;
+		return f_service.getUploadFile(p_id);
 	}
 
 }

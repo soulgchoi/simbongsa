@@ -72,7 +72,7 @@ public class FileUploadDownloadService {
 		}
 	}
 
-	//
+	//다운로드에서 필요한 부분
 	public Resource loadFileAsResource(String fileName) {
 		try {
 			Path filePath = this.fileLocation.resolve(fileName).normalize();
@@ -88,23 +88,24 @@ public class FileUploadDownloadService {
 		}
 	}
 
-//	public Iterable<UploadFile> getFileList() {
-//		Iterable<UploadFile> iterable = dao.findAll();
-//
-//		if (null == iterable) {
-//			throw new FileDownloadException("업로드 된 파일이 존재하지 않습니다.");
-//		}
-//
-//		return iterable;
-//	}
+	/*
+	 * public Iterable<UploadFile> getFileList() { Iterable<UploadFile> iterable =
+	 * dao.findAll();
+	 * 
+	 * if (null == iterable) { throw new
+	 * FileDownloadException("업로드 된 파일이 존재하지 않습니다."); }
+	 * 
+	 * return iterable; }
+	 */
 	
-	public List<UploadFile> getUploadFile(int p_id) {
-		List<UploadFile> uploadFile = dao.findById(p_id);
+	public List<String> getUploadFile(int p_id) {
+		//List<UploadFile> uploadFile = dao.findById(p_id);
 
 //		if (null == uploadFile) {
 //			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
 //		}
-		return uploadFile;
+//		return uploadFile;
+		return dao.findById(p_id);
 	}
 
 }
