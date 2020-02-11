@@ -1,33 +1,50 @@
 import React, { Component } from 'react';
 import CertLabel from 'components/label/CertLabel'
 import { Link } from 'react-router-dom'
-// import VolLinkButton from 'components/button/LinkButton'
+import { connect } from "react-redux";
+import * as volActions from "redux/modules/volunteer";
+import { bindActionCreators } from "redux";
 
 interface Props {
-    volunteer: {
-        "v_id": number;
-        "v_title": string;
-        "v_pStatus": number;
-        "v_Auth": number;
-    }
+    "v_id": number;
 }
-export default class Vol extends Component<Props, {}> {
+
+class Vol extends React.Component<Props & any, any> {
+
+    handleClick(id: string) {
+        const { VolActions } = this.props;
+        VolActions.selectVol(id)
+    }
+
     render() {
-        return (<div className="list">
+        const { volunteers } = this.props;
+        const myVol = volunteers.find( (x:any) => x.v_id === this.props.v_id);
+        return (
+        <div className="list">
             <CertLabel
-                volunteer={this.props.volunteer}
+                volunteer={myVol}
             />
             <div className="linktodetail">
-                <Link to={{
-                    pathname: `vol/detail/${this.props.volunteer.v_id}`,
-                }}>
+                <Link
+                    to={{pathname: `vol/detail/${myVol.v_id}`}}
+                    onClick={() => this.handleClick(myVol.v_id)}
+                >
                     상세보기</Link>
             </div>
             <div className="listtitle">
-                {this.props.volunteer.v_title}
+                {myVol.v_title}
             </div>
-            </div>
+        </div>
         )
-
     }
 }
+
+export default connect(
+    (state: any) => ({
+        volunteers: state.volunteer.get("volunteers"),
+        volunteer: state.volunteer.get("volunteer")
+    }),
+    dispatch => ({
+        VolActions: bindActionCreators(volActions, dispatch)
+    })
+)(Vol);

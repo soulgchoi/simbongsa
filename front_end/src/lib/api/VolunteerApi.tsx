@@ -1,17 +1,18 @@
 import axios from "axios";
 const restBaseApi = "http://13.124.127.232:8080/A205";
 
-export const getVolById = (id: number) => {
-  try {
-    return axios.get(restBaseApi + "/vol/detail/" + id);
+export const getVolDetail = (id: string) => {
+  try{
+    return axios.get(restBaseApi + "/vol/detail/" + id)
   } catch (error) {
+    console.log(error);
     return true;
   }
 };
 
-export const getVolList = () => {
+export const getVolList = (pgNum:number) => {
   try {
-    return axios.get(restBaseApi + "/vol/titles/10/1");
+    return axios.get(restBaseApi + "/vol/titles/10/" + pgNum);
   } catch (error) {
     console.log(error);
     return true;

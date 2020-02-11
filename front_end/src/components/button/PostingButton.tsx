@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import "assets/mycss/components.scss";
 
 interface IProps {
-    v_id: string;
+    v_id: number;
 }
 
 class PostingButton extends Component<IProps, {}> {

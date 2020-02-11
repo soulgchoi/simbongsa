@@ -1,73 +1,57 @@
 import { createAction, handleActions } from 'redux-actions';
+import { Map, List, fromJS } from 'immutable'
+import { pender } from 'redux-pender/lib/utils';
+import * as VolApi from 'lib/api/VolunteerApi'
 
-const GET_FULL_LIST = 'volunteer/GET_FULL_LIST';
-const GET_DETAIL = 'volunteer/GET_DETAIL';
+const GET_VOL_LIST = 'volunteer/GET_VOL_LIST';
+const APPEND_VOL_LIST = 'volunteer/APPEND_VOL_LIST';
+const GET_VOL_DETAIL = 'volunteer/GET_VOL_DETAIL';
+const RESET_SELECTED_VOL = 'volunteer/RESET_SELECTED_VOL';
+const SELECT_VOL = 'volunteer/SELECT_VOL';
 
-export const getFullList = createAction(GET_FULL_LIST);
-export const getDetail = createAction(GET_DETAIL);
+export const getInitailList = createAction(GET_VOL_LIST, VolApi.getVolList);
+export const appendList = createAction(APPEND_VOL_LIST, VolApi.getVolList);
+export const getVolDetail = createAction(GET_VOL_DETAIL, VolApi.getVolDetail);
+export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
+export const selectVol = createAction(SELECT_VOL);
 
 export interface VolState {
-    volunteer: {
-        v_id: number;
-        v_title: string;
-        v_pStatus: number;
-        v_Auth: number;
-    }
-    detail: {
-        v_organ: string;
-        v_pBgnD: string;
-        v_pEndD: string;
-        v_mBgnD: string;
-        v_mEndD: string;
-        v_location: string;
-        v_adult: string;
-        v_young: string;
-        v_url: string;
-        v_bgnTm: string;
-        v_endTm: string;
-        v_actWkdy: string;
-        v_wanted: string;
-        v_appnow: number;
-        v_target: string;
-        v_detail: string;
-        r_id: string;
-        ca_id: string;
-    }
+    volunteers: List<any>;
+    volunteer: Object;
 }
 
 
+const initialState = Map({
+    volunteers: List(),
+    volunteer: { 'v_id': null },
+})
 
-const initialState: VolState = {
-    volunteer: {
-        v_id: 0,
-        v_title: "",
-        v_pStatus: 0,
-        v_Auth: 0
-    },
-    detail: {
-            v_organ: "",
-        v_pBgnD: "",
-        v_pEndD: "",
-        v_mBgnD: "",
-        v_mEndD: "",
-        v_location: "",
-        v_adult: "",
-        v_young: "",
-        v_url: "",
-        v_bgnTm: "",
-        v_endTm: "",
-        v_actWkdy: "",
-        v_wanted: "",
-        v_appnow: 0,
-        v_target: "",
-        v_detail: "",
-        r_id: "",
-        ca_id: ""
-        }
-}
 
 export default handleActions<any>(
-    {
-        
-    }
-)
+    {   
+        [SELECT_VOL]: (state, action) => {
+            return state.setIn(["volunteer", 'v_id'], action.payload)
+        },
+        [RESET_SELECTED_VOL]: (state) => {
+            return state.setIn(["volunteer", 'v_id'], null);
+        },
+        ...pender({
+            type: GET_VOL_LIST,
+            onSuccess: (state, action) =>
+                state.set("volunteers", action.payload.data.data)
+        }),
+        ...pender({
+            type: APPEND_VOL_LIST,
+            onSuccess: (state, action) => {
+                const volunteers = state.get("volunteers");
+                return state.set("volunteers", volunteers.concat(action.payload.data.data))
+            }
+        }),
+        ...pender({
+            type: GET_VOL_DETAIL,
+            onSuccess: (state, action) => 
+                state.set("volunteer", action.payload.data.data)
+        })
+    },
+    initialState
+);
