@@ -45,8 +45,8 @@ public class VolDaoImpl implements VolDao {
 
 	@Override
 	public List<Vol> searchByFilter(int listSize, int startList, MyFilter my) {
-		String statement = ns + "selectByFilter";
-		
+		String statement1 = ns + "selectByFilter"; 	//봉사명
+		String statement2 = ns + "selectByFilter2"; //지역
 		List<String> ca_Id = new ArrayList<String>();
 		
 		MyFilter m = new MyFilter();
@@ -109,8 +109,17 @@ public class VolDaoImpl implements VolDao {
 			m.setCa_id(ca_Id);
 		}
 		
-		System.out.println("또 뭐야 "+m.getV_pBgnD()+" "+m.getV_pEndD());
+		List<Vol> f1 = session.selectList(statement1, m);
+		List<Vol> f2 = session.selectList(statement2, m);
 		
-		return session.selectList(statement, m);
+		for(Vol v2 : f2) {
+			boolean check =true;
+			for(Vol v1 : f1) {
+				if(v2.getV_id()==v1.getV_id()) check=false;
+			}
+			if(check) f1.add(v2);
+		}
+		
+		return f1;
 	}
 }

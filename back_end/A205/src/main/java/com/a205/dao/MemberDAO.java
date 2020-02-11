@@ -16,6 +16,8 @@ public interface MemberDAO {
 
 	public boolean add(Member member);
 
+	public boolean addWithOutPassword(Member member);
+	
 	public boolean update(Member member);
 
 	public boolean remove(String id);

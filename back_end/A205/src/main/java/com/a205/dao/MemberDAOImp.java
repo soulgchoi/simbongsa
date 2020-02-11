@@ -42,6 +42,12 @@ public class MemberDAOImp implements MemberDAO {
 		String statement = ns+"insert";
 		return session.insert(statement, member)>0;
 	}
+	
+	@Override
+	public boolean addWithOutPassword(Member member) {
+		String statement = ns+"insertNoPassword";
+		return session.insert(statement, member)>0;
+	}
 
 	@Override
 	public boolean update(Member member) {
