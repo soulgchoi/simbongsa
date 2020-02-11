@@ -67,9 +67,10 @@ class Login extends React.Component<any, any> {
   };
 
   render() {
-    console.log(this.props.loggedInfo.toJS())
+    console.log(this.props.loggedInfo.toJS());
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin } = this;
+    const { AuthActions } = this.props;
     const { error } = this.props;
     const error2 = error.toJS();
     return (
@@ -109,7 +110,11 @@ class Login extends React.Component<any, any> {
             /> */}
           <GoogleLogin
             clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
-            onSuccess={result => console.log(result)}
+            onSuccess={(result: any) => {
+              const id_token = result.getAuthResponse().id_token;
+              console.log("id_token", id_token);
+              AuthActions.googleLogin(id_token);
+            }}
             onFailure={result => console.log(result)}
             cookiePolicy={"single_host_origin"}
             redirectUri="http://www.naver.com"
