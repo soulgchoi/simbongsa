@@ -22,7 +22,7 @@ public class FileDaoImpl implements FileDao {
 //	}
 
 	@Override
-	public List<UploadFile> findById(int p_id) {
+	public List<String> findById(int p_id) {
 		String statement = ns+ "selectFileList";
 		return session.selectList(statement, p_id);
 	}
