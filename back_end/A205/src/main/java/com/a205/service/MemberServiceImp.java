@@ -99,21 +99,26 @@ public class MemberServiceImp implements MemberService {
 			String m_bgnTm = memberPatch.getM_bgnTm();
 			String m_endTm = memberPatch.getM_endTm();
 			// 선호 지역 설정
-			String perfer_region = memberPatch.getPrefer_region();
+			String prefer_region = memberPatch.getPrefer_region();
 			// 만약 새로 받은 정보가 있다면 수정, 아니면 그대로 냅둬라
-			if (!perfer_region.isEmpty()) {
+			System.out.println(prefer_region);
+			// 널이면 
+			if (prefer_region!=null && !prefer_region.isEmpty()) {
 				// 기존 선호 지역 삭제
-				List<Member_has_region>list_of_member_has_regions = member_has_region_dao.searchByM_id(m_id);
-				if (list_of_member_has_regions.size() > 0) {
-					System.out.println(list_of_member_has_regions);
-					for(Member_has_region region_obj:list_of_member_has_regions) {
-						System.out.println(region_obj);
-						boolean member_has_region_deleted = member_has_region_dao.remove(region_obj);
+				List<Integer>list_of_member_has_regions_id = member_has_region_dao.searchByM_id(m_id);
+				if (list_of_member_has_regions_id.size() > 0) {
+					System.out.println(list_of_member_has_regions_id);
+					for(Integer r_id:list_of_member_has_regions_id) {
+						Member_has_region member_has_region = new Member_has_region();
+						member_has_region.setM_id(m_id);
+						member_has_region.setR_id(r_id);
+						
+						boolean member_has_region_deleted = member_has_region_dao.remove(member_has_region);
 						System.out.println("지워졌니?");
 						System.out.println(member_has_region_deleted);
 					}
 				}
-				List<String> list = java.util.Arrays.asList(perfer_region.split(" "));
+				List<String> list = java.util.Arrays.asList(prefer_region.split(" "));
 				for(String r_id:list) {
 					Member_has_region  member_has_region = new Member_has_region();
 					member_has_region.setM_id(m_id);
@@ -124,26 +129,33 @@ public class MemberServiceImp implements MemberService {
 				}		
 			}	
 			// 선호 봉사 정보 수정
-			String perfer_category = memberPatch.getPrefer_category();
+			String prefer_category = memberPatch.getPrefer_category();
 			// 만약 새로 받은 정보가 있다면 수정, 아니면 그대로 냅둬라
-			if (!perfer_category.isEmpty()) {
+			if (prefer_category!=null && !prefer_category.isEmpty()) {
 				// 기존 선호 카테고리 삭제
-				List<Member_has_category>list_of_member_has_categories = member_has_category_dao.searchByM_id(m_id);
-				if (list_of_member_has_categories.size() > 0) {
+				List<Integer>list_of_member_has_categories_id = member_has_category_dao.searchByM_id(m_id);
+				if (list_of_member_has_categories_id.size() > 0) {
 
-					System.out.println(list_of_member_has_categories);
-					for(Member_has_category category_obj:list_of_member_has_categories) {
-						member_has_category_dao.remove(category_obj);
+					System.out.println(list_of_member_has_categories_id);
+					for(Integer ca_id:list_of_member_has_categories_id) {
+						Member_has_category member_has_category = new Member_has_category();
+						member_has_category.setM_id(m_id);
+						member_has_category.setCa_id(ca_id);
+						
+						member_has_category_dao.remove(member_has_category);
 					}
 				}
 				// 새로운 선호 카테고리 생성
-				List<String> list2 = java.util.Arrays.asList(perfer_category.split(" "));
+				List<String> list2 = java.util.Arrays.asList(prefer_category.split(" "));
 				for(String ca_highCd:list2) {
-					Member_has_category member_has_category = new Member_has_category();
-					member_has_category.setM_id(m_id);
-					List<Category> categories_selected_by_highCd = categoryDao.selectListByHigiCd(ca_highCd);			
+					System.out.println("---------------"+ca_highCd);
+					List<Category> categories_selected_by_highCd = categoryDao.selectListByHighCd(ca_highCd);			
 					for(Category cate:categories_selected_by_highCd) {
+						Member_has_category member_has_category = new Member_has_category();
+						
 						Integer ca_id = cate.getCa_id();
+						member_has_category.setM_id(m_id);
+
 						member_has_category.setCa_id(ca_id);
 						boolean member_has_category_created = member_has_category_dao.add(member_has_category);
 						System.out.println(member_has_category_created);
