@@ -1,6 +1,6 @@
 import React from "react";
 import PostingButton from 'components/button/PostingButton'
-
+import CertLabel from "components/label/CertLabel"
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,22 +8,22 @@ import * as volActions from "redux/modules/volunteer";
 
 
 class VolDetail extends React.Component<any, any>{
-
-    componentDidMount() {
+    componentWillMount() {
         const { VolActions } = this.props;
         const { volunteer } = this.props;
         if (volunteer.v_id != null) {
             VolActions.getVolDetail(volunteer.v_id);
         } else {
-            VolActions.getVolDetail(this.props.match.params.id)
+        VolActions.getVolDetail(this.props.match.params.id)
         }
     }
 
     render() {
-        const {volunteer} = this.props;
+        const { volunteer } = this.props;
         console.log(volunteer)
         return (
             <div className="">
+                <CertLabel volunteer={volunteer} />
                 <h3 className="">
                     {volunteer.v_title}
                 </h3>

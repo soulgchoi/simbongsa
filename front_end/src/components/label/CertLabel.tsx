@@ -35,6 +35,7 @@ export default class CertLabel extends Component<Props, State> {
   }
   
   visibilityFunc(): void {
+    console.log(this.state.isCert)
     if (this.state.isCert === "인증") {
       this.setState({visibility: "true"})
     } else {
@@ -43,6 +44,7 @@ export default class CertLabel extends Component<Props, State> {
   }
 
   componentWillMount() {
+    console.log(this.props.volunteer)
     this.printFunc()
   }
 
