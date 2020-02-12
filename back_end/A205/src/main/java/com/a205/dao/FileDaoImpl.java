@@ -15,14 +15,14 @@ public class FileDaoImpl implements FileDao {
 
 	@Autowired
 	SqlSession session;
-	
+
 //	@Override
 //	public Iterable<UploadFile> findAll() {
 //		return null;
 //	}
 
 	@Override
-	public List<UploadFile> findById(int p_id) {
+	public List<String> findById(int p_id) {
 		String statement = ns+ "selectFileList";
 		return session.selectList(statement, p_id);
 	}

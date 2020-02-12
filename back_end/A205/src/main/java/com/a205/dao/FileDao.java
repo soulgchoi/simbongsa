@@ -11,6 +11,7 @@ import com.a205.dto.UploadFile;
 @Repository
 public interface FileDao{
 //	Iterable<UploadFile> findAll();
-	List<UploadFile> findById(int p_id);
+//	List<UploadFile> findById(int p_id);
+	List<String> findById(int p_id);
 	void insertFile(Map<String, Object> map);
 }

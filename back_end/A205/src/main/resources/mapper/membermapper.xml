@@ -9,14 +9,13 @@
 			where m_userid = #{userId}
 		</if>
 	</select>
+	
+	
  	<select id="selectListPost" resultType="post" parameterType="int">
 		select * from `post` 
 			where m_id = #{m_id}
 	</select>
 		
-	
-	
-
  	<select id="selectByEmail" resultType="member" parameterType="string">
 		select * from `member` 
 		<if test ="value!=null">

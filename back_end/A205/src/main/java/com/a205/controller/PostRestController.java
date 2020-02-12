@@ -1,10 +1,8 @@
 package com.a205.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,16 +16,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.a205.dto.Post;
-import com.a205.service.FileUploadDownloadService;
 import com.a205.service.PostService;
 import com.file.payload.FileUploadResponse;
 
@@ -38,17 +32,77 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = "*")
 public class PostRestController {
 	private static final Logger logger = LoggerFactory.getLogger(PostRestController.class);
-	
+
 	@Autowired
 	PostService service;
+
 	@Autowired
-	FileUploadDownloadService f_service;
+	FileUploadController f_con;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", status);
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hstatus);
+	}
+
+	@PostMapping("/Post")
+	@ApiOperation("전달받은 포스트 정보를 등록한다.")
+	public ResponseEntity<Map<String, Object>> insertMember(@RequestPart Post post,
+			@RequestPart(required = false) MultipartFile[] files) {
+		try {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			boolean result = service.add(post);
+			// service.add(Post);
+			List<FileUploadResponse> fileResponses = null;
+			if (files != null) {
+				int p_id = service.getid();
+				// List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
+				fileResponses = f_con.uploadMultipleFiles(files, p_id);
+			}
+			resultMap.put("result", result);
+			resultMap.put("fileResponses", fileResponses);
+
+			return response(resultMap, true, HttpStatus.CREATED);
+			// return response(fileResponse, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("포스트 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@GetMapping("/Post/{p_id}")
+	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
+	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {
+		try {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			Post post = service.selectOne(p_id);
+
+			List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+
+			resultMap.put("post", post);
+			resultMap.put("uris", storedFileNames);
+
+			return response(resultMap, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("포스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	@DeleteMapping("/Post/{p_id}")
+	@ApiOperation("전달받은 포스트 정보를 삭제한다.")
+	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable int p_id, HttpSession session) {
+		try {
+			boolean result = service.remove(p_id);
+			if (result == true) {
+				session.invalidate();
+			}
+			return response(result, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("포스트 삭제 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
 	}
 	
 //	@GetMapping("/Post")
@@ -63,18 +117,6 @@ public class PostRestController {
 //		}
 //	}
 
-	@GetMapping("/Post/{no}")
-	@ApiOperation("No 번째에 해당하는 하나의 포스트 정보를 반환한다.")
-	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int no) {
-		
-		try {
-			Post Post = service.selectOne(no);
-			return response(Post, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("포스트조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
 
 	/*
 	 * @RequestMapping(method = RequestMethod.GET, value = "/Post/Page")
@@ -99,51 +141,19 @@ public class PostRestController {
 	 * HttpStatus.CONFLICT); } }
 	 */
 
+	//// 업데이트는 일단 보류
 
-	@PostMapping("/Post")
-	@ApiOperation("전달받은 포스트 정보를 등록한다.")
-	public ResponseEntity<Map<String, Object>> insertMember(@RequestBody Post Post, @RequestParam("files") MultipartFile[] files) {
-		try {
-			boolean result = service.add(Post);
-			//service.add(Post);
-			int p_id = service.getid();
-			//List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
-			//System.out.println("여까지됨");
-			uploadMultipleFiles(files, p_id);
-			return response(result, true, HttpStatus.CREATED);
-			//return response(fileResponse, true, HttpStatus.CREATED);
-		} catch (RuntimeException e) {
-			logger.error("포스트 등록 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
-
-	@PutMapping("/Post")
-	@ApiOperation("전달받은 포스트 정보를 업데이트한다.")
-	public ResponseEntity<Map<String, Object>> updateMember(@RequestBody Post Post) {
-		try {
-			boolean result = service.update(Post);
-			return response(result, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("포스트 정보 수정 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
-
-	@DeleteMapping("/Post/{no}")
-	@ApiOperation("전달받은 포스트 정보를 삭제한다.")
-	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable int no, HttpSession session) {
-		try {
-			boolean result = service.remove(no);
-			if (result == true) {
-				session.invalidate();
-			}
-			return response(result, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("포스트 삭제 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
+//	@PutMapping("/Post")
+//	@ApiOperation("전달받은 포스트 정보를 업데이트한다.")
+//	public ResponseEntity<Map<String, Object>> updateMember(@RequestBody Post Post) {
+//		try {
+//			boolean result = service.update(Post);
+//			return response(result, true, HttpStatus.OK);
+//		} catch (Exception e) {
+//			logger.error("포스트 정보 수정 실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//		}
+//	}
 
 //	@GetMapping("Post/search")
 //	public ResponseEntity<Map<String, Object>> getPostListView(@RequestParam String condition,
@@ -162,26 +172,5 @@ public class PostRestController {
 //		// System.out.println(service.searchAll());
 //
 //	}
-	//////////////////////////
-	//@PostMapping("/uploadFile") //단일 파일 업로드
-    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, int p_id) {
-        
-    	String storedFileName = f_service.storeFile(file, p_id);
-        
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                                .path("/downloadFile/")
-                                .path(storedFileName)
-                                .toUriString();
-        
-        return new FileUploadResponse(file.getOriginalFilename(), fileDownloadUri, file.getContentType(), file.getSize());
-    }
-    
-    @PostMapping("/uploadMultipleFiles") //다중 파일 업로드
-    public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, int p_id){
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file, p_id))
-                .collect(Collectors.toList());
-    }
 
 }
