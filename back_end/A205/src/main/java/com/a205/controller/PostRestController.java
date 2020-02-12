@@ -1,10 +1,8 @@
 package com.a205.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,14 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.a205.dto.Post;
-import com.a205.service.FileUploadDownloadService;
 import com.a205.service.PostService;
 import com.file.payload.FileUploadResponse;
 
@@ -42,7 +37,7 @@ public class PostRestController {
 	PostService service;
 
 	@Autowired
-	FileUploadDownloadService f_service;
+	FileUploadController f_con;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -63,7 +58,7 @@ public class PostRestController {
 			if (files != null) {
 				int p_id = service.getid();
 				// List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
-				fileResponses = uploadMultipleFiles(files, p_id);
+				fileResponses = f_con.uploadMultipleFiles(files, p_id);
 			}
 			resultMap.put("result", result);
 			resultMap.put("fileResponses", fileResponses);
@@ -75,7 +70,41 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
+	
+	@GetMapping("/Post/{p_id}")
+	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
+	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {
+		try {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			Post post = service.selectOne(p_id);
 
+			List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+
+			resultMap.put("post", post);
+			resultMap.put("uris", storedFileNames);
+
+			return response(resultMap, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("포스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	@DeleteMapping("/Post/{p_id}")
+	@ApiOperation("전달받은 포스트 정보를 삭제한다.")
+	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable int p_id, HttpSession session) {
+		try {
+			boolean result = service.remove(p_id);
+			if (result == true) {
+				session.invalidate();
+			}
+			return response(result, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("포스트 삭제 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
 //	@GetMapping("/Post")
 //	@ApiOperation("전체 포스트 정보를 반환한다.")
 //	public ResponseEntity<Map<String, Object>> getAllMember() {
@@ -88,24 +117,6 @@ public class PostRestController {
 //		}
 //	}
 
-	@GetMapping("/Post/{p_id}")
-	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
-	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {
-		try {
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-			Post post = service.selectOne(p_id);
-
-			List<String> storedFileNames = getMultipleFiles(p_id);
-
-			resultMap.put("post", post);
-			resultMap.put("uris", storedFileNames);
-
-			return response(resultMap, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("포스트조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
 
 	/*
 	 * @RequestMapping(method = RequestMethod.GET, value = "/Post/Page")
@@ -144,21 +155,6 @@ public class PostRestController {
 //		}
 //	}
 
-	@DeleteMapping("/Post/{p_id}")
-	@ApiOperation("전달받은 포스트 정보를 삭제한다.")
-	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable int p_id, HttpSession session) {
-		try {
-			boolean result = service.remove(p_id);
-			if (result == true) {
-				session.invalidate();
-			}
-			return response(result, true, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("포스트 삭제 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
-
 //	@GetMapping("Post/search")
 //	public ResponseEntity<Map<String, Object>> getPostListView(@RequestParam String condition,
 //			@RequestParam String key) {
@@ -176,29 +172,5 @@ public class PostRestController {
 //		// System.out.println(service.searchAll());
 //
 //	}
-	//////////////////////////
-	// 이 아래로 파일 업로드용 부분
-	// @PostMapping("/uploadFile") //단일 파일 업로드
-	public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, int p_id) {
-
-		String storedFileName = f_service.storeFile(file, p_id);
-
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
-				.path(storedFileName).toUriString();
-
-		return new FileUploadResponse(file.getOriginalFilename(), fileDownloadUri, file.getContentType(),
-				file.getSize());
-	}
-
-	// @PostMapping("/uploadMultipleFiles") // 다중 파일 업로드
-	public List<FileUploadResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, int p_id) {
-		return Arrays.asList(files).stream().map(file -> uploadFile(file, p_id)).collect(Collectors.toList());
-	}
-
-	//////////////////////////
-	// 이 아래로 포스트에 해당하는 파일의 경로들을 받아옴
-	private List<String> getMultipleFiles(int p_id) {
-		return f_service.getUploadFile(p_id);
-	}
 
 }
