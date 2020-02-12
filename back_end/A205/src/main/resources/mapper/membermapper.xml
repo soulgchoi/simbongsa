@@ -37,9 +37,8 @@
 		  values(#{m_password}, #{m_userid}, #{m_email})
 	</insert>
 	
-	<insert id="insertNoPassword" parameterType="member">
+	<insert id="insertNoPass" parameterType="member">
 		insert into `member`(m_userid,m_email ) 
-		  values(#{m_userid}, #{m_email})
+		  values( #{m_userid}, #{m_email})
 	</insert>
-	
 </mapper>

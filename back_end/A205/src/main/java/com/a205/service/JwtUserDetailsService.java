@@ -48,6 +48,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return member.getM_userid();
 	}
 	
+	public String loadUserNickByUsername(String username) {
+		Member member = memberDao.searchByEmail(username);
+		return member.getM_userid();
+	}
+	
 	public Member save(Member member) {
 		Member newMember = new Member();
 		newMember.setM_userid(member.getM_userid());

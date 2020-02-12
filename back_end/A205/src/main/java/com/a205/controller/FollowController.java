@@ -56,6 +56,38 @@ public class FollowController {
 		return new ResponseEntity<>(resultMap, hStatus);
 	}
 
+//	 /follow/{followerId}/{followeeId} 
+	
+	
+//	@GetMapping("/follow/{followerId}/{followeeId}")
+//	@ApiOperation("팔로우 버튼 모양 탐색")
+//	public ResponseEntity<Map<String, Object>> SearchfollowMember(@PathVariable String followee, HttpServletRequest request){
+////		try {
+////			
+////		}
+//	}
+//	
+//	@GetMapping("/Member/{userId}")
+//	@ApiOperation("ID에 해당하는 하나의 회원정보를 반환한다. ")
+//	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String userId){
+//		try {
+//			
+//			Member member = service.search(userId);
+//// 현재 유저검색은 로그인 된 사람만 가능
+//			if (member != null ) {
+//				System.out.println(member.getM_userid());
+//
+//				return response(member, true, HttpStatus.OK);
+//			} else {
+//				System.out.println(member.getM_userid() );
+//				return response(null, true, HttpStatus.OK);
+//			}
+//		}catch(Exception e) {
+//			logger.error("회원조회실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//		}
+//	}
+	
 	@PostMapping("/follow/{followee}")
 	@ApiOperation("현재 유저가 followee를 follow 하겠다.")
 	public ResponseEntity<Map<String, Object>> followMember(@PathVariable String followee, HttpServletRequest request){
@@ -126,6 +158,7 @@ public class FollowController {
 			return response(false, false, HttpStatus.CONFLICT);
 		}
 	}
+	
 	@GetMapping("follow/{userId}/followers")
 	@ApiOperation("userId `를` following 한 사람들의 목록을 가져온다.")
 	public ResponseEntity<Map<String, Object>> searchFollowers(@PathVariable String userId){

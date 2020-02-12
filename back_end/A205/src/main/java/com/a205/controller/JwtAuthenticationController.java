@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.a205.service.JwtUserDetailsService;
-import com.a205.config.GoogleIdTokenUtil;
 import com.a205.config.JwtTokenUtil;
 import com.a205.dao.MemberDAO;
 import com.a205.dto.Member;
@@ -40,9 +39,6 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-
-	@Autowired
-	private GoogleIdTokenUtil googleTokenUtil;
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
@@ -115,7 +111,6 @@ public class JwtAuthenticationController {
 				member = memberDao.searchByEmail(email);
 			}
 		} catch (GeneralSecurityException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("아니지롱");
 		}
