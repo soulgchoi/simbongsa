@@ -9,3 +9,4 @@ import "./mainpage.scss";
 import "./posting.scss";
 import "./temp.scss";
 import "./profile.scss";
+import "./login.scss";

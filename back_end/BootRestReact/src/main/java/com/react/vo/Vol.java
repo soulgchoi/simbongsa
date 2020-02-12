@@ -39,6 +39,9 @@ public class Vol {
 	protected String actWkdy; //
 	protected String progrmCn; //
 	protected int regionCd;
+	protected String target;
+	protected String wanted;
+	protected String appnow;
 	
 	public Vol() {}
 
@@ -153,6 +156,30 @@ public class Vol {
 
 	public void setRegionCd(int regionCd) {
 		this.regionCd = regionCd;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getWanted() {
+		return wanted;
+	}
+
+	public void setWanted(String wanted) {
+		this.wanted = wanted;
+	}
+
+	public String getAppnow() {
+		return appnow;
+	}
+
+	public void setAppnow(String appnow) {
+		this.appnow = appnow;
 	}
 	
 }

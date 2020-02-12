@@ -25,7 +25,7 @@ import com.a205.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -69,6 +69,7 @@ public class MemberController {
 			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
 				session.setAttribute("userid", selected.getM_userid());
 				session.setAttribute("member", selected);
+				
 				model.addAttribute("member", selected);
 				System.out.println(model.toString());
 				System.out.println(session.getId());

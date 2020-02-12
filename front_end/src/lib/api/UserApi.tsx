@@ -107,6 +107,16 @@ export const checkStatus = (data: { email: string; password: string }) => {
     return true;
   }
 };
+
+export const googleLogin = (id_token: string) => {
+  try {
+    console.log("여기까지 왔다 ", id_token);
+    return axios.post(restBaseApi + "loginByGoogle", id_token);
+  } catch (error) {
+    return true;
+  }
+};
+
 export const logout = () => {
   try {
     return axios.post("/api/auth/logout");

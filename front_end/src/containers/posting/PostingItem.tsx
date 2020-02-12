@@ -1,5 +1,5 @@
 import React from "react";
-import CommentList from "./CommentList";
+import Comments from "./Comments";
 
 interface IProps {
   post: {
@@ -13,7 +13,7 @@ class PostingItem extends React.Component<IProps, {}> {
     return (
       <div>
         <p>{this.props.post.p_content}</p>
-        <CommentList inP_id={this.props.post.p_id} />
+        <Comments inP_id={this.props.post.p_id.toString()} />
       </div>
     );
   }

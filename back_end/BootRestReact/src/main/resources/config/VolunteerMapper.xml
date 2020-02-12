@@ -74,28 +74,37 @@
 	
 	<select id="getReg" parameterType="java.util.Map" resultType="int">
 		select r_id
-		from region
+		from `region`
 		where
 		r_sidoCd = #{sidoCd} and r_gugunCd = #{gugunCd}
 	</select>
 	
 	<select id="getCate" resultType="int">
 		select ca_id
-		from category
+		from `category`
 		where
 		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
 	</select>
 	
 	<!-- 카테고리 코드는 빼두기 -->
  	<insert id="addVol" parameterType="Vol">
-		insert into vol(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo})
+		insert ignore into `vol`(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth, v_bgnTm, v_endTm, v_actWkdy, v_wanted, v_appnow, v_target, v_detail) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo}, #{actBeginTm}, #{actEndTm}, #{actWkdy}, #{wanted}, #{appnow}, #{target}, #{progrmCn})
 	</insert>
 	
 	<insert id="addReg" parameterType="Region">
-		insert into region(r_sidoCd, r_gugunCd, r_sidoNm, r_gugunNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
+		insert into `region`(r_sidoCd, r_gugunCd, r_sidoNm, r_gugunNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
 	</insert>
 	
 	<insert id="addCate" parameterType="Category">
-		insert into category(ca_highCd, ca_highNm, ca_lowCd, ca_lowNm) values(#{highClsCd}, #{hignClsNm}, #{lowClsCd}, #{lowClsNm})
+		insert into `category`(ca_highCd, ca_highNm, ca_lowCd, ca_lowNm) values(#{highClsCd}, #{hignClsNm}, #{lowClsCd}, #{lowClsNm})
 	</insert>
+	
+<!-- 	<insert id="addPost" parameterType="Post">
+		insert into `post`(v_id, p_content, p_date, m_id, p_status) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm}, #{gugunNm})
+	</insert> -->
+	
+	<insert id="addOrig" parameterType="int">
+		insert into `post`(v_id, p_content, m_id, p_status) values(#{integer}, null, 1, 0)
+	</insert>
+	
 </mapper>

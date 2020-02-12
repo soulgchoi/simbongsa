@@ -96,6 +96,7 @@ class Map extends Component<IProps> {
       currentLocation.x
     );
     volMap.panTo(moveLatLon);
+    volMap.setLevel(4);
   }
   render() {
     console.log("render");
@@ -199,7 +200,7 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function() {
+  return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     console.log("여기 마커: ", selectedMarker);

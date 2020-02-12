@@ -6,8 +6,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.file.util.FileUploadProperties;
+
 @SpringBootApplication
 @EnableTransactionManagement
+@EnableConfigurationProperties({
+    FileUploadProperties.class
+})
+
 public class Demo1Application implements WebMvcConfigurer {
 
 	public static void main(String[] args) {

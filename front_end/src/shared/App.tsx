@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
+// import Login from "containers/login/Login2";
 import Login from "containers/login/Login";
 import Join from "containers/join/Join";
 import FindPassword from "containers/findPassword/FindPassword";
@@ -10,12 +11,12 @@ import Calendar from "components/Calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
-import PostingForm from "containers/posting/PostingForm";
-import UserProfile from "containers/temp/temp";
-// import PostingItem from "containers/posting/PostingItem";
+import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
+import Wall from "containers/posting/Wall";
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
+import UserProfile from "containers/temp/temp";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 // 로컬에 저장
@@ -24,6 +25,7 @@ import storage from "lib/storage";
 import * as userActions from "redux/modules/user";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
 import jwt from "jsonwebtoken";
 class App extends Component<any> {
   initializeUserInfo = () => {

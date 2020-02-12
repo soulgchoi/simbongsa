@@ -16,7 +16,7 @@ public class CallRestWS_cate {
 		&region=10&_type=json&pageNo=2
 		*/
 		String addr = "http://openapi.1365.go.kr/openapi/service/rest/CodeInquiryService/"+"getVltrRealmCodeList"+"?ServiceKey=";
-		//getVltrRealmCodeList : 카테고리. 1~8페이지까지 71개
+		//getVltrRealmCodeList : 카테고리. 1~8페이지까지 71개, 1개 중복 70개
 		String serviceKey = "%2BasubWu9BwRVpFNzmiNaU0t4w%2FKK66aaXy2rekeO9%2F607W5gGVQgSsEYq6hqt0p7axNsIJjKzQsmZVpLQuuyrA%3D%3D";
 		String parameter = "";
 		
