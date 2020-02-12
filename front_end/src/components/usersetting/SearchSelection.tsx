@@ -10,42 +10,44 @@ interface Props {
   locations: any;
   SearchActions: any;
   input: any;
+  key: any;
 }
 interface State { }
 class SearchSelection extends Component<Props, State> {
   state = {};
   handleChange = (e: any, data: any) => {
     const { SearchActions, locations } = this.props;
-    const check = locations.filter((location: any) => location.text === data.value);
+    const splitValue = data.value.split('/')
+    const check = locations.filter((location: any) => location.text === splitValue[1]);
     if (check.size === 0 && locations.size < 3) {
-      SearchActions.changeInput({ value: data.value, id: "input" });
+      SearchActions.changeInput({ input: splitValue[1], key: splitValue[0] });
       if (e.key !== "ArrowDown" && e.key !== "ArrowUp") {
         console.log("data.value", data.value)
         if (data.value !== []) {
-          SearchActions.insert({ form: 'location', text: data.value });
-          SearchActions.changeInput({ value: "", id: "input" });
+          SearchActions.insert({ form: "location", text: splitValue[1], key: splitValue[0] });
+          SearchActions.changeInput({ input: "", key: '' });
         }
       }
     };
   }
   handleInsert = () => {
-    const { SearchActions, input } = this.props;
-    SearchActions.insert({ form: 'location', text: input });
-    SearchActions.changeInput({ value: "", id: "input" });
+    const { SearchActions, input, key } = this.props;
+    SearchActions.insert({ form: "location", text: input, key: key });
+    SearchActions.changeInput({ input: "", key: '' });
   };
   handleRemove = (id: number) => {
     const { SearchActions } = this.props;
-    SearchActions.remove({ form: 'location', id: id });
+    SearchActions.remove({ form: "location", id: id });
   };
-  handleKeyDown = (event: any, data: any) => {
-    const { SearchActions, locations, input } = this.props;
+  handleKeyDown = (event: any) => {
+    const { SearchActions, locations, input, key } = this.props;
     if (event.key === "Enter") {
 
       const check = locations.filter((location: any) => location.text === input);
       if (check.size === 0 && locations.size < 3) {
         if (input !== "") {
-          SearchActions.insert({ form: 'location', text: input });
-          SearchActions.changeInput({ value: "", id: "input" });
+          SearchActions.insert({ form: "location", text: input, key: key });
+          SearchActions.changeInput({ value: "", key: "" });
         }
       }
     }
@@ -56,7 +58,7 @@ class SearchSelection extends Component<Props, State> {
       handleRemove,
       handleKeyDown
     } = this;
-    const { locations, input } = this.props;
+    const { locations, input, key } = this.props;
     const locationItems = locations.map((location: any) => {
       const { id, checked, text } = location;
       return (
@@ -107,7 +109,8 @@ const LocationItem = ({ id, text, onRemove }: any) => (
 export default connect(
   ({ search }: any) => ({
     input: search.get("input"),
-    locations: search.get("locations")
+    locations: search.get("locations"),
+    key: search.get("key")
   }),
   dispatch => ({
     SearchActions: bindActionCreators(searchActions, dispatch)

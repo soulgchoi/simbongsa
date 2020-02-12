@@ -20,7 +20,8 @@ class CheckboxContainer extends Component<Props, State> {
         console.log("렌더되니??")
         const { handleToggle } = this;
         const { times } = this.props;
-        const { morning, afternoon } = times;
+        const { morning, afternoon } = times.toJS();
+        console.log(morning, afternoon)
         console.log("times", times.toJS())
         return (
             <Fragment>

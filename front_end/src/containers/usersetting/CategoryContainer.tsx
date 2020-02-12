@@ -10,40 +10,53 @@ interface Props {
     categorys: any;
     SearchActions: any;
     input: any;
+    key: any;
 }
 interface State { }
 class CategorySelection extends Component<Props, State> {
     state = {};
+    findKey = (options: any, value: any) => {
+        const result = options.find((option: any) =>
+            option.value === value
+        )
+        return result.key
+    }
     handleChange = (e: any, data: any) => {
         const { SearchActions, categorys } = this.props;
-        const check = categorys.filter((category: any) => category.text === data.value);
+        console.log("data", data)
+        console.log(data.options)
+        const splitValue = data.value.split('/')
+        const check = categorys.filter((category: any) => category.text === splitValue[1]);
+
         if (check.size === 0 && categorys.size < 3) {
-            SearchActions.changeInput({ value: data.value, id: "input" });
+
+            SearchActions.changeInput({ input: splitValue[1], key: splitValue[0] });
             if (e.key !== "ArrowDown" && e.key !== "ArrowUp") {
                 if (data.value !== []) {
-                    SearchActions.insert({ form: 'category', text: data.value });
-                    SearchActions.changeInput({ value: "", id: "input" });
+                    SearchActions.insert({ form: "category", text: splitValue[1], key: splitValue[0] });
+                    SearchActions.changeInput({ input: "", key: '' });
                 }
             }
+
         };
     }
     handleInsert = () => {
-        const { SearchActions, input } = this.props;
-        SearchActions.insert({ form: 'category', text: input });
-        SearchActions.changeInput({ value: "", id: "input" });
-    };
+        const { SearchActions, input, key } = this.props;
+        SearchActions.insert({ form: "category", text: input, key: key });
+        SearchActions.changeInput({ input: "", key: "" });
+    }
     handleRemove = (id: number) => {
         const { SearchActions } = this.props;
-        SearchActions.remove({ form: 'category', id: id });
+        SearchActions.remove({ form: "category", id: id });
     };
     handleKeyDown = (event: any, data: any) => {
-        const { SearchActions, categorys, input } = this.props;
+        const { SearchActions, categorys, input, key } = this.props;
         if (event.key === "Enter") {
             const check = categorys.filter((category: any) => category.text === input);
             if (check.size === 0 && categorys.size < 3) {
                 if (input !== "") {
-                    SearchActions.insert({ form: 'category', text: input });
-                    SearchActions.changeInput({ value: "", id: "input" });
+                    SearchActions.insert({ form: "category", text: input, key: key });
+                    SearchActions.changeInput({ input: "", key: '' });
                 }
             }
         }
@@ -54,7 +67,7 @@ class CategorySelection extends Component<Props, State> {
             handleRemove,
             handleKeyDown
         } = this;
-        const { categorys, input } = this.props;
+        const { categorys, input, key } = this.props;
         const categoryItems = categorys.map((category: any) => {
             const { id, checked, text } = category;
             return (
@@ -105,7 +118,8 @@ const LocationItem = ({ id, text, onRemove }: any) => (
 export default connect(
     ({ search }: any) => ({
         input: search.get("input"),
-        categorys: search.get("categorys")
+        categorys: search.get("categorys"),
+        key: search.get("key")
     }),
     dispatch => ({
         SearchActions: bindActionCreators(searchActions, dispatch)
