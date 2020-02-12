@@ -1,10 +1,13 @@
 package com.a205.service;
 
+import java.util.List;
+
 import com.a205.dto.Post;
 
 
 public interface PostService {
 	public Post selectOne(int no);
+	public Post selectMyFollowings(List<Integer> my_following_m_ids, );
 //	public List<Post> searchAll();
 
 	public boolean add(Post Post);

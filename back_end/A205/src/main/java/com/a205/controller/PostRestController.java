@@ -127,11 +127,6 @@ public class PostRestController {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			Post post = service.selectOne(p_id);
 			
-			String[] uris = getMultipleFiles(p_id);
-			
-			resultMap.put("post", post);
-			resultMap.put("uris", uris);
-			
 			return response(resultMap, true, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("포스트조회실패", e);
