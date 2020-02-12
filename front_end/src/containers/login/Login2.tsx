@@ -6,7 +6,7 @@ import PV from "password-validator";
 import GoogleLogin from "react-google-login";
 
 import ReactCountUp from "react-countup";
-import ScrollAnimation from "react-animate-on-scroll";
+import ScrollAnimation from 'react-animate-on-scroll';
 //@ts-ignore
 import ReactPageScroller from "react-page-scroller"; // @types/react-page-scroller 가 없어서 위에 // @ts-ignore 를 추가
 
@@ -25,6 +25,7 @@ import * as baseActions from "redux/modules/base";
 import storage from "lib/storage";
 
 class Login extends React.Component<any, any> {
+
   handlePageChange = (number: any) => {
     const { BaseActions } = this.props;
     BaseActions.setInitialNumber(number); // set initial number, to reset it from the previous selected.
@@ -99,102 +100,26 @@ class Login extends React.Component<any, any> {
     const error2 = error.toJS();
     // const pagesNumbers = this.getPagesNumbers();
     return (
-      <div>
-        <ReactPageScroller
-          pageOnChange={this.handlePageChange}
-          animationTimer={700}
-        >
-          <div className="user" id="login2">
-            <h1 className="title">로그인</h1>
-            <Input
-              id="email"
-              nametag="ID"
-              placeholder="아이디를 입력하세요."
-              type="text"
-              value={email}
-              onChange={handleChange}
-            />
-            <Input
-              id="password"
-              nametag="password"
-              placeholder="비밀번호를 입력하세요."
-              type="password"
-              value={password}
-              onChange={handleChange}
-            />
-            <AuthError error={error2.email}></AuthError>
-            <ActionButton
-              placeholder="로그인"
-              action={handleLocalLogin}
-            ></ActionButton>
-            <div className="sns-login">
-              <div className="text">
-                <p>SNS 간편 로그인</p>
-                <div className="bar"></div>
-              </div>
-              {/* <KakaoLogin
-              jsKey="kakao-js-key"
-              onSuccess={result => console.log(result)}
-              onFailure={result => console.log(result)}
-              getProfile={true}
-            /> */}
-              <GoogleLogin
-                // clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
-                clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
-                onSuccess={(result: any) => {
-                  const id_token = result.getAuthResponse().id_token;
-                  console.log("id_token", id_token);
-                  AuthActions.googleLogin(id_token);
-                }}
-                onFailure={result => console.log(result)}
-                cookiePolicy={"single_host_origin"}
-                redirectUri="http://www.naver.com"
-              />
-            </div>
-            <div className="add-option">
-              <div className="bar" />
-              <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
-              <LinkButton placeholder="회원가입" link="/join" />
-            </div>
-          </div>
-          <div id="page">
-            <div id="content">
-              <ReactCountUp
-                start={this.props.initialNumber}
-                end={12546}
-                duration={2}
-                separator=","
-                // decimals={4}
-                // decimal=","
-                prefix="등록 된 봉사활동 수 : "
-                suffix=" 개"
-                redraw={true}
-                // onEnd={() => console.log('Ended! 👏')}
-                // onStart={() => console.log('Started! 💨')}
-              >
-                {/* {({ countUpRef, start }) => (
-            <div>
-            { <span ref={countUpRef} />
-            <button onClick={start}>Start</button> }
-            </div>
-          )} */}
-              </ReactCountUp>
-            </div>
-          </div>
-          <div id="page">
-            <div id="content">
-              <ReactCountUp
-                start={this.props.initialNumber}
-                end={12546}
-                duration={2}
-                separator=","
-                redraw={true}
-                prefix="게시글  "
-                suffix=" 개"
-              />
-            </div>
-          </div>
-        </ReactPageScroller>
+
+
+      <div className="temp">
+        <ScrollAnimation duration={3} animateIn='bounceInRight'
+          animateOut='fadeOut'>
+          <h1>
+            React Animate On Scroll
+  </h1>
+          <h2>
+            Using:
+  </h2>
+        </ScrollAnimation>
+        <ScrollAnimation animateIn='bounceInRight'
+          animateOut='bounceOutLeft'>
+          <h2>
+            <a href='https://daneden.github.io/animate.css/'>
+              Animate.css
+    </a>
+          </h2>
+        </ScrollAnimation>
       </div>
     );
   }
@@ -206,7 +131,7 @@ export default connect(
     result: state.auth.get("result"),
     logged: state.user.get("logged"),
     loggedInfo: state.user.get("loggedInfo"),
-    initialNumber: state.base.get("initialNumber")
+    initialNumber: state.base.get('initialNumber')
   }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),
