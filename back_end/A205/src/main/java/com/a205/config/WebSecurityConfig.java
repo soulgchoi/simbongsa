@@ -57,9 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
 //				.antMatchers("/").permitAll()
 				// all other requests need to be authenticated
-//				.anyRequest().permitAll().and() //--> 야매용
-				.anyRequest().authenticated().and()
-//				.authenticated().and(). //일단 테스트 용으로 풀어놈
+				.anyRequest().permitAll().and() //--> 야매용
+				//.anyRequest().authenticated().and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -70,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	@Override 
 	public void configure(WebSecurity web) { 
-		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**"); 
+		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
 	}
 
 }

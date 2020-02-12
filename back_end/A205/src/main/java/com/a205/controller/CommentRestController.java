@@ -14,21 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a205.config.JwtTokenUtil;
-import com.a205.dao.CommentDAO;
 import com.a205.dao.MemberDAO;
-import com.a205.dto.Comment_mini;
-import com.a205.dto.Comment_special_obj;
 import com.a205.dto.Comment;
-import com.a205.dto.Post;
+import com.a205.dto.Comment_mini;
 import com.a205.service.CommentService;
 import com.a205.service.JwtUserDetailsService;
 
@@ -70,7 +65,6 @@ public class CommentRestController {
 			Logger.error("댓글 불러오기 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
-
 	
 	}
 
