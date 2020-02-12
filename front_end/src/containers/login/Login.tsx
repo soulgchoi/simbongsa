@@ -24,6 +24,9 @@ import * as userActions from "redux/modules/user";
 import * as baseActions from "redux/modules/base";
 import storage from "lib/storage";
 
+// jwt
+import jwt from "jsonwebtoken";
+
 class Login extends React.Component<any, any> {
   handlePageChange = (number: any) => {
     const { BaseActions } = this.props;
@@ -76,25 +79,35 @@ class Login extends React.Component<any, any> {
     try {
       await AuthActions.localLogin({ email, password });
       console.log("최초확인용", this.props);
-      const loggedInfo = this.props.result.toJS();
-      console.log("loggedInfo:", loggedInfo);
-
-      UserActions.setLoggedInfo(loggedInfo);
+      const token = this.props.result.toJS().token;
+      const userEmail = jwt.decode(token);
+      UserActions.setLoggedInfo(userEmail);
       // UserActions.setLoggedFlag(true);
+      storage.set("token", token);
       history.push("/mainpage");
-      storage.set("loggedInfo", loggedInfo);
-      console.log("로그인 후: ", this.props.loggedInfo.toJS());
+      // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       console.log(e);
       this.setError("잘못된 계정정보입니다.", "email");
     }
   };
 
+  handleGoogleLogin = async (result: any) => {
+    const { AuthActions, UserActions, history } = this.props;
+    const id_token = result.getAuthResponse().id_token;
+    console.log("id_token", id_token);
+    await AuthActions.googleLogin(id_token);
+    const token = this.props.result.toJS().token;
+    const userEmail = jwt.decode(token);
+    UserActions.setLoggedInfo(userEmail);
+    storage.set("token", token);
+    history.push("/mainpage");
+  };
+
   render() {
     console.log(this.props.loggedInfo.toJS());
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
-    const { handleChange, handleLocalLogin } = this;
-    const { AuthActions } = this.props;
+    const { handleChange, handleLocalLogin, handleGoogleLogin } = this;
     const { error } = this.props;
     const error2 = error.toJS();
     // const pagesNumbers = this.getPagesNumbers();
@@ -141,11 +154,7 @@ class Login extends React.Component<any, any> {
               <GoogleLogin
                 // clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
                 clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
-                onSuccess={(result: any) => {
-                  const id_token = result.getAuthResponse().id_token;
-                  console.log("id_token", id_token);
-                  AuthActions.googleLogin(id_token);
-                }}
+                onSuccess={handleGoogleLogin}
                 onFailure={result => console.log(result)}
                 cookiePolicy={"single_host_origin"}
                 redirectUri="http://www.naver.com"
