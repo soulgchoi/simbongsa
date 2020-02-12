@@ -35,24 +35,24 @@ export const localRegister: ({
   password,
   userid
 }: Iregister) => {
-  let data = {
-    m_email: email,
-    m_password: password,
-    m_userid: userid
+    let data = {
+      m_email: email,
+      m_password: password,
+      m_userid: userid
+    };
+    try {
+      console.log("체크 : ", data);
+      return axios.post(restBaseApi + "register", data);
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
   };
-  try {
-    console.log("체크 : ", data);
-    return axios.post(restBaseApi + "register", data);
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
 interface Ilogin {
   email: string;
   password: string;
@@ -64,29 +64,17 @@ export const localLogin: ({
   email,
   password
 }: Ilogin) => {
-<<<<<<< HEAD
     let data = {
       password: password,
       username: email
     };
     try {
+      console.log(restBaseApi, data);
       return axios.post(restBaseApi + "authenticate", data);
     } catch (error) {
       return false;
     }
-=======
-  let data = {
-    password: password,
-    username: email
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
   };
-  try {
-    console.log(restBaseApi, data);
-    return axios.post(restBaseApi + "authenticate", data);
-  } catch (error) {
-    return false;
-  }
-};
 
 export const checkStatus = (data: { email: string; password: string }) => {
   try {

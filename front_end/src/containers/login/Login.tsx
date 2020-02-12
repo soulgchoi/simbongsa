@@ -1,19 +1,8 @@
 import React from "react";
-<<<<<<< HEAD
-import PV from "password-validator";
-
-// CSS
-import "assets/css/style.scss";
-import "assets/css/user.scss";
-import "assets/mycss/components.scss";
-
-// API 관련
-=======
 import "assets/mycss";
 import PV from "password-validator";
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
 import GoogleLogin from "react-google-login";
 
 import ReactCountUp from "react-countup";
@@ -28,28 +17,19 @@ import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
 // local storage에 저장하는 component
 
-import storage from "lib/storage";
+
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-<<<<<<< HEAD
-
-// Login Class Component
-=======
 import * as baseActions from "redux/modules/base";
 import storage from "lib/storage";
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
 
 // jwt
 import jwt from "jsonwebtoken";
 
 class Login extends React.Component<any, any> {
-<<<<<<< HEAD
-
-  // 이벤트에 따라 인풋의 변화를 State로 갱신하는 함수.
-=======
   handlePageChange = (number: any) => {
     const { BaseActions } = this.props;
     BaseActions.setInitialNumber(number); // set initial number, to reset it from the previous selected.
@@ -70,7 +50,6 @@ class Login extends React.Component<any, any> {
   //   return [...pageNumbers];
   // };
 
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { id, value } = e.target;
@@ -110,22 +89,6 @@ class Login extends React.Component<any, any> {
 
     try {
       await AuthActions.localLogin({ email, password });
-<<<<<<< HEAD
-      // 성공하면
-      console.log("최초확인용", this.props)
-      const loggedInfo = this.props.result.toJS()
-      console.log("loggedInfo:", loggedInfo)
-
-      // 유저 정보에 설정
-      UserActions.setLoggedInfo(loggedInfo);
-      // UserActions.setLoggedFlag(true);
-      // 로그인 성공시 메인페이지로 보낸다.
-      history.push("/mainpage");
-
-      // 로컬 스토리지에 JWT을 저장.
-      storage.set("loggedInfo", loggedInfo)
-      console.log("로그인 후: ", this.props.loggedInfo.toJS());
-=======
       console.log("최초확인용", this.props);
       const token = this.props.result.toJS().token;
       const userEmail = jwt.decode(token);
@@ -134,7 +97,6 @@ class Login extends React.Component<any, any> {
       storage.set("token", token);
       history.push("/mainpage");
       // console.log("로그인 후: ", this.props.loggedInfo.toJS());
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
     } catch (e) {
       // error 발생시
       console.log(e);
@@ -228,8 +190,8 @@ class Login extends React.Component<any, any> {
                 prefix="등록 된 봉사활동 수 : "
                 suffix=" 개"
                 redraw={true}
-                // onEnd={() => console.log('Ended! 👏')}
-                // onStart={() => console.log('Started! 💨')}
+              // onEnd={() => console.log('Ended! 👏')}
+              // onStart={() => console.log('Started! 💨')}
               >
                 {/* {({ countUpRef, start }) => (
             <div>

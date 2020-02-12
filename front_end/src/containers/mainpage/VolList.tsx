@@ -10,36 +10,21 @@ class VolList extends React.Component<any, any> {
     state = {
         pageNum: 1,
     }
-<<<<<<< HEAD
     componentDidMount() {
-        axios.get(this.state.url + this.state.pageNum.toString())
-            .then(response => {
-                const data = response.data.data.map((d: any) => {
-                    return { v_id: d.v_id, v_title: d.v_title, v_pStatus: d.v_pStatus, v_Auth: d.v_Auth }
-                })
-                this.setState({ getDataArray: data })
-                this.setState({ pageNum: this.state.pageNum + 1 })
-            })
-            .catch(err =>
-                console.log(err))
-
-=======
-    componentDidMount(){
         const { VolActions } = this.props;
         VolActions.getInitailList(this.state.pageNum);
->>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
     }
 
-    loadMoreData(){
+    loadMoreData() {
         this.setState({ pageNum: this.state.pageNum + 1 })
         const { VolActions } = this.props;
         VolActions.appendList(this.state.pageNum);
     }
-    
+
     render() {
         const { volunteers } = this.props;
         console.log(volunteers)
-        const PrintArray = volunteers.map(( vol:any, i:any ) => {
+        const PrintArray = volunteers.map((vol: any, i: any) => {
             return (
                 <Vol v_id={vol.v_id} key={i} />
             )
@@ -58,7 +43,7 @@ class VolList extends React.Component<any, any> {
         )
     }
 }
-        
+
 export default connect(
     (state: any) => ({
         volunteers: state.volunteer.get("volunteers"),
