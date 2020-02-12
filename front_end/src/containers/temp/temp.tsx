@@ -10,7 +10,7 @@ export default class temp extends Component<Props, State> {
   render() {
     return (
       <div>
-        <UserProfile userId={"limhaksu3"} />
+        <UserProfile profileUserId={"limhaksu3"} />
       </div>
     );
   }

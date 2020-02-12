@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 
 interface Props {
-  list: [];
+  list: string[];
 }
 
 export default function FollowList({ list }: Props): ReactElement {

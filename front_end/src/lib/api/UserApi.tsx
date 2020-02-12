@@ -4,26 +4,50 @@ const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 //const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
 // const restBaseApi = "http://70.12.247.126:8080/"; // 박정환
 
-export const getUserFollower = (token: string, userId: string) => {
-  try {
-    console.log("API getUserFollower : ", userId);
-    // return { key: "오케이" };
-    return axios
-      .create({ headers: { Authorization: "Baerer " + token } })
-      .get(restBaseApi + "follow/" + userId + "/followers");
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
+export const getUserFollower = (token: string, userId: string): any => {
+  axios
+    .create({ headers: { Authorization: "Baerer " + token } })
+    .get(restBaseApi + "follow/" + userId + "/followers")
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
 };
 
-export const getUserFollowee = (userId: string) => {
-  try {
-    return axios.get(restBaseApi + "follow/" + userId + "/followee");
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
+export const getUserFollowing = (token: string, userId: string): any => {
+  axios
+    .create({ headers: { Authorization: "Baerer " + token } })
+    .get(restBaseApi + "follow/" + userId + "/followee")
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const checkFollow = (
+  token: string,
+  followerId: string,
+  followeeId: string
+): any => {
+  axios
+    .create({ headers: { Authorization: "Baerer " + token } })
+    .get(restBaseApi + "follow/" + followerId + "/" + followeeId)
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
 };
 
 export const checkEmailExists = (email: string) => {

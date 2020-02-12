@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
+import * as UserAPI from "lib/api/UserApi";
 
 import FollowList from "components/user/profile/FollowList";
 import ActionButton from "components/button/ActionButton";
@@ -12,42 +13,71 @@ import "assets/mycss";
 
 interface Props {
   UserActions: typeof userActions;
-  userId: string; // 프로필을 표시할 유저 아이디
+  profileUserId: string; // 프로필을 표시할 유저 아이디
   userProfile: any;
   loginUserId: string; // 현재 로그인한 유저의 아이디, 자동으로 세팅된다.
 }
 
-interface State {}
+interface State {
+  followerList: string[];
+  followingList: string[];
+  isProfileUserFollowedByLoginUser: boolean;
+}
 
 class UserProfile extends Component<Props, State> {
-  state = {};
-  componentDidUpdate() {
+  state = {
+    followerList: [],
+    followingList: [],
+    isProfileUserFollowedByLoginUser: false
+  };
+  componentDidMount() {
     const token = storage.get("loggedInfo");
-    const { UserActions, userId } = this.props;
-    console.log("userProfile didUpdate ", userId);
-    UserActions.setUserFollowee(userId);
-    UserActions.setUserFollower(token, userId);
+    const { profileUserId, loginUserId } = this.props;
+    this.setState({
+      followerList: UserAPI.getUserFollower(token, profileUserId)
+    });
+    this.setState({
+      followingList: UserAPI.getUserFollowing(token, profileUserId)
+    });
+    this.setState({
+      isProfileUserFollowedByLoginUser: UserAPI.checkFollow(
+        token,
+        loginUserId,
+        profileUserId
+      )
+    });
+  }
+  componentDidUpdate() {
+    // console.log("userProfile didUpdate ", profileUserId);
   }
 
   followHandle = () => {};
   render() {
-    const userProfile = this.props.userProfile.toJS();
-    const { loginUserId, userId } = this.props;
+    // const userProfile = this.props.userProfile.toJS();
+    const { loginUserId, profileUserId } = this.props;
+    const {
+      followerList,
+      followingList,
+      isProfileUserFollowedByLoginUser
+    } = this.state;
     const { followHandle } = this;
     console.log("로그인한 아이디", loginUserId);
-    console.log("아이디", userProfile.userId);
-    console.log("팔로워", userProfile.followerList.length);
-    console.log("팔로잉", userProfile.followingList.length);
+    console.log("아이디", profileUserId);
+    console.log("팔로워", followerList);
+    console.log("팔로잉", followingList);
     return (
       <div className="user-profile">
         <div>
-          아이디 : {userId}/ 팔로워 : {userProfile.followerList.length} 명 /
-          팔로잉 : {userProfile.followingList.length} 명
+          아이디 : {profileUserId}/ 팔로워 : {followerList} 명 / 팔로잉 :{" "}
+          {followingList} 명
         </div>
-        {loginUserId !== userId && (
+        {loginUserId !== profileUserId && !isProfileUserFollowedByLoginUser && (
           <ActionButton action={followHandle} placeholder="팔로우" />
         )}
-        <FollowList list={userProfile.followerList} />
+        {loginUserId !== profileUserId && isProfileUserFollowedByLoginUser && (
+          <ActionButton action={followHandle} placeholder="팔로우 취소" />
+        )}
+        <FollowList list={followerList} />
       </div>
     );
   }

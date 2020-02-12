@@ -9,24 +9,24 @@ const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const LOGOUT = "user/LOGOUT"; // 로그아웃
 const CHECK_STATUS = "user/CHECK_STATUS"; // 현재 로그인상태 확인
 
-const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
-const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
-const SET_USER_ID = "user/SET_USER_ID";
+// const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
+// const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
+// const SET_USER_ID = "user/SET_USER_ID";
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
 export const logout = createAction(LOGOUT, UserAPI.logout);
 export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
 
-export const setUserId = createAction(SET_USER_ID);
-export const setUserFollower = createAction(
-  GET_USER_FOLLOWER,
-  UserAPI.getUserFollower
-);
-export const setUserFollowee = createAction(
-  GET_USER_FOLLOWEE,
-  UserAPI.getUserFollowee
-);
+// export const setUserId = createAction(SET_USER_ID);
+// export const setUserFollower = createAction(
+//   GET_USER_FOLLOWER,
+//   UserAPI.getUserFollower
+// );
+// export const setUserFollowee = createAction(
+//   GET_USER_FOLLOWEE,
+//   UserAPI.getUserFollower
+// );
 
 interface initialStateParams {
   setIn: any;
@@ -45,11 +45,11 @@ const initialState = Map({
     username: null,
     userId: null
   }),
-  userProfile: Map({
-    userId: null,
-    followerList: List([]),
-    followingList: List([])
-  }),
+  // userProfile: Map({
+  //   userId: null,
+  //   followerList: List([]),
+  //   followingList: List([])
+  // }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
 });
@@ -73,23 +73,23 @@ export default handleActions<any>(
           .set("loggedInfo", Map(action.payload.data))
           .set("validated", true),
       onFailure: (state, action) => initialState
-    }),
-
-    [SET_USER_ID]: (state, action) =>
-      state.setIn(["userPforile", "ueserId"], action.payload),
-
-    ...pender({
-      type: GET_USER_FOLLOWER,
-      onSuccess: (state, action) => {
-        state.setIn(["userProfile", "followerList"], List(action.payload));
-      }
-    }),
-    ...pender({
-      type: GET_USER_FOLLOWEE,
-      onSuccess: (state, action) => {
-        state.setIn(["userProfile", "followeeList"], List(action.payload));
-      }
     })
+
+    // [SET_USER_ID]: (state, action) =>
+    //   state.setIn(["userPforile", "ueserId"], action.payload),
+
+    // ...pender({
+    //   type: GET_USER_FOLLOWER,
+    //   onSuccess: (state, action) => {
+    //     state.setIn(["userProfile", "followerList"], List(action.payload));
+    //   }
+    // }),
+    // ...pender({
+    //   type: GET_USER_FOLLOWEE,
+    //   onSuccess: (state, action) => {
+    //     state.setIn(["userProfile", "followeeList"], List(action.payload));
+    //   }
+    // })
   },
   initialState
 );
