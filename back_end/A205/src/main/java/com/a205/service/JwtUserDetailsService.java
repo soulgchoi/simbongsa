@@ -43,11 +43,24 @@ public class JwtUserDetailsService implements UserDetailsService {
 	}
 	
 	
+	public String loadUserNickByUsername(String username) {
+		Member member = memberDao.searchByEmail(username);
+		return member.getM_userid();
+	}
+	
 	public Member save(Member member) {
 		Member newMember = new Member();
 		newMember.setM_userid(member.getM_userid());
 		newMember.setM_email(member.getM_email());
 		newMember.setM_password(bcryptEncoder.encode(member.getM_password()));
+		memberDao.add(newMember);
+		return memberDao.searchByEmail(newMember.getM_email());
+	}
+	
+	public Member saveByGoogle(Member member) {
+		Member newMember = new Member();
+		newMember.setM_userid(member.getM_userid());
+		newMember.setM_email(member.getM_email());
 		memberDao.add(newMember);
 		return memberDao.searchByEmail(newMember.getM_email());
 	}

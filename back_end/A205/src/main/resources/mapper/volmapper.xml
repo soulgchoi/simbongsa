@@ -33,6 +33,30 @@
 		</choose>
 		limit #{listSize} offset #{startList}
 	</select>
+	<select id="selectByFilter2" resultType="vol" parameterType="myfilter">
+		select * from `vol` where v_pStatus between 1 and 3
+		<choose>
+			<when test="v_pBgnD != null and v_pEndD != null">
+      			and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
+    		</when>
+    		<when test="v_bgnTm != null and v_endTm != null">
+      			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
+    		</when>
+			<when test="r_sidoNm != null and r_gugunNm != null">
+				and r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm}
+    		</when>
+			<when test=" vol_title !=null">
+				and v_location like concat(`%`,#{vol_title),`%`)
+			</when>
+			<when test="ca_highNm !=null">
+				and ca_id = (select ca_id from where ca_highNm = #{ca_highNm})
+			</when>
+			<otherwise>
+      			and v_id is not null
+    		</otherwise>
+		</choose>
+		limit #{listSize} offset #{startList}
+	</select>
 	
 	<select id="selectOne" resultType="vol" parameterType="int">
 		select * from vol
