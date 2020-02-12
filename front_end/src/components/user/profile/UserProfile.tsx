@@ -51,7 +51,8 @@ class UserProfile extends Component<Props, State> {
     // console.log("userProfile didUpdate ", profileUserId);
   }
 
-  followHandle = () => {};
+  handleFollow = () => {};
+  handleUnfollow = () => {};
   render() {
     // const userProfile = this.props.userProfile.toJS();
     const { loginUserId, profileUserId } = this.props;
@@ -60,7 +61,7 @@ class UserProfile extends Component<Props, State> {
       followingList,
       isProfileUserFollowedByLoginUser
     } = this.state;
-    const { followHandle } = this;
+    const { handleFollow, handleUnfollow } = this;
     console.log("로그인한 아이디", loginUserId);
     console.log("아이디", profileUserId);
     console.log("팔로워", followerList);
@@ -72,10 +73,10 @@ class UserProfile extends Component<Props, State> {
           {followingList} 명
         </div>
         {loginUserId !== profileUserId && !isProfileUserFollowedByLoginUser && (
-          <ActionButton action={followHandle} placeholder="팔로우" />
+          <ActionButton action={handleFollow} placeholder="팔로우" />
         )}
         {loginUserId !== profileUserId && isProfileUserFollowedByLoginUser && (
-          <ActionButton action={followHandle} placeholder="팔로우 취소" />
+          <ActionButton action={handleUnfollow} placeholder="팔로우 취소" />
         )}
         <FollowList list={followerList} />
       </div>
