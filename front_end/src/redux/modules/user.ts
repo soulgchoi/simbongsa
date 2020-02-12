@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 
 import { Map } from "immutable";
-import * as AuthAPI from "lib/api/UserApi";
+import * as UserAPI from "lib/api/UserApi";
 import { pender } from "redux-pender";
 
 const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
@@ -11,8 +11,8 @@ const CHECK_STATUS = "user/CHECK_STATUS"; // 현재 로그인상태 확인
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
-export const logout = createAction(LOGOUT, AuthAPI.logout);
-export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
+export const logout = createAction(LOGOUT, UserAPI.logout);
+export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
 interface initialStateParams {
   setIn: any;
   set: any;
@@ -37,7 +37,9 @@ export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
       console.log("SET_LOGGED", action.payload)
-      return state.setIn(['loggedInfo'], Map(action.payload)).set('logged', true)
+      const { sub } = action.payload
+      console.log("sub", sub)
+      return state.setIn(['loggedInfo', 'username'], sub)
     },
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
     ...pender({

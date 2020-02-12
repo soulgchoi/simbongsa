@@ -13,11 +13,15 @@ import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
 import PostingForm from "containers/posting/PostForm"
 import CalendarContainer from "containers/calendar/CalendarContainer";
+import SearchContainer from "containers/usersetting/SearchContainer";
+// import Postings from "containers/posting/Postings"
+
 import Wall from 'containers/posting/Wall'
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
+import TodosContainer from "containers/usersetting/SearchContainer";
 // 로컬에 저장
 import storage from "lib/storage";
 // redux 관련
@@ -41,6 +45,7 @@ class App extends Component<any> {
     this.initializeUserInfo();
   }
   render() {
+
     return (
       <div>
         <div>
