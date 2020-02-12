@@ -8,8 +8,8 @@
 		  values(#{m_id}, #{ca_id} )
 	</insert>
  	
- 	<select id="selectByM_id" resultType="member_has_category" parameterType="int">
-		select * from `member_has_category` 
+ 	<select id="selectByM_id" resultType="java.lang.Integer" parameterType="int">
+		select ca_id from `member_has_category` 
 			where m_id = #{m_id}
 
 	</select>

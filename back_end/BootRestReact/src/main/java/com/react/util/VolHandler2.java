@@ -70,9 +70,9 @@ public class VolHandler2 extends DefaultHandler {
 
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				list.add(vol);////
 			}
-
-			list.add(vol);////
 		}
 		temp.setLength(0);
 	}

@@ -21,7 +21,7 @@ public class MemberHasCategoryDAOImp implements MemberHasCategoryDAO{
 
 	}
 	
-	public List<Member_has_category> searchByM_id(Integer m_id){
+	public List<Integer> searchByM_id(Integer m_id){
 		String statement = ns+"selectByM_id";
 
 		return session.selectList(statement, m_id);

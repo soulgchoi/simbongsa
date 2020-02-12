@@ -10,10 +10,15 @@
 		values(#{p_id}, #{originalFileName}, #{storedFileName}, #{file_size})
 	</insert>
 	
-	<select id="selectFileList" parameterType="int">
+<!-- 	<select id="selectFileList" parameterType="int">
 		select f_id, f_name, f_key, round(f_size/1024, 1)
 		from `file`
 		where p_id = #{p_id}
+	</select> -->
+	<select id="selectFileList" resultType="java.lang.String" parameterType="int">
+		select f_key
+		from `file`
+		where p_id = #{p_id}
 	</select>
-	
+
 </mapper>

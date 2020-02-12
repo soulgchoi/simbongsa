@@ -34,5 +34,11 @@ public class CategoryDAOImp implements CategoryDAO{
 		return session.selectList(statement, ca_highNm);
 	}
 
+	@Override
+	public List<Category> selectListByHighCd(String ca_highCd) {
+		String statement = ns+ "selectListByHighCd";
+		return session.selectList(statement, ca_highCd);
+	}
+	
 
 }
