@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.a205.model.postlikemapper">
+	 <select id="search" resultType="postlike" parameterType="int">
+		select * from member
+		where m_id in(select f_follower_id from follow
+			where f_followeek_id = #{userId_pk})
+	 </select>
+  	
+  	
+  	<insert id="insert"  parameterType="java.util.Map">
+		insert into `post_like`(p_id, m_id ) 
+		  values(#{p_id}, #{m_id} )
+	</insert>
+  
+  	<delete id="delete" parameterType="java.util.Map">
+			delete from `post_like` 
+			where p_id=#{p_id} and m_id=#{m_id} 
+	</delete>
+  
+  </mapper>

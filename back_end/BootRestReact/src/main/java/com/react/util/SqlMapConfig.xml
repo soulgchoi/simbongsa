@@ -10,7 +10,7 @@
 		<typeAlias type="com.react.vo.Vol"	alias="Vol"/>
 		<typeAlias type="com.react.vo.Region"	alias="Region"/>
 		<typeAlias type="com.react.vo.Category"	alias="Category"/>
-		
+		<typeAlias type="com.react.vo.Post"	alias="Post"/>
 <!-- 		<typeAlias type="com.vue.vo.Dept"	alias="Dept"/>
 		<typeAlias type="com.vue.vo.DeptEmp"	alias="DeptEmp"/>
 		<typeAlias type="com.vue.vo.DeptCount"	alias="DeptCount"/> -->
@@ -22,8 +22,8 @@
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://70.12.247.126:3306/volunteer?serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
-                <property name="username" value="ssafy" />
+                <property name="url" value="jdbc:mysql://13.124.127.232:3306/volunteer?serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+                <property name="username" value="root" />
                 <property name="password" value="ssafy" />
             </dataSource>
         </environment>

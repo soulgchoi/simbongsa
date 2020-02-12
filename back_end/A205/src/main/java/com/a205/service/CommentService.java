@@ -5,14 +5,14 @@ import java.util.List;
 import com.a205.dto.Comment;
 
 public interface CommentService {
-    public List<Comment> searchAll();
 
-    // public Comment search(int no);
-    public List<Comment> search(int no);
+	public List<Comment> searchListComments(Integer p_id);
+	
+	public Comment searchOne(Integer c_id);
+	
+	public boolean add(Integer p_id, Integer m_id, String comment);
 
-    public boolean add(Comment comment);
+	public boolean remove(Integer c_id);
 
-    public boolean update(Comment comment);
-
-    public boolean remove(int c_code);
+	public boolean update(Comment new_comment);
 }

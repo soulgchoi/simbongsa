@@ -13,6 +13,8 @@ const CHECK_USERNAME_EXISTS = "auth/CHECK_USERNAME_EXISTS"; // 아이디 중복 
 const LOCAL_REGISTER = "auth/LOCAL_REGISTER"; // 이메일 가입
 const LOCAL_LOGIN = "auth/LOCAL_LOGIN"; // 이메일 로그인
 const LOGOUT = "auth/LOGOUT"; // 로그아웃
+const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
+
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
 
@@ -38,7 +40,7 @@ export const localRegister = createAction(
   AuthAPI.localRegister
 ); // { email, userid, password }
 export const localLogin = createAction(LOCAL_LOGIN, AuthAPI.localLogin); // { email, password }
-
+export const googleLogin = createAction(GOOGLE_LOGIN, AuthAPI.googleLogin); //
 export const logout = createAction(LOGOUT, AuthAPI.logout);
 
 export const setError = createAction(SET_ERROR); // { form, message }
@@ -81,7 +83,7 @@ const initialState = Map({
       email: "",
       userid: "",
       password: "",
-      passwordConfirm: "",
+      passwordConfirm: ""
     }),
     exists: Map({
       email: false,
@@ -97,7 +99,7 @@ const initialState = Map({
   login: Map({
     form: Map({
       email: "",
-      password: "",
+      password: ""
     }),
     error: Map({
       email: null,
@@ -130,26 +132,36 @@ export default handleActions<any>(
       type: CHECK_EMAIL_EXISTS,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        return state.setIn(["join", "exists", "email"], data)
+        return state.setIn(["join", "exists", "email"], data);
       }
     }),
     ...pender({
       type: CHECK_USERNAME_EXISTS,
       onSuccess: (state, action) => {
-        return state.setIn(["join", "exists", "userid"], action.payload.data.data)
+        return state.setIn(
+          ["join", "exists", "userid"],
+          action.payload.data.data
+        );
       }
     }),
     ...pender({
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
-        console.log(action.payload.data.token)
+        console.log(action.payload.data.token);
+        return state.set("result", Map(action.payload.data));
+      }
+    }),
+    ...pender({
+      type: GOOGLE_LOGIN,
+      onSuccess: (state, action) => {
+        console.log(action.payload.data.token);
         return state.set("result", Map(action.payload.data));
       }
     }),
     ...pender({
       type: LOCAL_REGISTER,
       onSuccess: (state, action) => {
-        return state.set("result", Map(action.payload.data))
+        return state.set("result", Map(action.payload.data));
       }
     })
   },
