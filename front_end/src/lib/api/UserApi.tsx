@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from "axios";
 import { List } from 'immutable'
 //const restBaseApi = "http://70.12.247.34:8080/" // jwt 최신
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
-const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
-//const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
-// const restBaseApi = "http://70.12.247.126:8080/"; // 박정환
+// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
+// const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 export const checkEmailExists = (email: string) => {
   try {
     console.log("API email check : ", email);
@@ -35,24 +35,24 @@ export const localRegister: ({
   password,
   userid
 }: Iregister) => {
-    let data = {
-      m_email: email,
-      m_password: password,
-      m_userid: userid
-    };
-    try {
-      console.log("체크 : ", data);
-      return axios.post(restBaseApi + "register", data);
-    } catch (error) {
-      return false;
-    }
-    // try {
-    //   return axios.post(restBaseApi + "Member", data);
-    // } catch (error) {
-    //   console.log(error);
-    //   return true;
-    // }
+  let data = {
+    m_email: email,
+    m_password: password,
+    m_userid: userid
   };
+  try {
+    console.log("체크 : ", data);
+    return axios.post(restBaseApi + "register", data);
+  } catch (error) {
+    return false;
+  }
+  // try {
+  //   return axios.post(restBaseApi + "Member", data);
+  // } catch (error) {
+  //   console.log(error);
+  //   return true;
+  // }
+};
 interface Ilogin {
   email: string;
   password: string;
@@ -64,6 +64,7 @@ export const localLogin: ({
   email,
   password
 }: Ilogin) => {
+<<<<<<< HEAD
     let data = {
       password: password,
       username: email
@@ -73,7 +74,19 @@ export const localLogin: ({
     } catch (error) {
       return false;
     }
+=======
+  let data = {
+    password: password,
+    username: email
+>>>>>>> ffd8aa3b0680cb7f996d48c1637c78205ef5479b
   };
+  try {
+    console.log(restBaseApi, data);
+    return axios.post(restBaseApi + "authenticate", data);
+  } catch (error) {
+    return false;
+  }
+};
 
 export const checkStatus = (data: { email: string; password: string }) => {
   try {
@@ -85,6 +98,16 @@ export const checkStatus = (data: { email: string; password: string }) => {
     return true;
   }
 };
+
+export const googleLogin = (id_token: string) => {
+  try {
+    console.log("여기까지 왔다 ", id_token);
+    return axios.post(restBaseApi + "loginByGoogle", id_token);
+  } catch (error) {
+    return true;
+  }
+};
+
 export const logout = () => {
   try {
     return axios.post("/api/auth/logout");

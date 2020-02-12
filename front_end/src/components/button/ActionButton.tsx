@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "assets/mycss/components.scss";
+import "assets/mycss";
 interface Props {
   placeholder?: string;
   // disabled : boolean
@@ -13,7 +13,7 @@ export default function ActionButton({
   // disabled,
 }: Props): ReactElement {
   return (
-    <div>
+    <div id="btn-div">
       {/* <button className="my--btn" onClick={action} disabled={disabled}> */}
       <button className="my--btn" onClick={action}>
         {placeholder}

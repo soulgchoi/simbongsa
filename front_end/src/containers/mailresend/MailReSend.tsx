@@ -1,7 +1,7 @@
 import React from "react";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+import "assets/mycss";
 import * as EmailValidator from "email-validator";
 // import UserApi from "apis/UserApi";
 

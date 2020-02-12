@@ -3,14 +3,73 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.volmapper">
-	<select id="select" resultType="java.lang.String" parameterType="java.util.Map">
-		select v_title from vol
+
+	<select id="selectList" resultType="volmini" parameterType="java.util.Map">
+		select v_id, v_title, v_pStatus, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD, r_id, ca_id, v_Auth, v_x, v_y from vol
 		limit #{listSize} offset #{startList}
 	</select>
 	
-	<!-- <select id="select" resultType="Vol" parameterType="int">
+	<select id="selectByFilter" resultType="vol" parameterType="myfilter">
+		select * from `vol` where v_pStatus between 1 and 3
+		<choose>
+			<when test="v_pBgnD != null and v_pEndD != null">
+      			and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
+    		</when>
+    		<when test="v_bgnTm != null and v_endTm != null">
+      			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
+    		</when>
+			<when test="r_sidoNm != null and r_gugunNm != null">
+				and r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm}
+    		</when>
+			<when test=" vol_title !=null">
+				and vol_title like concat(`%`,#{vol_title),`%`)
+			</when>
+			<when test="ca_highNm !=null">
+				and ca_id = (select ca_id from where ca_highNm = #{ca_highNm})
+			</when>
+			<otherwise>
+      			and v_id is not null
+    		</otherwise>
+		</choose>
+		limit #{listSize} offset #{startList}
+	</select>
+	<select id="selectByFilter2" resultType="vol" parameterType="myfilter">
+		select * from `vol` where v_pStatus between 1 and 3
+		<choose>
+			<when test="v_pBgnD != null and v_pEndD != null">
+      			and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
+    		</when>
+    		<when test="v_bgnTm != null and v_endTm != null">
+      			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
+    		</when>
+			<when test="r_sidoNm != null and r_gugunNm != null">
+				and r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm}
+    		</when>
+			<when test=" vol_title !=null">
+				and v_location like concat(`%`,#{vol_title),`%`)
+			</when>
+			<when test="ca_highNm !=null">
+				and ca_id = (select ca_id from where ca_highNm = #{ca_highNm})
+			</when>
+			<otherwise>
+      			and v_id is not null
+    		</otherwise>
+		</choose>
+		limit #{listSize} offset #{startList}
+	</select>
+	
+	<select id="selectOne" resultType="vol" parameterType="int">
 		select * from vol
-		where v_id = #{v_id};
-	</select> -->
+		where v_id = #{v_id}
+	</select>
+	
+	<select id="update" parameterType="vol">
+		update vol set
+		v_bgnTm = #{v_bgnTm},
+		v_endTm = #{v_endTm},
+		v_appnow = #{v_appnow}, 
+		v_target = #{v_target}
+		where v_id = #{v_id}
+	</select>
 	
 </mapper>
