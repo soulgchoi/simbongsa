@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
+// const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 //const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
-// const restBaseApi = "http://70.12.247.126:8080/"; // 박정환
+const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 
 export const checkEmailExists = (email: string) => {
   try {
@@ -122,7 +122,7 @@ export const getUserFollower = (token: string, userId: string): any => {
 export const getUserFollowing = (token: string, userId: string): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .get(restBaseApi + "follow/" + userId + "/followee")
+    .get(restBaseApi + "follow/" + userId + "/followees")
     .then(response => {
       console.log(response);
       return response;
@@ -157,7 +157,7 @@ export const followUser = (
 ): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .post(restBaseApi + "follow/", data)
+    .post(restBaseApi + "deletefollow/", data)
     .then(response => {
       return response;
     })
@@ -169,12 +169,11 @@ export const followUser = (
 
 export const unfollowUser = (
   token: string,
-  followerId: string,
-  followeeId: string
+  data: { followerId: string; followeeId: string }
 ): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .delete(restBaseApi + "follow/" + followerId + "/" + followeeId)
+    .post(restBaseApi + "insertfollow/", data)
     .then(response => {
       return response;
     })

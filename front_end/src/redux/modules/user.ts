@@ -57,12 +57,12 @@ const initialState = Map({
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
-      const { sub, aud } = action.payload;
-      console.log("sub, aud", action);
+      const { sub, iss } = action.payload;
+      console.log("sub, iss", action);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
-        .setIn(["loggedInfo"], Map({ username: sub, userId: aud }));
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss }));
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),

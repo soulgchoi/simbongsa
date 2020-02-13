@@ -31,7 +31,7 @@ class UserProfile extends Component<Props, State> {
     isProfileUserFollowedByLoginUser: false
   };
   componentDidMount() {
-    const token = storage.get("loggedInfo");
+    const token = storage.get("token");
     const { profileUserId, loginUserId } = this.props;
     this.setState({
       followerList: UserAPI.getUserFollower(token, profileUserId)
@@ -51,8 +51,22 @@ class UserProfile extends Component<Props, State> {
     // console.log("userProfile didUpdate ", profileUserId);
   }
 
-  handleFollow = () => {};
-  handleUnfollow = () => {};
+  handleFollow = () => {
+    const { token } = storage.get("token");
+    const { loginUserId, profileUserId } = this.props;
+    UserAPI.followUser(token, {
+      followerId: loginUserId,
+      followeeId: profileUserId
+    });
+  };
+  handleUnfollow = () => {
+    const { token } = storage.get("token");
+    const { loginUserId, profileUserId } = this.props;
+    UserAPI.unfollowUser(token, {
+      followerId: loginUserId,
+      followeeId: profileUserId
+    });
+  };
   render() {
     // const userProfile = this.props.userProfile.toJS();
     const { loginUserId, profileUserId } = this.props;

@@ -83,7 +83,7 @@ class Login extends React.Component<any, any> {
       const userEmail = jwt.decode(token);
       UserActions.setLoggedInfo(userEmail);
       // UserActions.setLoggedFlag(true);
-      storage.set("loggedInfo", token);
+      storage.set("token", token);
       history.push("/mainpage");
       // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {

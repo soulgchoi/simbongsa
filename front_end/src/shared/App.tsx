@@ -28,18 +28,19 @@ import { bindActionCreators } from "redux";
 
 import jwt from "jsonwebtoken";
 class App extends Component<any> {
-  initializeUserInfo = () => {
-    const loggedInfo = storage.get("loggedInfo"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
-    console.log("APP init loggedInfo", loggedInfo);
-    if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
-    console.log("loggedInfo", loggedInfo);
-    const token = jwt.decode(loggedInfo);
+  initializeUserInfo = async () => {
+    const token = storage.get("token"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    console.log("APP init token", token);
+    if (!token) return; // 로그인 정보가 없다면 여기서 멈춥니다.
     console.log("token", token);
+    const loggedInfo = jwt.decode(token);
+    console.log("loggedInfo", loggedInfo);
     const { UserActions } = this.props;
-    UserActions.setLoggedInfo(token);
+    await UserActions.setLoggedInfo(loggedInfo);
     // history.push("/mainpage");
   };
-  componentDidMount() {
+  constructor(props: any) {
+    super(props);
     this.initializeUserInfo();
   }
   render() {
