@@ -98,11 +98,9 @@ public class FollowRestController {
 	@DeleteMapping("/follow")
 	@ApiOperation("전달받은 회원을 팔로우 취소한다.")
 	public ResponseEntity<Map<String, Object>> deleteFollowMember(@RequestBody Follow follow) {
-
 		try {
 			boolean result = service.remove(follow.getFollower_userid(), follow.getFollowee_userid());
 			return response(result, true, HttpStatus.OK);
-
 		} catch (Exception e) {
 			logger.error("팔로우취소실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
@@ -113,7 +111,6 @@ public class FollowRestController {
 	@GetMapping("follow/{userId}/followers")
 	@ApiOperation("userId `를` following 한 사람들의 목록을 가져온다.")
 	public ResponseEntity<Map<String, Object>> searchFollowers(@PathVariable String userId) {
-
 		try {
 			List<Member> result = service.searchFollowers(userId);
 			return response(result, true, HttpStatus.OK);
@@ -121,13 +118,11 @@ public class FollowRestController {
 			logger.error("followers 목록 조회 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
-
 	}
 
 	@GetMapping("follow/{userId}/followees")
 	@ApiOperation("userId `가` following 한 사람들의 목록을 가져온다.")
 	public ResponseEntity<Map<String, Object>> searchFollowees(@PathVariable String userId) {
-
 		try {
 			List<Member> result = service.searchFollowees(userId);
 			return response(result, true, HttpStatus.OK);
@@ -135,7 +130,6 @@ public class FollowRestController {
 			logger.error("followees 목록 조회 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
-
 	}
 
 }
