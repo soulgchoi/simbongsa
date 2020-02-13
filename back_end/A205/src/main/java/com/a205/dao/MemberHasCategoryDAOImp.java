@@ -21,15 +21,15 @@ public class MemberHasCategoryDAOImp implements MemberHasCategoryDAO{
 
 	}
 	
-	public List<Integer> searchByM_id(Integer m_id){
+	public List<String> searchByM_id(int m_id){
 		String statement = ns+"selectByM_id";
 
 		return session.selectList(statement, m_id);
 	}
 	
-	public boolean remove(Member_has_category member_has_category) {
+	public boolean remove(int m_id) {
 		String statement = ns+"delete";
-		return session.delete(statement, member_has_category)>0;
+		return session.delete(statement, m_id)>0;
 
 	}
 

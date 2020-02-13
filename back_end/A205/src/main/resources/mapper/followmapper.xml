@@ -20,11 +20,11 @@
 			where f_follower_id = #{userId_pk})
 	 </select>
 	 
-	 <select id="selectOne" resultType="follow" parameterType="int">
-	 	select * from follow where f_follower_id = #{userId_pk} and f_followee_id = #{followee_pk}
+	 <select id="selectOne" resultType="int" parameterType="java.util.Map">
+	 	select count(*) from follow where f_follower_id = #{userId_pk} and f_followee_id = #{followee_pk}
 	 </select>
 	 
-	<insert id="insert"  parameterType="java.util.Map">
+	<insert id="insert" parameterType="java.util.Map">
 		insert into `follow`(f_follower_id, f_followee_id ) 
 		  values(#{userId_pk}, #{followee_pk} )
 	</insert>

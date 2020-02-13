@@ -124,6 +124,34 @@ public class MemberRestController {
 		}
 	}
 	
+	@DeleteMapping("/Member/{id}")
+	@ApiOperation("전달받은 회원정보를 삭제한다.")
+	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable String id, HttpSession session){
+		try {
+			boolean result = service.remove(id);
+			if(result==true) {
+				session.invalidate();
+			}
+			return response(result, true, HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("회원 탈퇴 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@GetMapping("/Member/{userId}/Post")
+	@ApiOperation("ID에 해당하는 유저가 생성한 글들을 불러온다.(내가 쓴 포스트)")
+	public ResponseEntity<Map<String, Object>> getUserPost(@PathVariable String userId){
+		try {
+			List<Post> postList = service.searchPost(userId);
+			return response(postList, true, HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("목록조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+
+	}
+	
 	@PatchMapping("/Member/{userId}")
 	@ApiOperation("전달받은 회원정보 를 가지고 세부정보를 등록한다.(야메방법)")
 	public ResponseEntity<Map<String, Object>> patchMember(@PathVariable String userId, @RequestBody MemberPatchRequest memberPatchRequest){
@@ -139,34 +167,6 @@ public class MemberRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-
-	
-	@DeleteMapping("/Member/{id}")
-	@ApiOperation("전달받은 회원정보를 삭제한다.")
-	public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable String id, HttpSession session){
-		try {
-			boolean result = service.remove(id);
-			if(result==true) {
-				session.invalidate();
-			}
-			return response(result, true, HttpStatus.OK);
-		}catch(Exception e) {
-			logger.error("회원 탈퇴 실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-	}
-	@GetMapping("/Member/{userId}/Post")
-	@ApiOperation("ID에 해당하는 유저가 생성한 글들을 불러온다.(내가 쓴 포스트)")
-	public ResponseEntity<Map<String, Object>> getUserPost(@PathVariable String userId){
-		try {
-			List<Post> postList = service.searchPost(userId);
-			return response(postList, true, HttpStatus.OK);
-		}catch(Exception e) {
-			logger.error("목록조회실패", e);
-			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-		}
-
-	}
 	
 	@GetMapping("/Member/{userId}/PreferDetail")
 	@ApiOperation("ID에 해당하는 유저의 선호정보까지 반환한다. ")
@@ -174,6 +174,7 @@ public class MemberRestController {
 		try {
 			
 			Member_detail member_detail = service.searchDetail(userId);
+			// 현재 유저검색은 로그인 된 사람만 가능
 			if (member_detail != null ) {
 				System.out.println(member_detail.getM_userid());
 
@@ -202,6 +203,5 @@ public class MemberRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-
 
 }

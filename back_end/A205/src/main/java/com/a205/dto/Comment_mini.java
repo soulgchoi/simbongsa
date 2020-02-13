@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment_mini {
+	
+	String m_id;
+	String p_id;
 	String c_content;
 
 }

@@ -14,9 +14,9 @@
 
 	</select>
 
-	<delete id="delete" parameterType="member_has_region">
-			delete from `member_has_region` 
-			where m_id=#{m_id} and r_id=#{r_id} 
+	<delete id="delete" parameterType="int">
+		delete from `member_has_region` 
+			where m_id=#{m_id}
 	</delete>
 
  </mapper>
