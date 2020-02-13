@@ -79,15 +79,25 @@ public class MemberDAOImp implements MemberDAO {
 		Map<String, String> map = new HashMap<>();
 		map.put("param1", m_email);
 		map.put("param2", m_key);
-		System.out.println(m_email+" "+m_key);
 		return session.insert(statement, map);
 	}
 	
 	@Override
 	public int alter_userKey(String m_email, String m_key) {
-		
-		return 0;
+		String statement = ns+"alter_userKey";
+		Map<String, String> map = new HashMap<>();
+		map.put("param1", m_email);
+		map.put("param2", m_key);
+		return session.update(statement, map);
 	}
 
+	@Override
+	public boolean alter_userPassword(String m_email, String m_password) {
+		String statement = ns+"alter_password";
+		Map<String, String> map = new HashMap<>();
+		map.put("param1", m_email);
+		map.put("param2", m_password);
+		return session.update(statement, map)>0;
+	}
 
 }

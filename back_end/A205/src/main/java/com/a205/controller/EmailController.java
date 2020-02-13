@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.a205.config.JwtTokenUtil;
 import com.a205.dao.MemberDAO;
+import com.a205.dto.Member;
+import com.a205.service.MemberService;
 import com.a205.service.UserMailSendService;
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +36,12 @@ public class EmailController {
 	@Autowired
 	private MemberDAO memberDao;
 	
+	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hStatus){ 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", status);
@@ -41,10 +50,22 @@ public class EmailController {
 	}
 	
 	@PostMapping("/email/regist")
-	@ApiOperation("전달받은 이메일 정보를 등록한다.")
+	@ApiOperation("등록할 m_email에 대한 이메일을 전송한다.")
 	public ResponseEntity<Map<String, Object>> registEmail(@RequestBody String m_email) {
 		try {
 			boolean result = mailsender.mailSendWithUserKey(m_email);
+			return response(result, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("이메일 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PostMapping("/email/change")
+	@ApiOperation("비밀번호를 변경 이메일을 전송한다.")
+	public ResponseEntity<Map<String, Object>> sendPassMail(@RequestBody String m_email) {
+		try {
+			boolean result = mailsender.mailSendForPassword(m_email);
 			return response(result, true, HttpStatus.CREATED);
 		} catch (RuntimeException e) {
 			logger.error("이메일 등록 실패", e);
@@ -60,6 +81,23 @@ public class EmailController {
 			return response(result, true, HttpStatus.CREATED);
 		} catch (RuntimeException e) {
 			logger.error("이메일 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PostMapping("/email/password")
+	@ApiOperation("전달받은 이메일 인증한다.")
+	public ResponseEntity<Map<String, Object>> changePass(@RequestBody Map<String,String> map) {
+		try {
+			String token = map.get("token");
+			String password = map.get("password");
+					
+			String username = jwtTokenUtil.getUsernameFromToken(token);
+			Member member = memberDao.searchByEmail(username);
+			boolean result =  memberService.alter_userPassword(member.getM_email(), password);
+			return response(result, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("비밀번호 변경 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
