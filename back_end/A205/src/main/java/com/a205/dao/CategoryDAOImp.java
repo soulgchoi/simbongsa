@@ -39,6 +39,5 @@ public class CategoryDAOImp implements CategoryDAO{
 		String statement = ns+ "selectListByHighCd";
 		return session.selectList(statement, ca_highCd);
 	}
-	
 
 }

@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Comment_special_obj {
-	Integer p_id;
-	Integer m_id;
+public class Comment_update {
+	
+	int c_id;
+	int m_id;
 	String c_content;
 
 }

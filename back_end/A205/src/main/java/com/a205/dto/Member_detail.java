@@ -18,8 +18,8 @@ public class Member_detail {
 	private String m_age;
 	private String m_userid;
 	private String m_address;
-	private List<Integer> m_prefer_region;
-	private List<Integer> m_prefer_category;
+	private List<String> m_prefer_region;
+	private List<String> m_prefer_category;
 	
 
 }
