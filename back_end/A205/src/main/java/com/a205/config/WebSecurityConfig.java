@@ -58,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.antMatchers("/").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().permitAll().and() //--> 야매용
-				//.anyRequest().authenticated().and()
+
+//				.anyRequest().authenticated().and()
+//				.authenticated().and(). //일단 테스트 용으로 풀어놈
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

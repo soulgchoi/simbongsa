@@ -20,7 +20,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member member = memberDao.searchByEmail(username);
@@ -36,17 +36,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return member.getM_id();
 	}
 
-//	public String loadUserNicknameByUsername(String username) {
-//		Member member = memberDao.searchByEmail(username);
-//		return member.getM_userid();
-//	}
-	//아래와 중복이네요
-	
-	
 	public String loadUserNickByUsername(String username) {
 		Member member = memberDao.searchByEmail(username);
 		return member.getM_userid();
 	}
+	//아래와 중복이네요
+	
+	
 	
 	public Member save(Member member) {
 		Member newMember = new Member();
@@ -54,6 +50,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newMember.setM_email(member.getM_email());
 		newMember.setM_password(bcryptEncoder.encode(member.getM_password()));
 		memberDao.add(newMember);
+		
+		
+		
 		return memberDao.searchByEmail(newMember.getM_email());
 	}
 	
