@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member_detail {
 	private int m_id;
-	private String m_password;
 	private String m_email;
 	private String m_bgnTm;
 	private String m_endTm;
