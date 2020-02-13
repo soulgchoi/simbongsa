@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.a205.component.FileUploadComponents;
 import com.a205.dto.Post;
 import com.a205.dto.Post_vote;
 import com.a205.service.PostService;

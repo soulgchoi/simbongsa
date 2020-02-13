@@ -1,4 +1,4 @@
-package com.a205.controller;
+package com.a205.component;
 
 import java.util.Arrays;
 import java.util.List;
