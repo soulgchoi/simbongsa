@@ -8,7 +8,7 @@ interface Props {
     SearchActions: any
 }
 interface State { }
-class CheckboxContainer extends Component<Props, State> {
+class TimeContainer extends Component<Props, State> {
     state = {};
 
     handleToggle = (timeName: string) => {
@@ -49,4 +49,4 @@ export default connect(
     dispatch => ({
         SearchActions: bindActionCreators(searchActions, dispatch)
     })
-)(CheckboxContainer);
+)(TimeContainer);

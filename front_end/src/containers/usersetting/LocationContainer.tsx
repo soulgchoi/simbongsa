@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import {
   Dropdown
 } from "semantic-ui-react";
-import temp from "./temp.json";
+import temp from "../../components/usersetting/temp.json";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
@@ -13,7 +13,7 @@ interface Props {
   key: any;
 }
 interface State { }
-class SearchSelection extends Component<Props, State> {
+class Locationcontainer extends Component<Props, State> {
   state = {};
   handleChange = (e: any, data: any) => {
     const { SearchActions, locations } = this.props;
@@ -76,7 +76,7 @@ class SearchSelection extends Component<Props, State> {
     return (
 
       <Fragment>
-        <div style={{ "margin": 100 }} >
+        <div style={{ "margin": 25 }} >
           <Dropdown
             // placeholder={placeholder}
             value={input}
@@ -115,4 +115,4 @@ export default connect(
   dispatch => ({
     SearchActions: bindActionCreators(searchActions, dispatch)
   })
-)(SearchSelection);
+)(Locationcontainer);

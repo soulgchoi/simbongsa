@@ -85,7 +85,7 @@ class CategorySelection extends Component<Props, State> {
         return (
 
             <Fragment>
-                <div style={{ "margin": 100 }} >
+                <div style={{ "margin": 25 }} >
                     <Dropdown
                         // placeholder={placeholder}
                         value={input}
