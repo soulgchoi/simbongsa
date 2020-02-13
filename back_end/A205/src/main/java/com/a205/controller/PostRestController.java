@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.a205.dto.Post;
 import com.a205.service.PostService;
 import com.file.payload.FileUploadResponse;
-import com.file.util.FileUploadComponents;
 
 import io.swagger.annotations.ApiOperation;
 
