@@ -50,6 +50,11 @@ public class PostServiceImpl implements PostService {
 	public int getid() {
 		return dao.getid();
 	}
+	
+	@Override
+	public List<Integer> searchFeed(int m_id){
+		return dao.searchFeed(m_id);
+	}
 //	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 //		//sampleDAO.updateHitCnt(map);
 //		Map<String, Object> resultMap = new HashMap<String, Object>();

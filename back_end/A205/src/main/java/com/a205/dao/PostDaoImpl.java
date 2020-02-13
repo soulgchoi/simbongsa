@@ -1,5 +1,7 @@
 package com.a205.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -62,6 +64,12 @@ public class PostDaoImpl implements PostDao {
 	public int getid() {
 		String statement = ns + "nextPostId";
 		return session.selectOne(statement);
+	}
+
+	@Override
+	public List<Integer> searchFeed(int m_id) {
+		String statement = ns + "searchFeed";
+		return session.selectList(statement, m_id);
 	}
 	
 	/*

@@ -1,5 +1,6 @@
 package com.a205.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.a205.dto.Member;
 import com.a205.dto.Post;
+import com.a205.dto.PostView;
 import com.a205.dto.Post_vote;
+import com.a205.service.FollowServive;
 import com.a205.service.PostService;
 import com.file.payload.FileUploadResponse;
 
@@ -36,6 +40,9 @@ public class PostRestController {
 
 	@Autowired
 	PostService service;
+
+	@Autowired
+	FollowServive followService;
 
 	@Autowired
 	FileUploadComponents f_con;
@@ -90,15 +97,50 @@ public class PostRestController {
 	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {
 		try {
-			Map<String, Object> resultMap = new HashMap<String, Object>();
+			// Map<String, Object> resultMap = new HashMap<String, Object>();
+////			List<PostView> feed = new ArrayList<>();
+			PostView view = new PostView();
+
 			Post post = service.selectOne(p_id);
-
 			List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+//			resultMap.put("post", post);
+//			resultMap.put("uris", storedFileNames);
+//			return response(resultMap, true, HttpStatus.OK);
+			view.setM_id(post.getM_id());
+			view.setP_content(post.getP_content());
+			view.setP_status(post.getP_status());
+			view.setV_id(post.getV_id());
+			// feed.add(ff);
+			view.setFiles(storedFileNames);
+////			feed.add(view);
+			return response(view, true, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("포스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
 
-			resultMap.put("post", post);
-			resultMap.put("uris", storedFileNames);
+	@GetMapping("/PostFeed/{m_id}")
+	@ApiOperation("m_id의 피드 리턴(팔로우하는사람들의 포스트 가져오기)")
+	public ResponseEntity<Map<String, Object>> getPostFeed(@PathVariable int m_id) {
+		try {
+			List<PostView> feed = new ArrayList<>();
+			List<Integer> list = service.searchFeed(m_id);
+			for (int p_id : list) {
+				// HashMap<String, Object> map = new HashMap<String, Object>();
+				PostView view = new PostView();
+				Post post = service.selectOne(p_id);
+				List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+				view.setM_id(post.getM_id());
+				view.setP_content(post.getP_content());
+				view.setP_status(post.getP_status());
+				view.setV_id(post.getV_id());
+				// feed.add(ff);
+				view.setFiles(storedFileNames);
+				feed.add(view);
+			}
+			return response(feed, true, HttpStatus.OK);
 
-			return response(resultMap, true, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("포스트조회실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
@@ -119,7 +161,7 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-	
+
 //	@GetMapping("/Post")
 //	@ApiOperation("전체 포스트 정보를 반환한다.")
 //	public ResponseEntity<Map<String, Object>> getAllMember() {
@@ -131,7 +173,6 @@ public class PostRestController {
 //			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 //		}
 //	}
-
 
 	/*
 	 * @RequestMapping(method = RequestMethod.GET, value = "/Post/Page")
