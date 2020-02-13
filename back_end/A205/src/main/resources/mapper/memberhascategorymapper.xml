@@ -9,8 +9,8 @@
 	</insert>
  	
  	<select id="selectByM_id" resultType="java.lang.String" parameterType="int">
-		select ca_id from `member_has_category` 
-			where m_id = #{m_id}
+		select distinct ca_highCd from `category`
+		where ca_id in (select ca_id from `member_has_category` where m_id = #{m_id})
 
 	</select>
 	
