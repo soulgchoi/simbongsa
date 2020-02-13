@@ -5,6 +5,7 @@ import java.util.List;
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 import com.a205.model.MemberPatchRequest;
 
 public interface MemberService {
@@ -14,7 +15,7 @@ public interface MemberService {
 
 	public List<Post> searchPost(String userId);
 
-	public List<Integer> searchVote(String userId);
+	public List<Vol> searchVote(String userId);
 
 	public boolean login(String id, String pw);
 

@@ -11,9 +11,23 @@
 		</if>
 	</select>
  
- 	<select id="selectListVote" resultType="java.lang.Integer" parameterType="int">			
-		select distinct (v_id) from `post` 
-			where p_id in (select p_id from `post_vote` where m_id = #{m_id}) 
+ 	<select id="selectListVote" resultType="vol" parameterType="int">			
+		select 
+		* 
+		from 
+		vol
+		where 
+		v_id in (select 
+				distinct (v_id) 
+				from 
+				`post` 
+				where p_id in (select 
+							p_id 
+							from 
+							`post_vote` 
+							where m_id = #{m_id}
+							)
+				) 
 	</select>
 
  

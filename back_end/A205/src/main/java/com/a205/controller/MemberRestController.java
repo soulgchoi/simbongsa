@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 import com.a205.model.MemberPatchRequest;
 import com.a205.service.MemberService;
 
@@ -156,7 +157,7 @@ public class MemberRestController {
 	@ApiOperation("ID에 해당하는 유저가 참석 의사를 밝힌 v_id들의 리스트를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getUserVote(@PathVariable String userId){
 		try {
-			List<Integer> voteList = service.searchVote(userId);
+			List<Vol> voteList = service.searchVote(userId);
 			return response(voteList, true, HttpStatus.OK);
 		}catch(Exception e) {
 			logger.error("목록조회실패", e);

@@ -25,6 +25,7 @@ import com.a205.dto.Member_detail;
 import com.a205.dto.Member_has_category;
 import com.a205.dto.Member_has_region;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 import com.a205.model.MemberPatchRequest;
 
 @Service
@@ -232,7 +233,7 @@ public class MemberServiceImp implements MemberService {
 		return dao.searchPost(m_id);
 	}
 	@Override
-	public List<Integer> searchVote(String userId){
+	public List<Vol> searchVote(String userId){
 		int m_id = dao.search(userId).getM_id(); 
 		return dao.searchVote(m_id);
 	}

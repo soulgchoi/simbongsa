@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 
 @Repository
 public class MemberDAOImp implements MemberDAO {
@@ -74,7 +75,7 @@ public class MemberDAOImp implements MemberDAO {
 	}
 	
 	@Override
-	public List<Integer> searchVote(int m_id){
+	public List<Vol> searchVote(int m_id){
 		
 		String statement = ns+"selectListVote";
 		

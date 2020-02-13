@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.a205.dto.Member;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 
 public interface MemberDAO {
 	public Member search(String userId);
@@ -14,7 +15,7 @@ public interface MemberDAO {
 
 	public List<Post> searchPost(Integer m_id);
 
-	public List<Integer> searchVote(int m_id);
+	public List<Vol> searchVote(int m_id);
 
 	public boolean add(Member member);
 
