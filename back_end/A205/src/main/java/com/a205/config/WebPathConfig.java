@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //url 매핑해서 이미지(리소스)보여주는 용도!
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebPathConfig implements WebMvcConfigurer {
 
 	@Value("${file.upload-dir}")
     private String resourcesLocation;

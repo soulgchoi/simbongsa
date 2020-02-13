@@ -3,7 +3,6 @@ package com.a205.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,16 +36,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return member.getM_id();
 	}
 
-	public String loadUserNicknameByUsername(String username) {
-		Member member = memberDao.searchByEmail(username);
-		return member.getM_userid();
-	}
+//	public String loadUserNicknameByUsername(String username) {
+//		Member member = memberDao.searchByEmail(username);
+//		return member.getM_userid();
+//	}
+	//아래와 중복이네요
 	
-	
-	public String loadUserNickByUsername(String username) {
-		Member member = memberDao.searchByEmail(username);
-		return member.getM_userid();
-	}
 	
 	public String loadUserNickByUsername(String username) {
 		Member member = memberDao.searchByEmail(username);

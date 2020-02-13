@@ -61,6 +61,7 @@ public class MemberDAOImp implements MemberDAO {
 		return session.delete(statement, id)>0;
 	}
 	
+	//나의 포스트가 아니고 내가 팔로우하는 사람들의 포스트여야 될것같아요
 	@Override
 	public List<Post> searchPost(Integer m_id){
 		

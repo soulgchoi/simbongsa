@@ -1,4 +1,4 @@
-package com.a205.controller;
+package com.file.util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,12 +15,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.a205.service.FileUploadDownloadService;
 import com.file.payload.FileUploadResponse;
 
-////@RestController
-public class FileUploadController {
-	private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+@Component
+public class FileUploadComponents {
+	private static final Logger logger = LoggerFactory.getLogger(FileUploadComponents.class);
 
 	@Autowired
-	private FileUploadDownloadService service;
+	private FileUploadDownloadService	 service;
 
 	// @PostMapping("/uploadFile") //단일 파일 업로드
 	public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, int p_id) {

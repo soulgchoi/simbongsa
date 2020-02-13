@@ -3,7 +3,6 @@ package com.a205.controller;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.a205.service.JwtUserDetailsService;
+
 import com.a205.config.JwtTokenUtil;
 import com.a205.dao.MemberDAO;
 import com.a205.dto.Member;
 import com.a205.model.JwtRequest;
 import com.a205.model.JwtResponse;
-
+import com.a205.service.JwtUserDetailsService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 
 @RestController
 @CrossOrigin(origins = "*")
