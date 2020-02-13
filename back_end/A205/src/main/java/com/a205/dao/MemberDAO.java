@@ -14,6 +14,8 @@ public interface MemberDAO {
 
 	public List<Post> searchPost(Integer m_id);
 
+	public List<Integer> searchVote(int m_id);
+
 	public boolean add(Member member);
 
 	public boolean addNoPassword(Member member);

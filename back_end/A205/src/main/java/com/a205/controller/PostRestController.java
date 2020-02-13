@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,7 +82,7 @@ public class PostRestController {
 
 	@PostMapping("/PostVote")
 	@ApiOperation("전달받은 포스트 투표 정보를 등록한다.")
-	public ResponseEntity<Map<String, Object>> insetPostVote(@RequestPart Post_vote post_vote) {
+	public ResponseEntity<Map<String, Object>> insertPostVote(@RequestBody Post_vote post_vote) {
 		try {
 			boolean result = service.addPostVote(post_vote);
 			// service.add(Post);
@@ -93,6 +94,21 @@ public class PostRestController {
 		}
 	}
 
+	@DeleteMapping("/PostVote")
+	@ApiOperation("전달받은 포스트 투표 정보를 삭제한다.")
+	public ResponseEntity<Map<String, Object>> removePostVote(@RequestBody Post_vote post_vote) {
+		try {
+			boolean result = service.removePostVote(post_vote);
+			// service.add(Post);
+			return response(result, true, HttpStatus.CREATED);
+			// return response(fileResponse, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("포스트 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	
 	@GetMapping("/Post/{p_id}")
 	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {

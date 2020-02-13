@@ -3,15 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.membermapper">
+ 	
  	<select id="select" resultType="member" parameterType="string">
 		select * from `member` 
 		<if test ="value!=null">
 			where m_userid = #{userId}
 		</if>
 	</select>
-	
+ 
+ 	<select id="selectListVote" resultType="java.lang.Integer" parameterType="int">			
+		select distinct (v_id) from `post` 
+			where p_id in (select p_id from `post_vote` where m_id = #{m_id}) 
+	</select>
+
+ 
  	<select id="selectListPost" resultType="post" parameterType="int">
-		select * from `post` 
+		select * from post 
 			where m_id = #{m_id}
 	</select>
 		

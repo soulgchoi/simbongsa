@@ -74,6 +74,16 @@ public class MemberDAOImp implements MemberDAO {
 	}
 	
 	@Override
+	public List<Integer> searchVote(int m_id){
+		
+		String statement = ns+"selectListVote";
+		
+		return session.selectList(statement, m_id);
+
+	}
+
+	
+	@Override
 	public int GetKey(String m_email, String m_key) {
 		String statement = ns+"GetKey";
 		Map<String, String> map = new HashMap<>();

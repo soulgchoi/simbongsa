@@ -16,6 +16,7 @@ public interface PostDao {
 
 	//boolean remove(int p_id, int m_id);
 	public boolean addPostVote(Post_vote post_vote);
+	public boolean removePostVote(Post_vote post_vote);
 
 	
 	boolean remove(int p_id);

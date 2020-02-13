@@ -231,6 +231,12 @@ public class MemberServiceImp implements MemberService {
 		Integer m_id = dao.search(userId).getM_id();
 		return dao.searchPost(m_id);
 	}
+	@Override
+	public List<Integer> searchVote(String userId){
+		int m_id = dao.search(userId).getM_id(); 
+		return dao.searchVote(m_id);
+	}
+
 
 	@Override
 	public boolean alter_userPassword(String m_email, String m_password) {

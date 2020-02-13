@@ -59,6 +59,13 @@ public class PostDaoImpl implements PostDao {
 		String statement = ns + "delete";
 		return session.delete(statement, p_id) > 0;
 	}
+	@Override
+	public boolean removePostVote(Post_vote post_vote) {
+		String statement = ns + "deletePostVote";
+		System.out.println("-----dao"+post_vote);
+		return session.delete(statement, post_vote) > 0;
+	
+	}
 
 	@Override
 	public int getid() {
