@@ -45,11 +45,33 @@ class App extends Component<any> {
 
     // history.push("/mainpage");
   };
+  initialLoad = async (userId: string) => {
+    const { UserActions } = this.props;
+    console.log(userId)
+    await UserActions.setPreferInfo(userId)
+  }
+  shouldComponentUpdate(nextProps: any) {
+    const { userId } = this.props
+    console.log("tihs.props", this.props);
+    console.log("nextProps", nextProps);
+    const userId2 = nextProps.userId
+    console.log("userid의 변화", userId, userId2)
+    if (userId !== userId2) {
+      this.initialLoad(userId2)
+    }
+    return (userId === userId2)
+  }
   constructor(props: any) {
     super(props)
     this.initializeUserInfo();
+
+    console.log("constructor입니다!!!")
+    console.log(this.props)
   }
+
   render() {
+    const { preferInfo } = this.props
+    console.log("App.tsx에서 render", preferInfo.toJS())
 
     return (
       <div>
@@ -89,7 +111,8 @@ class App extends Component<any> {
 
 export default connect(
   ({ user }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"])
+    userId: user.getIn(['loggedInfo', 'userId']),
+    preferInfo: user.getIn(['loggedInfo', 'preferInfo'])
   }), dispatch => ({
     UserActions: bindActionCreators(userActions, dispatch)
   }))(App);

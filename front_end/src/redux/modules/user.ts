@@ -64,8 +64,17 @@ export default handleActions<any>(
       type: SET_PREFER_INFO,
 
       onSuccess: (state, action) => {
-        console.log("SET_PREFER_INFO", action.payload)
-        return state.setIn(["loggedInfo", "preferInfo"], Map(action.payload.data))
+        console.log("SET_PREFER_INFO", action.payload.data.data)
+        const { m_bgnTm, m_endTm, m_age, m_prefer_region, m_prefer_category } = action.payload.data.data;
+        let data = Map({
+          bgnTm: m_bgnTm,
+          endTm: m_endTm,
+          age: m_age,
+          preferRegion: m_prefer_region,
+          preferCategory: m_prefer_category
+        })
+        return state.setIn(["loggedInfo", "preferInfo"], data);
+        // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
       }
     })
   },

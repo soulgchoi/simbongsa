@@ -20,12 +20,11 @@ interface Props {
   history: any
 }
 class SearchContainer extends Component<any, any> {
-  initializePreferInfo = () => {
-    const { preferInfo, times, ages, locations, categorys, SearchActions } = this.props;
+  initializePreferInfo = (preferInfo: any) => {
+    const { times, ages, locations, categorys, SearchActions } = this.props;
 
     const info = preferInfo.toJS()
 
-    console.log("시간과 나이", times.toJS(), ages.toJS())
     // 시간 관련
     if (info.bgnTm === "00:00:00") {
       SearchActions.initialInsert({ form: "times", key: "morning", value: true })
@@ -88,18 +87,16 @@ class SearchContainer extends Component<any, any> {
     };
 
   }
-  initialLoad = async () => {
-    const { UserActions, userId } = this.props;
-    console.log(userId)
-    UserActions.setPreferInfo(userId)
-  }
-  constructor(props: any) {
-    super(props)
-    this.initialLoad()
 
-  }
-  componentDidMount() {
-    this.initializePreferInfo();
+  shouldComponentUpdate(nextProps: any) {
+    const { preferInfo } = this.props
+
+    const preferInfo2 = nextProps.preferInfo
+    console.log("preferInfo의 변화", preferInfo, preferInfo2)
+    if (preferInfo !== preferInfo2) {
+      this.initializePreferInfo(preferInfo2)
+    }
+    return (preferInfo === preferInfo2)
   }
   handleLocalRegister = async () => {
     const { locations, categorys, times, ages, UserActions, SearchActions, history, userId } = this.props;
@@ -166,7 +163,9 @@ class SearchContainer extends Component<any, any> {
     }
   }
   render() {
+    console.log("여기는 search")
     const { handleLocalRegister } = this
+
     return (
       <div>
         <div>
@@ -199,7 +198,7 @@ export default connect(
     times: search.get('times'),
     ages: search.get('ages'),
     userId: user.get('loggedInfo').get('userId'),
-    preferInfo: user.get('loggedInfo').get('preferInfo')
+    preferInfo: user.getIn(['loggedInfo', 'preferInfo'])
   }),
   dispatch => ({
     SearchActions: bindActionCreators(searchActions, dispatch),
