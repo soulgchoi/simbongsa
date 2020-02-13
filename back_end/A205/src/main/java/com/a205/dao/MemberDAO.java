@@ -25,4 +25,6 @@ public interface MemberDAO {
 	public int GetKey(String m_email, String m_key);
 	
 	public int alter_userKey(String m_email, String m_key);
+	
+	public boolean alter_userPassword(String m_email, String m_password);
 }

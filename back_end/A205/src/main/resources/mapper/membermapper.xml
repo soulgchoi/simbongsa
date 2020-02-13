@@ -47,4 +47,7 @@
 	<update id="alter_userKey" parameterType="Map">
 		update member set m_key = "Y" where m_email = #{param1} and m_key = #{param2}
 	</update>
+	<update id="alter_password" parameterType="Map">
+		update member set m_password = #{param2} where m_email = #{param1}
+	</update>
 </mapper>

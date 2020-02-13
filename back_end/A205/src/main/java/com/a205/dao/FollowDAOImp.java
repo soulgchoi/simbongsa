@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Member;
-import com.a205.service.MemberService;
-import com.a205.dto.Follow;
 
 
 @Repository
