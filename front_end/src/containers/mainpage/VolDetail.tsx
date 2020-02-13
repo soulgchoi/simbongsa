@@ -20,7 +20,7 @@ class VolDetail extends React.Component<any, any>{
     }
 
     render() {
-        const {volunteer} = this.props;
+        const { volunteer } = this.props;
         console.log(volunteer)
         return (
             <div className="">
@@ -29,53 +29,53 @@ class VolDetail extends React.Component<any, any>{
                 </h3>
                 <table className="">
                     <tbody>
-                    <tr>
-                        <td>모집기간</td>
-                        <td>{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</td>
-                    </tr>
-                    <tr>
-                        <td>봉사기간</td>
-                        <td>{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</td>
-                    </tr>
-                    <tr>
-                        <td>봉사시간</td>
-                        <td>{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</td>
-                    </tr>
-                    <tr>
-                        <td>모집인원</td>
-                        <td>{volunteer.v_wanted}</td>
-                    </tr>
-                    <tr>
-                        <td>활동요일</td>
-                        <td>{volunteer.v_actWkdy}</td>
-                    </tr>
-                    <tr>
-                        <td>봉사분야</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>봉사자유형</td>
-                        <td>{volunteer.v_adult === "Y"? "성인" : null} {volunteer.v_young === "Y"? "청소년": null}</td>
-                    </tr>
-                    <tr>
-                        <td>모집기관</td>
-                        <td>{volunteer.v_organ}</td>
-                    </tr>
-                    <tr>
-                        <td>봉사장소</td>
-                        <td>{volunteer.v_location}</td>
-                    </tr>
-                    <tr>
-                        <td>봉사대상</td>
-                        <td>{volunteer.v_target}</td>
-                    </tr>
-                    <tr>
-                        <td>주소</td>
-                        <td>{volunteer.v_location}</td>
-                    </tr>
+                        <tr>
+                            <td>모집기간</td>
+                            <td>{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</td>
+                        </tr>
+                        <tr>
+                            <td>봉사기간</td>
+                            <td>{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</td>
+                        </tr>
+                        <tr>
+                            <td>봉사시간</td>
+                            <td>{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</td>
+                        </tr>
+                        <tr>
+                            <td>모집인원</td>
+                            <td>{volunteer.v_wanted}</td>
+                        </tr>
+                        <tr>
+                            <td>활동요일</td>
+                            <td>{volunteer.v_actWkdy}</td>
+                        </tr>
+                        <tr>
+                            <td>봉사분야</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>봉사자유형</td>
+                            <td>{volunteer.v_adult === "Y" ? "성인" : null} {volunteer.v_young === "Y" ? "청소년" : null}</td>
+                        </tr>
+                        <tr>
+                            <td>모집기관</td>
+                            <td>{volunteer.v_organ}</td>
+                        </tr>
+                        <tr>
+                            <td>봉사장소</td>
+                            <td>{volunteer.v_location}</td>
+                        </tr>
+                        <tr>
+                            <td>봉사대상</td>
+                            <td>{volunteer.v_target}</td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td>{volunteer.v_location}</td>
+                        </tr>
                     </tbody>
                 </table>
-                <PostingButton 
+                <PostingButton
                     v_id={volunteer.v_id}
                 />
             </div>

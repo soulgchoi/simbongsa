@@ -17,17 +17,6 @@ export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
 export const logout = createAction(LOGOUT, UserAPI.logout);
 export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
-
-// export const setUserId = createAction(SET_USER_ID);
-// export const setUserFollower = createAction(
-//   GET_USER_FOLLOWER,
-//   UserAPI.getUserFollower
-// );
-// export const setUserFollowee = createAction(
-//   GET_USER_FOLLOWEE,
-//   UserAPI.getUserFollower
-// );
-
 interface initialStateParams {
   setIn: any;
   set: any;

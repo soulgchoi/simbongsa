@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { List } from "immutable";
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 //const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
@@ -172,3 +173,47 @@ export const unfollowUser = async (
   return response;
 };
 /// 팔로우 관련 API 끝
+interface Iprefer {
+  age: any;
+  bgnTm: any;
+  endTm: any;
+  preferCategory: any;
+  preferRegion: any;
+  userId: any;
+}
+
+export const localPreferRegister: ({
+  age,
+  bgnTm,
+  endTm,
+  preferCategory,
+  preferRegion,
+  userId
+}: Iprefer) => false | Promise<AxiosResponse<any>> = ({
+  age,
+  bgnTm,
+  endTm,
+  preferCategory,
+  preferRegion,
+  userId
+}: Iprefer) => {
+  let data = {
+    m_age: age,
+    m_bgnTm: bgnTm,
+    m_endTm: endTm,
+    prefer_category: preferCategory,
+    prefer_region: preferRegion
+  };
+  try {
+    console.log("체크 : ", data);
+    return axios.patch(restBaseApi + `rest/Member/${userId}`, data);
+  } catch (error) {
+    return false;
+  }
+  // try {
+  //   return axios.post(restBaseApi + "Member", data);
+  // } catch (error) {
+  //   console.log(error);
+  //   return true;
+  // }
+};
