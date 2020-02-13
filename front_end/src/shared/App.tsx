@@ -72,6 +72,7 @@ class App extends Component<any> {
           <Route path="/location" component={Location} />
           <Route exact path="/vol/detail/:id" component={VolDetail} />
           <Route exact path="/write" component={PostingForm} />
+          <Route exact path="/usersetting" component={SearchContainer} />
           {/* <Route exact path="/list" component={Post} /> */}
         </div>
         <Header />

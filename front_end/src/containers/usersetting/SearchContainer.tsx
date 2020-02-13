@@ -8,6 +8,7 @@ import CheckboxContainer from "./CheckboxContainer";
 import AgeContainer from "./AgeContainer";
 import CategoryContainer from "./CategoryContainer";
 import { useRadioGroup } from "@material-ui/core";
+import 'assets/mycss'
 interface Props {
   locations: any
   categorys: any
@@ -86,11 +87,24 @@ class SearchContainer extends Component<any, any> {
     const { handleLocalRegister } = this
     return (
       <div>
-        <SearchSelection />
-        <CheckboxContainer />
+        <div>
+          <h1>선호지역</h1>
+          <SearchSelection />
+        </div>
+        <div>
+          <h1>선호 시간대</h1>
+          <CheckboxContainer />
+        </div>
+        <h1>나이</h1>
         <AgeContainer />
-        <CategoryContainer />
-        <button onClick={handleLocalRegister} className="my--btn">저장하기</button>
+        <div>
+          <h1>선호 봉사 종류</h1>
+          <CategoryContainer />
+        </div>
+        <div id='btn-div'>
+          <button onClick={handleLocalRegister} className="my--btn">저장하기</button>
+        </div>
+
       </div>
     )
   }
