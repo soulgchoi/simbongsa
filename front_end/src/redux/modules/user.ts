@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import * as UserAPI from "lib/api/UserApi";
 import { pender } from "redux-pender";
 import * as userActions from 'redux/modules/user';
@@ -39,6 +39,11 @@ const initialState = Map({
       preferCategory: []
     })
   }),
+  // userProfile: Map({
+  //   userId: null,
+  //   followerList: List([]),
+  //   followingList: List([])
+  // }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
 });
@@ -46,11 +51,14 @@ const initialState = Map({
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
-      console.log("SET_LOGGED", action.payload)
-      const { sub, aud, iss } = action.payload
-      console.log("email", sub)
-      return state.setIn(['loggedInfo', 'email'], sub).setIn(['loggedInfo', 'userId'], iss)
+      const { sub, iss } = action.payload;
+      console.log("sub, iss", action);
+      // console.log("=================SET_LOGGED", sub, aud);
+      return state
+        .set("logged", true)
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss }));
     },
+
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
     ...pender({
       type: CHECK_STATUS,
@@ -77,6 +85,22 @@ export default handleActions<any>(
         // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
       }
     })
+
+    // [SET_USER_ID]: (state, action) =>
+    //   state.setIn(["userPforile", "ueserId"], action.payload),
+
+    // ...pender({
+    //   type: GET_USER_FOLLOWER,
+    //   onSuccess: (state, action) => {
+    //     state.setIn(["userProfile", "followerList"], List(action.payload));
+    //   }
+    // }),
+    // ...pender({
+    //   type: GET_USER_FOLLOWEE,
+    //   onSuccess: (state, action) => {
+    //     state.setIn(["userProfile", "followeeList"], List(action.payload));
+    //   }
+    // })
   },
   initialState
 );
