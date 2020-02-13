@@ -11,14 +11,15 @@ import Calendar from "components/Calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
-import PostingForm from "containers/posting/PostForm"
+import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import SearchContainer from "containers/usersetting/SearchContainer";
 // import Postings from "containers/posting/Postings"
 
-import Wall from 'containers/posting/Wall'
+import Wall from "containers/posting/Wall";
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
+import UserProfile from "containers/temp/temp";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 import TodosContainer from "containers/usersetting/SearchContainer";
@@ -28,24 +29,25 @@ import storage from "lib/storage";
 import * as userActions from "redux/modules/user";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
 import jwt from "jsonwebtoken";
 class App extends Component<any> {
-  initializeUserInfo = () => {
-    const loggedInfo = storage.get("loggedInfo"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
-    if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
+  initializeUserInfo = async () => {
+    const token = storage.get("token"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    console.log("APP init token", token);
+    if (!token) return; // 로그인 정보가 없다면 여기서 멈춥니다.
+    console.log("token", token);
+    const loggedInfo = jwt.decode(token);
     console.log("loggedInfo", loggedInfo);
-    const temp = jwt.decode(loggedInfo.token);
-    console.log("temp", temp);
-    const { UserActions, history } = this.props;
-
-    UserActions.setLoggedInfo(temp);
+    const { UserActions } = this.props;
+    await UserActions.setLoggedInfo(loggedInfo);
     // history.push("/mainpage");
   };
-  componentDidMount() {
+  constructor(props: any) {
+    super(props);
     this.initializeUserInfo();
   }
   render() {
-
     return (
       <div>
         <div>
@@ -74,6 +76,7 @@ class App extends Component<any> {
           <Route exact path="/write" component={PostingForm} />
           <Route exact path="/usersetting" component={SearchContainer} />
           {/* <Route exact path="/list" component={Post} /> */}
+          <Route exact path="/userprofile" component={UserProfile} />
         </div>
         <Header />
       </div>
