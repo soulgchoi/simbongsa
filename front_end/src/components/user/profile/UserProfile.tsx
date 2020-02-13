@@ -17,20 +17,29 @@ interface Props {
   userProfile: any;
   loginUserId: string; // 현재 로그인한 유저의 아이디, 자동으로 세팅된다.
 }
-
+enum page {
+  PROFILE,
+  FOLLOWER,
+  FOLLOWING
+}
 interface State {
   followerList: string[];
   followingList: string[];
   isProfileUserFollowedByLoginUser: boolean;
+  showPage: page;
 }
 
 class UserProfile extends Component<Props, State> {
   state = {
     followerList: [],
     followingList: [],
-    isProfileUserFollowedByLoginUser: false
+    isProfileUserFollowedByLoginUser: false,
+    showPage: page.PROFILE
   };
-  async componentDidMount() {
+  componentDidMount() {
+    this.updateProfile();
+  }
+  updateProfile = async () => {
     const token = storage.get("token");
     const { profileUserId, loginUserId } = this.props;
     this.setState({
@@ -46,8 +55,7 @@ class UserProfile extends Component<Props, State> {
         profileUserId
       )
     });
-  }
-  componentDidUpdate() {}
+  };
 
   handleFollow = async () => {
     const { token } = storage.get("token");
@@ -56,13 +64,7 @@ class UserProfile extends Component<Props, State> {
       followee_userid: profileUserId,
       follower_userid: loginUserId
     });
-    this.setState({
-      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
-        token,
-        loginUserId,
-        profileUserId
-      )
-    });
+    this.updateProfile();
   };
   handleUnfollow = async () => {
     const { token } = storage.get("token");
@@ -72,13 +74,13 @@ class UserProfile extends Component<Props, State> {
       follower_userid: loginUserId,
       followee_userid: profileUserId
     });
-    this.setState({
-      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
-        token,
-        loginUserId,
-        profileUserId
-      )
-    });
+    this.updateProfile();
+  };
+  handleFollowingClick = (e: any) => {
+    this.setState({ showPage: page.FOLLOWING });
+  };
+  handleFollowerClick = (e: any) => {
+    this.setState({ showPage: page.FOLLOWER });
   };
   render() {
     // const userProfile = this.props.userProfile.toJS();
@@ -86,27 +88,66 @@ class UserProfile extends Component<Props, State> {
     const {
       followerList,
       followingList,
-      isProfileUserFollowedByLoginUser
+      isProfileUserFollowedByLoginUser,
+      showPage
     } = this.state;
-    const { handleFollow, handleUnfollow } = this;
+    const {
+      handleFollow,
+      handleUnfollow,
+      handleFollowingClick,
+      handleFollowerClick
+    } = this;
     console.log("로그인한 아이디", loginUserId);
     console.log("아이디", profileUserId);
-    console.log("팔로워", followerList);
-    console.log("팔로잉", followingList);
+    console.log("팔로워", followerList.length);
+    console.log("팔로잉", followingList.length);
     console.log("팔로우중?", isProfileUserFollowedByLoginUser);
     return (
       <div className="user-profile">
-        <div>
-          아이디 : {profileUserId}/ 팔로워 : {followerList} 명 / 팔로잉 :{" "}
-          {followingList} 명
-        </div>
-        {loginUserId !== profileUserId && !isProfileUserFollowedByLoginUser && (
-          <ActionButton action={handleFollow} placeholder="팔로우" />
+        {showPage === page.PROFILE && (
+          <div>
+            아이디 : {profileUserId}
+            <div className="cursor" onClick={handleFollowerClick}>
+              팔로워 : {followerList.length} 명
+            </div>
+            <div className="cursor" onClick={handleFollowingClick}>
+              팔로잉 : {followingList.length} 명
+            </div>
+            {loginUserId !== profileUserId &&
+              !isProfileUserFollowedByLoginUser && (
+                <ActionButton action={handleFollow} placeholder="팔로우" />
+              )}
+            {loginUserId !== profileUserId &&
+              isProfileUserFollowedByLoginUser && (
+                <ActionButton
+                  action={handleUnfollow}
+                  placeholder="팔로우 취소"
+                />
+              )}
+          </div>
         )}
-        {loginUserId !== profileUserId && isProfileUserFollowedByLoginUser && (
-          <ActionButton action={handleUnfollow} placeholder="팔로우 취소" />
+        {showPage === page.FOLLOWER && (
+          <div>
+            <ActionButton
+              placeholder="뒤로"
+              action={() => {
+                this.setState({ showPage: page.PROFILE });
+              }}
+            />{" "}
+            <FollowList list={followerList} />
+          </div>
         )}
-        <FollowList list={followerList} />
+        {showPage === page.FOLLOWING && (
+          <div>
+            <ActionButton
+              placeholder="뒤로"
+              action={() => {
+                this.setState({ showPage: page.PROFILE });
+              }}
+            />
+            <FollowList list={followingList} />
+          </div>
+        )}
       </div>
     );
   }
