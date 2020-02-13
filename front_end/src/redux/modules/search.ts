@@ -7,11 +7,13 @@ const INSERT = "searchlocation/INSERT";
 const TOGGLE = "searchlocation/TOGGLE";
 const REMOVE = "searchlocation/REMOVE";
 const PREFER_REGISTER = "searchlocation/PREFER_REGISTER";
+const INITIAL_INSERT = "searchlocation/INTIALIZE_FORM"
 export const changeInput = createAction(CHANGE_INPUT);
 export const insert = createAction(INSERT);
 export const toggle = createAction(TOGGLE);
 export const remove = createAction(REMOVE);
 export const preferRegister = createAction(PREFER_REGISTER, UserAPI.localPreferRegister)
+export const initialInsert = createAction(INITIAL_INSERT)
 let idLocation = 0; // 아이템에 들어갈 고유 값 입니다
 let idCategory = 0; // 아이템에 들어갈 고유 값 입니다
 // Record 함수는 Record 형태 데이터를 만드는 함수를 반환합니다.
@@ -45,6 +47,11 @@ const SearchCategoryRecord = Record({
 });
 export default handleActions<any, any>(
   {
+    [INITIAL_INSERT]: (state, action) => {
+      const { form, key, value } = action.payload
+      console.log("initail_insert", form, key, value)
+      return state.setIn([form, key], value);
+    },
     [CHANGE_INPUT]: (state, action) => {
       console.log("change input", action.payload);
       const { input, key } = action.payload

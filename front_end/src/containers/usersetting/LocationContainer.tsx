@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import {
   Dropdown
 } from "semantic-ui-react";
-import temp from "../../components/usersetting/temp.json";
+import temp from "components/usersetting/temp.json";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
@@ -59,6 +59,7 @@ class Locationcontainer extends Component<Props, State> {
       handleKeyDown
     } = this;
     const { locations, input, key } = this.props;
+
     const locationItems = locations.map((location: any) => {
       const { id, checked, text } = location;
       return (

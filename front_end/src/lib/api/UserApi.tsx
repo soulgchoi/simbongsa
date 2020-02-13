@@ -35,24 +35,24 @@ export const localRegister: ({
   password,
   userid
 }: Iregister) => {
-  let data = {
-    m_email: email,
-    m_password: password,
-    m_userid: userid
+    let data = {
+      m_email: email,
+      m_password: password,
+      m_userid: userid
+    };
+    try {
+      console.log("체크 : ", data);
+      return axios.post(restBaseApi + "register", data);
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
   };
-  try {
-    console.log("체크 : ", data);
-    return axios.post(restBaseApi + "register", data);
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
 interface Ilogin {
   email: string;
   password: string;
@@ -64,17 +64,17 @@ export const localLogin: ({
   email,
   password
 }: Ilogin) => {
-  let data = {
-    password: password,
-    username: email
+    let data = {
+      password: password,
+      username: email
+    };
+    try {
+      console.log(restBaseApi, data);
+      return axios.post(restBaseApi + "authenticate", data);
+    } catch (error) {
+      return false;
+    }
   };
-  try {
-    console.log(restBaseApi, data);
-    return axios.post(restBaseApi + "authenticate", data);
-  } catch (error) {
-    return false;
-  }
-};
 
 export const checkStatus = (data: { email: string; password: string }) => {
   try {
@@ -143,10 +143,10 @@ export const checkFollow = async (
     .create({ headers: { Authorization: "Baerer " + token } })
     .get(
       restBaseApi +
-        "isfollowing?follower_userid=" +
-        followerId +
-        "&followee_userid=" +
-        followeeId
+      "isfollowing?follower_userid=" +
+      followerId +
+      "&followee_userid=" +
+      followeeId
     );
   console.log("팔로잉체크", response.data.data);
   return response.data.data;
@@ -197,23 +197,34 @@ export const localPreferRegister: ({
   preferRegion,
   userId
 }: Iprefer) => {
-  let data = {
-    m_age: age,
-    m_bgnTm: bgnTm,
-    m_endTm: endTm,
-    prefer_category: preferCategory,
-    prefer_region: preferRegion
-  };
+    let data = {
+      m_age: age,
+      m_bgnTm: bgnTm,
+      m_endTm: endTm,
+      prefer_category: preferCategory,
+      prefer_region: preferRegion
+    };
+    try {
+      console.log("체크 : ", data);
+      return axios.patch(restBaseApi + `rest/Member/${userId}`, data);
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
+  }
+
+
+export const localPreferInfo = (userId: string) => {
   try {
-    console.log("체크 : ", data);
-    return axios.patch(restBaseApi + `rest/Member/${userId}`, data);
+    console.log("userId ", restBaseApi + `rest/Member/${userId}/PreferDetail`);
+    return axios.get(restBaseApi + `rest/Member/${userId}/PreferDetail`);
   } catch (error) {
+    console.log(error);
     return false;
   }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
 };

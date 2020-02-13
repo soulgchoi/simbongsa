@@ -3,20 +3,18 @@ import { createAction, handleActions } from "redux-actions";
 import { Map, List } from "immutable";
 import * as UserAPI from "lib/api/UserApi";
 import { pender } from "redux-pender";
+import * as userActions from 'redux/modules/user';
 
 const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const LOGOUT = "user/LOGOUT"; // 로그아웃
 const CHECK_STATUS = "user/CHECK_STATUS"; // 현재 로그인상태 확인
-
-// const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
-// const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
-// const SET_USER_ID = "user/SET_USER_ID";
-
+const SET_PREFER_INFO = "user/SET_PREFER_INFO" // 큐레이션 설정 불러오기
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
 export const logout = createAction(LOGOUT, UserAPI.logout);
 export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
+export const setPreferInfo = createAction(SET_PREFER_INFO, UserAPI.localPreferInfo);
 interface initialStateParams {
   setIn: any;
   set: any;
@@ -31,8 +29,15 @@ interface initialStateParams {
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
-    username: null,
-    userId: null
+    email: "",
+    userId: "",
+    preferInfo: Map({
+      bgnTm: "",
+      endTm: "",
+      age: "",
+      preferRegion: [],
+      preferCategory: []
+    })
   }),
   // userProfile: Map({
   //   userId: null,
@@ -62,6 +67,23 @@ export default handleActions<any>(
           .set("loggedInfo", Map(action.payload.data))
           .set("validated", true),
       onFailure: (state, action) => initialState
+    }),
+    ...pender({
+      type: SET_PREFER_INFO,
+
+      onSuccess: (state, action) => {
+        console.log("SET_PREFER_INFO", action.payload.data.data)
+        const { m_bgnTm, m_endTm, m_age, m_prefer_region, m_prefer_category } = action.payload.data.data;
+        let data = Map({
+          bgnTm: m_bgnTm,
+          endTm: m_endTm,
+          age: m_age,
+          preferRegion: m_prefer_region,
+          preferCategory: m_prefer_category
+        })
+        return state.setIn(["loggedInfo", "preferInfo"], data);
+        // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
+      }
     })
 
     // [SET_USER_ID]: (state, action) =>
