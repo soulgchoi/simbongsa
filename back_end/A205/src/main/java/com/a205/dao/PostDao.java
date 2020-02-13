@@ -1,6 +1,7 @@
 package com.a205.dao;
 
 import com.a205.dto.Post;
+import com.a205.dto.Post_vote;
 
 public interface PostDao {
 	public Post selectOne(int p_id);
@@ -12,6 +13,8 @@ public interface PostDao {
 	public boolean update(Post Post) ;
 
 	//boolean remove(int p_id, int m_id);
+	public boolean addPostVote(Post_vote post_vote);
+
 	
 	boolean remove(int p_id);
 	

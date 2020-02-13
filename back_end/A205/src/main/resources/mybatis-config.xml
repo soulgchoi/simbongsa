@@ -6,6 +6,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.a205.dto.Post" alias="post" />
+		<typeAlias type="com.a205.dto.Post_vote" alias="post_vote" />
 		<typeAlias type="com.a205.dto.Member" alias="member" />
 		<typeAlias type="com.a205.dto.Vol" alias="vol" />
 		<typeAlias type="com.a205.dto.Vol_Mini" alias="volmini" />
