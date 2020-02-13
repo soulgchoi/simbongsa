@@ -3,6 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.postmapper">
+	
+	<select id="searchFeed" resultType="int"
+		parameterType="int">
+		select p_id from `post`
+		where m_id in (select f_followee_id
+		from follow
+		where f_follower_id = #{userId_pk})
+		order by p_date desc;
+	</select>
+	
 	<select id="nextPostId" resultType="int">
 		select max(p_id) from
 		`post`;
@@ -14,6 +24,15 @@
 		where p_id = #{p_id}
 	</select>
 
+	<select id="postnameList" resultType="java.lang.String"
+		parameterType="int">
+		select p_id
+		from post
+		where m_id = #{m_id}
+	</select>
+
+
+	<!-- 포스트 검색?? -->
 	<select id="searchByCondition" resultType="post"
 		parameterType="java.util.Map">
 		select * from post
@@ -31,16 +50,16 @@
 			</choose>
 		</where>
 	</select>
-	
-	
+
+
 	<insert id="insertPostVote" parameterType="post_vote">
 		insert into
 		post_vote(p_id, m_id)
 		values(#{p_id}, #{m_id})
 	</insert>
-	
-	
-	
+
+
+
 	<update id="update" parameterType="post">
 		update post set
 		v_id = #{v_id},

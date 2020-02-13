@@ -28,13 +28,12 @@ public class FollowServiceImp implements FollowServive {
 	public List<Member> searchFollowees(String userId) {
 		return followDao.searchFollowees(userId);
 	}
-	
+	@Override
 	public boolean add(String follower_userid, String followee_userid) {
 		return followDao.add(follower_userid, followee_userid);
 	}
-	
+	@Override
 	public boolean remove(String follower_userid, String followee_userid) {
 		return followDao.remove(follower_userid, followee_userid);
 	}
-	
 }

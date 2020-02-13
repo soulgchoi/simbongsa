@@ -1,5 +1,7 @@
 package com.a205.service;
 
+import java.util.List;
+
 import com.a205.dto.Post;
 import com.a205.dto.Post_vote;
 
@@ -16,6 +18,8 @@ public interface PostService {
 	public boolean remove(int no);
 
 	public int getid();
+
+	public List<Integer> searchFeed(int m_id);
 	
 //	Integer getViewCnt(Integer no);
 //	Integer addViewCnt(Integer no);

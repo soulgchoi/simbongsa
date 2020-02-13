@@ -1,5 +1,7 @@
 package com.a205.dao;
 
+import java.util.List;
+
 import com.a205.dto.Post;
 import com.a205.dto.Post_vote;
 
@@ -20,6 +22,8 @@ public interface PostDao {
 	boolean remove(int p_id);
 	
 	int getid();
+
+	public List<Integer> searchFeed(int m_id);
 	
 //	public int addViewCnt(int no);
 //	public int getViewCnt(int no);
