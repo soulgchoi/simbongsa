@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import VolList from "./VolList";
 
+
+import "assets/mycss/mainpage.scss";
+
 import "assets/mycss";
 
 export default class MainPage extends Component {

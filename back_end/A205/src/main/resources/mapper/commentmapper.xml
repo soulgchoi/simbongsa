@@ -3,32 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.commentmapper">
-	<select id="select" resultType="comment" parameterType="int">
-		select * from comment
-		<if test="value!=null">
-			where no = #{no}
-		</if>
-		order by no desc;
-	</select>
 
-	<insert id="insert" parameterType="comment">
-		insert into
-		comment(no, commen, writer, reg_time)
-		values(#{no}, #{commen}, #{writer}, #{reg_time} )
+	<insert id="insert"  parameterType="comment_sobj">
+		insert into `comment`(p_id, m_id,c_content  ) 
+		  values(#{p_id}, #{m_id},#{c_content}  )
 	</insert>
 
+	<select id="searchOne" resultType="comment" parameterType="int">
+		select * from `comment`
+		where c_id = #{c_id}
+	</select>
+
+
+	<select id="searchListComments" resultType="comment" parameterType="int">
+		select * from `comment`
+		where p_id = #{p_id}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from comment
+		where c_id = #{c_id}
+	</delete>
+	
 	<update id="update" parameterType="comment">
 		update comment set
-        no = #{no},
-        commen = #{commen},
-        writer = #{writer},
-        reg_time = #{reg_time},
-		where c_code=#{c_code}
+		c_content = #{c_content}
+		where c_id = #{c_id}
 	</update>
+	
 
-	<delete id="delete" parameterType="int">
-		delete from comment where
-		c_code=#{c_code}
-	</delete>
+
 
 </mapper>

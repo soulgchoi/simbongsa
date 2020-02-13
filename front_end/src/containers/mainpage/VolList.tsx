@@ -10,21 +10,21 @@ class VolList extends React.Component<any, any> {
     state = {
         pageNum: 1,
     }
-    componentDidMount(){
+    componentDidMount() {
         const { VolActions } = this.props;
         VolActions.getInitailList(this.state.pageNum);
     }
 
-    loadMoreData(){
+    loadMoreData() {
         this.setState({ pageNum: this.state.pageNum + 1 })
         const { VolActions } = this.props;
         VolActions.appendList(this.state.pageNum);
     }
-    
+
     render() {
         const { volunteers } = this.props;
         console.log(volunteers)
-        const PrintArray = volunteers.map(( vol:any, i:any ) => {
+        const PrintArray = volunteers.map((vol: any, i: any) => {
             return (
                 <Vol v_id={vol.v_id} key={i} />
             )
@@ -43,7 +43,7 @@ class VolList extends React.Component<any, any> {
         )
     }
 }
-        
+
 export default connect(
     (state: any) => ({
         volunteers: state.volunteer.get("volunteers"),

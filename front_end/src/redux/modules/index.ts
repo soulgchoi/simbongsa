@@ -4,6 +4,8 @@ import user from "./user";
 import volunteer from "./volunteer"
 import vol from "./vol";
 import posting from "./posting"
+import search from './search'
+import base from './base'
 // import temp from "./temp";
 
 import calendar from "./calendar";
@@ -15,10 +17,11 @@ export default combineReducers({
   user,
   volunteer,
   vol,
+  search,
+  pender: penderReducer,
+
   // temp,
   posting,
-  pender: penderReducer
+    base,
 });
-// export interface StoreState {
-//   auth: AuthState;
-// }
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.a205.model.memberhascategorymapper">
+	<insert id="insert"  parameterType="member_has_category">
+		insert into `member_has_category`(m_id, ca_id ) 
+		  values(#{m_id}, #{ca_id} )
+	</insert>
+ 	
+ 	<select id="selectByM_id" resultType="member_has_category" parameterType="int">
+		select * from `member_has_category` 
+			where m_id = #{m_id}
+
+	</select>
+	
+	<delete id="delete" parameterType="member_has_category">
+			delete from `member_has_category` 
+			where m_id=#{m_id} and ca_id=#{ca_id} 
+	</delete>
+	
+	
+ </mapper>

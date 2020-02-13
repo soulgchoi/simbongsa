@@ -24,5 +24,6 @@ public class SwaggerConfig {
 				.termsOfServiceUrl("https://edu.ssafy.com").license("pjh").licenseUrl(".").version("3.135").build();
 
 	}
-
+	
+	
 }
