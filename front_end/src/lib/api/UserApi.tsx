@@ -105,40 +105,40 @@ export const logout = () => {
 
 /// 팔로우 관련 API 시작
 
-export const getUserFollower = (token: string, userId: string): any => {
-  axios
+export const getUserFollower = async (token: string, userId: string) => {
+  let response = await axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .get(restBaseApi + "follow/" + userId + "/followers")
-    .then(response => {
-      console.log(response);
-      return response;
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    .get(restBaseApi + "follow/" + userId + "/followers");
+  console.log("get follower", response);
+  let list: string[] = [];
+  const data = response.data.data;
+  data.map((item: { m_userid: string }) => {
+    list.push(item.m_userid);
+  });
+  console.log("list", list);
+  return list;
 };
 
-export const getUserFollowing = (token: string, userId: string): any => {
-  axios
+export const getUserFollowing = async (token: string, userId: string) => {
+  let response = await axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .get(restBaseApi + "follow/" + userId + "/followees")
-    .then(response => {
-      console.log(response);
-      return response;
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    .get(restBaseApi + "follow/" + userId + "/followees");
+  console.log("get follower", response);
+  let list: string[] = [];
+  const data = response.data.data;
+  data.map((item: { m_userid: string }) => {
+    list.push(item.m_userid);
+  });
+  console.log("list", list);
+  return list;
 };
 
-export const checkFollow = (
+export const checkFollow = async (
   token: string,
   followerId: string,
   followeeId: string
-): any => {
-  axios
+) => {
+  let response = await axios
     .create({ headers: { Authorization: "Baerer " + token } })
     .get(
       restBaseApi +
@@ -146,46 +146,29 @@ export const checkFollow = (
         followerId +
         "&followee_userid=" +
         followeeId
-    )
-    .then(response => {
-      console.log("팔로잉체크", response.data);
-      return response.data;
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    );
+  console.log("팔로잉체크", response.data.data);
+  return response.data.data;
 };
 
-export const followUser = (
+export const followUser = async (
   token: string,
   data: { follower_userid: string; followee_userid: string }
-): any => {
-  axios
+) => {
+  let response = await axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .post(restBaseApi + "insertfollow/", data)
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    .post(restBaseApi + "insertfollow/", data);
+
+  return response;
 };
 
-export const unfollowUser = (
+export const unfollowUser = async (
   token: string,
   data: { follower_userid: string; followee_userid: string }
-): any => {
-  axios
+) => {
+  let response = await axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .post(restBaseApi + "deletefollow/", data)
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    .post(restBaseApi + "deletefollow/", data);
+  return response;
 };
 /// 팔로우 관련 API 끝

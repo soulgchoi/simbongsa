@@ -30,41 +30,54 @@ class UserProfile extends Component<Props, State> {
     followingList: [],
     isProfileUserFollowedByLoginUser: false
   };
-  componentDidMount() {
+  async componentDidMount() {
     const token = storage.get("token");
     const { profileUserId, loginUserId } = this.props;
     this.setState({
-      followerList: UserAPI.getUserFollower(token, profileUserId)
+      followerList: await UserAPI.getUserFollower(token, profileUserId)
     });
     this.setState({
-      followingList: UserAPI.getUserFollowing(token, profileUserId)
+      followingList: await UserAPI.getUserFollowing(token, profileUserId)
     });
     this.setState({
-      isProfileUserFollowedByLoginUser: UserAPI.checkFollow(
+      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
         token,
         loginUserId,
         profileUserId
       )
     });
   }
-  componentDidUpdate() {
-    // console.log("userProfile didUpdate ", profileUserId);
-  }
+  componentDidUpdate() {}
 
-  handleFollow = () => {
+  handleFollow = async () => {
     const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
-    UserAPI.followUser(token, {
+    await UserAPI.followUser(token, {
       followee_userid: profileUserId,
       follower_userid: loginUserId
     });
+    this.setState({
+      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
+        token,
+        loginUserId,
+        profileUserId
+      )
+    });
   };
-  handleUnfollow = () => {
+  handleUnfollow = async () => {
     const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
-    UserAPI.unfollowUser(token, {
-      followee_userid: loginUserId,
-      follower_userid: profileUserId
+    console.log("언팔로우");
+    await UserAPI.unfollowUser(token, {
+      follower_userid: loginUserId,
+      followee_userid: profileUserId
+    });
+    this.setState({
+      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
+        token,
+        loginUserId,
+        profileUserId
+      )
     });
   };
   render() {
@@ -80,6 +93,7 @@ class UserProfile extends Component<Props, State> {
     console.log("아이디", profileUserId);
     console.log("팔로워", followerList);
     console.log("팔로잉", followingList);
+    console.log("팔로우중?", isProfileUserFollowedByLoginUser);
     return (
       <div className="user-profile">
         <div>
