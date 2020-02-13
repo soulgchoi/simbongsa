@@ -42,6 +42,12 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	public boolean removePostVote(Post_vote post_vote) {
+		System.out.println("--------------"+post_vote);
+		return dao.removePostVote(post_vote);
+	}
+
+	@Override
 	public boolean add(Post Post) {
 		return dao.add(Post);
 	}
