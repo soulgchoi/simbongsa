@@ -69,7 +69,6 @@ public class FollowRestController {
 	@ApiOperation("현재 유저(follower)가 followee_userid를 follow 하겠다.")
 	public ResponseEntity<Map<String, Object>> insertfollowMember(@RequestBody Follow follow) {
 		try {
-			// Map<String, Object> resultMap = new HashMap<String, Object>();
 			boolean result = service.add(follow.getFollower_userid(), follow.getFollowee_userid());
 			return response(result, true, HttpStatus.OK);
 		} catch (Exception e) {

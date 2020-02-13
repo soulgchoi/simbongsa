@@ -41,9 +41,6 @@ public class FollowDAOImp implements FollowDAO {
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public boolean add(String follower_userid, String followee_userid) {
-=======
 	public boolean search(String follower, String followee) {
 		String statement = ns+"selectOne";
 		
@@ -57,8 +54,7 @@ public class FollowDAOImp implements FollowDAO {
 	}
 	
 	@Override
-	public boolean add(String userEmail, String followee) {
->>>>>>> feature/social
+	public boolean add(String follower_userid, String followee_userid) {
 		String statement = ns+ "insert";
 		//System.out.println("___followdao");
 
