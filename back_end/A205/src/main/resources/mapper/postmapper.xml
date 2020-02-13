@@ -32,7 +32,16 @@
 			</choose>
 		</where>
 	</select>
-
+	
+	
+	<insert id="insertPostVote" parameterType="post_vote">
+		insert into
+		post_vote(p_id, m_id)
+		values(#{p_id} #{m_id})
+	</insert>
+	
+	
+	
 	<update id="update" parameterType="post">
 		update post set
 		v_id = #{v_id},

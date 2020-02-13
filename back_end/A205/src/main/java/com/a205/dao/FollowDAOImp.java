@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Member;
-import com.a205.service.MemberService;
-import com.a205.dto.Follow;
 
 
 @Repository
@@ -41,11 +39,11 @@ public class FollowDAOImp implements FollowDAO {
 	}
 	
 	@Override
-	public boolean search(String follower, String followee) {
+	public boolean search(String follower_userid, String followee_userid) {
 		String statement = ns+"selectOne";
 		
-		int userId_pk = memberDao.search(follower).getM_id();
-		int followee_pk = memberDao.search(followee).getM_id();
+		int userId_pk = memberDao.search(follower_userid).getM_id();
+		int followee_pk = memberDao.search(followee_userid).getM_id();
 		Map<String, Integer> map = new HashMap<>();
 		map.put("userId_pk", userId_pk);
 		map.put("followee_pk", followee_pk);

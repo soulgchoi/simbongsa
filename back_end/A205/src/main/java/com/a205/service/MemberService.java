@@ -29,4 +29,6 @@ public interface MemberService {
 	public Member_detail searchDetail(String userId); 
 	
 	public boolean remove(String id);
+	
+	public boolean alter_userPassword(String m_email, String m_password);
 }

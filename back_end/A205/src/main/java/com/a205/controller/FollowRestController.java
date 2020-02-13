@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a205.dao.FollowDAO;
-import com.a205.dao.MemberDAO;
 import com.a205.dto.Follow;
 import com.a205.dto.Member;
 import com.a205.service.FollowServive;
+
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*")
@@ -34,9 +35,6 @@ public class FollowRestController {
 
 	@Autowired
 	FollowServive service;
-
-	@Autowired
-	private MemberDAO member;
 
 	@Autowired
 	private FollowDAO followDao;
@@ -78,24 +76,20 @@ public class FollowRestController {
 	}
 
 	@DeleteMapping("/follow")
-	@ApiOperation("전달받은 회원을 팔로우 취소한다.")
-	public ResponseEntity<Map<String, Object>> deleteFollowMember(@RequestBody Follow follow) {
-
+	@ApiOperation("현재 유저(follower)가 followee_userid를 follow 취소한다.")
+	public ResponseEntity<Map<String, Object>> deleteFollowMember(@RequestParam Follow follow) {
 		try {
 			boolean result = service.remove(follow.getFollower_userid(), follow.getFollowee_userid());
 			return response(result, true, HttpStatus.OK);
-
 		} catch (Exception e) {
 			logger.error("팔로우취소실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-
 		}
 	}
 
 	@GetMapping("follow/{userId}/followers")
 	@ApiOperation("userId `를` following 한 사람들의 목록을 가져온다.")
 	public ResponseEntity<Map<String, Object>> searchFollowers(@PathVariable String userId) {
-
 		try {
 			List<Member> result = service.searchFollowers(userId);
 			return response(result, true, HttpStatus.OK);
@@ -103,13 +97,11 @@ public class FollowRestController {
 			logger.error("followers 목록 조회 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
-
 	}
 
 	@GetMapping("follow/{userId}/followees")
 	@ApiOperation("userId `가` following 한 사람들의 목록을 가져온다.")
 	public ResponseEntity<Map<String, Object>> searchFollowees(@PathVariable String userId) {
-
 		try {
 			List<Member> result = service.searchFollowees(userId);
 			return response(result, true, HttpStatus.OK);
@@ -117,7 +109,6 @@ public class FollowRestController {
 			logger.error("followees 목록 조회 실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
-
 	}
 
 }

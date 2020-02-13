@@ -20,8 +20,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 public class GoogleIdTokenUtil implements Serializable {
 	
 	private static final long serialVersionUID = -449544760442497357L;
-	
-//	private static final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport() ;
 	private static final HttpTransport transport = new NetHttpTransport();
 	private static final JsonFactory jsonFactory = new JacksonFactory();
 	private static final String MY_APP_GOOGLE_CLIENT_ID = "266208955593-716c9b8v63c5vfrure5n1tv8n9lrld6p.apps.googleusercontent.com";
