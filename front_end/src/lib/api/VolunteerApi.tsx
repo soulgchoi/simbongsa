@@ -1,5 +1,5 @@
 import axios from "axios";
-const restBaseApi = "http://13.124.127.232:8080/A205";
+const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205";
 
 export const getVolDetail = (id: number) => {
   try{

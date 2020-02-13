@@ -123,7 +123,7 @@ class Join extends React.Component<any, any> {
       value,
       form: "join"
     });
-    console.log();
+    console.log(this.props);
     // 검증작업 진행
 
     const validation = this.validate[id](value);

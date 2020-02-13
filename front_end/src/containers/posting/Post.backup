@@ -1,0 +1,54 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Comments from './Comments';
+import AddComment from './AddComment';
+import Vol from 'containers/mainpage/Vol'
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as postingActions from "redux/modules/posting";
+
+class Post extends React.Component<any, {}>{
+
+    componentWillMount() {
+        // const { PostingActions } = this.props;
+        // const p_id = 1
+        // PostingActions.getPostbyID(p_id)
+        // const { posts } = this.props;
+        // console.log(posts)
+    }
+    render() {
+        const { PostingActions } = this.props;
+        const p_id = 1
+        PostingActions.getPostbyID(p_id)
+        // const { posts } = this.props;
+        // console.log(posts)
+        console.log(this.props)
+        return (
+            <div>
+                <div>
+                    {/* {this.props} */}
+                    {/* {this.props.p_content}
+                    <div>
+                    created at
+                    </div>
+                </div>
+                <div>
+                </div>
+                <div> */}
+
+                </div>
+            </div>
+
+        );
+    }
+};
+
+export default connect(
+    (state:any) => ({
+        posts: state.posting.get("posts")
+    }),
+    dispatch => ({
+        PostingActions: bindActionCreators(postingActions, dispatch)
+    })
+)(Post);

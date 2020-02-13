@@ -5,6 +5,8 @@ import * as postingActions from "redux/modules/posting";
 import { bindActionCreators } from "redux";
 import GoBackButton from 'components/button/GoBackButton';
 import { list } from 'react-immutable-proptypes';
+import Comments from "./Comments";
+
 
 
 class PostingForm extends React.Component<any, any> {
@@ -17,52 +19,35 @@ class PostingForm extends React.Component<any, any> {
     handleChange = (e: any) => {
         const { PostingActions } = this.props;
         var { id, value } = e.target;
+        console.log(value)
         PostingActions.changeInput({
             id,
             value,
             form: "posting"
         });
-        console.log(id)
+        console.log(this.props.form.toJS())
+        // console.log(typeof this.props)
+        console.log("---", this.props.form._root.entries[1])
+
     }
 
-    handleFileChange = (e: any) => {
+    handleFileSelect = (e: any) => {
         const { PostingActions } = this.props;
         var id = e.target.id
         var value = e.target.files;
-        console.log(value)
-        // PostingActions.changeInput({
-        //     id,
-        //     value,
-        //     form: "posting"
-        // })
-        // console.log(typeof value)
-        // console.log(value)
-        // var reader = new FileReader();
-        // for ( let val of value ) {
-        //     reader.readAsDataURL(val);
-        //     // console.log(reader.readAsDataURL(val))
-        //     PostingActions.changeInput({
-        //         id,
-        //         val,
-        //         form: "posting"
-        //     })
-        // }
-        console.log(this.props)
-        // value.map( (val: File) => {
-        //     reader.readAsDataURL(val);
-        //     PostingActions.changeInput({
-        //         id,
-        //         value,
-        //         form: "posting"
-        //     })
-        // })
+        PostingActions.changeFileInput({
+            id,
+            value,
+            form: "posting"
+        })
+        console.log(this.props.form)
     }
 
     handleSubmit = (e:any) => {
         e.preventDefault();
         console.log("submit")
-        const { p_content, selectedFiles } = this.props.form
-        console.log(this.props)
+        // const { p_content, selectedFiles } = this.props.form.toJS()
+        console.log(this.props.form.toJS())
         // console.log(p_content)
         // console.log(selectedFiles)
     }
@@ -93,16 +78,6 @@ class PostingForm extends React.Component<any, any> {
     // }
 
     render() {
-        // let imagepreview = (
-        //     <div></div>
-        // );
-        // if (this.state.imagePreview) {
-        //     imagepreview = (
-        //         <div>
-        //             <img src={this.state.imagePreview} alt="uploaded image" width="200" />
-        //         </div>
-        //     )
-        // }
         const { selectedFiles, p_content } = this.props.form;
         return (
             
@@ -120,10 +95,10 @@ class PostingForm extends React.Component<any, any> {
                 type="file"
                 id="selectedFiles"
                 multiple
-                onChange={this.handleFileChange}
+                onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
-            <label htmlFor="selectedFiles" className="btn-1">이미지 업로드</label>
+            <label htmlFor="selectedFiles">이미지 업로드</label>
                 {/* {imagepreview} */}
             <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
             

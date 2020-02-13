@@ -23,13 +23,13 @@ class AddComment extends React.Component<Props, {}> {
             'c_content': this.state.c_content,
             'p_id': this.props.inP_id
         })
-        .then(res => {
-            this.setState({
-                "c_content": "",
-                "p_id": "",
+        // .then(res => {
+        //     this.setState({
+        //         "c_content": "",
+        //         "p_id": "",
 
-            })
-        })
+        //     })
+        // })
     }
 
     render() {

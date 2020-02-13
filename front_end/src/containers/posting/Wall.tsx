@@ -6,53 +6,47 @@ import PostForm from './PostForm';
 
 class Wall extends Component{
     state = {
-        posts: Array(),
-        p_id: "",
-        p_content: "",
-        selectedFile: new File([""], "", {type: ""}),
-        volunteer: {
-            v_id: 0,
-            v_title: "",
-            v_pStatus: 0,
-            v_Auth: 0
+        posts: {
+            uris: [],
+            post: {
+                p_content: "",
+                v_id: 0,
+                m_id: 0,
+                p_status: 0,
+            }
         }
     }
 
-      componentDidMount() {
-        axios.get('http://localhost:3002/post')
+    componentDidMount() {
+        axios.get("http://13.124.127.232:8080/A205/rest/Post/" + "1")
         .then( res => {
             console.log(res)
-            const data = res.data.map( (d: any) => {
-                return {p_content: d.p_content, p_id: d.id, volunteer: d.volunteer}
+            const data = res.data.data
+            console.log(data)
+            console.log(data.uris)
+            this.setState(
+                {
+                    posts: { 
+                        uris: data.uris,
+                        post:
+                            {
+                                p_content: data.post.p_content,
+                                v_id: data.post.v_id,
+                                m_id: data.post.m_id,
+                                p_stats: data.post.p_status}
+                    }
+                }   
+            )
+
             })
-            this.setState({
-                posts: data
-            })
-            
-        });
-    }
+        .catch(err => console.log(err))
+    };
+    
  
 render(){
     return (
-        <div>     
-             {/* <div>
-                 <PostForm 
-                     volunteer={this.state.volunteer}
-                 />
-             </div> */}
-             <div>
-                 { this.state.posts.map ( post => {
-                     return (
-                         <Post
-                             key={post.p_id}
-                             p_id={post.p_id}
-                            //  volunteer={post.volunteer}
-                             p_content={post.p_content}
-                         />
-                     )
-                 })}
-             </div>
-
+        <div>
+            {this.state.posts.post.p_content}  
         </div>
     )
 }}
