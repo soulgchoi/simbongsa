@@ -3,8 +3,8 @@ import { List } from 'immutable'
 //const restBaseApi = "http://70.12.247.34:8080/" // jwt 최신
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
-const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
-// const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
+//const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
+const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 export const checkEmailExists = (email: string) => {
   try {
     console.log("API email check : ", email);
@@ -146,4 +146,15 @@ export const localPreferRegister: ({
     //   console.log(error);
     //   return true;
     // }
-  };
+  }
+
+
+export const localPreferInfo = (userId: string) => {
+  try {
+    console.log("userId ", restBaseApi + `rest/Member/${userId}/PreferDetail`);
+    return axios.get(restBaseApi + `rest/Member/${userId}/PreferDetail`);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

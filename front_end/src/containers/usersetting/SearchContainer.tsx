@@ -5,7 +5,11 @@ import * as searchActions from 'redux/modules/search';
 import * as userActions from 'redux/modules/user';
 import { AgeContainer, CategoryContainer, LocationContainer, TimeContainer } from 'containers/usersetting'
 import { useRadioGroup } from "@material-ui/core";
+import locationAllList from "components/usersetting/temp.json"
+import categoryAllList from "components/usersetting/temp2.json"
 import 'assets/mycss'
+import { localPreferInfo } from "lib/api/UserApi";
+import { setPreferInfo } from '../../redux/modules/user';
 interface Props {
   locations: any
   categorys: any
@@ -16,6 +20,87 @@ interface Props {
   history: any
 }
 class SearchContainer extends Component<any, any> {
+  initializePreferInfo = () => {
+    const { preferInfo, times, ages, locations, categorys, SearchActions } = this.props;
+
+    const info = preferInfo.toJS()
+
+    console.log("시간과 나이", times.toJS(), ages.toJS())
+    // 시간 관련
+    if (info.bgnTm === "00:00:00") {
+      SearchActions.initialInsert({ form: "times", key: "morning", value: true })
+    }
+    else {
+      SearchActions.initialInsert({ form: "times", key: "morning", value: false })
+    }
+    if (info.endTm === "23:59:59") {
+      SearchActions.initialInsert({ form: "times", key: "afternoon", value: true })
+    }
+    else {
+      SearchActions.initialInsert({ form: "times", key: "afternoon", value: false })
+    }
+    console.log("Time", times.toJS())
+    // 나이 관련
+    const today = new Date()
+    const year = today.getFullYear();
+    if (!info.age) {
+      SearchActions.initialInsert({ form: "ages", key: "adult", value: false })
+      SearchActions.initialInsert({ form: "ages", key: "youth", value: false })
+    }
+    else {
+      const age = Number(info.age.split("-")[0])
+      const result = Math.abs(age - year)
+      console.log("초기 year, age", year, age)
+      if (result > 18) {
+        SearchActions.initialInsert({ form: "ages", key: "adult", value: true })
+        SearchActions.initialInsert({ form: "ages", key: "youth", value: false })
+      }
+      else if (0 < result && result <= 18) {
+        SearchActions.initialInsert({ form: "ages", key: "adult", value: false })
+        SearchActions.initialInsert({ form: "ages", key: "youth", value: true })
+      }
+      else {
+        SearchActions.initialInsert({ form: "ages", key: "adult", value: false })
+        SearchActions.initialInsert({ form: "ages", key: "youth", value: false })
+      }
+    }
+    //지역 관련
+    for (let j = 0; j < info.preferRegion.length; j++) {
+      for (let i = 0; i < locationAllList.length; i++) {
+        console.log("for문 도는중...", "prefer", info.preferRegion[j], "Alllist", locationAllList[i].key)
+        if (info.preferRegion[j] === locationAllList[i].key) {
+          const splitValue = locationAllList[i].value.split('/')
+          console.log(splitValue[1], splitValue[0])
+          SearchActions.insert({ form: "location", text: splitValue[1], key: splitValue[0] })
+          break
+        }
+      }
+    };
+
+    // 봉사활동 카테고리 관련
+    for (let j = 0; j < info.preferCategory.length; j++) {
+      for (let i = 0; i < categoryAllList.length; i++) {
+        if (info.preferCategory[j] === categoryAllList[i].key) {
+          const splitValue = categoryAllList[i].value.split('/')
+          SearchActions.insert({ form: "category", text: splitValue[1], key: splitValue[0] })
+        }
+      }
+    };
+
+  }
+  initialLoad = async () => {
+    const { UserActions, userId } = this.props;
+    console.log(userId)
+    UserActions.setPreferInfo(userId)
+  }
+  constructor(props: any) {
+    super(props)
+    this.initialLoad()
+
+  }
+  componentDidMount() {
+    this.initializePreferInfo();
+  }
   handleLocalRegister = async () => {
     const { locations, categorys, times, ages, UserActions, SearchActions, history, userId } = this.props;
     console.log("locations", locations.toJS())
@@ -48,8 +133,8 @@ class SearchContainer extends Component<any, any> {
       endTm = '12:00:00'
     }
     if (times.toJS().afternoon === false && times.toJS().morning === false) {
-      bgnTm = '00:00:00'
-      endTm = '23:59:59'
+      bgnTm = '00:00:01'
+      endTm = '23:59:58'
     }
     console.log("age", age)
     console.log("시간", bgnTm, endTm)
@@ -113,7 +198,8 @@ export default connect(
     categorys: search.get('categorys'),
     times: search.get('times'),
     ages: search.get('ages'),
-    userId: user.get('loggedInfo').get('username')
+    userId: user.get('loggedInfo').get('userId'),
+    preferInfo: user.get('loggedInfo').get('preferInfo')
   }),
   dispatch => ({
     SearchActions: bindActionCreators(searchActions, dispatch),

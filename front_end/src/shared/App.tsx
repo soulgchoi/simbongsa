@@ -29,19 +29,24 @@ import * as userActions from "redux/modules/user";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import jwt from "jsonwebtoken";
+import { setPreferInfo } from '../redux/modules/user';
 class App extends Component<any> {
-  initializeUserInfo = () => {
-    const loggedInfo = storage.get("loggedInfo"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
-    if (!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
-    console.log("loggedInfo", loggedInfo);
-    const temp = jwt.decode(loggedInfo.token);
+  initializeUserInfo = async () => {
+    const token = storage.get("token"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
+    if (!token) return; // 로그인 정보가 없다면 여기서 멈춥니다.
+    console.log("token", token);
+    const temp = jwt.decode(token);
     console.log("temp", temp);
     const { UserActions, history } = this.props;
 
-    UserActions.setLoggedInfo(temp);
+    await UserActions.setLoggedInfo(temp);
+
+
+
     // history.push("/mainpage");
   };
-  componentDidMount() {
+  constructor(props: any) {
+    super(props)
     this.initializeUserInfo();
   }
   render() {
@@ -82,6 +87,25 @@ class App extends Component<any> {
   }
 }
 
-export default connect(null, dispatch => ({
-  UserActions: bindActionCreators(userActions, dispatch)
-}))(App);
+export default connect(
+  ({ user }: any) => ({
+    userId: user.getIn(["loggedInfo", "userId"])
+  }), dispatch => ({
+    UserActions: bindActionCreators(userActions, dispatch)
+  }))(App);
+// export default connect(
+//   (state: any) => ({
+//     // props로 받아오는 정보들...
+//     form: state.auth.getIn(["login", "form"]),
+//     error: state.auth.getIn(["login", "error"]),
+//     result: state.auth.get("result"),
+//     logged: state.user.get("logged"),
+//     loggedInfo: state.user.get("loggedInfo"),
+//     initialNumber: state.base.get("initialNumber")
+//   }),
+//   dispatch => ({
+//     AuthActions: bindActionCreators(authActions, dispatch),
+//     UserActions: bindActionCreators(userActions, dispatch),
+//     BaseActions: bindActionCreators(baseActions, dispatch)
+//   })
+// ) (Login);
