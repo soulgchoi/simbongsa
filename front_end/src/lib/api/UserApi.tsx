@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
-// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 //const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
-const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
+// const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 
 export const checkEmailExists = (email: string) => {
   try {
@@ -20,6 +20,7 @@ export const checkUsernameExists = (userid: string) => {
     return true;
   }
 };
+
 interface Iregister {
   email: string;
   password: string;
@@ -52,6 +53,16 @@ export const localRegister: ({
   //   return true;
   // }
 };
+
+export const sendSignupEmail = (email: string) => {
+  try {
+    return axios.post(restBaseApi + "email/regist", { m_email: email });
+  } catch (error) {
+    console.log(error);
+    return true;
+  }
+};
+
 interface Ilogin {
   email: string;
   password: string;
