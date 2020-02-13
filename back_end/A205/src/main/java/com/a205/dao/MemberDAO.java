@@ -22,5 +22,7 @@ public interface MemberDAO {
 
 	public boolean remove(String id);
 	
+	public int GetKey(String m_email, String m_key);
 	
+	public int alter_userKey(String m_email, String m_key);
 }

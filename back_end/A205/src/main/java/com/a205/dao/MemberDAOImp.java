@@ -1,6 +1,8 @@
 package com.a205.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +71,22 @@ public class MemberDAOImp implements MemberDAO {
 		
 		return session.selectList(statement, m_id);
 
+	}
+	
+	@Override
+	public int GetKey(String m_email, String m_key) {
+		String statement = ns+"GetKey";
+		Map<String, String> map = new HashMap<>();
+		map.put("param1", m_email);
+		map.put("param2", m_key);
+		System.out.println(m_email+" "+m_key);
+		return session.insert(statement, map);
+	}
+	
+	@Override
+	public int alter_userKey(String m_email, String m_key) {
+		
+		return 0;
 	}
 
 

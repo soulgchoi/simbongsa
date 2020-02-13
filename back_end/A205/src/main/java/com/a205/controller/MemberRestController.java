@@ -109,21 +109,6 @@ public class MemberRestController {
 		}
 	}
 	
-	
-//	@PostMapping("/Member")
-//	@ApiOperation("전달받은 회원정보를 저장한다.")
-//	public ResponseEntity<Map<String, Object>> insertMember(@RequestBody Member member){
-//		try {
-//			boolean result = service.add(member);
-//			System.out.println("---------------------" + member + "---------------------");
-//
-//			return response(result, true, HttpStatus.CREATED);
-//		}catch(RuntimeException e) {
-//			logger.error("회원 가입 실패", e);
-//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-//		}
-//	}
-//	
 	@PutMapping("/Member/{userId}")
 	@ApiOperation("전달받은 회원정보를 업데이트한다.")
 	public ResponseEntity<Map<String, Object>> updateMember(@RequestBody Member member){
