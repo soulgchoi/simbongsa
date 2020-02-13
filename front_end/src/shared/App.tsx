@@ -11,11 +11,13 @@ import Calendar from "components/Calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import VolDetail from "containers/mainpage/VolDetail";
-import PostingForm from "containers/posting/PostForm"
+import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
-import Wall from 'containers/posting/Wall'
+import Wall from "containers/posting/Wall";
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
+import MyPage from "containers/mypage/Mypage";
+
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 // 로컬에 저장
@@ -67,6 +69,7 @@ class App extends Component<any> {
           <Route path="/location" component={Location} />
           <Route exact path="/vol/detail/:id" component={VolDetail} />
           <Route exact path="/write" component={PostingForm} />
+          <Route path="/mypage" component={MyPage} />
           {/* <Route exact path="/list" component={Post} /> */}
         </div>
         <Header />
