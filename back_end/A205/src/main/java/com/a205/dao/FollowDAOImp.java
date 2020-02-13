@@ -41,6 +41,19 @@ public class FollowDAOImp implements FollowDAO {
 	}
 	
 	@Override
+	public boolean search(String follower, String followee) {
+		String statement = ns+"selectOne";
+		
+		int userId_pk = memberDao.search(follower).getM_id();
+		int followee_pk = memberDao.search(followee).getM_id();
+		Map<String, Integer> map = new HashMap<>();
+		map.put("userId_pk", userId_pk);
+		map.put("followee_pk", followee_pk);
+		
+		return session.selectOne(statement, map)!=null;
+	}
+	
+	@Override
 	public boolean add(String userEmail, String followee) {
 		String statement = ns+ "insert";
 		System.out.println("___followdao");

@@ -8,13 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.a205.service.FileUploadDownloadService;
 import com.file.payload.FileUploadResponse;
 
-////@RestController
+@RestController
 public class FileUploadController {
 	private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 

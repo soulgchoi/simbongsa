@@ -16,5 +16,5 @@ public class Member {
 	private String m_age;
 	private String m_userid;
 	private String m_address;
-
+	private String m_key;
 }

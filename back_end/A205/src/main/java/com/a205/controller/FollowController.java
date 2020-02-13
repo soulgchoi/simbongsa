@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import com.a205.config.JwtTokenUtil;
+import com.a205.dao.FollowDAO;
 import com.a205.dao.MemberDAO;
 import com.a205.dto.Member;
 import com.a205.service.FollowServive;
@@ -49,44 +50,31 @@ public class FollowController {
 	@Autowired
 	private MemberDAO member;
 	
+	@Autowired
+	private FollowDAO followDao;
+	
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hStatus){ 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", status);
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hStatus);
 	}
-
-//	 /follow/{followerId}/{followeeId} 
 	
-	
-//	@GetMapping("/follow/{followerId}/{followeeId}")
-//	@ApiOperation("팔로우 버튼 모양 탐색")
-//	public ResponseEntity<Map<String, Object>> SearchfollowMember(@PathVariable String followee, HttpServletRequest request){
-////		try {
-////			
-////		}
-//	}
-//	
-//	@GetMapping("/Member/{userId}")
-//	@ApiOperation("ID에 해당하는 하나의 회원정보를 반환한다. ")
-//	public ResponseEntity<Map<String, Object>> getMember(@PathVariable String userId){
-//		try {
-//			
-//			Member member = service.search(userId);
-//// 현재 유저검색은 로그인 된 사람만 가능
-//			if (member != null ) {
-//				System.out.println(member.getM_userid());
-//
-//				return response(member, true, HttpStatus.OK);
-//			} else {
-//				System.out.println(member.getM_userid() );
-//				return response(null, true, HttpStatus.OK);
-//			}
-//		}catch(Exception e) {
-//			logger.error("회원조회실패", e);
-//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-//		}
-//	}
+	@GetMapping("/follow/{followerId}/{followeeId}")
+	@ApiOperation("팔로우 버튼 모양 탐색")
+	public ResponseEntity<Map<String, Object>> SearchfollowMember(@PathVariable String followerId, @PathVariable String followeeId, HttpServletRequest request){
+		try {
+			boolean check = followDao.search(followerId, followeeId);
+			if(check) {
+				return response(true, true, HttpStatus.OK);
+			}else {
+				return response(false, true, HttpStatus.OK);
+			}
+		}catch(Exception e) {
+			Logger.error("팔로우 체크 오류", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
 	
 	@PostMapping("/follow/{followee}")
 	@ApiOperation("현재 유저가 followee를 follow 하겠다.")
