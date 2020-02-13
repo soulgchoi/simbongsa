@@ -163,6 +163,7 @@ public class MemberRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 
+	}
 	@PatchMapping("/Member/{userId}")
 	@ApiOperation("전달받은 회원정보 를 가지고 세부정보를 등록한다.(야메방법)")
 	public ResponseEntity<Map<String, Object>> patchMember(@PathVariable String userId, @RequestBody MemberPatchRequest memberPatchRequest){
