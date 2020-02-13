@@ -219,7 +219,6 @@ public class MemberServiceImp implements MemberService {
 		member_detail.setM_email(member.getM_email());
 		member_detail.setM_endTm(member.getM_endTm());
 		member_detail.setM_id(m_id);
-		member_detail.setM_password(member.getM_password());
 		member_detail.setM_userid(member.getM_userid());
 		member_detail.setM_prefer_category(m_prefer_category);
 		member_detail.setM_prefer_region(m_prefer_region);

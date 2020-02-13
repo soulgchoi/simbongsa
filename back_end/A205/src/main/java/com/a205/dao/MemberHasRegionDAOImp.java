@@ -21,10 +21,9 @@ public class MemberHasRegionDAOImp implements MemberHasRegionDAO {
 
 		return session.insert(statement, member_has_region) > 0;
 	}
-
+	
 	public List<String> searchByM_id(int m_id){
 		String statement = ns+"selectByM_id";
-
 		return session.selectList(statement, m_id);
 	}
 
