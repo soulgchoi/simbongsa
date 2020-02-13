@@ -5,6 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,9 @@ public class MemberServiceImp implements MemberService {
 	@Autowired
 	private RegionDAO regionDao;
 
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
+	
 	@Autowired
 	private CategoryDAO categoryDao;
 
@@ -225,4 +233,10 @@ public class MemberServiceImp implements MemberService {
 		return dao.searchPost(m_id);
 	}
 
+	@Override
+	public boolean alter_userPassword(String m_email, String m_password) {
+		String m_password2 = bcryptEncoder.encode(m_password);
+		System.out.println(m_password2);
+		return dao.alter_userPassword(m_email, m_password2);
+	}
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Post;
+import com.a205.dto.Post_vote;
 
 @Repository
 public class PostDaoImpl implements PostDao {
@@ -26,6 +27,12 @@ public class PostDaoImpl implements PostDao {
 //
 //		return session.selectList(statement);
 //	}
+
+	@Override
+	public boolean addPostVote(Post_vote post_vote) {
+		String statement = ns + "insertPostVote";
+		return session.insert(statement, post_vote)>0 ;
+	}
 
 	@Override
 	public boolean add(Post Post) {

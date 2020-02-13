@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.a205.dao.PostDao;
 import com.a205.dto.Post;
+import com.a205.dto.Post_vote;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -25,7 +26,11 @@ public class PostServiceImpl implements PostService {
 //	public List<Post> searchAll() {
 //		return dao.searchAll();
 //	}
-	
+	@Override
+	public boolean addPostVote(Post_vote post_vote) {
+		return dao.addPostVote(post_vote);
+	}
+
 	@Override
 	public boolean update(Post Post) {
 		return dao.update(Post);
