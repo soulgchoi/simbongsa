@@ -168,6 +168,19 @@ public class MemberRestController {
 
 	}
 	
+	@GetMapping("/Member/{userId}/Vote")
+	@ApiOperation("ID에 해당하는 유저가 참석 의사를 밝힌 v_id들의 리스트를 반환한다.")
+	public ResponseEntity<Map<String, Object>> getUserVote(@PathVariable String userId){
+		try {
+			List<Integer> voteList = service.searchVote(userId);
+			return response(voteList, true, HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("목록조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+
+	}
+	
 	@GetMapping("/Member/{userId}/PreferDetail")
 	@ApiOperation("ID에 해당하는 유저의 선호정보까지 반환한다. ")
 	public ResponseEntity<Map<String, Object>> getMemberPreferDetail(@PathVariable String userId){

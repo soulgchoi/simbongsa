@@ -11,7 +11,8 @@
 		from follow
 		where f_followee_id = #{userId_pk})
 	</select>
-
+	
+	
 	<select id="searchFollowees" resultType="member"
 		parameterType="int">
 		select * from member

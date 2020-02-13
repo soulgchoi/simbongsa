@@ -14,6 +14,8 @@ public interface MemberService {
 
 	public List<Post> searchPost(String userId);
 
+	public List<Integer> searchVote(String userId);
+
 	public boolean login(String id, String pw);
 
 	public boolean checkID(String id);
