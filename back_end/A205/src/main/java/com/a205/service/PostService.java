@@ -10,6 +10,8 @@ public interface PostService {
 
 	public boolean add(Post Post);
 	public boolean addPostVote(Post_vote post_vote);
+	public boolean removePostVote(Post_vote post_vote);
+
 	public boolean update(Post Post);
 	public boolean remove(int no);
 

@@ -87,6 +87,21 @@ public class PostRestController {
 		}
 	}
 
+	@DeleteMapping("/PostVote")
+	@ApiOperation("전달받은 포스트 투표 정보를 삭제한다.")
+	public ResponseEntity<Map<String, Object>> removePostVote(@RequestBody Post_vote post_vote) {
+		try {
+			boolean result = service.removePostVote(post_vote);
+			// service.add(Post);
+			return response(result, true, HttpStatus.CREATED);
+			// return response(fileResponse, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("포스트 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	
 	@GetMapping("/Post/{p_id}")
 	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
 	public ResponseEntity<Map<String, Object>> getPost(@PathVariable int p_id) {

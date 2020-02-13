@@ -55,6 +55,14 @@
 		#{p_id}
 	</delete>
 
+	<delete id="deletePostVote" parameterType="post_vote">
+		delete from post_vote
+		where p_id = #{p_id} and m_id = #{m_id} 
+	</delete>
+	
+	
+	
+	
 	<insert id="insert" parameterType="post">
 		insert into
 		post(v_id,
