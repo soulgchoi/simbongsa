@@ -46,24 +46,22 @@ public class FollowRestController {
 		return new ResponseEntity<>(resultMap, hStatus);
 	}
 
-	@GetMapping("/follow/{followerId}/{followeeId}")
+	@GetMapping("/isfollowing")
 	@ApiOperation("팔로우 버튼 모양 탐색")
-	public ResponseEntity<Map<String, Object>> SearchfollowMember(@PathVariable String followerId,
-			@PathVariable String followeeId, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> SearchfollowMember(
+			@RequestParam(value = "follower_userid") String follower_userid,
+			@RequestParam(value = "followee_userid") String followee_userid) {
 		try {
-			boolean check = followDao.search(followerId, followeeId);
-			if (check) {
-				return response(true, true, HttpStatus.OK);
-			} else {
-				return response(false, true, HttpStatus.OK);
-			}
+			
+			boolean check = followDao.search(follower_userid, followee_userid);
+			return response(check, true, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("팔로우 체크 오류", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
 
-	@PostMapping("/follow")
+	@PostMapping("/insertfollow")
 	@ApiOperation("현재 유저(follower)가 followee_userid를 follow 하겠다.")
 	public ResponseEntity<Map<String, Object>> insertfollowMember(@RequestBody Follow follow) {
 		try {
@@ -75,9 +73,9 @@ public class FollowRestController {
 		}
 	}
 
-	@DeleteMapping("/follow")
+	@PostMapping("/deletefollow")
 	@ApiOperation("현재 유저(follower)가 followee_userid를 follow 취소한다.")
-	public ResponseEntity<Map<String, Object>> deleteFollowMember(@RequestParam Follow follow) {
+	public ResponseEntity<Map<String, Object>> deleteFollowMember(@RequestBody Follow follow) {
 		try {
 			boolean result = service.remove(follow.getFollower_userid(), follow.getFollowee_userid());
 			return response(result, true, HttpStatus.OK);

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member_has_region {
 
-	private Integer m_id;
-	private Integer r_id;
+	private int m_id;
+	private String r_id;
 	
 }

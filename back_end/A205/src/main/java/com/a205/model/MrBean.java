@@ -1,3 +1,4 @@
+package com.a205.model;
 //package com.a205.config;
 //
 //import org.springframework.context.annotation.Bean;
