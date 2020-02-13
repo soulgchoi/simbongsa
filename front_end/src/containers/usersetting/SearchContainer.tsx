@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { SearchSelection, CheckBox } from "components/usersetting";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from 'redux/modules/search';
 import * as userActions from 'redux/modules/user';
-import CheckboxContainer from "./CheckboxContainer";
-import AgeContainer from "./AgeContainer";
-import CategoryContainer from "./CategoryContainer";
+import { AgeContainer, CategoryContainer, LocationContainer, TimeContainer } from 'containers/usersetting'
 import { useRadioGroup } from "@material-ui/core";
 import 'assets/mycss'
 interface Props {
@@ -74,7 +71,7 @@ class SearchContainer extends Component<any, any> {
       // storage.set("loggedInfo", loggedInfo);
       // UserActions.setLoggedInfo(loggedInfo);
       UserActions.setValidated(true);
-      history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      history.push("/mainpage"); // 회원가입 성공시 홈페이지로 이동
     } catch (e) {
       // TODO: 실패시 실패 ERROR 표현
       // if (e.response.status === 409) {
@@ -89,11 +86,11 @@ class SearchContainer extends Component<any, any> {
       <div>
         <div>
           <h1>선호지역</h1>
-          <SearchSelection />
+          <LocationContainer />
         </div>
         <div>
           <h1>선호 시간대</h1>
-          <CheckboxContainer />
+          <TimeContainer />
         </div>
         <h1>나이</h1>
         <AgeContainer />
