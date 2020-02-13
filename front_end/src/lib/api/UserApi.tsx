@@ -140,10 +140,16 @@ export const checkFollow = (
 ): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .get(restBaseApi + "follow/" + followerId + "/" + followeeId)
+    .get(
+      restBaseApi +
+        "isfollowing?follower_userid=" +
+        followerId +
+        "&followee_userid=" +
+        followeeId
+    )
     .then(response => {
-      console.log(response);
-      return response;
+      console.log("팔로잉체크", response.data);
+      return response.data;
     })
     .catch(error => {
       console.log(error);
@@ -153,11 +159,11 @@ export const checkFollow = (
 
 export const followUser = (
   token: string,
-  data: { followerId: string; followeeId: string }
+  data: { follower_userid: string; followee_userid: string }
 ): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .post(restBaseApi + "deletefollow/", data)
+    .post(restBaseApi + "insertfollow/", data)
     .then(response => {
       return response;
     })
@@ -169,11 +175,11 @@ export const followUser = (
 
 export const unfollowUser = (
   token: string,
-  data: { followerId: string; followeeId: string }
+  data: { follower_userid: string; followee_userid: string }
 ): any => {
   axios
     .create({ headers: { Authorization: "Baerer " + token } })
-    .post(restBaseApi + "insertfollow/", data)
+    .post(restBaseApi + "deletefollow/", data)
     .then(response => {
       return response;
     })

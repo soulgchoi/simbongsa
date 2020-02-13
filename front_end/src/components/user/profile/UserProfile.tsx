@@ -55,16 +55,16 @@ class UserProfile extends Component<Props, State> {
     const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
     UserAPI.followUser(token, {
-      followerId: loginUserId,
-      followeeId: profileUserId
+      followee_userid: profileUserId,
+      follower_userid: loginUserId
     });
   };
   handleUnfollow = () => {
     const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
     UserAPI.unfollowUser(token, {
-      followerId: loginUserId,
-      followeeId: profileUserId
+      followee_userid: loginUserId,
+      follower_userid: profileUserId
     });
   };
   render() {
