@@ -6,9 +6,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/volunteer";
 import * as postingActions from "redux/modules/posting";
-
-import Vol from "./Vol";
-import vol from "redux/modules/vol";
 import PostingList from "../posting/PostingList"
 
 class VolDetail extends React.Component<any, any>{

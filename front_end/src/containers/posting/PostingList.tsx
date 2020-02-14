@@ -22,12 +22,7 @@ class PostingList extends Component<IProps, {}> {
         } else {
             restAPI = this.api1
         }
-        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/VolFeed/1/3/1", 
-            {headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',
-            }
-            }
-        )
+        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/VolFeed/1/3/1")
         .then( res => {
             console.log("res.data", res)
             const data = res.data.data
