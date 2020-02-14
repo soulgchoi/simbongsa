@@ -1,0 +1,114 @@
+import React from 'react';
+import axios from 'axios';
+import { connect } from "react-redux";
+import * as postingActions from "redux/modules/posting";
+import { bindActionCreators } from "redux";
+import GoBackButton from 'components/button/GoBackButton';
+import { List } from 'immutable';
+
+interface IProps {
+    "v_id": number;
+}
+
+class PostingForm extends React.Component<IProps, {}> {
+    state = {
+        p_content: "",
+        selectedFile: [],
+        v_id: this.props.v_id
+
+    }
+
+    handleChange = (e: any) => {
+        this.setState({
+            p_content: e.target.value
+        })
+    }
+
+    handleFileChange = (e: any) => {
+    // var file = e.target.files[0];
+    // var reader = new FileReader();
+    // if (file && file.type.match("image.*")) {
+    //   reader.readAsDataURL(file);
+    //   this.setState({ selectedFile: file });
+    // }
+    //     reader.onloadend = () => {
+    //     this.setState({ imagePreview: reader.result as string });
+    //     };
+    // };
+        this.setState({
+            selectedFiles: e.target.files[0]
+        })
+    }
+
+    handleSubmit = (e: any) => {
+        e.preventDefault();
+        const post = new FormData();
+        // for (let i=0; i<this.state.selectedFile.length; i++) {
+        //     let file = this.state.selectedFile[0];
+            // fd.append("file", file)
+        // }
+        // fd.append("file", this.state.selectedFile)
+        post.append("p_content", this.state.p_content)
+        post.append("v_id", "1")
+        post.append("p_status", "1")
+ 
+
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post)
+        .then(res => {
+            console.log(res)
+            // console.log(fd.get("post[0]"))
+            // console.log(a.get("p_content"))
+            // console.log(a.get("v_id"))
+            // console.log(a.get("p_status"))
+        })
+        .catch(err => console.log(err))
+        this.setState({
+            p_content: "",
+            selectedFile: [],
+            v_id: this.props.v_id
+        })
+    }
+
+    render() {
+        // let imagepreview = (
+        //     <div></div>
+        // );
+        // if (this.state.imagePreview) {
+        //     imagepreview = (
+        //         <div>
+        //             <img src={this.state.imagePreview} alt="uploaded image" width="200" />
+        //         </div>
+        //     )
+        // }
+
+        return (
+            <div className="wrapC">
+            <form
+                onSubmit={this.handleSubmit}
+                className="posting-form">
+                <input
+                    value={this.state.p_content}
+                    className="posting"
+                    type="textarea"
+                    name="content"
+                    placeholder="내용을 입력하세요."
+                    onChange={this.handleChange} />
+                <input
+                    type="file"
+                    id="file"
+                    multiple
+                    onChange={this.handleFileChange}
+                />
+                <label htmlFor="file" className="btn-1">이미지 업로드</label>
+                    {/* {imagepreview} */}
+                <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
+                <GoBackButton
+                    text="취소하기"
+                />
+             </form>
+             </div>
+        );
+    }
+  }
+
+export default PostingForm;

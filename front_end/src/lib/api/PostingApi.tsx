@@ -21,7 +21,7 @@ export const postReview = (posting: FormData) => {
 
 export const getPosts = (postNum: number) => {
     try {
-        return axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + postNum)
+        return axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + postNum, )
     } catch (err) {
         console.log(err)
         return true;

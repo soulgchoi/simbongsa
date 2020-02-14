@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import GoBackButton from 'components/button/GoBackButton';
 import { list } from 'react-immutable-proptypes';
 import Comments from "./Comments";
+import { List } from 'immutable';
 
 
 
@@ -45,37 +46,35 @@ class PostingForm extends React.Component<any, any> {
 
     handleSubmit = (e:any) => {
         e.preventDefault();
-        console.log("submit")
-        // const { p_content, selectedFiles } = this.props.form.toJS()
-        console.log(this.props.form.toJS())
-        // console.log(p_content)
-        // console.log(selectedFiles)
+        const { selectedFiles, p_content, v_id, p_status } = this.props.form.toJS();
+        const post = {
+                p_content,
+                v_id,
+                p_status}
+        // const files = new FormData();
+        // for (let i=0; i<selectedFiles.length; i++) {
+        //     files.append("files", selectedFiles[i])
+        //     console.log(selectedFiles[i])
+        //     console.log(files)
+
+        // }
+        const files = {
+            selectedFiles
+        }
+        console.log(files)
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", {post, files}, 
+        // axios.post("http://70.12.247.126:8080/rest/Post", {post, files},
+        {headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'BearereyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',
+         }})
+
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
     }
 
-    // handleSubmit = (e: any) => {
-    //     e.preventDefault();
-
-    //     const fd = new FormData();
-    //     fd.append("image", this.state.selectedFile);
-    //     fd.set("data", this.state.p_content)
-    //     if (this.props.volunteer.v_id) {
-    //         fd.append("v_id", this.props.volunteer.v_id.toString())
-    //     }
-
-    //     axios.post("http://localhost:3002/post", fd)
-    //     .then(res => {
-    //         console.log(res)
-    //         console.log(fd.get("image"))
-    //         console.log(fd.get("data"))
-    //         console.log(fd.get("v_id"))
-    //     })
-    //     this.setState({
-    //         p_content: "",
-    //         selectedFile: new File([""], "", {type: ""}),
-    //         imagePreview: "",
-    //         v_id: 0
-    //     })
-    // }
 
     render() {
         const { selectedFiles, p_content } = this.props.form;
@@ -101,8 +100,6 @@ class PostingForm extends React.Component<any, any> {
             <label htmlFor="selectedFiles">이미지 업로드</label>
                 {/* {imagepreview} */}
             <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
-            
-
              <GoBackButton
                     text="취소하기"
                 />

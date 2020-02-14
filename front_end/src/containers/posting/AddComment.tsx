@@ -19,17 +19,17 @@ class AddComment extends React.Component<Props, {}> {
     }
 
     handleClick = () => {
-        axios.post('http://localhost:3002/comment',{
+        axios.post(`http://i02a205.p.ssafy.io:8080/A205/rest/Post/${this.props.inP_id}/Comment`,
+        {
             'c_content': this.state.c_content,
             'p_id': this.props.inP_id
         })
-        // .then(res => {
-        //     this.setState({
-        //         "c_content": "",
-        //         "p_id": "",
-
-        //     })
-        // })
+        .then(res => {
+            this.setState({
+                "c_content": "",
+                "p_id": "",
+            })
+        })
     }
 
     render() {
