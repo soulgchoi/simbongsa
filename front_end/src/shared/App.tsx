@@ -25,6 +25,11 @@ import TemporaryDrawer from "components/navi/TemporaryDrawer";
 import TodosContainer from "containers/usersetting/SearchContainer";
 // 로컬에 저장
 import storage from "lib/storage";
+
+// css
+import Intro from "containers/intro/Intro";
+
+
 // redux 관련
 import * as userActions from "redux/modules/user";
 import { connect } from "react-redux";
@@ -101,6 +106,7 @@ class App extends Component<any> {
           <Route exact path="/usersetting" component={SearchContainer} />
           {/* <Route exact path="/list" component={Post} /> */}
           <Route exact path="/userprofile" component={UserProfile} />
+          <Route path="/intro" component={Intro} />
         </div>
         <Header />
       </div>
