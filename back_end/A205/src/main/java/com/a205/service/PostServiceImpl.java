@@ -58,9 +58,15 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Integer> searchFeed(int m_id){
-		return dao.searchFeed(m_id);
+	public List<Integer> searchMyFeed(int m_id, int no1, int no2){
+		return dao.searchMyFeed(m_id, no1, no2);
 	}
+	
+	@Override
+	public List<Integer> searchVolFeed(int v_id, int no1, int no2){
+		return dao.searchVolFeed(v_id, no1, no2);
+	}
+	
 //	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 //		//sampleDAO.updateHitCnt(map);
 //		Map<String, Object> resultMap = new HashMap<String, Object>();
