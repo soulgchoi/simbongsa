@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import VolList from "./VolList";
-
+import Tab from "./Tab"
 
 import "assets/mycss/mainpage.scss";
 
@@ -20,7 +20,7 @@ export default class MainPage extends Component {
             <h1 className="title titleheader">최신 봉사활동 정보</h1>
           </div>
           <div>
-            <VolList />
+            <Tab />
           </div>
         </div>
       </div>

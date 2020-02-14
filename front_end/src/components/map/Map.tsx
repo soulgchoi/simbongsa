@@ -217,6 +217,7 @@ function makeClickListener(
     // // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
     // selectedMarker = marker;
     VolActions.setSelectedMarker(marker);
+    console.log(id)
     VolActions.getVolById(id);
   };
 }
