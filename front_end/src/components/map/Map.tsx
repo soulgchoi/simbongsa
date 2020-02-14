@@ -43,7 +43,7 @@ class Map extends Component<IProps> {
     });
     VolActions.setVolMap(volMap);
 
-    getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
+    //getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
     if (volunteers.size > 0)
       makeMarker(volunteers.toJS(), volMap, VolActions, selectedMarker); // 뒤로가기로 다시 돌아왔을때 이미 volunteers가 세팅 돼있는 경우
   }
@@ -68,7 +68,8 @@ class Map extends Component<IProps> {
     );
     if (selectedMarker !== null) selectedMarker.setImage(markerImage);
 
-    if (volunteers.size === 0 && nextProps.volunteers.size > 0) {
+    // if (volunteers.size === 0 && nextProps.volunteers.size > 0) {
+    if (true) {
       console.log("마커 렌더링을 한 번만 하기 위함");
       makeMarker(
         nextProps.volunteers.toJS(),
@@ -77,10 +78,11 @@ class Map extends Component<IProps> {
         selectedMarker
       );
     }
-    return (
-      nextProps.volunteers.size > 0 &&
-      currentLocation !== nextProps.currentLocation
-    );
+    return true
+    // return (
+    //   nextProps.volunteers.size > 0 &&
+    //   currentLocation !== nextProps.currentLocation
+    // );
     // return true;
   }
 
@@ -108,14 +110,14 @@ class Map extends Component<IProps> {
   }
 }
 
-const getVols = (VolActions: any) => {
-  try {
-    const token = storage.get("loggedInfo");
-    VolActions.getVolList(token); // 성공하면 store의 volunteers에 저장돼있음
-  } catch (e) {
-    console.log(e);
-  }
-};
+// const getVols = (VolActions: any) => {
+//   try {
+//     const token = storage.get("loggedInfo");
+//     VolActions.getVolList(token); // 성공하면 store의 volunteers에 저장돼있음
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 const makeMarker = (
   volunteers: { v_id: string; v_x: number; v_y: number }[],

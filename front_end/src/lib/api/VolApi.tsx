@@ -18,10 +18,10 @@ export const getVolById = (id: number) => {
   }
 };
 
-export const getVolList = () => {
+export const getVolList = (name: any): any => {
   try {
     // console.log("VolApi.tsx의 getVolList() 호출");
-    return axios.get(restBaseApi + "/vol/titles/1000/1"); // 1/1  (페이지당 한개)/(1페이지)
+    return axios.get(restBaseApi + `/vol/titles/4000/1/filtering/?vol_title=${name}`); // 1/1  (페이지당 한개)/(1페이지)
   } catch (error) {
     console.log("에러남");
     return true;
