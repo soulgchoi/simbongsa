@@ -1,14 +1,13 @@
 package com.a205.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a205.dao.PostDao;
 import com.a205.dto.Post;
+import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 
 @Service
@@ -48,7 +47,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public boolean add(Post Post) {
+	public boolean add(Post_input Post) {
 		return dao.add(Post);
 	}
 	

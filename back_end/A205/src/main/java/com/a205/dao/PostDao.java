@@ -3,6 +3,7 @@ package com.a205.dao;
 import java.util.List;
 
 import com.a205.dto.Post;
+import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 
 public interface PostDao {
@@ -10,7 +11,7 @@ public interface PostDao {
 
 	//public List<Post> searchAll() ;
 
-	public boolean add(Post Post) ;
+	public boolean add(Post_input Post) ;
 
 	public boolean update(Post Post) ;
 

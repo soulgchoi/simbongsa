@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.a205.dto.Post;
+import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 
 @Repository
@@ -39,7 +40,7 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public boolean add(Post Post) {
+	public boolean add(Post_input Post) {
 		String statement = ns + "insert";
 		return session.insert(statement, Post) > 0;
 	}
@@ -78,18 +79,20 @@ public class PostDaoImpl implements PostDao {
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2) {
 		String statement = ns + "searchMyFeed";
 		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("m_id", m_id);
 		map.put("listSize", no1);
 		map.put("startList", (no2-1)*no1);
-		return session.selectList(statement, m_id);
+		return session.selectList(statement, map);
 	}
 	
 	@Override
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2) {
 		String statement = ns + "searchVolFeed";
 		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("v_id", v_id);
 		map.put("listSize", no1);
 		map.put("startList", (no2-1)*no1);
-		return session.selectList(statement, v_id);
+		return session.selectList(statement, map);
 	}
 	
 	/*
