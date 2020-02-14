@@ -15,6 +15,7 @@ import LinkButton from "components/button/LinkButton";
 import ActionButton from "components/button/ActionButton";
 import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
+// local storage에 저장하는 component
 
 // redux 관련
 import { connect } from "react-redux";
@@ -58,10 +59,14 @@ class Login extends React.Component<any, any> {
     });
   };
 
+  // 컴포넌트가 종료될때 로그인 폼을 초기화 시킨다.
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("login");
   }
+
+  // 에러 메세지 설정
+
   setError = (message: any, name: string) => {
     const { AuthActions } = this.props;
     AuthActions.setError({
@@ -72,9 +77,13 @@ class Login extends React.Component<any, any> {
     return false;
   };
 
+  // 로그인 처리
+
   handleLocalLogin = async () => {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
+
+    // 로그인을 시도
 
     try {
       await AuthActions.localLogin({ email, password });
@@ -84,16 +93,16 @@ class Login extends React.Component<any, any> {
       UserActions.setLoggedInfo(userEmail);
       // UserActions.setLoggedFlag(true);
       storage.set("token", token);
-      // history.push("/mainpage");
       // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
+      // error 발생시
       console.log(e);
       this.setError("잘못된 계정정보입니다.", "email");
     }
   };
 
   handleGoogleLogin = async (result: any) => {
-    const { AuthActions, UserActions, history } = this.props;
+    const { AuthActions, UserActions } = this.props;
     const id_token = result.getAuthResponse().id_token;
     console.log("id_token", id_token);
     await AuthActions.googleLogin(id_token);
@@ -101,8 +110,15 @@ class Login extends React.Component<any, any> {
     const userEmail = jwt.decode(token);
     UserActions.setLoggedInfo(userEmail);
     storage.set("token", token);
-    history.push("/mainpage");
   };
+
+  componentDidUpdate() {
+    const { loggedInfo, history } = this.props;
+    const loginEmail = loggedInfo.toJS().username;
+    if (loginEmail !== "") {
+      // history.push("/mainpage");
+    }
+  }
 
   render() {
     console.log(this.props.loggedInfo.toJS());
@@ -209,8 +225,10 @@ class Login extends React.Component<any, any> {
     );
   }
 }
+// State와 action을 연결짓는 connect
 export default connect(
   (state: any) => ({
+    // props로 받아오는 정보들...
     form: state.auth.getIn(["login", "form"]),
     error: state.auth.getIn(["login", "error"]),
     result: state.auth.get("result"),

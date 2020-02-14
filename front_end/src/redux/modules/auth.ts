@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { pender } from "redux-pender";
 import * as AuthAPI from "lib/api/UserApi";
 import { Record, Map } from "immutable";
+
 // input, form 관련
 const CHANGE_INPUT = "auth/CHANGE_INPUT"; // input 값 변경
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM"; // form 초기화
@@ -24,6 +25,7 @@ type TogglePayload = number;
 type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
+
 
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,

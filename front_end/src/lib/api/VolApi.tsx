@@ -1,13 +1,16 @@
 import axios from "axios";
-const restBaseApi = "http://13.124.127.232:8080/A205"; // AWS
-// const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+import user from "redux/modules/user";
+// const restBaseApi = "http://13.124.127.232:8080/A205"; // AWS
+const restBaseApi = "http://70.12.247.87:8080"; // 이신호
 // const restBaseApi = "http://70.12.247.34:8080"; // 박정환
 // const restBaseApi = "http://70.12.247.126:8080"; // 김동주
 
-export const getVolById = (id: number) => {
+export const getVolById = (token: string, id: number) => {
   try {
     // console.log("VolApi.tsx의 getVolById() 호출 id : " + id);
-    return axios.get(restBaseApi + "/vol/detail/" + id);
+    return axios
+      .create({ headers: { Authorization: "Baerer " + token } })
+      .get(restBaseApi + "/vol/detail/" + id);
   } catch (error) {
     return true;
   }
@@ -29,4 +32,4 @@ export const getVolListByUserId = (userId: string) => {
   } catch (error) {
     return true;
   }
-}
+};
