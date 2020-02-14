@@ -59,8 +59,6 @@ class Mypage extends Component<Props, State> {
           preferLocationMap.set(region1, preferLocationMap.get(region1)! + 1);
         }
       });
-      // let preferlocationDataList: number[] = [];
-      // let preferlocationLabelList: string[] = [];
       preferLocationMap.forEach((regionCount, regionName) => {
         preferlocationDataList = preferlocationDataList.push(regionCount);
         preferlocationLabelList = preferlocationLabelList.push(regionName);
