@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 // import "assets/css/user.scss";
 import "assets/mycss/error.scss";
 import * as EmailValidator from "email-validator";
+import * as UserApi from "lib/api/UserApi";
+import ActionButton from "components/button/ActionButton";
 // import UserApi from "apis/UserApi";
 
-class FindPassword extends React.Component {
+interface Props {
+  history: any;
+}
+
+class FindPassword extends React.Component<Props> {
   state = {
     email: "",
     error: {
@@ -69,7 +75,15 @@ class FindPassword extends React.Component {
       this.checkForm();
     });
   };
+
+  sendEmail = () => {
+    const { email } = this.state;
+    const { history } = this.props;
+    UserApi.changePasswordEmailSend(email);
+    history.push("/findpasswordmailsend");
+  };
   render() {
+    const { sendEmail } = this;
     return (
       <div className="user" id="login">
         <div className="wrapC">
@@ -99,12 +113,16 @@ class FindPassword extends React.Component {
             }}
             className="btn--back"
           >
-            <button
+            <ActionButton
+              placeholder="비밀번호 찾기 메일 전송"
+              action={sendEmail}
+            ></ActionButton>
+            {/* <button
               className="btn btn--back btn--join"
               disabled={!this.state.isSubmit}
             >
               비밀번호 찾기 메일 전송
-            </button>
+            </button> */}
           </Link>
         </div>
       </div>

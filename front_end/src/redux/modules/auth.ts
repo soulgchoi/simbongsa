@@ -26,6 +26,7 @@ type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 
+
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
   AuthAPI.checkEmailExists
