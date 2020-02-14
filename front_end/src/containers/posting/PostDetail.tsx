@@ -16,7 +16,7 @@ interface Props {
     };
 }
 
-class Post extends Component<Props, {}>{
+class PostDetail extends Component<Props, {}>{
     state = {
         post: {
             p_id: this.props.post.p_id,
@@ -30,12 +30,8 @@ class Post extends Component<Props, {}>{
 
     componentDidMount() {
         var id = this.props.post.p_id
-        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
-        // axios.get("http://70.12.247.126:8080/rest/Post/" + id,
-            {headers: {
-                // 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',
-            }
-            })
+        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id
+            )
         .then( res => {
             console.log(res)
             const data = res.data.data
@@ -70,4 +66,4 @@ render(){
     )
 }}
 
-export default Post;
+export default PostDetail;

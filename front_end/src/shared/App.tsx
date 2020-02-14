@@ -18,7 +18,8 @@ import CalendarContainer from "containers/calendar/CalendarContainer";
 import SearchContainer from "containers/usersetting/SearchContainer";
 // import Postings from "containers/posting/Postings"
 
-import Wall from "containers/posting/Wall";
+import PostingList from "containers/posting/PostingList"
+
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
 import UserProfile from "containers/temp/temp";
@@ -180,6 +181,9 @@ class App extends Component<any> {
             component={VolDetail}
           />
           <Route path="/location" component={Location} />
+          <Route exact path="/vol/:id/detail" component={VolDetail} />
+          <Route exact path="/vol/:id/write" component={PostingForm} />
+          <Route exact path="/list" component={PostingList} />
           <Route exact path="/vol/detail/:id" component={VolDetail} />
           <Route exact path="/write" component={PostingForm} />
           <Route exact path="/usersetting" component={SearchContainer} />

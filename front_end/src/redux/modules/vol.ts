@@ -20,7 +20,7 @@ const SET_SELECTED_MARKER = "vol/SET_SELECTED_MARKER";
 export const setVolMap = createAction(SET_VOL_MAP);
 export const getVolById = createAction(GET_VOL_BY_ID, VolApi.getVolById);
 export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
-export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolList); // 이후 list 받는 api로 수정해야함
+// export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolList); // 이후 list 받는 api로 수정해야함
 export const setCurrentLocation = createAction(SET_CURRENT_LOCATION);
 export const setSelectedMarker = createAction(SET_SELECTED_MARKER);
 

@@ -1,29 +1,42 @@
 import React from "react";
 import PostingButton from 'components/button/PostingButton'
-
+import CertLabel from "components/label/CertLabel"
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/volunteer";
-
+import * as postingActions from "redux/modules/posting";
+import PostingList from "../posting/PostingList"
 
 class VolDetail extends React.Component<any, any>{
 
-    componentDidMount() {
+    componentWillMount() {
         const { VolActions } = this.props;
-        const { volunteer } = this.props;
-        if (volunteer.v_id != null) {
-            VolActions.getVolDetail(volunteer.v_id);
-        } else {
-            VolActions.getVolDetail(this.props.match.params.id)
-        }
+        console.log(this.props)
+        const v_id = this.props.match.params.id
+        VolActions.selectVol(v_id)
+        VolActions.getVolDetail(v_id)
+
+        const { PostingActions } = this.props;
+        const p_id = 1
+        PostingActions.getPostbyID(p_id)
+        const { posts } = this.props;
+        console.log(posts)
     }
 
     render() {
-        const { volunteer } = this.props;
+        const { VolActions, volunteer, posts } = this.props;
         console.log(volunteer)
+        console.log(posts)
+        // const myVol = this.props.history.location.state
+        // console.log(myVol)
         return (
-            <div className="">
+            <div>                
+                <CertLabel
+                    v_Auth={volunteer.v_Auth}
+                    v_pStatus={volunteer.v_pStatus}
+                />
+
                 <h3 className="">
                     {volunteer.v_title}
                 </h3>
@@ -78,6 +91,9 @@ class VolDetail extends React.Component<any, any>{
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
+                <div>포스팅들, {volunteer.v_id}
+                <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList>
+                </div>
             </div>
         );
     }
@@ -86,9 +102,13 @@ class VolDetail extends React.Component<any, any>{
 export default connect(
     (state: any) => ({
         volunteers: state.volunteer.get("volunteers"),
-        volunteer: state.volunteer.get("volunteer")
+        volunteer: state.volunteer.get("volunteer"),
+        posts: state.posting.get("posts")
+
     }),
     dispatch => ({
-        VolActions: bindActionCreators(volActions, dispatch)
+        VolActions: bindActionCreators(volActions, dispatch),
+        PostingActions: bindActionCreators(postingActions, dispatch)
+
     })
 )(VolDetail);

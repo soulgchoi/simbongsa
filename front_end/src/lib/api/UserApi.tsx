@@ -1,7 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
-const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
+
+const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/"
+// const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
+// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+// const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 
 

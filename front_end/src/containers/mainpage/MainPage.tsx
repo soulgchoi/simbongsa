@@ -3,7 +3,6 @@ import VolList from "./VolList";
 import Tab from "./Tab"
 import SearchBar from "./SearchBar"
 import "assets/mycss/mainpage.scss";
-
 import "assets/mycss";
 
 export default class MainPage extends Component {

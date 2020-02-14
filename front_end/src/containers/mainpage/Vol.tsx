@@ -22,11 +22,15 @@ class Vol extends React.Component<Props & any, any> {
         return (
         <div className="list">
             <CertLabel
-                volunteer={myVol}
+                v_Auth={myVol.v_Auth}
+                v_pStatus={myVol.v_pStatus}
             />
             <div className="linktodetail">
                 <Link
-                    to={{pathname: `vol/detail/${myVol.v_id}`}}
+                    to={{
+                        pathname: `vol/${myVol.v_id}/detail`,
+                        state: {myVol}
+                    }}
                     onClick={() => this.handleClick(myVol.v_id)}
                 >
                     상세보기</Link>

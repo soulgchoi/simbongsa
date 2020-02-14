@@ -3,6 +3,7 @@ import auth from "./auth";
 import user from "./user";
 import volunteer from "./volunteer"
 import vol from "./vol";
+import posting from "./posting"
 import search from './search'
 import base from './base'
 // import temp from "./temp";
@@ -20,6 +21,7 @@ export default combineReducers({
   pender: penderReducer,
 
   // temp,
-  base,
+  posting,
+    base,
 });
 

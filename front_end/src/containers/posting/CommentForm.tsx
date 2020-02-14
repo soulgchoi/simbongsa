@@ -2,10 +2,10 @@ import React from 'react';
 import axios from 'axios';
 
 interface Props {
-    "inP_id": string;
+    "inP_id": number;
 }
 
-class AddComment extends React.Component<Props, {}> {
+class CommentForm extends React.Component<Props, {}> {
     state = {
         "c_content": "",
         "inP_id": ""
@@ -19,35 +19,38 @@ class AddComment extends React.Component<Props, {}> {
     }
 
     handleClick = () => {
-        axios.post('http://localhost:3002/comment',{
+        axios.post(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment`,
+        // axios.post(`http://70.12.247.87:8080/rest/Comment/`,
+        // axios.post(`http://70.12.247.126:8080/rest/Comment/`,
+        {
             'c_content': this.state.c_content,
-            'p_id': this.props.inP_id
+            'p_id': this.props.inP_id.toString(),
+            'm_id': "26"
         })
         .then(res => {
             this.setState({
-                "c_content": "",
-                "p_id": "",
-
+                "c_content": ""
             })
+        console.log(res)
         })
-    }
+        .catch(err => console.log(err))
+        }
 
     render() {
         return(
             <div>
-                <div>
-                    <img src="#" alt=""/>
-                </div>
                 <form>
                     <input type="text"
                         value={this.state.c_content}
                         onChange={this.handleChange}
                     ></input>
-                    <button onClick={this.handleClick}>comment</button>
+                    <button onClick={this.handleClick}>
+                        comment
+                    </button>
                 </form>
             </div>
         )
     }
 };
 
-export default AddComment;
+export default CommentForm;
