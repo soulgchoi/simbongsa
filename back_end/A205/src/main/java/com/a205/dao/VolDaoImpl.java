@@ -81,12 +81,17 @@ public class VolDaoImpl implements VolDao {
 			m.setR_sidoNm(null);
 		}else {
 			m.setR_sidoNm(my.getR_sidoNm());
+			System.out.println(m.getR_sidoNm());
+
 		}
 		
 		if(my.getR_gugunNm().equals("")) {
 			m.setR_gugunNm(null);
 		}else {
+
 			m.setR_gugunNm(my.getR_gugunNm());
+			System.out.println(m.getR_gugunNm());
+
 		}
 		
 		if(my.getVol_title().equals("")) {
@@ -119,7 +124,7 @@ public class VolDaoImpl implements VolDao {
 			}
 			if(check) f1.add(v2);
 		}
-		
+		System.out.println(m.getVol_title());
 		return f1;
 	}
 }
