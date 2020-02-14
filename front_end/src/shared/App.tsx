@@ -29,7 +29,7 @@ import storage from "lib/storage";
 import * as userActions from "redux/modules/user";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import SearchBar from "containers/mainpage/SearchBar"
 import jwt from "jsonwebtoken";
 import { setPreferInfo } from '../redux/modules/user';
 class App extends Component<any> {
@@ -101,6 +101,7 @@ class App extends Component<any> {
           <Route exact path="/usersetting" component={SearchContainer} />
           {/* <Route exact path="/list" component={Post} /> */}
           <Route exact path="/userprofile" component={UserProfile} />
+          <Route exact path="/search" component={SearchBar} />
         </div>
         <Header />
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import VolList from "./VolList";
-
+import SearchBar from "./SearchBar"
 
 import "assets/mycss/mainpage.scss";
 
@@ -18,6 +18,9 @@ export default class MainPage extends Component {
               src="/images/volunteer.png"
             />
             <h1 className="title titleheader">최신 봉사활동 정보</h1>
+          </div>
+          <div>
+            <SearchBar></SearchBar>
           </div>
           <div>
             <VolList />
