@@ -1,6 +1,8 @@
 package com.a205.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,6 @@ public class PostDaoImpl implements PostDao {
 		String statement = ns + "deletePostVote";
 		System.out.println("-----dao"+post_vote);
 		return session.delete(statement, post_vote) > 0;
-	
 	}
 
 	@Override
@@ -74,9 +75,21 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public List<Integer> searchFeed(int m_id) {
-		String statement = ns + "searchFeed";
+	public List<Integer> searchMyFeed(int m_id, int no1, int no2) {
+		String statement = ns + "searchMyFeed";
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("listSize", no1);
+		map.put("startList", (no2-1)*no1);
 		return session.selectList(statement, m_id);
+	}
+	
+	@Override
+	public List<Integer> searchVolFeed(int v_id, int no1, int no2) {
+		String statement = ns + "searchVolFeed";
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("listSize", no1);
+		map.put("startList", (no2-1)*no1);
+		return session.selectList(statement, v_id);
 	}
 	
 	/*

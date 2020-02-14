@@ -104,7 +104,7 @@
 	</insert> -->
 	
 	<insert id="addOrig" parameterType="int">
-		insert into `post`(v_id, p_content, m_id, p_status) values(#{integer}, null, 1, 0)
+		insert ignore into `post`(v_id, p_content, m_id, p_status) values(#{integer}, null, null, 0)
 	</insert>
 	
 </mapper>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.a205.component.FileUploadComponents;
 import com.a205.dto.Member;
 import com.a205.dto.Post;
 import com.a205.dto.PostView;
@@ -136,13 +137,40 @@ public class PostRestController {
 		}
 	}
 
-	@GetMapping("/PostFeed/{m_id}")
+	@GetMapping("/PostFeed/{m_id}/{no1}/{no2}")
 	@ApiOperation("m_id의 피드 리턴(팔로우하는사람들의 포스트 가져오기)")
-	public ResponseEntity<Map<String, Object>> getPostFeed(@PathVariable int m_id) {
+	public ResponseEntity<Map<String, Object>> getPostFeed(@PathVariable int m_id, @PathVariable int no1, @PathVariable int no2) {
 		try {
 			List<PostView> feed = new ArrayList<>();
-			List<Integer> list = service.searchFeed(m_id);
-			for (int p_id : list) {
+			List<Integer> plist = service.searchMyFeed(m_id, no1, no2);
+			for (int p_id : plist) {
+				// HashMap<String, Object> map = new HashMap<String, Object>();
+				PostView view = new PostView();
+				Post post = service.selectOne(p_id);
+				List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+				view.setM_id(post.getM_id());
+				view.setP_content(post.getP_content());
+				view.setP_status(post.getP_status());
+				view.setV_id(post.getV_id());
+				// feed.add(ff);
+				view.setFiles(storedFileNames);
+				feed.add(view);
+			}
+			return response(feed, true, HttpStatus.OK);
+
+		} catch (Exception e) {
+			logger.error("포스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@GetMapping("/VolFeed/{v_id}/{no1}/{no2}")
+	@ApiOperation("v_id의 피드 리턴(봉사 관련 포스트 가져오기)")
+	public ResponseEntity<Map<String, Object>> getVolFeed(@PathVariable int v_id, @PathVariable int no1, @PathVariable int no2) {
+		try {
+			List<PostView> feed = new ArrayList<>();
+			List<Integer> plist = service.searchVolFeed(v_id, no1, no2);
+			for (int p_id : plist) {
 				// HashMap<String, Object> map = new HashMap<String, Object>();
 				PostView view = new PostView();
 				Post post = service.selectOne(p_id);

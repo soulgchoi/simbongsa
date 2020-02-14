@@ -37,9 +37,6 @@ public class CommentRestController {
 	@Autowired
 	CommentService service;
 
-	@Autowired
-	private MemberDAO member;
-
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", status);
