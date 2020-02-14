@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.map.model.regionmapper">
+ 	<select id="select" resultType="region" parameterType="string">
+		select * from `region` 
+		<if test ="value!=null">
+			where r_id = #{r_id}
+		</if>
+	</select>
+	
+	<select id="selectOne" resultType="region" parameterType="int">
+		select * from region
+		where r_id = #{r_id};
+	</select>
+</mapper>

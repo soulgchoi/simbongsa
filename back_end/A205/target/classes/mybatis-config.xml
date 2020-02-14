@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.a205.dto.Post" alias="post" />
+		<typeAlias type="com.a205.dto.Member" alias="member" />
+		<typeAlias type="com.a205.dto.Vol" alias="vol" />
+		<typeAlias type="com.a205.dto.Vol_Mini" alias="volmini" />
+		<typeAlias type="com.a205.dto.Follow" alias="follow" />
+		<typeAlias type="com.a205.dto.Comment" alias="comment" />
+		<typeAlias type="com.a205.dto.Comment_special_obj" alias="comment_sobj" />
+		<typeAlias type="com.a205.dto.Comment_mini" alias="comment_mini" />
+		<typeAlias type="com.a205.dto.Member_has_region" alias="member_has_region" />
+		<typeAlias type="com.a205.dto.Member_has_category" alias="member_has_category" />
+		<typeAlias type="com.a205.dto.Region" alias="region" />
+		<typeAlias type="com.a205.dto.Category" alias="category" />
+		<typeAlias type="com.a205.dto.UploadFile" alias="file" />
+		<typeAlias type="com.a205.dto.MyFilter" alias="myfilter" />
+		
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mapper/membermapper.xml" />
+		<mapper resource="mapper/postmapper.xml" />
+		<mapper resource="mapper/volmapper.xml"/>
+		<mapper resource="mapper/followmapper.xml"/>
+		<mapper resource="mapper/commentmapper.xml"/>
+		<mapper resource="mapper/memberhasregionmapper.xml"/>
+		<mapper resource="mapper/memberhascategorymapper.xml"/>
+		<mapper resource="mapper/regionmapper.xml"/>
+		<mapper resource="mapper/categorymapper.xml"/>
+		<mapper resource="mapper/filemapper.xml"/>
+	</mappers>
+
+</configuration>

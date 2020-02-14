@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.a205.model.membermapper">
+ 	<select id="select" resultType="member" parameterType="string">
+		select * from `member` 
+		<if test ="value!=null">
+			where m_userid = #{userId}
+		</if>
+	</select>
+	
+ 	<select id="selectListPost" resultType="post" parameterType="int">
+		select * from `post` 
+			where m_id = #{m_id}
+	</select>
+		
+ 	<select id="selectByEmail" resultType="member" parameterType="string">
+		select * from `member` 
+		<if test ="value!=null">
+			where m_email = #{email}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="member">
+		update `member` set m_password=#{m_password}, m_userid=#{m_userid}, m_email=#{m_email}, 
+							m_bgnTm=#{m_bgnTm}, m_endTm=#{m_endTm},m_address=#{m_address}, m_age=#{m_age}  where m_id=#{m_id} 
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from `member` where m_id=#{m_id}
+	</delete>
+	
+	<insert id="insert" parameterType="member">
+		insert into `member`(m_password,m_userid,m_email ) 
+		  values(#{m_password}, #{m_userid}, #{m_email})
+	</insert>
+	
+	<insert id="insertNoPass" parameterType="member">
+		insert into `member`(m_userid,m_email ) 
+		  values( #{m_userid}, #{m_email})
+	</insert>
+	
+	<insert id="GetKey" parameterType="Map">
+		update member set m_key = #{param2} where m_email = #{param1}
+	</insert>
+	<update id="alter_userKey" parameterType="Map">
+		update member set m_key = "Y" where m_email = #{param1} and m_key = #{param2}
+	</update>
+</mapper>
