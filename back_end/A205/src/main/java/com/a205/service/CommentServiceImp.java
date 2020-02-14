@@ -17,6 +17,7 @@ public class CommentServiceImp implements CommentService{
 	
 	@Override
 	public boolean add(String p_id, String m_id, String comment) {
+		System.out.println("-------"+p_id +m_id +comment);
 		return commentDao.add(p_id, m_id, comment);
 	}
 	

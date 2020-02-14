@@ -25,7 +25,7 @@
 				and vol_title like concat(`%`,#{vol_title),`%`)
 			</when>
 			<when test="ca_highNm !=null">
-				and ca_id = (select ca_id from where ca_highNm = #{ca_highNm})
+				and ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
 			</when>
 			<otherwise>
       			and v_id is not null
@@ -34,7 +34,7 @@
 		limit #{listSize} offset #{startList}
 	</select>
 	<select id="selectByFilter2" resultType="vol" parameterType="myfilter">
-		select * from `vol` where v_pStatus between 1 and 3
+		select v_id, v_title, v_pStatus, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD, r_id, ca_id, v_Auth, v_x, v_y from `vol` where v_pStatus between 1 and 3
 		<choose>
 			<when test="v_pBgnD != null and v_pEndD != null">
       			and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
@@ -49,7 +49,7 @@
 				and v_location like concat(`%`,#{vol_title),`%`)
 			</when>
 			<when test="ca_highNm !=null">
-				and ca_id = (select ca_id from where ca_highNm = #{ca_highNm})
+				and ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
 			</when>
 			<otherwise>
       			and v_id is not null
