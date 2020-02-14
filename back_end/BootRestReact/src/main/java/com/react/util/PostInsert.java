@@ -6,7 +6,7 @@ public class PostInsert {
 	//PostDao dao;
 	
 	public static void main(String[] args) throws Exception {
-		for(int i=1; i<4000; i++) {
+		for(int i=4000; i<100000; i++) {
 //			try {
 			PostDao.addOrig(i);
 //			} finally {
