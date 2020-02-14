@@ -32,6 +32,12 @@ public class PostDaoImpl implements PostDao {
 //
 //		return session.selectList(statement);
 //	}
+	@Override
+	public Integer countM_id(int p_id) {
+		String statement = ns + "countM_id";
+		return session.selectOne(statement, p_id);
+
+	}
 
 	@Override
 	public boolean addPostVote(Post_vote post_vote) {

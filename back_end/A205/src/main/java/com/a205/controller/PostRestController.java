@@ -162,6 +162,9 @@ public class PostRestController {
 			view.setV_id(post.getV_id());
 			// feed.add(ff);
 			view.setFiles(storedFileNames);
+			int p_vote_cnt = service.countM_id(p_id);
+			System.out.println(p_vote_cnt);
+			view.setP_vote_cnt(p_vote_cnt);
 ////			feed.add(view);
 			return response(view, true, HttpStatus.OK);
 		} catch (Exception e) {

@@ -28,6 +28,7 @@
 		`post`;
 	</select>
 
+
 	<select id="selectOne" resultType="post" parameterType="int">
 		select *
 		from post
@@ -39,6 +40,12 @@
 		select p_id
 		from post
 		where m_id = #{m_id}
+	</select>
+	<select id="countM_id" resultType="java.lang.Integer"
+		parameterType="int">
+		select count(m_id)
+		from post_vote
+		where p_id = #{p_id}
 	</select>
 
 

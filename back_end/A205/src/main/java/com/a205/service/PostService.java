@@ -18,6 +18,7 @@ public interface PostService {
 	public boolean remove(int no);
 
 	public int getid();
+	public Integer countM_id(int p_id);
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2);
