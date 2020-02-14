@@ -6,23 +6,33 @@ const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205";
 
 
 let token = storage.get("token")
-
+console.log(token)
 export const getVolDetail = (id: number) => {
   try{
     return axios
-      .create({ headers: { Authorization: "Baerer " + token } })
+      .create({ headers: { Authorization: "Bearer " + token } })
       .get(restBaseApi + "/vol/detail/" + id)
-  } catch (error) {
-    console.log(error);
-    return true;
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   }
-};
 
-export const getVolList = (pgNum: number) => {
+
+// export const getVolDetail = (id: string) => {
+//   try {
+//     return axios.get(restBaseApi + "/vol/detail/" + id)
+//   } catch (error) {
+//     console.log(error);
+//     return true;
+//   }
+// };
+
+export const getVolList = (token: string, pgNum: number) => {
   try {
     return axios
-      .create({ headers: { Authorization: "Baerer " + token } })
-      .get(restBaseApi + "/vol/titles/10/" + pgNum,
+      .create({ headers: { Authorization: "Bearer " + token }})
+      .get(restBaseApi + "/vol/titles/10/" + pgNum
     // {headers: {
       // 'Access-Control-Allow-Origin': "*",
       // 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',

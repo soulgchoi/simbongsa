@@ -1,11 +1,19 @@
 import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
+import storage from "lib/storage";
+
 const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/"
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+// const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
+// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+
+
+
 //const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
 // const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 
+let token = storage.get("token");
 export const checkEmailExists = (email: string) => {
   try {
     console.log("API email check : ", email);
@@ -22,6 +30,7 @@ export const checkUsernameExists = (userid: string) => {
     return true;
   }
 };
+
 interface Iregister {
   email: string;
   password: string;
@@ -54,6 +63,16 @@ export const localRegister: ({
     //   return true;
     // }
   };
+
+export const sendSignupEmail = (email: string) => {
+  try {
+    return axios.post(restBaseApi + "email/regist", { m_email: email });
+  } catch (error) {
+    console.log(error);
+    return true;
+  }
+};
+
 interface Ilogin {
   email: string;
   password: string;
@@ -103,6 +122,36 @@ export const logout = () => {
   } catch (error) {
     return true;
   }
+};
+
+export const emailValidate = (email: string, key: string) => {
+  try {
+    // http://13.124.127.232:8080/A205/email/enter?m_email=pjh5929@naver.com&m_key=m7OSjPN0jpGOTlTCM0QR
+    return axios.get(
+      restBaseApi + "email/enter?m_email=" + email + "&m_key=" + key
+    );
+  } catch (error) {
+    return true;
+  }
+};
+
+// 비밀번호 찾기 메일 전송
+export const changePasswordEmailSend = async (email: string) => {
+  let response = await axios.post(restBaseApi + "email/change", {
+    m_email: email
+  });
+  return response.data;
+};
+
+// 비밀번호 변경
+// http://13.124.127.232:8080/A205/changepassword/password?passtoken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwamg1OTI5QG5hdmVyLmNvbSIsImF1ZCI6IjQ0IiwiaXNzIjoicGpoNTkyOSIsImV4cCI6MTU4MTY0NzYzNCwiaWF0IjoxNTgxNjQ3MzM0fQ.CqtvWGp70ccIPR20k_wb2ZTH7zTy-JdogEokB6PrsVjA6E-j7CtAFF_GvWkf9WzTiNJWB8VAJnIyBgMILixCBQ
+export const changePassword = async (
+  passwordToken: string,
+  password: string
+) => {
+  let data = { token: passwordToken, password: password };
+  let response = await axios.post(restBaseApi + "email/password", data);
+  return response.data;
 };
 
 /// 팔로우 관련 API 시작
@@ -217,8 +266,7 @@ export const localPreferRegister: ({
     //   console.log(error);
     //   return true;
     // }
-  }
-
+  };
 
 export const localPreferInfo = (userId: string) => {
   try {
