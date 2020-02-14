@@ -27,7 +27,16 @@ interface initialStateParams {
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
-    username: null
+    // 현재 로그인중인 유저의 정보
+    email: "",
+    userId: "",
+    preferInfo: Map({
+      bgnTm: "",
+      endTm: "",
+      age: "",
+      preferRegion: [],
+      preferCategory: []
+    })
   }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미

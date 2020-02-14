@@ -16,6 +16,8 @@ const RESET_SELECTED_VOL = "vol/RESET_SELECTED_VOL";
 const SET_CURRENT_LOCATION = "vol/SET_CURRENT_LOCATION";
 const SET_VOL_MAP = "vol/SET_VOL_MAP";
 const SET_SELECTED_MARKER = "vol/SET_SELECTED_MARKER";
+const GET_VOL_LIST_BY_USER_ID = "vol/GET_VOL_LIST_BY_USER_ID";
+
 
 export const setVolMap = createAction(SET_VOL_MAP);
 export const getVolById = createAction(GET_VOL_BY_ID, VolApi.getVolById);
@@ -23,12 +25,14 @@ export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
 export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolList); // 이후 list 받는 api로 수정해야함
 export const setCurrentLocation = createAction(SET_CURRENT_LOCATION);
 export const setSelectedMarker = createAction(SET_SELECTED_MARKER);
+export const getVolListByUserId = createAction(GET_VOL_LIST_BY_USER_ID, VolApi.getVolListByUserId);
 
 export interface volState {
   volunteers: List<any>;
   currentLocation: { y: number; x: number };
   selectedVolunteer: {};
   selectedMarker: any;
+  volListByUserId: List<any>
 }
 
 const initialState = Map({
@@ -36,7 +40,8 @@ const initialState = Map({
   currentLocation: { y: 37.5668260054857, x: 126.978656785931 },
   selectedVolunteer: { v_id: null },
   volMap: null,
-  selectedMarker: null
+  selectedMarker: null,
+  volListByUserId: []
 });
 
 export default handleActions<any>(
@@ -66,6 +71,13 @@ export default handleActions<any>(
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
         return state.set("volunteers", List(data));
+      }
+    }),
+    ...pender({
+      type: GET_VOL_LIST_BY_USER_ID,
+      onSuccess: (state, action) => {
+        const { data } = action.payload;
+        return state.set("getVolListByUserId", data);
       }
     })
   },

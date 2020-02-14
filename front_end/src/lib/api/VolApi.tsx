@@ -22,3 +22,11 @@ export const getVolList = () => {
     return true;
   }
 };
+
+export const getVolListByUserId = (userId: string) => {
+  try {
+    return axios.get(restBaseApi + "" + userId);
+  } catch (error) {
+    return true;
+  }
+}
