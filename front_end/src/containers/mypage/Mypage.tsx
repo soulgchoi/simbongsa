@@ -16,15 +16,16 @@ class Mypage extends Component<Props, State> {
   };
   constructor(props: any) {
     super(props);
-    const { VolActions, userId } = this.props;
-    // VolActions.getVolIdByUser(userId);
   }
   componentDidMount() {
-
+    const { VolActions, userId } = this.props;
+    console.log("유저 아이디 ", userId);
+    VolActions.getVolListByUserId(userId);
   }
   componentDidUpdate() {
-    const { volListByUser } = this.props;
-    console.log(volListByUser);
+    const { volListByUser , userId } = this.props;
+    console.log("유저 아이디 ", userId);
+    console.log("봉사 리스트 ", volListByUser);
     // TODO : volListByUser에서 봉사지역, 봉사 시간등을 추출해서 통계 자료 data, labels 만들기...
   }
 
@@ -33,9 +34,9 @@ class Mypage extends Component<Props, State> {
       <div>
         마이페이지 입니다.
         <div>
-          <div ><PieGraph data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]} labels={["red", "blue", "green"]} width={500} height={500} />
+          <div ><PieGraph data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]} labels={["red", "blue", "green"]} width={300} height={300} />
           </div>
-          <PieGraph data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]} labels={["red", "blue", "green"]} width={500} height={500} />
+          <PieGraph data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]} labels={["red", "blue", "green"]} width={300} height={300} />
         </div>
       </div>
     );

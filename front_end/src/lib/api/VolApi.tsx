@@ -25,7 +25,7 @@ export const getVolList = () => {
 
 export const getVolListByUserId = (userId: string) => {
   try {
-    return axios.get(restBaseApi + "" + userId);
+    return axios.get(restBaseApi + "/rest/Member/" + userId + "/Vote");
   } catch (error) {
     return true;
   }

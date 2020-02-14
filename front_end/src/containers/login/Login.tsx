@@ -84,7 +84,7 @@ class Login extends React.Component<any, any> {
       UserActions.setLoggedInfo(userEmail);
       // UserActions.setLoggedFlag(true);
       storage.set("token", token);
-      history.push("/mainpage");
+      // history.push("/mainpage");
       // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       console.log(e);
