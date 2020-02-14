@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.a205.component.FileUploadComponents;
-import com.a205.dto.Member;
 import com.a205.dto.Post;
 import com.a205.dto.PostView;
+import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 import com.a205.service.FollowServive;
 import com.a205.service.PostService;
@@ -56,22 +56,34 @@ public class PostRestController {
 		return new ResponseEntity<>(resultMap, hstatus);
 	}
 
+	/*
+	 * @PostMapping(path = "/PostandFile")
+	 * 
+	 * @ApiOperation("전달받은 포스트 정보를 등록한다.") public ResponseEntity<Map<String,
+	 * Object>> insertPost(@RequestPart(value = "post") Post post,
+	 * 
+	 * @RequestPart(value = "files", required = false) MultipartFile[] files) { try
+	 * { Map<String, Object> resultMap = new HashMap<String, Object>(); boolean
+	 * result = service.add(post); // service.add(Post); List<FileUploadResponse>
+	 * fileResponses = null; if (files != null) { int p_id = service.getid(); //
+	 * List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
+	 * fileResponses = f_con.uploadMultipleFiles(files, p_id); }
+	 * resultMap.put("result", result); resultMap.put("fileResponses",
+	 * fileResponses);
+	 * 
+	 * return response(resultMap, true, HttpStatus.CREATED); // return
+	 * response(fileResponse, true, HttpStatus.CREATED); } catch (RuntimeException
+	 * e) { logger.error("포스트 등록 실패", e); return response(e.getMessage(), false,
+	 * HttpStatus.CONFLICT); } }
+	 */
+	
 	@PostMapping("/Post")
 	@ApiOperation("전달받은 포스트 정보를 등록한다.")
-	public ResponseEntity<Map<String, Object>> insertMember(@RequestPart Post post,
-			@RequestPart(required = false) MultipartFile[] files) {
+	public ResponseEntity<Map<String, Object>> insertPost(@RequestBody Post_input post) {
 		try {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			boolean result = service.add(post);
-			// service.add(Post);
-			List<FileUploadResponse> fileResponses = null;
-			if (files != null) {
-				int p_id = service.getid();
-				// List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
-				fileResponses = f_con.uploadMultipleFiles(files, p_id);
-			}
 			resultMap.put("result", result);
-			resultMap.put("fileResponses", fileResponses);
 
 			return response(resultMap, true, HttpStatus.CREATED);
 			// return response(fileResponse, true, HttpStatus.CREATED);
@@ -80,7 +92,27 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-
+	@PostMapping("/PostFile")
+	@ApiOperation("전달받은 포스트 파일을 등록한다.")
+	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files", required = false) MultipartFile[] files) {
+		try {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			List<FileUploadResponse> fileResponses = null;
+			if (files != null) {
+				int p_id = service.getid();
+				// List<FileUploadResponse> fileResponse= uploadMultipleFiles(files, p_id);
+				fileResponses = f_con.uploadMultipleFiles(files, p_id);
+			}
+			resultMap.put("fileResponses", fileResponses);
+			
+			return response(resultMap, true, HttpStatus.CREATED);
+			// return response(fileResponse, true, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			logger.error("포스트 등록 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	
 	@PostMapping("/PostVote")
 	@ApiOperation("전달받은 포스트 투표 정보를 등록한다.")
 	public ResponseEntity<Map<String, Object>> insertPostVote(@RequestBody Post_vote post_vote) {
@@ -123,6 +155,7 @@ public class PostRestController {
 //			resultMap.put("post", post);
 //			resultMap.put("uris", storedFileNames);
 //			return response(resultMap, true, HttpStatus.OK);
+			view.setP_id(post.getP_id());
 			view.setM_id(post.getM_id());
 			view.setP_content(post.getP_content());
 			view.setP_status(post.getP_status());
@@ -148,6 +181,7 @@ public class PostRestController {
 				PostView view = new PostView();
 				Post post = service.selectOne(p_id);
 				List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+				view.setP_id(post.getP_id());
 				view.setM_id(post.getM_id());
 				view.setP_content(post.getP_content());
 				view.setP_status(post.getP_status());
@@ -175,6 +209,7 @@ public class PostRestController {
 				PostView view = new PostView();
 				Post post = service.selectOne(p_id);
 				List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+				view.setP_id(post.getP_id());
 				view.setM_id(post.getM_id());
 				view.setP_content(post.getP_content());
 				view.setP_status(post.getP_status());
