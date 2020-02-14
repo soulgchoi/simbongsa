@@ -8,6 +8,7 @@ const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const LOGOUT = "user/LOGOUT"; // 로그아웃
 const CHECK_STATUS = "user/CHECK_STATUS"; // 현재 로그인상태 확인
+const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
 // const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
 // const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
@@ -17,6 +18,10 @@ export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
 export const logout = createAction(LOGOUT, UserAPI.logout);
 export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
+export const emailValidate = createAction(
+  EMAIL_VALIDATE,
+  UserAPI.emailValidate
+);
 
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
@@ -33,11 +38,12 @@ interface initialStateParams {
   set: any;
   loggedInfo: {
     // 현재 로그인중인 유저의 정보
-    thumbnail: null;
-    username: null;
+    thumbnail: string;
+    username: string;
   };
-  logged: false; // 현재 로그인중인지 알려준다
-  validated: false; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+  logged: boolean; // 현재 로그인중인지 알려준다
+  validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+  emailValidate: boolean;
 }
 const initialState = Map({
   loggedInfo: Map({
@@ -51,7 +57,8 @@ const initialState = Map({
   //   followingList: List([])
   // }),
   logged: false, // 현재 로그인중인지 알려준다
-  validated: false // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+  validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+  emailValidate: false
 });
 
 export default handleActions<any>(
@@ -73,8 +80,15 @@ export default handleActions<any>(
           .set("loggedInfo", Map(action.payload.data))
           .set("validated", true),
       onFailure: (state, action) => initialState
-    })
+    }),
 
+    ...pender({
+      type: EMAIL_VALIDATE,
+      onSuccess: (state, action) => {
+        console.log(action);
+        return state.set("emailValidate", action.payload.data);
+      }
+    })
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
 

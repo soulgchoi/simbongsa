@@ -17,6 +17,7 @@ import Wall from "containers/posting/Wall";
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
 import UserProfile from "containers/temp/temp";
+import EmailComplete from "containers/join/EmailComplete";
 // 직접 만든 component
 import TemporaryDrawer from "components/navi/TemporaryDrawer";
 // 로컬에 저장
@@ -72,6 +73,7 @@ class App extends Component<any> {
           <Route exact path="/write" component={PostingForm} />
           {/* <Route exact path="/list" component={Post} /> */}
           <Route exact path="/userprofile" component={UserProfile} />
+          <Route path="/email/:email/:key" component={EmailComplete} />
         </div>
         <Header />
       </div>

@@ -114,6 +114,17 @@ export const logout = () => {
   }
 };
 
+export const emailValidate = (email: string, key: string) => {
+  try {
+    // http://13.124.127.232:8080/A205/email/enter?m_email=pjh5929@naver.com&m_key=m7OSjPN0jpGOTlTCM0QR
+    return axios.post(
+      restBaseApi + "email/enter?m_email=" + email + "&m_key=" + key
+    );
+  } catch (error) {
+    return true;
+  }
+};
+
 /// 팔로우 관련 API 시작
 
 export const getUserFollower = async (token: string, userId: string) => {
