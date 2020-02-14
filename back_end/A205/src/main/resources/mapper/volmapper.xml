@@ -10,7 +10,7 @@
 	</select>
 	
 	<select id="selectByFilter" resultType="vol" parameterType="myfilter">
-		select * from `vol` where v_pStatus between 1 and 3
+		select v_id, v_title, v_pStatus, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD, r_id, ca_id, v_Auth, v_x, v_y from `vol` where v_pStatus between 1 and 3
 		<choose>
 			<when test="v_pBgnD != null and v_pEndD != null">
       			and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
@@ -19,11 +19,19 @@
       			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
     		</when>
 			<when test="r_sidoNm != null and r_gugunNm != null">
-				and r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm}
+				and r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
     		</when>
-			<when test=" vol_title !=null">
-				and vol_title like concat(`%`,#{vol_title),`%`)
-			</when>
+			<when test="vol_title !=null">
+				and 
+				(
+				v_location like CONCAT('%',#{vol_title},'%')
+				or
+				v_title like CONCAT('%',#{vol_title},'%')
+				or
+				v_organ like CONCAT('%',#{vol_title},'%')
+				or
+				v_detail like CONCAT('%',#{vol_title},'%')
+				)			</when>
 			<when test="ca_highNm !=null">
 				and ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
 			</when>
@@ -31,6 +39,8 @@
       			and v_id is not null
     		</otherwise>
 		</choose>
+		order by
+		v_pBgnD DESC
 		limit #{listSize} offset #{startList}
 	</select>
 	<select id="selectByFilter2" resultType="vol" parameterType="myfilter">
@@ -43,10 +53,19 @@
       			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
     		</when>
 			<when test="r_sidoNm != null and r_gugunNm != null">
-				and r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm}
+				and r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
     		</when>
 			<when test=" vol_title !=null">
-				and v_location like concat(`%`,#{vol_title),`%`)
+				and 
+				(
+				v_location like CONCAT('%',#{vol_title},'%')
+				or
+				v_title like CONCAT('%',#{vol_title},'%')
+				or
+				v_organ like CONCAT('%',#{vol_title},'%')
+				or
+				v_detail like CONCAT('%',#{vol_title},'%')
+				)
 			</when>
 			<when test="ca_highNm !=null">
 				and ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})

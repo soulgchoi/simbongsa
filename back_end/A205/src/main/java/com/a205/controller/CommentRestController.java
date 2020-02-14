@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.a205.config.JwtTokenUtil;
 import com.a205.dao.MemberDAO;
 import com.a205.dto.Comment;
 import com.a205.dto.Comment_mini;
 import com.a205.dto.Comment_update;
+import com.a205.dto.Member;
 import com.a205.service.CommentService;
+import com.a205.service.JwtUserDetailsService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -36,6 +41,15 @@ public class CommentRestController {
 
 	@Autowired
 	CommentService service;
+
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private MemberDAO memberDao;
 
 	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -68,19 +82,30 @@ public class CommentRestController {
 		}
 	}
 
+	
+
 	@DeleteMapping("/Comment/{c_id}")
 	@ApiOperation("No에 해당하는 하나의 포스트에 해당 댓글을 지운다.")
-	public ResponseEntity<Map<String, Object>> removeComment(@PathVariable int c_id) {
+	public ResponseEntity<Map<String, Object>> removeComment(@PathVariable int c_id, HttpServletRequest request) {
 		try {
+			final String requestTokenHeader = request.getHeader("Authorization");
+			String username = null;
+			String jwtToken = null;
+			// JWT Token is in the form "Bearer token". Remove Bearer word and get
+			// only the Token
+			
+			jwtToken = requestTokenHeader.substring(7);
+			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+			Member m = memberDao.searchByEmail(username);
+			Comment comment = service.searchOne(c_id);
+			
 //			int comment_m_id = service.searchOne(c_id).getM_id();
 //			
-//			if (comment_m_id == m_id) {
+			if (comment.getM_id() == m.getM_id()) {
 			boolean result = service.remove(c_id);
 			return response(result, true, HttpStatus.OK);
-//			}else {
-//				
-//				return response(false, true, HttpStatus.BAD_REQUEST);
-//			}
+			}
+			throw new IllegalArgumentException("당신은 이 댓글을 단 사람이 아닙니다.");
 		} catch (Exception e) {
 			Logger.error("댓글삭제실패", e);
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
