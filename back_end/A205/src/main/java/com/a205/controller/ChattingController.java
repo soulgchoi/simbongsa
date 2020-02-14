@@ -32,16 +32,5 @@ public class ChattingController {
 		ModelAndView mv = new ModelAndView("chat");
 		return mv;
 	}
-	
-//	@GetMapping("/email/enter2")
-//	@ApiOperation("전달받은 이메일 인증한다.")
-//	public ResponseEntity<Map<String, Object>> enterEmail(@RequestParam String m_email, @RequestParam String m_key) {
-//		try {
-//			boolean result =  memberDao.alter_userKey(m_email, m_key)>0 ? true : false;
-//			return response(result, true, HttpStatus.CREATED);
-//		} catch (RuntimeException e) {
-//			logger.error("이메일 등록 실패", e);
-//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
-//		}
-//	}
+
 }

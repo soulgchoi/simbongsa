@@ -90,7 +90,7 @@ public class MemberDAOImp implements MemberDAO {
 		Map<String, String> map = new HashMap<>();
 		map.put("param1", m_email);
 		map.put("param2", m_key);
-		return session.insert(statement, map);
+		return session.update(statement, map);
 	}
 	
 	@Override

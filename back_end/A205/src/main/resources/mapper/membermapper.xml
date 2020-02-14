@@ -62,9 +62,9 @@
 		  values( #{m_userid}, #{m_email})
 	</insert>
 	
-	<insert id="GetKey" parameterType="Map">
+	<update id="GetKey" parameterType="Map">
 		update member set m_key = #{param2} where m_email = #{param1}
-	</insert>
+	</update>
 	<update id="alter_userKey" parameterType="Map">
 		update member set m_key = "Y" where m_email = #{param1} and m_key = #{param2}
 	</update>

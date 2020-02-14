@@ -49,9 +49,9 @@ public class EmailController {
 	
 	@PostMapping("/email/regist")
 	@ApiOperation("등록할 m_email에 대한 이메일을 전송한다.")
-	public ResponseEntity<Map<String, Object>> registEmail(@RequestBody String m_email) {
+	public ResponseEntity<Map<String, Object>> registEmail(@RequestBody Member member) {
 		try {
-			boolean result = mailsender.mailSendWithUserKey(m_email);
+			boolean result = mailsender.mailSendWithUserKey(member.getM_email());
 			return response(result, true, HttpStatus.CREATED);
 		} catch (RuntimeException e) {
 			logger.error("이메일 등록 실패", e);
@@ -61,9 +61,9 @@ public class EmailController {
 	
 	@PostMapping("/email/change")
 	@ApiOperation("비밀번호를 변경 이메일을 전송한다.")
-	public ResponseEntity<Map<String, Object>> sendPassMail(@RequestBody String m_email) {
+	public ResponseEntity<Map<String, Object>> sendPassMail(@RequestBody Member member) {
 		try {
-			boolean result = mailsender.mailSendForPassword(m_email);
+			boolean result = mailsender.mailSendForPassword(member.getM_email());
 			return response(result, true, HttpStatus.CREATED);
 		} catch (RuntimeException e) {
 			logger.error("이메일 등록 실패", e);
