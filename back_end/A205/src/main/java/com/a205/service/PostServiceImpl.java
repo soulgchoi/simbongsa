@@ -36,6 +36,11 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
+	public Integer countM_id(int p_id) {
+		return dao.countM_id(p_id);
+	}
+	
+	@Override
 	public boolean remove(int no) {
 		return dao.remove(no);
 	}
