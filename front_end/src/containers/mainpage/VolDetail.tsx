@@ -9,7 +9,7 @@ import * as postingActions from "redux/modules/posting";
 
 import Vol from "./Vol";
 import vol from "redux/modules/vol";
-import Post from "../posting/Post"
+import PostingList from "../posting/PostingList"
 
 class VolDetail extends React.Component<any, any>{
 
@@ -94,7 +94,9 @@ class VolDetail extends React.Component<any, any>{
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
-                <Post />
+                <div>포스팅들, {volunteer.v_id}
+                <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList>
+                </div>
             </div>
         );
     }

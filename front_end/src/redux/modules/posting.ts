@@ -6,12 +6,14 @@ import volunteer from './volunteer';
 const INITIALIZE_FORM = "posting/INITIALIZE_FORM"
 const CHANGE_INPUT = 'posting/CHANGE_INPUT';
 const CHANGE_FILE_INPUT = 'posting/CHANGE_FILE_INPUT'
+const CHANGE_STATUS ='posting/CHANGE_STATUS'
 const POST_POSTING = 'posting/POST_POSTING';
 const GET_POSTING = 'posting/GET_POSTING';
 const POST_REVIEW = 'posting/POST_REVIEW';
 
 export const changeInput = createAction(CHANGE_INPUT);
 export const changeFileInput = createAction(CHANGE_FILE_INPUT);
+export const changeStatus = createAction(CHANGE_STATUS);
 export const initializeForm = createAction(INITIALIZE_FORM);
 export const postPosting = createAction(POST_POSTING, PostingApi.postPosting)
 export const getPostbyID = createAction(GET_POSTING, PostingApi.getPosts)
@@ -19,13 +21,14 @@ export const getPostbyID = createAction(GET_POSTING, PostingApi.getPosts)
 export interface PostingState {
     posting: {
         form: {
-            selectedFiles: FileList;
             p_content: string;
             v_id: number;
             p_status: number;  // 1은 모집글, 2는 후기글
+            m_id: number;
         };
     };
     result: {};
+    selectedfiles: List<any>;
     posts: object,
     // posts: {
     //     uris: List<any>,
@@ -41,12 +44,13 @@ export interface PostingState {
 const initialState = Map({
     posting: Map({
         form: Map({
-            selectedFiles: [],
             p_content: "",
-            v_id: 0,
-            p_status: 0
+            v_id: 1,
+            p_status: 0,
+            m_id: 1
         })
     }),
+    selectedfiles: [],
     result: Map({}),
     // posts: {
     //     uris: [],
@@ -72,8 +76,9 @@ export default handleActions<any>(
             return state.setIn(["posting", "form", id], value);
         },
         [CHANGE_FILE_INPUT]: (state, action) => {
-            const { form, id, value } = action.payload;
-            return state.setIn(["posting", "form", id], value)
+            const files = state.get("selectedfiles");
+            console.log(files)
+            return state.set("selectedfiles", files.concat(action.payload))
         },
         ...pender({
             type: POST_POSTING,

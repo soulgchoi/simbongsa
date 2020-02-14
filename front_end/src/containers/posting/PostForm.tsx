@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
 import { bindActionCreators } from "redux";
 import GoBackButton from 'components/button/GoBackButton';
-import { list } from 'react-immutable-proptypes';
-import Comments from "./Comments";
-import { List } from 'immutable';
-
-
+import { Checkbox } from 'semantic-ui-react'
 
 class PostingForm extends React.Component<any, any> {
+    state = {
+        p_status: "0"
+    }
 
     componentWillMount() {
         const { PostingActions } = this.props;
@@ -20,55 +19,77 @@ class PostingForm extends React.Component<any, any> {
     handleChange = (e: any) => {
         const { PostingActions } = this.props;
         var { id, value } = e.target;
-        console.log(value)
+        // console.log(value)
         PostingActions.changeInput({
             id,
             value,
             form: "posting"
         });
-        console.log(this.props.form.toJS())
-        // console.log(typeof this.props)
-        console.log("---", this.props.form._root.entries[1])
 
+        
+        
     }
 
     handleFileSelect = (e: any) => {
         const { PostingActions } = this.props;
         var id = e.target.id
         var value = e.target.files;
-        PostingActions.changeFileInput({
-            id,
-            value,
-            form: "posting"
-        })
-        console.log(this.props.form)
+        for (let i=0; i<value.length; i++) {
+            PostingActions.changeFileInput(
+                value[i]
+            )
+        }
     }
+
+    handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            p_status: e.target.value
+        })
+        console.log(this.state.p_status)
+    };
+
+
 
     handleSubmit = (e:any) => {
         e.preventDefault();
-        const { selectedFiles, p_content, v_id, p_status } = this.props.form.toJS();
+        const { p_content, v_id, p_status, m_id } = this.props.form.toJS();
+        const { selectedfiles } = this.props
+        console.log(selectedfiles)
+
+        const files = new FormData()
+        for (let j=0; j<selectedfiles.length; j++){
+            files.append("files", selectedfiles[j])
+        }
         const post = {
                 p_content,
                 v_id,
-                p_status}
-        // const files = new FormData();
-        // for (let i=0; i<selectedFiles.length; i++) {
-        //     files.append("files", selectedFiles[i])
-        //     console.log(selectedFiles[i])
-        //     console.log(files)
+                p_status,
+                m_id
+            }
 
-        // }
-        const files = {
-            selectedFiles
-        }
-        console.log(files)
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", {post, files}, 
-        // axios.post("http://70.12.247.126:8080/rest/Post", {post, files},
-        {headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'BearereyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',
-         }})
+        // console.log(this.state.files)
+        // axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", {post}, 
+        // axios.post("http://70.12.247.87:8080/rest/Post/", {post, files},
+        // axios.post("http://70.12.247.126:8080/rest/Post", post,
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
+            {headers: {
+                'Access-Control-Allow-Origin': "*",
+                'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA'
+            }
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
+        console.log(post, files)
 
+        axios.post("http://70.12.247.126:8080/rest/PostFile", files,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                'Access-Control-Allow-Origin': "*",
+                'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA'
+            }
+        })
         .then(res => {
             console.log(res)
         })
@@ -81,7 +102,18 @@ class PostingForm extends React.Component<any, any> {
         return (
             
             <div className="wrapC">
-                {/* // onSubmit={this.handleSubmit} */}
+            <label>
+            <input type="radio" value="1" checked={this.state.p_status === "1"}
+                onChange={this.handleStatusChange}
+            />
+                모집
+            </label>
+            <label>
+            <input type="radio" value="2" checked={this.state.p_status === "2"}
+                onChange={this.handleStatusChange}
+            />
+                후기
+            </label>
             <input
                 value={p_content}
                 className="posting"
@@ -92,12 +124,12 @@ class PostingForm extends React.Component<any, any> {
                 onChange={this.handleChange} />
             <input
                 type="file"
-                id="selectedFiles"
+                id="files"
                 multiple
                 onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
-            <label htmlFor="selectedFiles">이미지 업로드</label>
+            <label htmlFor="files">이미지 업로드</label>
                 {/* {imagepreview} */}
             <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
              <GoBackButton
@@ -111,6 +143,7 @@ class PostingForm extends React.Component<any, any> {
 export default connect(
     (state: any) => ({
         form: state.posting.getIn(["posting", "form"]),
+        selectedfiles: state.posting.get("selectedfiles"),
         result: state.posting.get("result")
     }),
     dispatch => ({
