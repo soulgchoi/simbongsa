@@ -62,6 +62,7 @@ public class UserMailSendService {
 	public boolean mailSendWithUserKey(String m_email) {
 
 		String key = getKey(false, 20);
+		System.out.println(key);
 		memberDao.GetKey(m_email, key);
 		MimeMessage mail = javaMailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 心봉사 입니다!</h2><br><br>" + "<h3>" + m_email.substring(0, m_email.lastIndexOf("@"))
