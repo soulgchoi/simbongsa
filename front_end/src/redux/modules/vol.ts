@@ -10,20 +10,31 @@ type TogglePayload = number;
 type ChangeInputPayload = string;
 
 // 가장 아래 있는 handleActions와 연결해줌
-const GET_VOL_BY_ID = "vol/GET_VOL_BY_ID"; // v_id로 봉사정보 가져오기
+const SET_SELECTED_VOLUNTEER = "vol/GET_VOL_BY_ID"; // v_id로 봉사정보 가져오기
 const GET_VOL_LIST = "vol/GET_VOL_LIST";
 const RESET_SELECTED_VOL = "vol/RESET_SELECTED_VOL";
 const SET_CURRENT_LOCATION = "vol/SET_CURRENT_LOCATION";
 const SET_VOL_MAP = "vol/SET_VOL_MAP";
 const SET_SELECTED_MARKER = "vol/SET_SELECTED_MARKER";
+const SET_VOL_LIST_FOR_MAP = 'vol/SET_VOL_LIST_FOR_MAP';
+const APPEND_VOL_LIST = 'volunteer/APPEND_VOL_LIST';
+const GET_VOL_DETAIL = 'volunteer/GET_VOL_DETAIL';
+const SET_SHOW_VOL_INFO = 'vol/SET_SHOW_VOL_INFO';
+const SELECT_VOL = 'volunteer/SELECT_VOL';
 const GET_VOL_LIST_BY_USER_ID = "vol/GET_VOL_LIST_BY_USER_ID";
 
 export const setVolMap = createAction(SET_VOL_MAP);
-export const getVolById = createAction(GET_VOL_BY_ID, VolApi.getVolById);
+export const setSelectedVolunteer = createAction(SET_SELECTED_VOLUNTEER, VolApi.getVolDetail);
 export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
-export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolList); // 이후 list 받는 api로 수정해야함
+export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolListBySearch); // 이후 list 받는 api로 수정해야함
 export const setCurrentLocation = createAction(SET_CURRENT_LOCATION);
 export const setSelectedMarker = createAction(SET_SELECTED_MARKER);
+export const setVolunteersForMap = createAction(SET_VOL_LIST_FOR_MAP);
+export const appendList = createAction(APPEND_VOL_LIST, VolApi.getVolListByPage);
+export const getVolDetail = createAction(GET_VOL_DETAIL, VolApi.getVolDetail);
+export const setShowVolInfo = createAction(SET_SHOW_VOL_INFO);
+export const selectVol = createAction(SELECT_VOL);
+export const getInitailList = createAction(GET_VOL_LIST, VolApi.getVolListByPage);
 export const getVolListByUserId = createAction(
   GET_VOL_LIST_BY_USER_ID,
   VolApi.getVolListByUserId
@@ -31,18 +42,24 @@ export const getVolListByUserId = createAction(
 
 export interface volState {
   volunteers: List<any>;
+  volunteersForMap: List<any>;
   currentLocation: { y: number; x: number };
   selectedVolunteer: {};
   selectedMarker: any;
+  showVolInfo: boolean;
+  volunteer: Object;
   volListByUserId: List<any>;
 }
 
 const initialState = Map({
   volunteers: List([]),
+  volunteersForMap: List([]), // 지도에서 검색결과로 사용할 봉사리스트
   currentLocation: { y: 37.5668260054857, x: 126.978656785931 },
   selectedVolunteer: { v_id: null },
   volMap: null,
   selectedMarker: null,
+  showVolInfo: false,
+  volunteer: { 'v_id': null },
   volListByUserId: []
 });
 
@@ -51,18 +68,27 @@ export default handleActions<any>(
     [SET_VOL_MAP]: (state, action) => {
       return state.set("volMap", action.payload);
     },
+    [SELECT_VOL]: (state, action) => {
+      return state.setIn(["volunteer", 'v_id'], action.payload)
+    },
     [SET_CURRENT_LOCATION]: (state, action) => {
+      console.log("현재 위치 갱신 ", action.payload)
       return state.set("currentLocation", action.payload);
     },
     [RESET_SELECTED_VOL]: state => {
       return state.setIn(["selectedVolunteer", "v_id"], null);
     },
     [SET_SELECTED_MARKER]: (state, action) => {
-      console.log("페이로드: ", action.payload);
       return state.set("selectedMarker", action.payload);
     },
+    [SET_VOL_LIST_FOR_MAP]: (state, action) => {
+      return state.set("volunteersForMap", List(action.payload));
+    },
+    [SET_SHOW_VOL_INFO]: (state, action) => {
+      return state.set("showVolInfo", action.payload);
+    },
     ...pender({
-      type: GET_VOL_BY_ID,
+      type: SET_SELECTED_VOLUNTEER,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
         return state.set("selectedVolunteer", data);
@@ -74,6 +100,18 @@ export default handleActions<any>(
         const { data } = action.payload.data;
         return state.set("volunteers", List(data));
       }
+    }),
+    ...pender({
+      type: APPEND_VOL_LIST,
+      onSuccess: (state, action) => {
+        const volunteers = state.get("volunteers");
+        return state.set("volunteers", volunteers.concat(action.payload.data.data))
+      }
+    }),
+    ...pender({
+      type: GET_VOL_DETAIL,
+      onSuccess: (state, action) =>
+        state.set("volunteer", action.payload.data.data)
     }),
     ...pender({
       type: GET_VOL_LIST_BY_USER_ID,

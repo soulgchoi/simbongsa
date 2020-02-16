@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import calendar, { changeDate } from "redux/modules/calendar";
 import { bindActionCreators } from "redux";
 import Calendar from "components/calendar/Calendar";
-import VolList from "../mainpage/VolList";
+import VolList from "components/vol/VolList";
 interface Props {
   date: MomentTypes;
   changeDate: typeof changeDate;
@@ -26,7 +26,7 @@ class CalendarContainer extends React.Component<Props> {
           changeDate={props.changeDate}
           toggle={props.toggle}
         />
-        {props.toggle && <VolList />}
+        {/* {props.toggle && <VolList />} */}
       </div>
     );
   }

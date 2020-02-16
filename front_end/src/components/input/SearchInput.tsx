@@ -17,7 +17,6 @@ export default function Input({
   placeholder,
   type,
   onEnter,
-  nametag,
 }: Props): ReactElement {
   return (
     <div>
@@ -34,7 +33,6 @@ export default function Input({
             }
           }}
         />
-        <label htmlFor={id}>{nametag}</label>
       </div>
     </div>
   );

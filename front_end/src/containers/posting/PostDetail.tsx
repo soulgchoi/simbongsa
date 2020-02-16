@@ -19,7 +19,7 @@ interface Props {
     };
 }
 
-class Post extends Component<Props, {}>{
+class PostDetail extends Component<Props, {}>{
     state = {
         post: {
             p_id: this.props.post.p_id,
@@ -34,8 +34,8 @@ class Post extends Component<Props, {}>{
     componentDidMount() {
         var id = this.props.post.p_id
         axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
-        { headers: { Authorization: "Bearer " + token }}    
-        )
+        { headers: { Authorization: "Bearer " + token }}
+            )
         .then( res => {
             console.log(res)
             const data = res.data.data
@@ -49,7 +49,6 @@ class Post extends Component<Props, {}>{
                             m_id: data.m_id,
                             p_stats: data.p_status,
                             files: data.files,
-                            p_id: data.p_id
                         }
                 }   
             )
@@ -57,12 +56,6 @@ class Post extends Component<Props, {}>{
             })
         .catch(err => console.log(err))
     };
-
-    postDelete(id: number) {
-        axios.delete("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
-        { headers: { Authorization: "Bearer " + token }}    
-        )
-    }
     
  
 render(){
@@ -70,7 +63,6 @@ render(){
         <div>
             {this.state.post.p_content}
             {this.state.post.v_id}
-            <p onClick={()=>this.postDelete(this.state.post.p_id)}>[X]</p>
             <Comments inP_id={this.state.post.p_id} />
             <br/><br/>
             <CommentForm inP_id={this.state.post.p_id} />
@@ -78,4 +70,4 @@ render(){
     )
 }}
 
-export default Post;
+export default PostDetail;

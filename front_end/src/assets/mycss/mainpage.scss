@@ -47,7 +47,9 @@ div {
 }
 
 .titleimg {
-  width: 25%;
+  position: relative;
+  top : 10px;
+  height : 5vh;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -67,4 +69,8 @@ div {
   }
   }
   
+}
+
+#tab{
+  margin-top:70px;
 }

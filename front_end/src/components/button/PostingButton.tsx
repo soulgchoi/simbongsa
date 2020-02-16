@@ -16,7 +16,7 @@ class PostingButton extends Component<IProps, {}> {
         <button className="my--btn">
           <Link
             to={{
-              pathname: `/write`,
+              pathname: `write`,
               state: this.props.v_id
             }}
           >

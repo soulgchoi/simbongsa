@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-import * as UserApi from "lib/api/UserApi";
+import * as AuthApi from "lib/api/AuthApi";
 // 직접 제작한 Components
 import LinkButton from "components/button/LinkButton";
 import ActionButton from "components/button/ActionButton";
@@ -123,7 +123,7 @@ class Join extends React.Component<any, any> {
       value,
       form: "join"
     });
-    console.log();
+    console.log(this.props);
     // 검증작업 진행
 
     const validation = this.validate[id](value);
@@ -140,7 +140,7 @@ class Join extends React.Component<any, any> {
     const { form, AuthActions, UserActions, error, history } = this.props;
     const { email, userid, password, passwordConfirm } = form.toJS();
     const { validate } = this;
-    if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
+    // if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
     if (
       !validate["email"](email) ||
       !validate["userid"](userid) ||
@@ -156,7 +156,7 @@ class Join extends React.Component<any, any> {
         userid,
         password
       });
-      await UserApi.sendSignupEmail(email);
+      await AuthApi.sendSignupEmail(email);
       console.log("왓다");
       // const loggedInfo = this.props.result.toJS();
       // console.log("로그인", loggedInfo);

@@ -10,3 +10,6 @@ import "./posting.scss";
 import "./temp.scss";
 import "./profile.scss";
 import "./login.scss";
+import "./map.scss";
+import "./tab.scss";
+import "./search.scss";
