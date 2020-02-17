@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Search, Grid, Header, Segment, Placeholder } from 'semantic-ui-react'
 import SearchPresenter from 'components/search/SearchPresenter';
 // redux 관련
@@ -11,7 +11,7 @@ import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import storage from "lib/storage";
-
+import ActionButton from 'components/button/ActionButton'
 class SearchBar extends React.Component<any, any> {
     state = {
         loading: false,
@@ -52,14 +52,26 @@ class SearchBar extends React.Component<any, any> {
         console.log("vol", volunteers)
         const { loading, error } = this.state
         return (
-            <SearchPresenter
-                volResults={volunteers}
-                input={input}
-                loading={loading}
-                error={error}
-                handleSubmit={this.handleSubmit}
-                updateTerm={this.updateTerm}
-            ></SearchPresenter>
+            <Fragment>
+                <Grid columns='equal'>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment><SearchPresenter
+                                volResults={volunteers}
+                                input={input}
+                                loading={loading}
+                                error={error}
+                                handleSubmit={this.handleSubmit}
+                                updateTerm={this.updateTerm}
+                            ></SearchPresenter></Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment><ActionButton action={this.handleSubmit} placeholder="검색" /></Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Fragment>
+
         )
     }
 }

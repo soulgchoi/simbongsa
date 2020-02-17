@@ -31,15 +31,15 @@ class PostingForm extends React.Component<any, any> {
             form: "posting"
         });
 
-        
-        
+
+
     }
 
     handleFileSelect = (e: any) => {
         const { PostingActions } = this.props;
         var id = e.target.id
         var value = e.target.files;
-        for (let i=0; i<value.length; i++) {
+        for (let i = 0; i < value.length; i++) {
             PostingActions.changeFileInput(
                 value[i]
             )
@@ -55,7 +55,7 @@ class PostingForm extends React.Component<any, any> {
 
 
 
-    handleSubmit = (e:any) => {
+    handleSubmit = (e: any) => {
         e.preventDefault();
         const { p_content, m_id } = this.props.form.toJS();
         const { selectedfiles } = this.props
@@ -64,34 +64,35 @@ class PostingForm extends React.Component<any, any> {
         console.log(selectedfiles)
 
         const files = new FormData()
-        for (let j=0; j<selectedfiles.length; j++){
+        for (let j = 0; j < selectedfiles.length; j++) {
             files.append("files", selectedfiles[j])
         }
         const post = {
-                p_content,
-                v_id,
-                p_status,
-                m_id
-            }
+            p_content,
+            v_id,
+            p_status,
+            m_id
+        }
 
         axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
-        { headers: { Authorization: "Bearer " + token }})
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => console.log(err))
+            { headers: { Authorization: "Bearer " + token } })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
         console.log(post, files)
 
         axios.post("http://i02a205.p.ssafy.io:8080/rest/PostFile", files,
-            {headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: "Bearer " + token
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: "Bearer " + token
                 }
-        })
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => console.log(err))
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
         this.props.history.push(`/${v_id}/list`);
     }
 
@@ -102,48 +103,48 @@ class PostingForm extends React.Component<any, any> {
         console.log(this.props)
         console.log(v_id)
         return (
-            
+
             <Form>
-            <label>
-            <input type="radio" value="1" checked={this.state.p_status === "1"}
-                onChange={this.handleStatusChange}
-            />
-                모집
+                <label>
+                    <input type="radio" value="1" checked={this.state.p_status === "1"}
+                        onChange={this.handleStatusChange}
+                    />
+                    모집
             </label>
-            <label>
-            <input type="radio" value="2" checked={this.state.p_status === "2"}
-                onChange={this.handleStatusChange}
-            />
-                후기
+                <label>
+                    <input type="radio" value="2" checked={this.state.p_status === "2"}
+                        onChange={this.handleStatusChange}
+                    />
+                    후기
             </label>
-            <TextArea
-                value={p_content}
-                className="posting"
-                name="content"
-                id="p_content"
-                placeholder="내용을 입력하세요."
-                onChange={this.handleChange} />
-            <input
-                type="file"
-                id="files"
-                multiple
-                onChange={this.handleFileSelect}
-                value={selectedFiles}
-            />
-            <label htmlFor="files">이미지 업로드</label>
+                <TextArea
+                    value={p_content}
+                    className="posting"
+                    name="content"
+                    id="p_content"
+                    placeholder="내용을 입력하세요."
+                    onChange={this.handleChange} />
+                <input
+                    type="file"
+                    id="files"
+                    multiple
+                    onChange={this.handleFileSelect}
+                    value={selectedFiles}
+                />
+                <label htmlFor="files">이미지 업로드</label>
                 {/* {imagepreview} */}
 
-            <button onClick={this.handleSubmit}>
-                        게시글 등록하기
+                <button onClick={this.handleSubmit}>
+                    게시글 등록하기
             </button>
-            
-            <GoBackButton
+
+                <GoBackButton
                     text="취소하기"
                 />
             </Form>
         );
     }
-  }
+}
 
 export default connect(
     (state: any) => ({

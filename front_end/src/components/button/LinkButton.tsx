@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { Button } from 'semantic-ui-react'
-import "assets/mycss/";
+// import "assets/mycss/";
 interface Props {
   placeholder: string;
   link: string;
@@ -18,7 +18,7 @@ export default function LinkButton({
       <Button color='orange'>
         {placeholder}
       </Button>
-      </Link>
+    </Link>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import "assets/mycss";
 interface Props {
   placeholder?: string;
   // disabled : boolean
-  action: () => void;
+  action: (event: any) => void;
 }
 interface State { }
 

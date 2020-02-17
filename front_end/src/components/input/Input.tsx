@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "assets/mycss";
+// import "assets/mycss";
 
 interface Props {
   value: string;
