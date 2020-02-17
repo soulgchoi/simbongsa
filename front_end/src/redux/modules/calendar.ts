@@ -2,9 +2,12 @@ import { createAction, handleActions } from "redux-actions";
 import moment, { Moment as MomentTypes } from "moment";
 import produce from "immer";
 import { act } from "react-dom/test-utils";
-
+import { List } from "immutable";
 const DATE_CHANGE = "calendar/DATE_CHANGE";
+const TOGGLE_CHANGE = "calendar/TOGGLE_CHANGE";
+
 export const changeDate = createAction(DATE_CHANGE);
+export const changeToggle = createAction(TOGGLE_CHANGE);
 
 export interface CalendarState {
   date: MomentTypes;
@@ -18,10 +21,14 @@ const initialState: CalendarState = {
 export default handleActions(
   {
     [DATE_CHANGE]: (state, action: any) => {
-      console.log("payload", action.payload);
-      return produce(state, (draft: any) => {
-        draft.date = action.payload.date;
-        draft.toggle = action.payload.toggle;
+      console.log("날짜 바꾸기", action.payload);
+      return produce((state: any, draft: any) => {
+        draft.date = action.payload;
+      });
+    },
+    [TOGGLE_CHANGE]: (state, action: any) => {
+      return produce((state: any, draft: any) => {
+        draft.toggle = action.payload;
       });
     }
   },

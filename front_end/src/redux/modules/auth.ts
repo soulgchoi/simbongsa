@@ -29,7 +29,6 @@ export const initializeForm = createAction(INITIALIZE_FORM); // form
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
 const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
-
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
   AuthAPI.checkEmailExists
@@ -49,7 +48,7 @@ export const localRegister = createAction(
 ); // { email, userid, password }
 export const localLogin = createAction(LOCAL_LOGIN, AuthAPI.localLogin); // { email, password }
 export const googleLogin = createAction(GOOGLE_LOGIN, AuthAPI.googleLogin); //
-export const logout = createAction(LOGOUT, AuthAPI.logout);
+export const logout = createAction(LOGOUT);
 
 export const setError = createAction(SET_ERROR); // { form, message }
 

@@ -17,7 +17,6 @@ import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
 // local storage에 저장하는 component
 
-
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -86,7 +85,7 @@ class Login extends React.Component<any, any> {
     // 로그인을 시도
     try {
       await AuthActions.localLogin({ email, password });
-      console.log("최초확인용", this.props);
+      console.log("최초확인용", this.props.result.toJS());
       const token = this.props.result.toJS().token;
       const loggedInfo = jwt.decode(token);
       console.log("유저이메일", loggedInfo);
@@ -187,8 +186,8 @@ class Login extends React.Component<any, any> {
                 prefix="등록 된 봉사활동 수 : "
                 suffix=" 개"
                 redraw={true}
-              // onEnd={() => console.log('Ended! 👏')}
-              // onStart={() => console.log('Started! 💨')}
+                // onEnd={() => console.log('Ended! 👏')}
+                // onStart={() => console.log('Started! 💨')}
               >
                 {/* {({ countUpRef, start }) => (
             <div>

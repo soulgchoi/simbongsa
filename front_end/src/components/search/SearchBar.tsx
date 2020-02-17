@@ -49,6 +49,7 @@ class SearchBar extends React.Component<any, any> {
 
     render() {
         const { volunteers, input } = this.props
+        console.log("vol", volunteers)
         const { loading, error } = this.state
         return (
             <SearchPresenter
