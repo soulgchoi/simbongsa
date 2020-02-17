@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
 import { bindActionCreators } from "redux";
 import GoBackButton from 'components/button/GoBackButton';
-import { Checkbox } from 'semantic-ui-react'
+import { Form, TextArea } from 'semantic-ui-react'
 
 class PostingForm extends React.Component<any, any> {
     state = {
@@ -94,7 +94,7 @@ class PostingForm extends React.Component<any, any> {
         const { selectedFiles, p_content } = this.props.form;
         return (
             
-            <div className="wrapC">
+            <Form>
             <label>
             <input type="radio" value="1" checked={this.state.p_status === "1"}
                 onChange={this.handleStatusChange}
@@ -107,10 +107,9 @@ class PostingForm extends React.Component<any, any> {
             />
                 후기
             </label>
-            <input
+            <TextArea
                 value={p_content}
                 className="posting"
-                type="textarea"
                 name="content"
                 id="p_content"
                 placeholder="내용을 입력하세요."
@@ -128,7 +127,7 @@ class PostingForm extends React.Component<any, any> {
             <GoBackButton
                     text="취소하기"
                 />
-            </div>
+            </Form>
         );
     }
   }
