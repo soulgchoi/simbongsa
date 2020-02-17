@@ -1,5 +1,6 @@
 package com.a205.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,15 +9,21 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.a205.dto.Category;
+import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
+import com.a205.dto.Vol;
 
 @Repository
 public class PostDaoImpl implements PostDao {
 
 	private final static String ns = "com.a205.model.postmapper.";
 
+	@Autowired
+	CategoryDAO categoryDao;
+	
 	@Autowired
 	SqlSession session;
 
@@ -81,6 +88,15 @@ public class PostDaoImpl implements PostDao {
 		return session.selectOne(statement);
 	}
 
+	
+	@Override
+	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my){
+		String statement = ns + "selectP_idByFilter";
+		my.setListSize(listSize);
+		my.setStartList((startList-1)*listSize);
+		return session.selectList(statement, my);
+	}
+	
 	@Override
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2) {
 		String statement = ns + "searchMyFeed";

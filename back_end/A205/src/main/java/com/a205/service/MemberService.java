@@ -13,6 +13,8 @@ public interface MemberService {
 
 	public List<Member> searchAll();
 
+	public Member selectByM_id(Integer m_id);
+	
 	public List<Post> searchPost(String userId);
 
 	public List<Vol> searchVote(String userId);

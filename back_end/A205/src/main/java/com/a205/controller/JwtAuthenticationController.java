@@ -57,7 +57,7 @@ public class JwtAuthenticationController {
 		final int id = userDetailsService.loadUserIdByUsername(authenticationRequest.getUsername());
 		final String userId = userDetailsService.loadUserNickByUsername(authenticationRequest.getUsername());
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
-
+		
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 

@@ -48,6 +48,27 @@
 		where p_id = #{p_id}
 	</select>
 
+	
+	<select id="selectP_idByFilter" resultType="java.lang.Integer" parameterType="myfilter">
+		select p_id from post where v_id 
+		in (select v_id from vol where v_pStatus between 1 and 3
+		<choose>
+			<when test="r_sidoNm != null and r_gugunNm != null">
+				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
+    		</when>
+			<when test="ca_highNm !=null">
+				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
+			</when>
+			<otherwise>
+      			and v_id is not null
+    		</otherwise>
+		</choose>
+		)
+		order by p_id desc
+		limit #{listSize} offset #{startList}
+		
+	</select>
+
 
 	<!-- 포스트 검색?? -->
 	<select id="searchByCondition" resultType="post"

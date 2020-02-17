@@ -28,4 +28,12 @@ public class RegionDAOImp implements RegionDAO{
 		return session.selectOne(statement, map);
 	}
 
+	@Override
+	public Region selectByR_id(Integer r_id) {
+		String statement = ns + "selectByR_id";
+		return session.selectOne(statement, r_id);
+
+	}
+
+
 }

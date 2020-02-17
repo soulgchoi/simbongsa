@@ -2,9 +2,11 @@ package com.a205.service;
 
 import java.util.List;
 
+import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
+import com.a205.dto.Vol;
 
 
 public interface PostService {
@@ -19,6 +21,8 @@ public interface PostService {
 
 	public int getid();
 	public Integer countM_id(int p_id);
+
+	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my);
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2);

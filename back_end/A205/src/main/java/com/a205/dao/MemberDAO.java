@@ -11,6 +11,8 @@ public interface MemberDAO {
 
 	public Member searchByEmail(String email);
 	
+	public Member selectByM_id(Integer m_id);
+	
 	public List<Member> searchAll();
 
 	public List<Post> searchPost(Integer m_id);

@@ -71,6 +71,12 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
+	public Member selectByM_id(Integer m_id) {
+		return dao.selectByM_id(m_id);
+	}
+
+	
+	@Override
 	public boolean checkID(String id) {
 		Member member = dao.search(id);
 		if (member == null) {

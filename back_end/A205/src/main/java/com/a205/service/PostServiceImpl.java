@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a205.dao.PostDao;
+import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
+import com.a205.dto.Vol;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -70,6 +72,12 @@ public class PostServiceImpl implements PostService {
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2){
 		return dao.searchVolFeed(v_id, no1, no2);
 	}
+	
+	@Override
+	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my){
+		return dao.selectP_idByFilter(listSize, startList, my);
+	}
+
 	
 //	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 //		//sampleDAO.updateHitCnt(map);
