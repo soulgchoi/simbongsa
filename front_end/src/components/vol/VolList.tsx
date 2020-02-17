@@ -34,10 +34,10 @@ export default class VolList extends React.Component<Props, State> {
         console.log("높이", height);
         return (
             <InfiniteScroll
-                dataLength={this.state.pageNum * 10}
+                dataLength={volunteers.length}
                 height={height}
                 next={loadMoreData}
-                hasMore={true}
+                hasMore={volunteers.length < this.state.pageNum * 10}
                 loader={<h4>봉사활동 목록을 불러오는중</h4>}
                 endMessage={<h3>모든 정보를 확인했습니다.</h3>}
             >

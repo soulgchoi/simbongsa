@@ -4,7 +4,7 @@ import Post from './Post';
 import storage from 'lib/storage'
 import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import Card from 'components/card/Card'
+import Card from 'components/posting/Card'
 
 let token = storage.get('token')
 
@@ -74,9 +74,9 @@ render(){
     })
     return (
         <InfiniteScroll
-            dataLength={this.state.pgNum *10}
+            dataLength={posts.length}
             next={this.loadMoreData.bind(this)}
-            hasMore={true}
+            hasMore={posts.lehgth < this.state.pgNum *10}
             loader={<h4>게시글 목록을 불러오는 중</h4>}
             endMessage={<h4>모든 정보를 확인했습니다.</h4>}
         >

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
-
+import PostDetail from 'components/posting/PostDetail'
 interface Props {
     post: {
         p_id: 0,
@@ -8,7 +8,7 @@ interface Props {
         v_id: 0,
         m_id: 0,
         p_status: 0,
-        files?: []
+        files: []
     };
 }
 
@@ -23,7 +23,9 @@ class CardComponent extends React.Component<Props, {}>{
                 </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    
+                    <PostDetail
+                        post={this.props.post}
+                    /> 
                 </Card.Content>
             </Card>
         )

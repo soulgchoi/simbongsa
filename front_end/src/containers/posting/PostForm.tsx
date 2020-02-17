@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
+import * as userActions from "redux/modules/user"
 import { bindActionCreators } from "redux";
 import LinkButton from 'components/button/LinkButton';
 import GoBackButton from 'components/button/GoBackButton'
@@ -29,10 +30,23 @@ class PostingForm extends React.Component<any, any> {
             id,
             value,
             form: "posting"
-        });
+        });  
+        this.setUserInfo()  
+    }
 
-        
-        
+    setUserInfo() {
+        const { userId, m_id } = this.props.user.toJS()
+        const { PostingActions } = this.props;
+        PostingActions.changeInput({
+            id: "m_id",
+            value: m_id,
+            form: "posting"
+        })
+        PostingActions.changeInput({
+            id: "userId",
+            value: userId,
+            form: "posting"
+        })
     }
 
     handleFileSelect = (e: any) => {
@@ -82,7 +96,7 @@ class PostingForm extends React.Component<any, any> {
         .catch(err => console.log(err))
         console.log(post, files)
 
-        axios.post("http://i02a205.p.ssafy.io:8080/rest/PostFile", files,
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostFile", files,
             {headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: "Bearer " + token
@@ -93,14 +107,18 @@ class PostingForm extends React.Component<any, any> {
         })
         .catch(err => console.log(err))
         this.props.history.push(`/${v_id}/list`);
+        this.goListPage();
     }
 
+    goListPage() {
+        var v_id = this.props.match.params.id
+        this.props.history.push(`/${v_id}/list`)
+    }
 
     render() {
         const { selectedFiles, p_content } = this.props.form;
         var v_id = this.props.match.params.id
-        console.log(this.props)
-        console.log(v_id)
+        
         return (
             
             <Form>
@@ -127,6 +145,7 @@ class PostingForm extends React.Component<any, any> {
                 type="file"
                 id="files"
                 multiple
+                accept='image/*'
                 onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
@@ -134,7 +153,7 @@ class PostingForm extends React.Component<any, any> {
                 {/* {imagepreview} */}
 
             <button onClick={this.handleSubmit}>
-                        게시글 등록하기
+                게시글 등록하기
             </button>
             
             <GoBackButton
@@ -149,7 +168,8 @@ export default connect(
     (state: any) => ({
         form: state.posting.getIn(["posting", "form"]),
         selectedfiles: state.posting.get("selectedfiles"),
-        result: state.posting.get("result")
+        result: state.posting.get("result"),
+        user: state.user.get("loggedInfo")
     }),
     dispatch => ({
         PostingActions: bindActionCreators(postingActions, dispatch)

@@ -18,7 +18,7 @@ const initialState: CalendarState = {
   toggle: false
 };
 
-export default handleActions(
+export default handleActions<any>(
   {
     [DATE_CHANGE]: (state, action: any) => {
       console.log("날짜 바꾸기", action.payload);

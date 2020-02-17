@@ -47,7 +47,6 @@ class VolDetail extends React.Component<any, any>{
         let result = VolApi.getVolDetail(v_id);
         if (typeof result === "object") { // axios를 잘 리턴한 경우
             result.then(response => {
-                console.log("디테일쪽 response", response.data.data);
                 this.setState({ volunteer: response.data.data });
             }
             )
@@ -121,7 +120,7 @@ class VolDetail extends React.Component<any, any>{
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
-                <div>포스팅들, {volunteer.v_id}
+                <div>
                 <Link
                     to={{
                         pathname: `/${volunteer.v_id}/list`,
