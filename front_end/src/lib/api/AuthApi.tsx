@@ -14,7 +14,6 @@ const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/";
 사용자가 로그인 하지 않은 상태에서 요청하기 때문에
 사용자 Token 을 필요로 하지 않는다. ( Back-end쪽에서도 예외처리 필요. )
 
-예외 : 로그아웃은 사용자 Token을 필요로 함.
 ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
 */
 
@@ -130,17 +129,17 @@ export const googleLogin = (id_token: string) => {
   }
 };
 
-/*
-    ☆★☆★ 구현 필요
-*/
-export const logout = () => {
-  try {
-    const token = "Bearer " + storage.get("token"); // 로그아웃을 위한 사용자 token
-    return axios.post("/api/auth/logout");
-  } catch (error) {
-    return true;
-  }
-};
+// /*
+//     ☆★☆★ 구현 필요
+// */
+// export const logout = () => {
+//   try {
+//     const token = "Bearer " + storage.get("token"); // 로그아웃을 위한 사용자 token
+//     return axios.post("/api/auth/logout", {headers : { Authorization : token }});
+//   } catch (error) {
+//     return true;
+//   }
+// };
 
 export const emailValidate = (email: string, key: string) => {
   try {
