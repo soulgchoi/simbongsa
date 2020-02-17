@@ -4,6 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.membermapper">
  	
+ 	<select id="selectBym_id" resultType="member" parameterType="java.lang.Integer">
+		select * from `member` 
+		<if test ="value!=null">
+			where m_id = #{m_id}
+		</if>
+	</select>
+ 	
+ 	
  	<select id="select" resultType="member" parameterType="string">
 		select * from `member` 
 		<if test ="value!=null">

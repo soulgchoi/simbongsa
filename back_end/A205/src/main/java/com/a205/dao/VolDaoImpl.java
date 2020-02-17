@@ -115,16 +115,7 @@ public class VolDaoImpl implements VolDao {
 		}
 		
 		List<Vol> f1 = session.selectList(statement1, m);
-		List<Vol> f2 = session.selectList(statement2, m);
 		
-		for(Vol v2 : f2) {
-			boolean check =true;
-			for(Vol v1 : f1) {
-				if(v2.getV_id()==v1.getV_id()) check=false;
-			}
-			if(check) f1.add(v2);
-		}
-		System.out.println(m.getVol_title());
 		return f1;
 	}
 }

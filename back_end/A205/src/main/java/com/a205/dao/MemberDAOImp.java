@@ -39,6 +39,14 @@ public class MemberDAOImp implements MemberDAO {
 		
 		return session.selectList(statement);
 	}
+	
+	@Override
+	public Member selectByM_id(Integer m_id){
+		String statement = ns+"selectBym_id";
+		return session.selectOne(statement, m_id);
+
+	}
+
 
 	@Override
 	public boolean add(Member member) {

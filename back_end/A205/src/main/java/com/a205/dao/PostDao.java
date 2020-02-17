@@ -2,9 +2,11 @@ package com.a205.dao;
 
 import java.util.List;
 
+import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
+import com.a205.dto.Vol;
 
 public interface PostDao {
 	public Post selectOne(int p_id);
@@ -24,6 +26,10 @@ public interface PostDao {
 	boolean remove(int p_id);
 	
 	int getid();
+	
+	
+	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my);
+	
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2);
