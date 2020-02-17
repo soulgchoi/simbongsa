@@ -246,7 +246,7 @@ public class PostRestController {
 			List<Integer> plistForPrefer = service.selectP_idByFilter(no1/5, no2, mf);
 			System.out.println(plistForPrefer);
 			for (int p_id : plistForPrefer) {
-			
+				if (!plist.contains(p_id)) {
 				// HashMap<String, Object> map = new HashMap<String, Object>();
 					PostView view = new PostView();
 					Post post = service.selectOne(p_id);
@@ -261,7 +261,7 @@ public class PostRestController {
 					int p_vote_cnt = service.countM_id(p_id);
 					view.setP_vote_cnt(p_vote_cnt);
 					feed.add(view);
-				
+				}
 			}
 			System.out.println(feed);
 			return response(feed, true, HttpStatus.OK);
