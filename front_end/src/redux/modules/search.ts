@@ -8,12 +8,14 @@ const TOGGLE = "searchlocation/TOGGLE";
 const REMOVE = "searchlocation/REMOVE";
 const PREFER_REGISTER = "searchlocation/PREFER_REGISTER";
 const INITIAL_INSERT = "searchlocation/INTIALIZE_FORM"
+const SEARCH_SUBMIT = "searchlocation/SEARCH_SUBMIT"
 export const changeInput = createAction(CHANGE_INPUT);
 export const insert = createAction(INSERT);
 export const toggle = createAction(TOGGLE);
 export const remove = createAction(REMOVE);
 export const preferRegister = createAction(PREFER_REGISTER, UserAPI.localPreferRegister)
 export const initialInsert = createAction(INITIAL_INSERT)
+export const searchSubmit = createAction(SEARCH_SUBMIT);
 let idLocation = 0; // 아이템에 들어갈 고유 값 입니다
 let idCategory = 0; // 아이템에 들어갈 고유 값 입니다
 // Record 함수는 Record 형태 데이터를 만드는 함수를 반환합니다.
@@ -33,6 +35,7 @@ const initialState = Record({
     adult: false
   }),
   error: null,
+  isSearchSubmit: false
 })();
 // Todo 아이템의 형식을 정합니다.
 const SearchLocationRecord = Record({
@@ -110,7 +113,10 @@ export default handleActions<any, any>(
       onSuccess: (state, action) => {
         return state.set("result", Map(action.payload.data))
       }
-    })
+    }),
+    [SEARCH_SUBMIT]: (state, action) => {
+      return state.set("isSearchSubmit", action.payload);
+    }
   },
   initialState
 );

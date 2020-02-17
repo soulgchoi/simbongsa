@@ -4,6 +4,9 @@ import axios from 'axios'
 import PostForm from './PostForm';
 import Comments from "./CommentList";
 import CommentForm from "./CommentForm"
+import storage from 'lib/storage'
+
+let token = storage.get("token")
 
 interface Props {
     post: {
@@ -30,7 +33,8 @@ class PostDetail extends Component<Props, {}>{
 
     componentDidMount() {
         var id = this.props.post.p_id
-        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id
+        axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
+        { headers: { Authorization: "Bearer " + token }}
             )
         .then( res => {
             console.log(res)

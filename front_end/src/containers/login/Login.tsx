@@ -83,20 +83,17 @@ class Login extends React.Component<any, any> {
   handleLocalLogin = async () => {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
-
-
     // 로그인을 시도
-
     try {
       await AuthActions.localLogin({ email, password });
       console.log("최초확인용", this.props);
       const token = this.props.result.toJS().token;
-      const userEmail = jwt.decode(token);
-      UserActions.setLoggedInfo(userEmail);
+      const loggedInfo = jwt.decode(token);
+      console.log("유저이메일", loggedInfo);
+      UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       storage.set("token", token);
       history.push("/mainpage");
-      // console.log("로그인 후: ", this.props.loggedInfo.toJS());
     } catch (e) {
       // error 발생시
       console.log(e);
@@ -104,10 +101,11 @@ class Login extends React.Component<any, any> {
     }
   };
 
-  handleGoogleLogin = async (result: any) => {
+  handleGoogleLogin = async (response: any) => {
     const { AuthActions, UserActions, history } = this.props;
-    const id_token = result.getAuthResponse().id_token;
-    console.log("id_token", id_token);
+    // 구글로그인 성공할 경우 response로 로그인 정보가 담긴 객체 하나를 준다.
+    const id_token = response.getAuthResponse().id_token;
+    // 그 중 id_token 에 담긴 구글 로그인 정보를 백엔드에 전달해 줌.
     await AuthActions.googleLogin(id_token);
     const token = this.props.result.toJS().token;
     const userEmail = jwt.decode(token);
@@ -164,12 +162,11 @@ class Login extends React.Component<any, any> {
               getProfile={true}
             /> */}
               <GoogleLogin
-                // clientId="250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com"
                 clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
                 onSuccess={handleGoogleLogin}
                 onFailure={result => console.log(result)}
                 cookiePolicy={"single_host_origin"}
-                redirectUri="http://www.naver.com"
+                redirectUri="http://localhost:3000"
               />
             </div>
             <div className="add-option">

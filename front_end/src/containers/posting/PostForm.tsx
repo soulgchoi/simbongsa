@@ -5,6 +5,9 @@ import * as postingActions from "redux/modules/posting";
 import { bindActionCreators } from "redux";
 import GoBackButton from 'components/button/GoBackButton';
 import { Checkbox } from 'semantic-ui-react'
+import storage from 'lib/storage'
+
+let token = storage.get('token')
 
 class PostingForm extends React.Component<any, any> {
     state = {
@@ -71,7 +74,8 @@ class PostingForm extends React.Component<any, any> {
         // axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", {post}, 
         // axios.post("http://70.12.247.87:8080/rest/Post/", {post, files},
         // axios.post("http://70.12.247.126:8080/rest/Post", post,
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post)
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
+        { headers: { Authorization: "Bearer " + token }})
         .then(res => {
             console.log(res)
         })
@@ -81,6 +85,7 @@ class PostingForm extends React.Component<any, any> {
         axios.post("http://i02a205.p.ssafy.io:8080/rest/PostFile", files,
             {headers: {
                 "Content-Type": "multipart/form-data",
+                Authorization: "Bearer" + token
                 }
         })
         .then(res => {

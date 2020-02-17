@@ -7,10 +7,7 @@ import * as userActions from "redux/modules/user";
 
 const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
-const LOGOUT = "user/LOGOUT"; // 로그아웃
-const CHECK_STATUS = "user/CHECK_STATUS"; // 현재 로그인상태 확인
 const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오기
-const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
 // const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
 // const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
@@ -18,16 +15,11 @@ const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
 export const setValidated = createAction(SET_VALIDATED); // validated
-export const logout = createAction(LOGOUT, UserAPI.logout);
-export const checkStatus = createAction(CHECK_STATUS, UserAPI.checkStatus);
 export const setPreferInfo = createAction(
   SET_PREFER_INFO,
   UserAPI.localPreferInfo
 );
-export const emailValidate = createAction(
-  EMAIL_VALIDATE,
-  UserAPI.emailValidate
-);
+
 
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
@@ -86,14 +78,7 @@ export default handleActions<any>(
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
-    ...pender({
-      type: CHECK_STATUS,
-      onSuccess: (state, action) =>
-        state
-          .set("loggedInfo", Map(action.payload.data))
-          .set("validated", true),
-      onFailure: (state, action) => initialState
-    }),
+
     ...pender({
       type: SET_PREFER_INFO,
 
@@ -118,13 +103,7 @@ export default handleActions<any>(
       }
     }),
 
-    ...pender({
-      type: EMAIL_VALIDATE,
-      onSuccess: (state, action) => {
-        console.log(action);
-        return state.set("emailValidate", action.payload.data);
-      }
-    })
+
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as userApi from "lib/api/UserApi";
+import * as AuthApi from "lib/api/AuthApi";
 import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
 import validator from "validator";
@@ -55,7 +55,7 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
       return true;
     }
   };
-  componentDidMount() {}
+  componentDidMount() { }
 
   handleChange = (e: any) => {
     const { id, value } = e.target;
@@ -74,7 +74,7 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
     const { passwordConfirm } = this.state;
     const { history } = this.props;
     const { token } = this.props.match.params;
-    userApi.changePassword(token, passwordConfirm);
+    AuthApi.changePassword(token, passwordConfirm);
     history.push("/");
   };
 

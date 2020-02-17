@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import auth from "./auth";
 import user from "./user";
-import volunteer from "./volunteer"
 import vol from "./vol";
 import posting from "./posting"
 import search from './search'
@@ -15,13 +14,12 @@ export default combineReducers({
   calendar,
   auth,
   user,
-  volunteer,
   vol,
   search,
   pender: penderReducer,
 
   // temp,
   posting,
-    base,
+  base,
 });
 

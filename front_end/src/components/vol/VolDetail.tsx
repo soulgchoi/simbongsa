@@ -1,37 +1,62 @@
 import React from "react";
-import PostingButton from 'components/button/PostingButton'
 import CertLabel from "components/label/CertLabel"
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as volActions from "redux/modules/volunteer";
 import * as postingActions from "redux/modules/posting";
-import PostingList from "../posting/PostingList"
+import { Link } from 'react-router-dom'
+import * as VolApi from 'lib/api/VolApi';
+import PostingList from "containers/posting/PostingList"
+import PostingButton from 'components/button/PostingButton'
+
+interface Props {
+}
+interface State {
+    volunteer: any
+}
 
 class VolDetail extends React.Component<any, any>{
+    state = {
+        volunteer: {
+            v_id: "1",
+            v_Auth: null,
+            v_pStatus: null,
+            v_title: null,
+            v_mBgnD: null,
+            v_mEndD: null,
+            v_pBgnD: null,
+            v_pEndD: null,
+            v_bgnTm: null,
+            v_endTm: null,
+            v_wanted: null,
+            v_actWkdy: null,
+            v_adult: null,
+            v_young: null,
+            v_organ: null,
+            v_location: null,
+            v_target: null
+        }
+    };
 
-    componentWillMount() {
-        const { VolActions } = this.props;
-        console.log(this.props)
+    shouldComponentUpdate() {
+        const { volunteer } = this.state;
         const v_id = this.props.match.params.id
-        VolActions.selectVol(v_id)
-        VolActions.getVolDetail(v_id)
-
-        const { PostingActions } = this.props;
-        const p_id = 1
-        PostingActions.getPostbyID(p_id)
-        const { posts } = this.props;
-        console.log(posts)
+        let result = VolApi.getVolDetail(v_id);
+        if (typeof result === "object") { // axios를 잘 리턴한 경우
+            result.then(response => {
+                console.log("디테일쪽 response", response);
+                this.setState({ volunteer: response });
+            }
+            )
+        }
+        // return 값이 true인 경우에만 컴포넌트 업데이트
+        return volunteer.v_title !== null;
     }
 
     render() {
-        const { VolActions, volunteer, posts } = this.props;
-        console.log(volunteer)
-        console.log(posts)
-        // const myVol = this.props.history.location.state
-        // console.log(myVol)
+        const { volunteer } = this.state;
         return (
-            <div>                
+            <div>
                 <CertLabel
                     v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
@@ -92,7 +117,13 @@ class VolDetail extends React.Component<any, any>{
                     v_id={volunteer.v_id}
                 />
                 <div>포스팅들, {volunteer.v_id}
-                <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList>
+                <Link
+                    to={{
+                        pathname: `/${volunteer.v_id}/list`,
+                    }}
+                >
+                    게시글 보러가기</Link>
+                {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
                 </div>
             </div>
         );
@@ -101,13 +132,10 @@ class VolDetail extends React.Component<any, any>{
 
 export default connect(
     (state: any) => ({
-        volunteers: state.volunteer.get("volunteers"),
-        volunteer: state.volunteer.get("volunteer"),
         posts: state.posting.get("posts")
 
     }),
     dispatch => ({
-        VolActions: bindActionCreators(volActions, dispatch),
         PostingActions: bindActionCreators(postingActions, dispatch)
 
     })

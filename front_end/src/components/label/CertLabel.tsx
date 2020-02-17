@@ -17,7 +17,7 @@ export default class CertLabel extends Component<IProps & any, any> {
   }
 
   printFunc(): void{
-    console.log(this.props.v_Auth)
+    // console.log(this.props.v_Auth)
     if (this.props.v_Auth > 0) {
       this.setState({isCert: "인증"})
       this.setState({isCertClass: "tag iscert"})
@@ -38,14 +38,14 @@ export default class CertLabel extends Component<IProps & any, any> {
   }
 
 
-  componentDidMount() {
+  componentWillMount() {
     // console.log(this.props.volunteer)
     // console.log(this.props.v_Auth)
     this.printFunc()
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     // this.printFunc()
     return (
       <div style={{display: 'inline'}}>

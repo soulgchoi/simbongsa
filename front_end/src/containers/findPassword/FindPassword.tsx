@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // import "assets/css/user.scss";
 import "assets/mycss/error.scss";
 import * as EmailValidator from "email-validator";
-import * as UserApi from "lib/api/UserApi";
+import * as AuthApi from "lib/api/AuthApi";
 import ActionButton from "components/button/ActionButton";
 // import UserApi from "apis/UserApi";
 
@@ -21,7 +21,7 @@ class FindPassword extends React.Component<Props> {
     isSubmit: false,
     component: this
   };
-  componentDidMount() {}
+  componentDidMount() { }
   checkForm = () => {
     let error = { ...this.state.error };
     if (
@@ -79,7 +79,7 @@ class FindPassword extends React.Component<Props> {
   sendEmail = () => {
     const { email } = this.state;
     const { history } = this.props;
-    UserApi.changePasswordEmailSend(email);
+    AuthApi.changePasswordEmailSend(email);
     history.push("/findpasswordmailsend");
   };
   render() {
