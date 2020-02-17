@@ -81,7 +81,7 @@ public class JwtTokenUtil implements Serializable {
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_PASSWORD * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
-//	ISSUER = "iss";
+
 	//validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = getUsernameFromToken(token);

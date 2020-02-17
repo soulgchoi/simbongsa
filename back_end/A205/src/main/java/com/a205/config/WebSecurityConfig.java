@@ -15,7 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -55,10 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable().authorizeRequests()
 				// dont authenticate this particular request
-				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
+				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**", "/email/**").permitAll()
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 //			.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
-//				.antMatchers("/").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().permitAll().and() //--> 야매용
 //				.anyRequest().authenticated().and()
@@ -76,5 +78,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) { 
 		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
 	}
+	
+	@Bean
+	   public CorsConfigurationSource corsConfigurationSource() {
+	       CorsConfiguration configuration = new CorsConfiguration();
+	       // - (3)
+	       configuration.addAllowedOrigin("*");
+	       configuration.addAllowedMethod("*");
+	       configuration.addAllowedHeader("*");
+	       configuration.setAllowCredentials(true);
+	       configuration.setMaxAge(3600L);
+	       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	       source.registerCorsConfiguration("/**", configuration);
+	       return source;
+	   }
 
 }
