@@ -60,17 +60,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// dont authenticate this particular request
 				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**", "/email/**").permitAll()
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+<<<<<<< HEAD
 				.anyRequest().authenticated().and()
 				.cors().and()
 
+=======
+//			.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
+				// all other requests need to be authenticated
+				.anyRequest().permitAll().and() //--> 야매용
+//				.anyRequest().authenticated().and()
+				.cors().and()
+				//				.authenticated().and(). //일단 테스트 용으로 풀어놈
+>>>>>>> a481d2c28f743ed10405825e4bef12655c380966
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
+	
 	@Override 
 	public void configure(WebSecurity web) { 
 		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");

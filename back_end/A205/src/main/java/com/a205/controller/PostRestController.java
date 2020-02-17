@@ -92,6 +92,7 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
+	
 	@PostMapping("/PostFile")
 	@ApiOperation("전달받은 포스트 파일을 등록한다.")
 	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files", required = false) MultipartFile[] files) {
