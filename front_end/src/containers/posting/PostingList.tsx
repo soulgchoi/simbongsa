@@ -4,11 +4,9 @@ import Post from './Post';
 import storage from 'lib/storage'
 import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
+import Card from 'components/card/Card'
 
 let token = storage.get('token')
-
-
 
 class PostingList extends Component<any, any> {
     constructor(props: any){
@@ -21,21 +19,14 @@ class PostingList extends Component<any, any> {
 
     // v_id & 팔로우 여부로
     v_id = this.props.match.params.id
-    api1 = "http://i02a205.p.ssafy.io:8080/A205/rest/VolFeed/"
-    // axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + "1", 
-    api2 = 'http://70.12.247.87:8080/rest/Post/1'
+    restAPI = "http://i02a205.p.ssafy.io:8080/A205/rest/VolFeed/";
+
     componentDidMount() {
-        var restAPI = "";
-        console.log(this.v_id)
-        if (this.v_id) {
-            restAPI = this.api1
-        // } else if (this.props.follow) {
-            // restAPI = this.api1
-        }
-        axios.get(restAPI + this.v_id + "/10/" + this.state.pgNum,
+        console.log(this.restAPI + this.v_id + "/10/" + this.state.pgNum)
+        axios.get(this.restAPI + this.v_id + "/10/" + this.state.pgNum,
         { headers: { Authorization: "Bearer " + token }})
         .then( res => {
-            console.log("res.data", res)
+            console.log("res.data", res.data.data)
             const data = res.data.data
             this.setState(
                 {
@@ -44,20 +35,13 @@ class PostingList extends Component<any, any> {
                 })
                 console.log(this.state.posts)
             }
-
             )
             .catch(err => console.log(err))
     };
 
     loadMoreData() {
-        var restAPI = "";
         console.log(this.v_id)
-        if (this.v_id) {
-            restAPI = this.api1
-        // } else if (this.props.follow) {
-            // restAPI = this.api1
-        }
-        axios.get(restAPI + this.v_id + "/10/" + this.state.pgNum,
+        axios.get(this.restAPI + this.v_id + "/10/" + this.state.pgNum,
         { headers: { Authorization: "Bearer " + token }})
         .then( res => {
             console.log("res.data", res)
@@ -78,10 +62,11 @@ class PostingList extends Component<any, any> {
  
 render(){
     console.log(this.props)
+    console.log(this.state)
     const { posts } = this.state;
     const postingList = posts.map( (post: any, i: any) => {
         return (
-            <Post
+            <Card
                 post={post}
                 key={i}
             />

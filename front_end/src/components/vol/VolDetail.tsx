@@ -9,6 +9,9 @@ import * as VolApi from 'lib/api/VolApi';
 import PostingList from "containers/posting/PostingList"
 import PostingButton from 'components/button/PostingButton'
 
+import { Responsive, Segment, Table } from 'semantic-ui-react'
+import './VolDetail.css'
+
 interface Props {
 }
 interface State {
@@ -38,14 +41,14 @@ class VolDetail extends React.Component<any, any>{
         }
     };
 
-    shouldComponentUpdate() {
+    componentDidMount() {
         const { volunteer } = this.state;
         const v_id = this.props.match.params.id
         let result = VolApi.getVolDetail(v_id);
         if (typeof result === "object") { // axios를 잘 리턴한 경우
             result.then(response => {
-                console.log("디테일쪽 response", response);
-                this.setState({ volunteer: response });
+                console.log("디테일쪽 response", response.data.data);
+                this.setState({ volunteer: response.data.data });
             }
             )
         }
@@ -65,54 +68,56 @@ class VolDetail extends React.Component<any, any>{
                 <h3 className="">
                     {volunteer.v_title}
                 </h3>
-                <table className="">
-                    <tbody>
-                        <tr>
-                            <td>모집기간</td>
-                            <td>{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</td>
-                        </tr>
-                        <tr>
-                            <td>봉사기간</td>
-                            <td>{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</td>
-                        </tr>
-                        <tr>
-                            <td>봉사시간</td>
-                            <td>{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</td>
-                        </tr>
-                        <tr>
-                            <td>모집인원</td>
-                            <td>{volunteer.v_wanted}</td>
-                        </tr>
-                        <tr>
-                            <td>활동요일</td>
-                            <td>{volunteer.v_actWkdy}</td>
-                        </tr>
-                        <tr>
-                            <td>봉사분야</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>봉사자유형</td>
-                            <td>{volunteer.v_adult === "Y" ? "성인" : null} {volunteer.v_young === "Y" ? "청소년" : null}</td>
-                        </tr>
-                        <tr>
-                            <td>모집기관</td>
-                            <td>{volunteer.v_organ}</td>
-                        </tr>
-                        <tr>
-                            <td>봉사장소</td>
-                            <td>{volunteer.v_location}</td>
-                        </tr>
-                        <tr>
-                            <td>봉사대상</td>
-                            <td>{volunteer.v_target}</td>
-                        </tr>
-                        <tr>
-                            <td>주소</td>
-                            <td>{volunteer.v_location}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <Responsive minWidth={320} maxWidth={2559}>
+            <Table unstackable celled>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell className="head">모집기간</Table.Cell>
+                        <Table.Cell>{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사기간</Table.Cell>
+                        <Table.Cell>{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사시간</Table.Cell>
+                        <Table.Cell>{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">모집인원</Table.Cell>
+                        <Table.Cell>{volunteer.v_wanted}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">활동요일</Table.Cell>
+                        <Table.Cell>{volunteer.v_actWkdy}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사분야</Table.Cell>
+                        <Table.Cell></Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사자유형</Table.Cell>
+                        <Table.Cell>{volunteer.v_adult === "Y" ? "성인" : null} {volunteer.v_young === "Y" ? "청소년" : null}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">모집기관</Table.Cell>
+                        <Table.Cell>{volunteer.v_organ}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사장소</Table.Cell>
+                        <Table.Cell>{volunteer.v_location}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">봉사대상</Table.Cell>
+                        <Table.Cell>{volunteer.v_target}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">주소</Table.Cell>
+                        <Table.Cell>{volunteer.v_location}</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+                </Table>
+                </Responsive>
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
@@ -125,7 +130,9 @@ class VolDetail extends React.Component<any, any>{
                     게시글 보러가기</Link>
                 {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
                 </div>
+            
             </div>
+            
         );
     }
 }
@@ -136,7 +143,6 @@ export default connect(
 
     }),
     dispatch => ({
-        PostingActions: bindActionCreators(postingActions, dispatch)
-
+        PostingActions: bindActionCreators(postingActions, dispatch),
     })
 )(VolDetail);
