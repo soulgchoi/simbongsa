@@ -4,12 +4,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
-import * as UserApi from "lib/api/UserApi";
+import * as AuthApi from "lib/api/AuthApi";
 interface Props {
   match: any;
   emailValidate: boolean;
 }
-interface State {}
+interface State { }
 
 // http://13.124.127.232:8080/A205/email/enter?m_email=pjh5929@naver.com&m_key=m7OSjPN0jpGOTlTCM0QR
 class EmailComplete extends Component<Props, State> {
@@ -19,7 +19,7 @@ class EmailComplete extends Component<Props, State> {
     const { email, key } = this.props.match.params;
     console.log("email", email);
     console.log("key", key);
-    UserApi.emailValidate(email, key);
+    AuthApi.emailValidate(email, key);
   }
   render() {
     const { emailValidate } = this.props;

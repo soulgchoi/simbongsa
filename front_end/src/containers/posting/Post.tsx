@@ -4,6 +4,9 @@ import axios from 'axios'
 import PostForm from './PostForm';
 import Comments from "./CommentList";
 import CommentForm from "./CommentForm"
+import storage from 'lib/storage'
+
+let token = storage.get("token")
 
 interface Props {
     post: {
@@ -31,11 +34,8 @@ class Post extends Component<Props, {}>{
     componentDidMount() {
         var id = this.props.post.p_id
         axios.get("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
-        // axios.get("http://70.12.247.126:8080/rest/Post/" + id,
-            {headers: {
-                // 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA',
-            }
-            })
+        { headers: { Authorization: "Bearer " + token }}    
+        )
         .then( res => {
             console.log(res)
             const data = res.data.data
@@ -49,6 +49,7 @@ class Post extends Component<Props, {}>{
                             m_id: data.m_id,
                             p_stats: data.p_status,
                             files: data.files,
+                            p_id: data.p_id
                         }
                 }   
             )
@@ -56,6 +57,12 @@ class Post extends Component<Props, {}>{
             })
         .catch(err => console.log(err))
     };
+
+    postDelete(id: number) {
+        axios.delete("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id,
+        { headers: { Authorization: "Bearer " + token }}    
+        )
+    }
     
  
 render(){
@@ -63,6 +70,7 @@ render(){
         <div>
             {this.state.post.p_content}
             {this.state.post.v_id}
+            <p onClick={()=>this.postDelete(this.state.post.p_id)}>[X]</p>
             <Comments inP_id={this.state.post.p_id} />
             <br/><br/>
             <CommentForm inP_id={this.state.post.p_id} />

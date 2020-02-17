@@ -1,5 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import storage from 'lib/storage'
+
+let token = storage.get("token")
 
 interface IProps {
     comment: {
@@ -15,7 +18,8 @@ class Comment extends React.Component<IProps, {}>{
     deleteComment(c_id:number) {
         // axios.delete(`http://70.12.247.87:8080/rest/Comment/${c_id}`)
         // axios.delete(`http://70.12.247.126:8080/rest/Comment/${c_id}/`,
-        axios.delete(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment/${c_id}/`)
+        axios.delete(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment/${c_id}/`, 
+        { headers: { Authorization: "Bearer " + token }})
     }
 
 

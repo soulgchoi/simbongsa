@@ -1,5 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import storage from "lib/storage";
+import { useHistory } from 'react-router-dom';
+import GoBackButton from 'components/button/GoBackButton'
+let token = storage.get("token")
 
 interface Props {
     "inP_id": number;
@@ -16,6 +20,7 @@ class CommentForm extends React.Component<Props, {}> {
         this.setState({
             "c_content": e.target.value
         })
+        console.log(this.props.inP_id)
     }
 
     handleClick = () => {
@@ -26,7 +31,9 @@ class CommentForm extends React.Component<Props, {}> {
             'c_content': this.state.c_content,
             'p_id': this.props.inP_id.toString(),
             'm_id': "26"
-        })
+        },
+        { headers: { Authorization: "Bearer " + token }}
+        )
         .then(res => {
             this.setState({
                 "c_content": ""
@@ -34,9 +41,16 @@ class CommentForm extends React.Component<Props, {}> {
         console.log(res)
         })
         .catch(err => console.log(err))
+        // this.handleBack()
         }
 
+        // handleBack() {
+        //     this.props.history.push('/');
+        // }
+        
+
     render() {
+
         return(
             <div>
                 <form>
@@ -44,8 +58,9 @@ class CommentForm extends React.Component<Props, {}> {
                         value={this.state.c_content}
                         onChange={this.handleChange}
                     ></input>
-                    <button onClick={this.handleClick}>
-                        comment
+                    <button
+                        onClick={this.handleClick}>
+                            댓글 등록
                     </button>
                 </form>
             </div>

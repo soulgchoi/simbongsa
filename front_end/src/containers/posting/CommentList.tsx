@@ -1,27 +1,29 @@
 import React from 'react';
 import axios from 'axios';
 import CommentItem from './Comment';
+import storage from 'lib/storage'
+
+let token = storage.get("token")
 
 interface Props {
     inP_id: number;
 }
 
+interface States {
+    comments: Array<any>
+}
 
-class CommentList extends React.Component<Props, {}> {
-    state = {
-        comments: Array(),
-        // c_id: "",
-        // p_id: "",
-        // c_content: ""
-    }
 
-    componentWillMount() {
-        // axios.get(`http://i02a205.p.ssafy.io:8080/A205/rest/Post/${this.props.inP_id}/Comment`,
-        // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
+class CommentList extends React.Component<Props, States> {
+    constructor(props: Props) {
+        super(props)
+        this.state = {
+            comments: []
+        }
+
         console.log(this.props.inP_id)
-        // axios.get(`http://70.12.247.87:8080/rest/Comment/${this.props.inP_id}`)
-        // axios.get(`http://70.12.247.126:8080/rest/Comment/${this.props.inP_id}/`,
-        axios.get(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment/${this.props.inP_id}/`)
+        axios.get(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment/${this.props.inP_id}/`,
+        { headers: { Authorization: "Bearer " + token }})
 
         .then( res => {
             console.log(res)
@@ -36,9 +38,8 @@ class CommentList extends React.Component<Props, {}> {
                 })
             }
         })
-    }
 
-    
+    }
 
     render() {
         const prints = this.state.comments.map( (comment, i) => {
