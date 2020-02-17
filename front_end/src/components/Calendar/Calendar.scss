@@ -43,14 +43,33 @@
         }
       }
       .box{
+        
         position: relative;
         text-align: center;
-        font-size: 0.8rem;
+        font-size: 3vw;
         display: inline-block;
         width: calc(100%/7);
         
         height: 0;
         padding-bottom: calc(100%/7);
+        div.count {
+          position: relative;
+          top: 0%;
+          transform: translate(-0%, 100%);
+          background-color: rgba(#ffa263, 0.3);
+          border: none;
+          color:black;
+          padding: 1vw 1vw;
+          border-radius: 4vw;
+          text-align: center;
+          text-decoration: none;
+          font-size: 2vw;
+          margin: 1vw;
+          cursor: pointer;
+          &:hover{
+            background-color: rgba(#ffa263, 0.2);
+          }
+        }
         &:first-child{
           span.text{
             color: red;
@@ -61,6 +80,7 @@
             color: #5f91ff;
           }
         }
+        
         span.text{
           cursor: pointer;
           user-select: none;
@@ -71,7 +91,7 @@
           width: 40%;
           height: 40%;
           position: absolute;
-          top: 50%;
+          top: 30%;
           left: 50%;
           transform: translate(-50%,-50%);
           &:hover{
@@ -89,25 +109,8 @@
             color: #b0b0b0;
           }
         }
-        .count {
-          position: absolute;
-          top: 70%;
-          transform: translate(-70%, 0%);
-          background-color: rgba(#ffa263, 0.5);
-          border: none;
-          color:black;
-          padding: 4px 4px;
-          border-radius: 8px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 10px;
-          margin: 4px;
-          cursor: pointer;
-          &:hover{
-            background-color: rgba(#ffa263, 0.2);
-          }
-        }
+        
+
       }
     }
   }

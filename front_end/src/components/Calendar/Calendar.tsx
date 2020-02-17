@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import moment, { Moment as MomentTypes } from "moment";
 import './Calendar.scss';
@@ -26,9 +26,9 @@ function Calendar(props: Props) {
 function Head(props: Props) {
     return (
         <div className="Head">
-            <button onClick={() => props.changeDate(props.date.clone().subtract(1, 'month'))}><MdChevronLeft /></button>
+            <button onClick={() => props.calActions(props.date.clone().subtract(1, 'month'), false)}><MdChevronLeft /></button>
             <span className="title" onClick={() => props.changeDate(moment())}>{props.date.format('MMMM YYYY')}</span>
-            <button onClick={() => props.changeDate(props.date.clone().add(1, 'month'))}><MdChevronRight /></button>
+            <button onClick={() => props.calActions(props.date.clone().add(1, 'month'), false)}><MdChevronRight /></button>
         </div>
     )
 }
@@ -52,11 +52,18 @@ function Body(props: Props) {
                                 console.log(current.format('YYYY-MM-DD'), isVol)
                             }
                             let isCounted = isVol.size
+                            let Expressed = true
+                            if (isCounted === 0) {
+                                Expressed = false
+                            }
                             return (
-                                <div className={`box`} key={i} onClick={() => props.calActions(current, true, isVol)}>
-                                    <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
-                                    <div className={`count`} key={i} onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</div>
-                                </div>
+                                <Fragment>
+                                    <div className={`box`} key={i} onClick={() => props.calActions(current, true, isVol)}>
+                                        {Expressed && <div className={`count`} key={i} onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</div>}
+                                        <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
+
+                                    </div>
+                                </Fragment>
                             )
                         })
                     }
