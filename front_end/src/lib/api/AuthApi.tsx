@@ -2,13 +2,10 @@ import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
 
-// const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/"
-const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
-// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
+const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/";
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
-// const restBaseApi = "http://13.124.127.232:8080/A205/"; // AWS
 
-//const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
+// const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
 // const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
 
 /*
@@ -24,10 +21,8 @@ const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // 2020-02-16 01:25 간혹 token을 요구하는 api가 있어서 임시로 토큰을 할당함. 나중에 토큰은 전부 삭제 필요.
 // sendSignUpEmail
 // changePasswordEmailSend
-const token =
-  "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA";
-
-// let token = storage.get('token'); // 로그아웃을 위한 사용자 token
+// const token =
+//   "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA";
 
 export const checkEmailExists = (email: string) => {
   try {
@@ -82,9 +77,8 @@ export const sendSignupEmail = (email: string) => {
   try {
     return axios.post(
       restBaseApi + "email/regist",
-      { m_email: email }, // )
-      { headers: { Authorization: token } }
-    ); // 사용자 token 부분은 추후 삭제해야함.
+      { m_email: email } // )
+    );
   } catch (error) {
     console.log(error);
     return true;
@@ -141,6 +135,7 @@ export const googleLogin = (id_token: string) => {
 */
 export const logout = () => {
   try {
+    const token = "Bearer " + storage.get("token"); // 로그아웃을 위한 사용자 token
     return axios.post("/api/auth/logout");
   } catch (error) {
     return true;
@@ -160,11 +155,9 @@ export const emailValidate = (email: string, key: string) => {
 
 // 비밀번호 찾기 메일 전송
 export const changePasswordEmailSend = async (email: string) => {
-  let response = await axios.post(
-    restBaseApi + "email/change",
-    { m_email: email },
-    { headers: { Authorization: token } }
-  ); // 사용자 token 부분은 추후 삭제해야함.
+  let response = await axios.post(restBaseApi + "email/change", {
+    m_email: email
+  });
   return response.data;
 };
 
