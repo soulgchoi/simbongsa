@@ -29,21 +29,8 @@ const token =
 
 // let token = storage.get('token'); // 로그아웃을 위한 사용자 token
 
-const headersOrigin = {
-  "Access-Contorl-Allow-Origin": "*",
-  "Access-Contorl-Allow-Method": "*",
-  "Access-Contorl-Allow-Headers": "*",
-  "Access-Contorl-Allow-Credencial": "*"
-};
-
-addTokenToHeaders = (token: string) => {
-  let headers = headersOrigin;
-  headers.set;
-};
-
 export const checkEmailExists = (email: string) => {
   try {
-    let hedaers = headersOrigin;
     return axios.get(restBaseApi + "rest/CheckEmail/" + email);
   } catch (error) {
     console.log(error);
