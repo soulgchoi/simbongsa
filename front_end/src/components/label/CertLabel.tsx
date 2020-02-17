@@ -1,60 +1,53 @@
 import React, { Component } from "react";
 import "assets/mycss";
 
-interface Props {
-  volunteer: {
-    v_Auth: number;
-    v_pStatus: number;
-  }
-}
-interface State {
-    visibility: string;
-    isCert: string;
-    isCertClass: string;
-    isFull: string;
-    isFullClass: string;
+interface IProps {
+  v_Auth: number;
+  v_pStatus: number;
 }
 
-export default class CertLabel extends Component<Props, State> {
-   
+
+export default class CertLabel extends Component<IProps & any, any> {
+  state = {
+    visibility: "",
+    isCert: "",
+    isCertClass: "",
+    isFull: "",
+    isFullClass: ""
+  }
+
   printFunc(): void{
-    if (this.props.volunteer.v_Auth > 0) {
+    // console.log(this.props.v_Auth)
+    if (this.props.v_Auth > 0) {
       this.setState({isCert: "인증"})
       this.setState({isCertClass: "tag iscert"})
+      this.setState({visibility: "true"})
+    } else if (this.props.v_Auth === null) {
+      this.setState({visibility: "false" })
     }
-    if (this.props.volunteer.v_pStatus == 3) {
+    if (this.props.v_pStatus == 3) {
         this.setState({isFull: "모집완료"})
         this.setState({isFullClass: "tag full"})
-    } else if (this.props.volunteer.v_pStatus == 2) {
+    } else if (this.props.v_pStatus == 2) {
         this.setState({isFull: "모집중"})
         this.setState({isFullClass: "tag n-full"})
-    } else if (this.props.volunteer.v_pStatus == 1) {
+    } else if (this.props.v_pStatus == 1) {
         this.setState({isFull: "모집대기"})
         this.setState({isFullClass: "tag w-full"})
     }
   }
-  
-  visibilityFunc(): void {
-    if (this.state.isCert === "인증") {
-      this.setState({visibility: "true"})
-    } else {
-      this.setState({ visibility: "false" });
-    }
-  }
+
 
   componentWillMount() {
+    // console.log(this.props.volunteer)
+    // console.log(this.props.v_Auth)
     this.printFunc()
   }
 
-  componentDidMount() {
-    this.visibilityFunc()
-
-  }
-
   render() {
+    // console.log(this.props)
+    // this.printFunc()
     return (
-
-
       <div style={{display: 'inline'}}>
         <div className={this.state.isCertClass} id={this.state.visibility}>
           {this.state.isCert}

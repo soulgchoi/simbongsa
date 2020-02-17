@@ -7,8 +7,6 @@ import * as UserAPI from "lib/api/UserApi";
 import FollowList from "components/user/profile/FollowList";
 import ActionButton from "components/button/ActionButton";
 
-import storage from "lib/storage";
-
 import "assets/mycss";
 
 interface Props {
@@ -40,17 +38,15 @@ class UserProfile extends Component<Props, State> {
     this.updateProfile();
   }
   updateProfile = async () => {
-    const token = storage.get("token");
     const { profileUserId, loginUserId } = this.props;
     this.setState({
-      followerList: await UserAPI.getUserFollower(token, profileUserId)
+      followerList: await UserAPI.getUserFollower(profileUserId)
     });
     this.setState({
-      followingList: await UserAPI.getUserFollowing(token, profileUserId)
+      followingList: await UserAPI.getUserFollowing(profileUserId)
     });
     this.setState({
       isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
-        token,
         loginUserId,
         profileUserId
       )
@@ -58,19 +54,17 @@ class UserProfile extends Component<Props, State> {
   };
 
   handleFollow = async () => {
-    const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
-    await UserAPI.followUser(token, {
+    await UserAPI.followUser({
       followee_userid: profileUserId,
       follower_userid: loginUserId
     });
     this.updateProfile();
   };
   handleUnfollow = async () => {
-    const { token } = storage.get("token");
     const { loginUserId, profileUserId } = this.props;
     console.log("언팔로우");
-    await UserAPI.unfollowUser(token, {
+    await UserAPI.unfollowUser({
       follower_userid: loginUserId,
       followee_userid: profileUserId
     });

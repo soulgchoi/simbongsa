@@ -14,33 +14,28 @@ interface Props {
   VolActions: typeof volActions;
 }
 interface State {
-  location: {
-    y: number;
-    x: number;
-  };
+  height: number;
+  width: number;
 }
 
 //constructor -> render -> componentDidMount -> render
 class Location extends Component<Props, State> {
-  setMyLocation = () => {
-    const { VolActions } = this.props;
-    window.navigator.geolocation.getCurrentPosition(position => {
-      VolActions.setCurrentLocation({
-        y: position.coords.latitude,
-        x: position.coords.longitude
-      });
-    });
+  state = { width: window.innerWidth, height: (window.innerHeight - 345) };
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  updateDimensions = () => {
+    this.setState({ width: window.innerWidth, height: (window.innerHeight - 345) });
   };
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
   render() {
-    console.log("render");
+    const { height, } = this.state;
     return (
-      <div className="user" id="login">
-        <div className="wrapC">
-          <h1 className="title">봉사 위치</h1>
-          <ActionButton placeholder="내 위치" action={this.setMyLocation} />
-          <Map />
-          <VolInfo />
-        </div>
+      <div style={{ height: height }}>
+        <Map />
+        <VolInfo />
       </div>
     );
   }

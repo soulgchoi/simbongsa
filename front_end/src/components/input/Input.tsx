@@ -17,11 +17,11 @@ export default function Input({
   placeholder,
   type,
   onEnter,
-  nametag
+  nametag,
 }: Props): ReactElement {
   return (
     <div>
-      <div className="input-with-label">
+      <div className="input-with-label" id={id}>
         <input
           value={value}
           onChange={onChange}

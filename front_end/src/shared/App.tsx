@@ -8,17 +8,18 @@ import FindPassword from "containers/findPassword/FindPassword";
 import JoinComplete from "containers/join/JoinComplete";
 import MailReSend from "containers/mailresend/MailReSend";
 import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
-import Calendar from "components/Calendar/Calendar";
+import Calendar from "components/calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 
-import VolDetail from "containers/mainpage/VolDetail";
+import VolDetail from "components/vol/VolDetail";
 import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import SearchContainer from "containers/usersetting/SearchContainer";
 // import Postings from "containers/posting/Postings"
 
-import Wall from "containers/posting/Wall";
+import PostingList from "containers/posting/PostingList"
+import Mypage from "containers/mypage/Mypage";
 import Main from "containers/main/Main";
 import Header from "components/header/Header";
 import UserProfile from "containers/temp/temp";
@@ -56,10 +57,10 @@ class App extends Component<any> {
   };
   initializePreferInfo = (preferInfo: any) => {
     const { times, ages, locations, categorys, SearchActions } = this.props;
-    if (preferInfo.toJS()) {
+    if (preferInfo) {
 
 
-      console.log("preferInfo APP에서", preferInfo.toJS())
+      console.log("preferInfo APP에서", preferInfo)
       const info = preferInfo.toJS()
 
       // 시간 관련
@@ -180,13 +181,17 @@ class App extends Component<any> {
             component={VolDetail}
           />
           <Route path="/location" component={Location} />
-          <Route exact path="/vol/detail/:id" component={VolDetail} />
+          <Route exact path="/vol/:id/detail" component={VolDetail} />
+          <Route exact path="/vol/:id/write" component={PostingForm} />
+          <Route exact path="/:id/list" component={PostingList} />
+          {/* <Route exact path="/vol/detail/:id" component={VolDetail} /> */}
           <Route exact path="/write" component={PostingForm} />
           <Route exact path="/usersetting" component={SearchContainer} />
           {/* <Route exact path="/list" component={Post} /> */}
           <Route exact path="/userprofile" component={UserProfile} />
           <Route path="/email/:email/:key" component={EmailComplete} />
           <Route path="/changepassword/:token" component={ChangePassword} />
+          <Route path="/mypage" component={Mypage} />
         </div>
         <Header />
       </div>
