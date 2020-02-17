@@ -66,9 +66,14 @@ public class VolParser {
 						vol.setActEndTm(find.getActEndTm());
 						vol.setAppnow(find.getAppnow());
 						vol.setTarget(find.getTarget());
+						
 					}
 				} finally {
-					dao.addVol(vol);
+					if(dao.getAuth(vol.getProgrmRegistNo())) { //있으면 업데이트
+						dao.updateVol(vol);
+					}else { //없으면 추가
+						dao.addVol(vol);
+					}
 				}
 				//dao2.addPost(new Post("0", ""+cnt++, null, null, "0"));
 				System.out.println(vol);
