@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Tab from "containers/mainpage/Tab"
 import SearchBar from "components/search/SearchBar"
 import "assets/mycss/mainpage.scss";
-
+import SearchContainer from 'containers/usersetting/SearchContainer';
+import ModalForm from './ModalForm'
 export default class MainPage extends Component {
   render() {
 
@@ -17,7 +18,7 @@ export default class MainPage extends Component {
           <h3 className="title titleheader">최신 봉사활동 정보</h3>
         </div>
         <div>
-          <SearchBar />
+          <SearchBar /> <ModalForm />
         </div>
         <div>
           <Tab />
