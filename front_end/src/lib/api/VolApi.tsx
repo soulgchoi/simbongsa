@@ -1,8 +1,8 @@
 import axios from "axios";
 import storage from "lib/storage";
 
-const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205";
-// const restBaseApi = "http://70.12.247.87:8080"; // 이신호
+// const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205";
+const restBaseApi = "http://70.12.247.87:8080"; // 이신호
 // const restBaseApi = "http://70.12.247.34:8080"; // 박정환
 // const restBaseApi = "http://70.12.247.126:8080"; // 김동주
 

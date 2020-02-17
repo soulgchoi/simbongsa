@@ -4,12 +4,8 @@ import { List } from "immutable";
 import { connect } from "react-redux";
 import { changeDate, changeToggle } from "redux/modules/calendar";
 import { bindActionCreators } from "redux";
-<<<<<<< HEAD
-import Calendar from "components/Calendar/Calendar";
-=======
 import Calendar from "components/calendar/Calendar";
 import * as volActions from "redux/modules/vol";
->>>>>>> 26c5d206ed08f585436286b47bad36afba4140dd
 import VolList from "components/vol/VolList";
 interface Props {
   date: MomentTypes;
@@ -33,7 +29,7 @@ class CalendarContainer extends React.Component<Props, any> {
     VolActions.appendList(this.state.pageNum);
     console.log(this.props.volunteers)
   }
-  calActions = (date: any, toggle: any, vol: any) => {
+  calActions = (date: any, toggle: any, vol?: any) => {
     const { changeDate, changeToggle, VolActions } = this.props;
     console.log("calActions", date, toggle, vol)
     changeDate(date)
@@ -56,7 +52,9 @@ class CalendarContainer extends React.Component<Props, any> {
           volunteers={props.volunteers}
           calActions={this.calActions}
         />
-        {props.toggle && <VolList volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
+        <div style={{ "margin": 25 }}>
+          {props.toggle && <VolList volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
+        </div>
       </div>
     );
   }
