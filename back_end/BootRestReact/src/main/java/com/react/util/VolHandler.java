@@ -47,9 +47,9 @@ public class VolHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) {
 		//final String name = qName == null ? localName : qName;
 		if (qName.equals("actBeginTm")) {
-			vol.setActBeginTm(temp.toString());
+			vol.setActBeginTm(temp.toString() + ":00:00");
 		} else if (qName.equals("actEndTm")) {
-			vol.setActEndTm(temp.toString());
+			vol.setActEndTm(temp.toString() + ":00:00");
 		} else if (qName.equals("actPlace")) {
 			vol.setActPlace(temp.toString());
 		} else if (qName.equals("adultPosblAt")) {
