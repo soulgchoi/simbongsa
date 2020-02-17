@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -55,20 +56,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				// dont authenticate this particular request
 				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
+				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//			.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
 //				.antMatchers("/").permitAll()
 				// all other requests need to be authenticated
 //				.anyRequest().permitAll().and() //--> 야매용
-
 				.anyRequest().authenticated().and()
-//				.authenticated().and(). //일단 테스트 용으로 풀어놈
+				.cors().and()
+				//				.authenticated().and(). //일단 테스트 용으로 풀어놈
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
+	
 	@Override 
 	public void configure(WebSecurity web) { 
 		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");

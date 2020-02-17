@@ -17,6 +17,7 @@ public class VolDao {
 	public void updateVol(Vol vol) throws Exception {
 		SqlSession session = MyBatisUtil2.getSqlSession();
 		session.update("volunteer.updateVol", vol);
+		session.commit();
 	}
 	
 //	public void updateAppnow(int v_id, int num) throws Exception {
