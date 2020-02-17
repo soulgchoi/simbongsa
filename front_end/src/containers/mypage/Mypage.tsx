@@ -64,8 +64,10 @@ class Mypage extends Component<Props, State> {
       });
       // let preferTimeDataList = [],
       // let preferTimeLabelList = []
-      this.setState({ preferlocationDataList: preferlocationDataList });
-      this.setState({ preferlocationLabelList: preferlocationLabelList });
+      if (preferlocationDataList.size > 0 && preferlocationLabelList.size > 0) {
+        this.setState({ preferlocationDataList: preferlocationDataList });
+        this.setState({ preferlocationLabelList: preferlocationLabelList });
+      }
     }
     return this.state.preferlocationDataList.size > 0;
   }
