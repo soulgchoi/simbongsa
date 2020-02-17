@@ -1,20 +1,25 @@
 import React from 'react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import moment, { Moment as MomentTypes } from "moment";
-
 import './Calendar.scss';
+import * as volActions from 'redux/modules/vol';
+
 
 interface Props {
+    dayVolList: Function
     date: MomentTypes
     changeDate: Function
+    changeToggle: Function
     toggle: boolean
+    volunteers: any
+    calActions: any
 }
 function Calendar(props: Props) {
     console.log("여기", props);
     return (
         <div className="Calendar">
-            <Head date={props.date} changeDate={props.changeDate} toggle={props.toggle} />
-            <Body date={props.date} changeDate={props.changeDate} toggle={props.toggle} />
+            <Head date={props.date} changeDate={props.changeDate} toggle={props.toggle} volunteers={props.volunteers} changeToggle={props.changeToggle} dayVolList={props.dayVolList} calActions={props.calActions} />
+            <Body date={props.date} changeDate={props.changeDate} toggle={props.toggle} volunteers={props.volunteers} changeToggle={props.changeToggle} dayVolList={props.dayVolList} calActions={props.calActions} />
         </div>
     )
 }
@@ -42,11 +47,15 @@ function Body(props: Props) {
                             let isSelected = props.date.format('YYYYMMDD') === current.format('YYYYMMDD') ? 'selected' : '';
                             let isToday = moment().format('YYYYMMDD') === current.format('YYYYMMDD') ? 'today' : '';
                             let isGrayed = current.format('MM') === props.date.format('MM') ? '' : 'grayed';
-                            let isCounted = current.format('D')
+                            let isVol = props.volunteers.filter((volunteer: any) => volunteer.v_pBgnD == current.format('YYYY-MM-DD'));
+                            if (isSelected === 'selected') {
+                                console.log(current.format('YYYY-MM-DD'), isVol)
+                            }
+                            let isCounted = isVol.size
                             return (
-                                <div className={`box`} key={i} onClick={() => props.changeDate({ date: current, toggle: !props.toggle })}>
+                                <div className={`box`} key={i} onClick={() => props.calActions(current, true, isVol)}>
                                     <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
-                                    <div className={`count`} key={i} onClick={() => props.changeDate({ date: current, toggle: !props.toggle })}>[{isCounted}]</div>
+                                    <div className={`count`} key={i} onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</div>
                                 </div>
                             )
                         })
@@ -72,4 +81,4 @@ function Body(props: Props) {
     )
 }
 
-export default Calendar;
+export default Calendar

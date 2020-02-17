@@ -22,7 +22,9 @@ const GET_VOL_DETAIL = 'volunteer/GET_VOL_DETAIL';
 const SET_SHOW_VOL_INFO = 'vol/SET_SHOW_VOL_INFO';
 const SELECT_VOL = 'volunteer/SELECT_VOL';
 const GET_VOL_LIST_BY_USER_ID = "vol/GET_VOL_LIST_BY_USER_ID";
+const DAY_VOL_LIST = "vol/DAY_VOL_LIST";
 
+export const dayVolList = createAction(DAY_VOL_LIST)
 export const setVolMap = createAction(SET_VOL_MAP);
 export const setSelectedVolunteer = createAction(SET_SELECTED_VOLUNTEER, VolApi.getVolDetail);
 export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
@@ -43,6 +45,7 @@ export const getVolListByUserId = createAction(
 export interface volState {
   volunteers: List<any>;
   volunteersForMap: List<any>;
+  volunteersForCal: List<any>;
   currentLocation: { y: number; x: number };
   selectedVolunteer: {};
   selectedMarker: any;
@@ -54,6 +57,7 @@ export interface volState {
 const initialState = Map({
   volunteers: List([]),
   volunteersForMap: List([]), // 지도에서 검색결과로 사용할 봉사리스트
+  volunteersForCal: List([]), // 달력에서 검색결과로 사용할 봉사리스트
   currentLocation: { y: 37.5668260054857, x: 126.978656785931 },
   selectedVolunteer: { v_id: null },
   volMap: null,
@@ -86,6 +90,9 @@ export default handleActions<any>(
     },
     [SET_SHOW_VOL_INFO]: (state, action) => {
       return state.set("showVolInfo", action.payload);
+    },
+    [DAY_VOL_LIST]: (state, action) => {
+      return state.set("volunteersForCal", List(action.payload));
     },
     ...pender({
       type: SET_SELECTED_VOLUNTEER,
