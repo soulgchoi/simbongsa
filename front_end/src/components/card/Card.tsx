@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
 
-
 interface Props {
     post: {
         p_id: 0,
@@ -13,21 +12,18 @@ interface Props {
     };
 }
 
-class CardComponent extends React.Component{
+class CardComponent extends React.Component<Props, {}>{
     render() {
         return (
             <Card>
-                <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
+                {/* <Image src='/images/avatar/large/matthew.png' wrapped ui={false} /> */}
                 <Card.Content>
                 <Card.Description>
-                    {this.props}
+                    {this.props.post.p_content}
                 </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                <a>
-                    <Icon name='user' />
-                    22 Friends
-                </a>
+                    
                 </Card.Content>
             </Card>
         )

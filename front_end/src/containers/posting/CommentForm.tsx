@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import storage from "lib/storage";
-
+import { useHistory } from 'react-router-dom';
+import GoBackButton from 'components/button/GoBackButton'
 let token = storage.get("token")
 
 interface Props {
@@ -40,9 +41,16 @@ class CommentForm extends React.Component<Props, {}> {
         console.log(res)
         })
         .catch(err => console.log(err))
+        // this.handleBack()
         }
 
+        // handleBack() {
+        //     this.props.history.push('/');
+        // }
+        
+
     render() {
+
         return(
             <div>
                 <form>
@@ -50,8 +58,9 @@ class CommentForm extends React.Component<Props, {}> {
                         value={this.state.c_content}
                         onChange={this.handleChange}
                     ></input>
-                    <button onClick={this.handleClick}>
-                        comment
+                    <button
+                        onClick={this.handleClick}>
+                            댓글 등록
                     </button>
                 </form>
             </div>

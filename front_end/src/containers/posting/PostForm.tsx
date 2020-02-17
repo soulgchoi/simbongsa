@@ -3,15 +3,17 @@ import axios from 'axios';
 import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
 import { bindActionCreators } from "redux";
-import GoBackButton from 'components/button/GoBackButton';
+import LinkButton from 'components/button/LinkButton';
+import GoBackButton from 'components/button/GoBackButton'
+import { Form, TextArea } from 'semantic-ui-react'
 import { Checkbox } from 'semantic-ui-react'
 import storage from 'lib/storage'
-
+import { Link } from 'react-router-dom'
 let token = storage.get('token')
 
 class PostingForm extends React.Component<any, any> {
     state = {
-        p_status: "0"
+        p_status: "1"
     }
 
     componentWillMount() {
@@ -55,8 +57,10 @@ class PostingForm extends React.Component<any, any> {
 
     handleSubmit = (e:any) => {
         e.preventDefault();
-        const { p_content, v_id, p_status, m_id } = this.props.form.toJS();
+        const { p_content, m_id } = this.props.form.toJS();
         const { selectedfiles } = this.props
+        var v_id = this.props.match.params.id
+        var p_status = this.state.p_status
         console.log(selectedfiles)
 
         const files = new FormData()
@@ -70,10 +74,6 @@ class PostingForm extends React.Component<any, any> {
                 m_id
             }
 
-        // console.log(this.state.files)
-        // axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", {post}, 
-        // axios.post("http://70.12.247.87:8080/rest/Post/", {post, files},
-        // axios.post("http://70.12.247.126:8080/rest/Post", post,
         axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
@@ -85,21 +85,25 @@ class PostingForm extends React.Component<any, any> {
         axios.post("http://i02a205.p.ssafy.io:8080/rest/PostFile", files,
             {headers: {
                 "Content-Type": "multipart/form-data",
-                Authorization: "Bearer" + token
+                Authorization: "Bearer " + token
                 }
         })
         .then(res => {
             console.log(res)
         })
         .catch(err => console.log(err))
+        this.props.history.push(`/${v_id}/list`);
     }
 
 
     render() {
         const { selectedFiles, p_content } = this.props.form;
+        var v_id = this.props.match.params.id
+        console.log(this.props)
+        console.log(v_id)
         return (
             
-            <div className="wrapC">
+            <Form>
             <label>
             <input type="radio" value="1" checked={this.state.p_status === "1"}
                 onChange={this.handleStatusChange}
@@ -112,10 +116,9 @@ class PostingForm extends React.Component<any, any> {
             />
                 후기
             </label>
-            <input
+            <TextArea
                 value={p_content}
                 className="posting"
-                type="textarea"
                 name="content"
                 id="p_content"
                 placeholder="내용을 입력하세요."
@@ -129,11 +132,15 @@ class PostingForm extends React.Component<any, any> {
             />
             <label htmlFor="files">이미지 업로드</label>
                 {/* {imagepreview} */}
-            <button className="my--btn" onClick={this.handleSubmit}>게시글 등록하기</button>
+
+            <button onClick={this.handleSubmit}>
+                        게시글 등록하기
+            </button>
+            
             <GoBackButton
                     text="취소하기"
                 />
-            </div>
+            </Form>
         );
     }
   }
