@@ -29,7 +29,7 @@ class CalendarContainer extends React.Component<Props, any> {
     VolActions.appendList(this.state.pageNum);
     console.log(this.props.volunteers)
   }
-  calActions = (date: any, toggle: any, vol: any) => {
+  calActions = (date: any, toggle: any, vol?: any) => {
     const { changeDate, changeToggle, VolActions } = this.props;
     console.log("calActions", date, toggle, vol)
     changeDate(date)
@@ -52,7 +52,9 @@ class CalendarContainer extends React.Component<Props, any> {
           volunteers={props.volunteers}
           calActions={this.calActions}
         />
-        {props.toggle && <VolList volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
+        <div style={{ "margin": 25 }}>
+          {props.toggle && <VolList volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
+        </div>
       </div>
     );
   }

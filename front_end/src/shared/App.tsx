@@ -40,6 +40,7 @@ import jwt from "jsonwebtoken";
 // json 관련
 import locationAllList from "components/usersetting/temp.json"
 import categoryAllList from "components/usersetting/temp2.json"
+import test from "containers/test/test";
 class App extends Component<any> {
   initializeUserInfo = async () => {
     const token = storage.get("token"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
@@ -164,6 +165,7 @@ class App extends Component<any> {
           {/* <div className="wrapC"> */}
           {/* <Route path="/" component={Header} /> */}
           <Route exact path="/" component={Login} />
+          <Route exact path="/test" component={test} />
           <Route exact path="/main" component={Main} />
           <Route exact path="/join" component={Join} />
           <Route path="/findpassword" component={FindPassword} />
