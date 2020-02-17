@@ -8,6 +8,7 @@ interface Props {
   data: number[];
   width: any;
   height: any;
+  title: string;
 }
 interface State {}
 
@@ -81,16 +82,22 @@ export default class PieGraph extends Component<Props, State> {
   };
 
   render() {
-    console.log("파이 렌더링", this.state.data);
-    const { width, height } = this.props;
+    const { data } = this.state;
+    const { width, height, title } = this.props;
     return (
       <div>
-        <Pie
-          data={this.state.data}
-          width={width}
-          height={height}
-          options={{ maintainAspectRatio: false }} // width, height 커스텀 사이즈로 하기 위해선 옵션에서 maintainAspectRatio: false 설정
-        />
+        <div> {title} </div>
+        {data.datasets[0].data.length === 0 && (
+          <div>봉사 기록이 없어요. 이제 시작 해볼까요?</div>
+        )}
+        {data.datasets[0].data.length > 0 && (
+          <Pie
+            data={data}
+            width={width}
+            height={height}
+            options={{ maintainAspectRatio: false }} // width, height 커스텀 사이즈로 하기 위해선 옵션에서 maintainAspectRatio: false 설정
+          />
+        )}
       </div>
     );
   }

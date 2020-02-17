@@ -22,12 +22,12 @@ export default handleActions(
   {
     [DATE_CHANGE]: (state, action: any) => {
       console.log("날짜 바꾸기", action.payload);
-      return produce((state: any, draft: any) => {
+      return produce(state, (draft: any) => {
         draft.date = action.payload;
       });
     },
     [TOGGLE_CHANGE]: (state, action: any) => {
-      return produce((state: any, draft: any) => {
+      return produce(state, (draft: any) => {
         draft.toggle = action.payload;
       });
     }

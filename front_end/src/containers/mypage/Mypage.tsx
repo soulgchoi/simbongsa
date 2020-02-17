@@ -13,7 +13,7 @@ import RegionList from "lib/json/region.json";
 interface Props {
   VolActions: any;
   userId: string;
-  volListByUserId: { data: [] };
+  volListByUserId: any[];
 }
 interface State {
   preferlocationDataList: any;
@@ -39,10 +39,9 @@ class Mypage extends Component<Props, State> {
     const { volListByUserId, userId } = this.props;
     let { preferlocationDataList, preferlocationLabelList } = this.state;
     // 봉사 리스트에 대해서 작업
-    let list = volListByUserId.data;
+    let list = volListByUserId;
     let preferLocationMap = new Map<string, number>();
     if (preferlocationDataList.size === 0 && typeof list !== "undefined") {
-      console.log("리스트 크기", list);
       list.forEach((item: any) => {
         // 지역 뽑아내기 (시, 구)
         let r_id = item.r_id - 1;
@@ -83,6 +82,7 @@ class Mypage extends Component<Props, State> {
         <div>
           <div>
             <PieGraph
+              title={"봉사 선호 지역 통계"}
               data={preferlocationDataList.toJS()}
               labels={preferlocationLabelList.toJS()}
               width={300}
