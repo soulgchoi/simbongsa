@@ -41,16 +41,16 @@ render(){
                  />
              </div> */}
              <div>
-                 { this.state.posts.map ( post => {
+                 {/* { this.state.posts.map ( post => {
                      return (
-                         <Post
-                             key={post.p_id}
-                             p_id={post.p_id}
-                            //  volunteer={post.volunteer}
-                             p_content={post.p_content}
-                         />
+                        //  <Post
+                        //      key={post.p_id}
+                        //      p_id={post.p_id}
+                        //     //  volunteer={post.volunteer}
+                        //      p_content={post.p_content}
+                        //  />
                      )
-                 })}
+                 })} */}
              </div>
 
         </div>
