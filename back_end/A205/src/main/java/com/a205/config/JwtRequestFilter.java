@@ -48,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-				Member m = memberDao.searchByEmail(username);
+				Member m = memberDao.searchByEmail(username); 
 				if(!m.getM_key().equals("Y")) {
 					logger.warn("Member didn't enter Email");
 				};
