@@ -27,6 +27,7 @@ class Post extends Component<Props, {}> {
       v_id: 0,
       m_id: 0,
       p_status: 0,
+      post_vote_members: [],
       files: []
     }
   };
@@ -48,7 +49,8 @@ class Post extends Component<Props, {}> {
             m_id: data.m_id,
             p_stats: data.p_status,
             files: data.files,
-            p_id: data.p_id
+            p_id: data.p_id,
+            post_vote_members: data.post_vote_members
           }
         });
       })
