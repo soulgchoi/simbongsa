@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import Router from "./Router";
+import Router from './Router'
+import { Grid } from "semantic-ui-react";
+
+import Footer from "components/footer/Footer";
 
 // 로컬에 저장
 import storage from "lib/storage";
@@ -13,6 +16,8 @@ import jwt from "jsonwebtoken";
 // json 관련
 import locationAllList from "components/usersetting/temp.json";
 import categoryAllList from "components/usersetting/temp2.json";
+
+import { Container } from 'semantic-ui-react'
 
 class App extends Component<any> {
   initializeUserInfo = async () => {
