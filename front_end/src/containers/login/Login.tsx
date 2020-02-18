@@ -165,7 +165,7 @@ class Login extends React.Component<any, any> {
                 onSuccess={handleGoogleLogin}
                 onFailure={result => console.log(result)}
                 cookiePolicy={"single_host_origin"}
-                redirectUri="http://localhost:3000"
+                redirectUri={process.env.REACT_APP_FRONT_URI}
               />
             </div>
             <div className="add-option">

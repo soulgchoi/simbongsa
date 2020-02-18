@@ -2,26 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
 
-const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/";
-// const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
-
-// const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
-// const restBaseApi = "http://70.12.247.126:8080/"; // 김동주
-
-/*
-★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
-인증 관련 API 는
-사용자가 로그인 하지 않은 상태에서 요청하기 때문에
-사용자 Token 을 필요로 하지 않는다. ( Back-end쪽에서도 예외처리 필요. )
-
-★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
-*/
-
-// 2020-02-16 01:25 간혹 token을 요구하는 api가 있어서 임시로 토큰을 할당함. 나중에 토큰은 전부 삭제 필요.
-// sendSignUpEmail
-// changePasswordEmailSend
-// const token =
-//   "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA";
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 
 export const checkEmailExists = (email: string) => {
   try {

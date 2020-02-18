@@ -82,7 +82,7 @@ class Mypage extends Component<Props, State> {
       <div>
         <div>
           <LinkButton
-            link="http://localhost:3000/usersetting"
+            link={process.env.REACT_APP_FRONT_URI + "/usersetting"}
             placeholder="내 정보 수정"
           />
 

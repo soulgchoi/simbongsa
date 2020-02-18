@@ -13,7 +13,7 @@ export default class ListUp extends Component {
     return arr;
   };
   componentDidMount() {
-    setInterval(this.rotate, 3000);
+    setInterval(this.rotate, 4000);
   }
   render() {
     console.log(this.state.data);
@@ -32,7 +32,6 @@ export default class ListUp extends Component {
                 className="main-list-details"
                 style={{ backgroundImage: item.css }}
               >
-                {/* <h1>{item.name}</h1> */}
                 <h2>{item.name}</h2>
               </div>
             </div>

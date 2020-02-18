@@ -3,16 +3,7 @@ import { Tab } from "semantic-ui-react";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Location from "containers/location/Location";
 import VolListPage from "containers/vollistpage/VolListPage";
-import Feed from "containers/feed/Feed";
 const panes = [
-  {
-    menuItem: "피드",
-    render: () => (
-      <Tab.Pane>
-        <Feed />
-      </Tab.Pane>
-    )
-  },
   {
     menuItem: "리스트",
     render: () => (

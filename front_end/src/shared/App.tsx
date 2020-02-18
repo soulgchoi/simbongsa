@@ -18,7 +18,7 @@ import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import SearchContainer from "containers/usersetting/SearchContainer";
 // import Postings from "containers/posting/Postings"
-
+import Feed from "containers/feed/Feed";
 import PostingList from "containers/posting/PostingList";
 import Mypage from "containers/mypage/Mypage";
 import Main from "containers/main/Main";
@@ -171,10 +171,10 @@ class App extends Component<any> {
     }
   };
 
-  initialLoad = async (userId: string) => {
+  initialLoad = (userId: string) => {
     const { UserActions } = this.props;
     console.log(userId);
-    await UserActions.setPreferInfo(userId);
+    UserActions.setPreferInfo(userId);
   };
   shouldComponentUpdate(nextProps: any) {
     const { userId } = this.props;
@@ -224,6 +224,7 @@ class App extends Component<any> {
             path="/mainpage/detail/:voltitle"
             component={VolDetail}
           />
+          <Route path="/intro" component={Intro} />
           <Route path="/location" component={Location} />
           <Route exact path="/vol/:id/detail" component={VolDetail} />
           <Route exact path="/vol/:id/write" component={PostingForm} />
@@ -236,6 +237,7 @@ class App extends Component<any> {
           <Route path="/email/:email/:key" component={EmailComplete} />
           <Route path="/changepassword/:token" component={ChangePassword} />
           <Route path="/mypage" component={Mypage} />
+          <Route path="/feed" component={Feed} />
         </div>
         <Header />
       </div>

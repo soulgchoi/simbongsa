@@ -7,10 +7,10 @@ export default function Header({}: Props): ReactElement {
   return (
     <div className="vol-header">
       <div className="vol-header-item">
-        <LinkButton placeholder="home" link="/main" />
+        <LinkButton placeholder="home" link="/mainpage" />
       </div>
       <div className="vol-header-item">
-        <LinkButton placeholder="feed" link="/mainpage" />
+        <LinkButton placeholder="feed" link="/feed" />
       </div>
       <div className="vol-header-item">
         <LinkButton placeholder="my" link="/mypage" />
