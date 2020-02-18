@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 interface Props {
   volunteers: any[];
   width?: number;
-  height: string;
+  height?: string;
   appendList: () => void; // volunteers 에 10개를 더 붙여주는 함수.
   loadingMessage: string;
 }
@@ -24,22 +24,23 @@ export default class VolList extends React.Component<Props, State> {
   render() {
     const { volunteers, height, loadingMessage } = this.props;
     const { loadMoreData } = this;
+    const { pageNum } = this.state;
     const PrintArray = volunteers.map((vol: any, i: any) => {
       return <Vol volunteer={vol} v_id={vol.v_id} key={i} />;
     });
-
-        console.log("높이", height);
-        return (
-            <InfiniteScroll
-                dataLength={volunteers.length}
-                height={height}
-                next={loadMoreData}
-                hasMore={volunteers.length < this.state.pageNum * 10}
-                loader={<h4>봉사활동 목록을 불러오는중</h4>}
-                endMessage={<h3>모든 정보를 확인했습니다.</h3>}
-            >
-                {PrintArray}
-            </InfiniteScroll>
-        )
-    }
+    console.log("페이지 넘버", pageNum);
+    console.log("높이", height);
+    return (
+      <InfiniteScroll
+        dataLength={volunteers.length}
+        height={height}
+        next={loadMoreData}
+        hasMore={volunteers.length <= pageNum * 10}
+        loader={<h4>봉사활동 목록을 불러오는중</h4>}
+        endMessage={<h3>모든 정보를 확인했습니다.</h3>}
+      >
+        {PrintArray}
+      </InfiniteScroll>
+    );
+  }
 }

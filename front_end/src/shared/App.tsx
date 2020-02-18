@@ -40,6 +40,9 @@ import jwt from "jsonwebtoken";
 // json 관련
 import locationAllList from "components/usersetting/temp.json";
 import categoryAllList from "components/usersetting/temp2.json";
+
+import { Container } from "semantic-ui-react";
+
 class App extends Component<any> {
   initializeUserInfo = async () => {
     const token = storage.get("token"); // 로그인 정보를 로컬스토리지에서 가져옵니다.
@@ -205,12 +208,12 @@ class App extends Component<any> {
         <div>
           <Grid reversed="mobile vertically">
             <Grid.Row>
-              <Grid.Column>
+              <Grid.Column style={{ height: "5vh" }}>
                 <Header />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column>
+              <Grid.Column style={{ height: "95vh" }}>
                 {/* 여기에 라우트 합니다. */}
                 {/* <TemporaryDrawer /> */}
                 {/* <div className="wrapC"> */}
@@ -254,7 +257,6 @@ class App extends Component<any> {
           </Grid>
         </div>
       </div>
-      // </div>
     );
   }
 }
