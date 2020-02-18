@@ -171,10 +171,10 @@ class App extends Component<any> {
     }
   };
 
-  initialLoad = async (userId: string) => {
+  initialLoad = (userId: string) => {
     const { UserActions } = this.props;
     console.log(userId);
-    await UserActions.setPreferInfo(userId);
+    UserActions.setPreferInfo(userId);
   };
   shouldComponentUpdate(nextProps: any) {
     const { userId } = this.props;

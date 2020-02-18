@@ -1,5 +1,5 @@
 import React, { ReactElement, Fragment } from "react";
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Input } from 'semantic-ui-react'
 // import "assets/mycss";
 
 interface Props {
@@ -26,21 +26,33 @@ export default function SearchInput({
     <Fragment>
       <Form>
         <Form.Field>
-          <input
+          <Input
             value={value}
             onChange={onChange}
             id={id}
             placeholder={placeholder}
             type={type}
-            onKeyDown={event => {
+            onKeyDown={(event: any) => {
               if (event.key === "Enter" && onEnter !== undefined) {
                 onEnter(event);
               }
             }}
-          />
+            fluid
+            action={{
+              icon: 'search',
+              onClick: handleSubmit,
+              onkeyup: (event: any) => {
+                if (event.key === "Enter" && onEnter !== undefined) {
+                  onEnter(event);
+                }
+              },
+              color: 'orange',
+
+            }} />
         </Form.Field>
       </Form>
-      <Button color='orange' type='submit' onClick={handleSubmit}>검색</Button>
     </Fragment>
+
+
   );
 }
