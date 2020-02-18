@@ -8,6 +8,7 @@ import * as userActions from "redux/modules/user";
 const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오기
+const CHANGE_LOADING = "user/CHANGE_LOADING" // loading 설정
 const GET_FEED_LIST = "user/GET_FEED_LIST"; // 유저의 피드 리스트 가져오기
 const APPEND_FEED_LIST = "volunteer/APPEND_FEED_LIST";
 
@@ -21,6 +22,8 @@ export const setPreferInfo = createAction(
   SET_PREFER_INFO,
   UserAPI.localPreferInfo
 );
+export const changeLoading = createAction(CHANGE_LOADING)
+
 export const getFeedList = createAction(GET_FEED_LIST, UserAPI.getFeedList);
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
@@ -43,6 +46,7 @@ interface initialStateParams {
   logged: boolean; // 현재 로그인중인지 알려준다
   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: boolean;
+  loading: boolean;
   feedList: List<any>;
 }
 const initialState = Map({
@@ -67,6 +71,7 @@ const initialState = Map({
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: false,
+  loading: false,
   feedList: List([])
 });
 
@@ -82,7 +87,10 @@ export default handleActions<any>(
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
-
+    [CHANGE_LOADING]: (state, action) => {
+      console.log("loading 여기 들어오니", action.payload)
+      return state.set("loading", action.payload)
+    },
     ...pender({
       type: SET_PREFER_INFO,
 

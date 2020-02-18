@@ -61,6 +61,7 @@ export interface volState {
   showVolInfo: boolean;
   volunteer: Object;
   volListByUserId: List<any>;
+
 }
 
 const initialState = Map({
@@ -73,7 +74,8 @@ const initialState = Map({
   selectedMarker: null,
   showVolInfo: false,
   volunteer: { v_id: null },
-  volListByUserId: []
+  volListByUserId: [],
+
 });
 
 export default handleActions<any>(

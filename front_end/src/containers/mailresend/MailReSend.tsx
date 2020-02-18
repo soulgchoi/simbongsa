@@ -116,7 +116,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <button
             disabled={!this.state.isSubmit}
             className="btn btn--back btn--login"
-            // onClick={"#"}
+          // onClick={"#"}
           >
             메일 재전송
           </button>

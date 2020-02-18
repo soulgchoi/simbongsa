@@ -4,15 +4,15 @@ import { Button } from "semantic-ui-react";
 interface Props {
   placeholder?: string;
   // disabled : boolean
-  action: () => void;
+  action: (event: any) => void;
 }
-interface State {}
+interface State { }
 
 export default function ActionButton({
   placeholder,
   action
 }: // disabled,
-Props): ReactElement {
+  Props): ReactElement {
   return (
     <div>
       {/* <button className="my--btn" onClick={action} disabled={disabled}> */}
