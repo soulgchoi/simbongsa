@@ -3,7 +3,7 @@ import Tab from "containers/mainpage/Tab"
 import SearchBar from "components/search/SearchBar"
 import SearchContainer from 'containers/usersetting/SearchContainer';
 import ModalForm from './ModalForm'
-import { Grid, Segment, Responsive, Container, Header, Icon, Image, Dimmer, Loader } from 'semantic-ui-react'
+import { Grid, Segment, Responsive, Container, Header, Icon, Image, Dimmer, Loader, GridColumn } from 'semantic-ui-react'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
@@ -37,12 +37,15 @@ class MainPage extends Component<Iprops> {
             </div>
 
             <SearchBar />
-            <ModalForm />
+            <Grid >
+              <ModalForm />
+            </Grid>
+
           </Container>
 
           <Tab />
-        </Segment>
-      </Fragment>
+        </Segment >
+      </Fragment >
     );
   }
 }

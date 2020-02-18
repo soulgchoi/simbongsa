@@ -12,9 +12,20 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import storage from "lib/storage";
 import ActionButton from 'components/button/ActionButton'
-class SearchBar extends React.Component<any, any> {
+interface Iprops {
+    input: string
+    SearchActions: typeof searchActions
+    VolActions: typeof volActions
+    loading: boolean
+    UserActions: typeof userActions
+    volunteers: any
+}
+interface Istate {
+    error: string
+}
+class SearchBar extends React.Component<Iprops, Istate> {
     state = {
-        error: ""
+        error: "",
     }
     handleSubmit = (event: any) => {
         const { input, SearchActions } = this.props
@@ -44,10 +55,11 @@ class SearchBar extends React.Component<any, any> {
 
     }
 
+
+
     render() {
         const { volunteers, input } = this.props
         console.log("vol", volunteers)
-
         const { error } = this.state
         return (
             <Fragment>

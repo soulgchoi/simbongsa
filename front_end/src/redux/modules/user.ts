@@ -79,7 +79,7 @@ export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
       const { sub, aud, iss } = action.payload;
-      console.log("sub, iss", action);
+      console.log("sub, iss", action.payload);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)

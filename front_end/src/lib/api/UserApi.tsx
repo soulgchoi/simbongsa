@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
-
+import jwt from "jsonwebtoken";
 const restBaseApi = "http://i02a205.p.ssafy.io:8080/A205/";
 // const restBaseApi = "http://70.12.247.87:8080/"; // 이신호
 // const restBaseApi = "http://70.12.247.34:8080/"; // 박정환
@@ -52,10 +52,10 @@ export const checkFollow = async (followerId: string, followeeId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
     restBaseApi +
-      "isfollowing?follower_userid=" +
-      followerId +
-      "&followee_userid=" +
-      followeeId,
+    "isfollowing?follower_userid=" +
+    followerId +
+    "&followee_userid=" +
+    followeeId,
     { headers: { Authorization: token } }
   );
   console.log("팔로잉체크", response.data.data);
@@ -109,34 +109,38 @@ export const localPreferRegister: ({
   preferRegion,
   userId
 }: Iprefer) => {
-  let data = {
-    m_age: age,
-    m_bgnTm: bgnTm,
-    m_endTm: endTm,
-    prefer_category: preferCategory,
-    prefer_region: preferRegion
+    let data = {
+      m_age: age,
+      m_bgnTm: bgnTm,
+      m_endTm: endTm,
+      prefer_category: preferCategory,
+      prefer_region: preferRegion
+    };
+    try {
+      const token = "Bearer " + storage.get("token");
+      console.log("체크 : ", data);
+      return axios.patch(restBaseApi + `rest/Member/${userId}`, data, {
+        headers: { Authorization: token }
+      });
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
   };
-  try {
-    const token = "Bearer " + storage.get("token");
-    console.log("체크 : ", data);
-    return axios.patch(restBaseApi + `rest/Member/${userId}`, data, {
-      headers: { Authorization: token }
-    });
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
 
 export const localPreferInfo = (userId: string) => {
   try {
+    console.log("userId는 이거입니다", userId)
+    const tokenTemp = storage.get("token")
+    const temp: any = jwt.decode(tokenTemp);
+    const userId2 = temp.iss
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + `rest/Member/${userId}/PreferDetail`, {
+    return axios.get(restBaseApi + `rest/Member/${userId2}/PreferDetail`, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -145,12 +149,16 @@ export const localPreferInfo = (userId: string) => {
   }
 };
 
-export const getFeedList = (mId: number, pgNum: number) => {
+export const getFeedList = (mId: string, pgNum: number) => {
   try {
+    console.log("mId", mId)
+    const tokenTemp = storage.get("token")
+    const temp: any = jwt.decode(tokenTemp);
+    const mId2 = temp.aud
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
-    return axios.get(restBaseApi + `rest/PostFeed/${mId}/10/${pgNum}`, {
+    return axios.get(restBaseApi + `rest/PostFeed/${mId2}/10/${pgNum}`, {
       headers: { Authorization: token }
     });
   } catch (error) {
