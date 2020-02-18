@@ -95,7 +95,7 @@ public class PostRestController {
 	
 	@PostMapping("/PostFile")
 	@ApiOperation("전달받은 포스트 파일을 등록한다.")
-	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files", required = false) MultipartFile[] files) {
+	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files") MultipartFile[] files) {
 		try {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			List<FileUploadResponse> fileResponses = null;
