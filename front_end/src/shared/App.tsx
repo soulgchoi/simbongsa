@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-
+import { Grid } from "semantic-ui-react";
 // import Login from "containers/login/Login2";
 import Login from "containers/login/Login";
 import Join from "containers/join/Join";
@@ -12,7 +12,6 @@ import Calendar from "components/calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
 import Intro from "containers/intro/Intro";
-
 import VolDetail from "components/vol/VolDetail";
 import PostingForm from "containers/posting/PostForm";
 import CalendarContainer from "containers/calendar/CalendarContainer";
@@ -204,42 +203,56 @@ class App extends Component<any> {
     return (
       <div>
         <div>
-          {/* <TemporaryDrawer /> */}
-          {/* <div className="wrapC"> */}
-          {/* <Route path="/" component={Header} /> */}
-          <Route exact path="/" component={Login} />
-          <Route exact path="/main" component={Intro} />
-          <Route exact path="/join" component={Join} />
-          <Route path="/findpassword" component={FindPassword} />
-          <Route
-            path="/findpasswordmailsend"
-            component={FindPasswordMailSend}
-          />
-          <Route path="/join/complete" component={JoinComplete} />
-          <Route path="/mailresend" component={MailReSend} />
-          <Route path="/calendar" component={CalendarContainer} />
-          <Route exact path="/mainpage" component={MainPage} />
-          <Route
-            exact
-            path="/mainpage/detail/:voltitle"
-            component={VolDetail}
-          />
-          <Route path="/intro" component={Intro} />
-          <Route path="/location" component={Location} />
-          <Route exact path="/vol/:id/detail" component={VolDetail} />
-          <Route exact path="/vol/:id/write" component={PostingForm} />
-          <Route exact path="/:id/list" component={PostingList} />
-          {/* <Route exact path="/vol/detail/:id" component={VolDetail} /> */}
-          <Route exact path="/write" component={PostingForm} />
-          <Route exact path="/usersetting" component={SearchContainer} />
-          {/* <Route exact path="/list" component={Post} /> */}
-          <Route exact path="/userprofile" component={UserProfile} />
-          <Route path="/email/:email/:key" component={EmailComplete} />
-          <Route path="/changepassword/:token" component={ChangePassword} />
-          <Route path="/mypage" component={Mypage} />
-          <Route path="/feed" component={Feed} />
+          <Grid reversed="mobile vertically">
+            <Grid.Row>
+              <Grid.Column>
+                <Header />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                {/* 여기에 라우트 합니다. */}
+                {/* <TemporaryDrawer /> */}
+                {/* <div className="wrapC"> */}
+                {/* <Route path="/" component={Header} /> */}
+                <Route exact path="/" component={Login} />
+                <Route exact path="/main" component={Intro} />
+                <Route exact path="/join" component={Join} />
+                <Route path="/findpassword" component={FindPassword} />
+                <Route
+                  path="/findpasswordmailsend"
+                  component={FindPasswordMailSend}
+                />
+                <Route path="/join/complete" component={JoinComplete} />
+                <Route path="/mailresend" component={MailReSend} />
+                <Route path="/calendar" component={CalendarContainer} />
+                <Route exact path="/mainpage" component={MainPage} />
+                <Route
+                  exact
+                  path="/mainpage/detail/:voltitle"
+                  component={VolDetail}
+                />
+                <Route path="/intro" component={Intro} />
+                <Route path="/location" component={Location} />
+                <Route exact path="/vol/:id/detail" component={VolDetail} />
+                <Route exact path="/vol/:id/write" component={PostingForm} />
+                <Route exact path="/:id/list" component={PostingList} />
+                {/* <Route exact path="/vol/detail/:id" component={VolDetail} /> */}
+                <Route exact path="/write" component={PostingForm} />
+                <Route exact path="/usersetting" component={SearchContainer} />
+                {/* <Route exact path="/list" component={Post} /> */}
+                <Route exact path="/userprofile" component={UserProfile} />
+                <Route path="/email/:email/:key" component={EmailComplete} />
+                <Route
+                  path="/changepassword/:token"
+                  component={ChangePassword}
+                />
+                <Route path="/mypage" component={Mypage} />
+                <Route path="/feed" component={Feed} />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
-        <Header />
       </div>
       // </div>
     );

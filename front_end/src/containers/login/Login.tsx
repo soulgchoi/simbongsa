@@ -1,6 +1,7 @@
 import React from "react";
-// import "assets/mycss";
 import PV from "password-validator";
+import { Grid, Image } from "semantic-ui-react";
+
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
 import GoogleLogin from "react-google-login";
@@ -122,58 +123,72 @@ class Login extends React.Component<any, any> {
     // const pagesNumbers = this.getPagesNumbers();
     return (
       <div>
+        {/* 
+        <Grid.Row verticalAlign="top">
+        <Grid.Row verticalAlign="middle">
+        <Grid.Row verticalAlign="bottom">
+        */}
+
         <ReactPageScroller
           pageOnChange={this.handlePageChange}
           animationTimer={700}
         >
-          <div className="user" id="login2">
-            <h1 className="title">로그인</h1>
-            <Input
-              id="email"
-              nametag="ID"
-              placeholder="아이디를 입력하세요."
-              type="text"
-              value={email}
-              onChange={handleChange}
-            />
-            <Input
-              id="password"
-              nametag="password"
-              placeholder="비밀번호를 입력하세요."
-              type="password"
-              value={password}
-              onChange={handleChange}
-            />
-            <AuthError error={error2.email}></AuthError>
-            <ActionButton
-              placeholder="로그인"
-              action={handleLocalLogin}
-            ></ActionButton>
-            <div className="sns-login">
-              <div className="text">
-                <p>SNS 간편 로그인</p>
-                <div className="bar"></div>
-              </div>
-              {/* <KakaoLogin
-              jsKey="kakao-js-key"
-              onSuccess={result => console.log(result)}
-              onFailure={result => console.log(result)}
-              getProfile={true}
-            /> */}
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
-                onSuccess={handleGoogleLogin}
-                onFailure={result => console.log(result)}
-                cookiePolicy={"single_host_origin"}
-                redirectUri={process.env.REACT_APP_FRONT_URI}
+          <Grid columns={4} centered>
+            <Grid.Row>
+              <h1 className="title">로그인</h1>
+            </Grid.Row>
+            <Grid.Row>
+              <Input
+                id="email"
+                nametag="ID"
+                placeholder="아이디를 입력하세요."
+                type="text"
+                value={email}
+                onChange={handleChange}
               />
-            </div>
-            <div className="add-option">
-              <div className="bar" />
-              <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
-              <LinkButton placeholder="회원가입" link="/join" />
-            </div>
-          </div>
+            </Grid.Row>
+            <Grid.Row>
+              <Input
+                id="password"
+                nametag="password"
+                placeholder="비밀번호를 입력하세요."
+                type="password"
+                value={password}
+                onChange={handleChange}
+              />
+              <AuthError error={error2.email}></AuthError>
+            </Grid.Row>
+            <Grid.Row>
+              <ActionButton
+                placeholder="로그인"
+                action={handleLocalLogin}
+              ></ActionButton>
+            </Grid.Row>
+            <Grid.Row>
+              <div>
+                <div className="text">
+                  <p>SNS 간편 로그인</p>
+                  <div className="bar"></div>
+                </div>
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
+                  onSuccess={handleGoogleLogin}
+                  onFailure={result => console.log(result)}
+                  cookiePolicy={"single_host_origin"}
+                  redirectUri={process.env.REACT_APP_FRONT_URI}
+                />
+              </div>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
+              </Grid.Column>
+              <Grid.Column>
+                <LinkButton placeholder="회원가입" link="/join" />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+
           <div id="page">
             <div id="content">
               <ReactCountUp
@@ -181,21 +196,10 @@ class Login extends React.Component<any, any> {
                 end={12546}
                 duration={2}
                 separator=","
-                // decimals={4}
-                // decimal=","
                 prefix="등록 된 봉사활동 수 : "
                 suffix=" 개"
                 redraw={true}
-                // onEnd={() => console.log('Ended! 👏')}
-                // onStart={() => console.log('Started! 💨')}
-              >
-                {/* {({ countUpRef, start }) => (
-            <div>
-            { <span ref={countUpRef} />
-            <button onClick={start}>Start</button> }
-            </div>
-          )} */}
-              </ReactCountUp>
+              ></ReactCountUp>
             </div>
           </div>
           <div id="page">

@@ -6,17 +6,23 @@ interface Props {
   placeholder: string;
   link: string;
   disabled?: boolean;
+  width?: number;
+  height?: number;
 }
 
 export default function LinkButton({
   link,
   placeholder,
-  disabled
+  disabled,
+  width,
+  height
 }: Props): ReactElement {
   return (
     <div>
       <Link to={link}>
-        <Button color="orange">{placeholder}</Button>
+        <Button color="orange" width={width} height={height}>
+          {placeholder}
+        </Button>
       </Link>
     </div>
   );
