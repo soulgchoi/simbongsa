@@ -120,7 +120,6 @@ class VolDetail extends React.Component<any, any>{
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
-<<<<<<< HEAD
                 <div>
                 <Link
                     to={{
@@ -129,16 +128,6 @@ class VolDetail extends React.Component<any, any>{
                 >
                     게시글 보러가기</Link>
                 {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
-=======
-                <div>포스팅들, {volunteer.v_id}
-                    <Link
-                        to={{
-                            pathname: `/${volunteer.v_id}/list`,
-                        }}
-                    >
-                        게시글 보러가기</Link>
-                    {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
->>>>>>> cbd58f6cfa965ac34e20eea830e3ecddc15c5537
                 </div>
             
             </div>

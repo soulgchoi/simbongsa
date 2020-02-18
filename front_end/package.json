@@ -40,6 +40,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
+    "nuka-carousel": "^4.6.3",
     "open-color": "^1.7.0",
     "password-validator": "^5.0.3",
     "pure-react-carousel": "^1.25.2",

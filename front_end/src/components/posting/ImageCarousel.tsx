@@ -3,6 +3,7 @@ import React from "react";
 import { Divider } from "semantic-ui-react";
 import DotGroup from "./DotGroup";
 import CardSlide from "./CardSlide";
+import './ImageCarousel.css'
 
 interface Props {
     files: [];
@@ -14,11 +15,11 @@ class ImageCarousel extends React.Component<Props, {}> {
         const images = this.props.files.map( (file, i:number ) => {
             console.log(file)
             return (
-                <Slide index={i}>
-                    <Image src={"http://i02a205.p.ssafy.io:8080/A205/uploads/" + file}
-                        hasMasterSpinner={true}
-                    />  
-                </Slide>
+                <div></div>
+                // <CardSlide
+                // // image={"http://i02a205.p.ssafy.io:8080/A205/uploads/" + file}
+                // index={i}
+                // />
             )
         })
 
@@ -31,9 +32,7 @@ class ImageCarousel extends React.Component<Props, {}> {
                 <Slider>
                     {images}
                 </Slider>
-
-                <Divider />
-                <DotGroup slides={this.props.files.length} />
+                <DotGroup slides={this.props.files.length} size="15px" />
             </CarouselProvider>
         )
     }

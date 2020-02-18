@@ -4,10 +4,10 @@ import React from "react";
 import { Card } from "semantic-ui-react";
 
 
-const CardSlide = ({ index, image }: any) => (
+const CardSlide = (index:number, image:string) => (
   <Slide index={index}>
     <div style={{ padding: 10 }}>
-      <Card fluid src={image} />
+      <Card fluid img={image} />
     </div>
   </Slide>
 );
