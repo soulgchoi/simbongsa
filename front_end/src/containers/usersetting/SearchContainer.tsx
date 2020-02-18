@@ -6,7 +6,6 @@ import * as userActions from 'redux/modules/user';
 import { AgeContainer, CategoryContainer, LocationContainer, TimeContainer } from 'containers/usersetting'
 import { useRadioGroup } from "@material-ui/core";
 
-import 'assets/mycss'
 import { localPreferInfo } from "lib/api/UserApi";
 import { setPreferInfo } from '../../redux/modules/user';
 interface Props {

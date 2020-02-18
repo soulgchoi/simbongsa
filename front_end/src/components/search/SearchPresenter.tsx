@@ -24,36 +24,18 @@ const Form = styled.form`
 interface Iprops {
     volResults: any,
     input: string,
-    loading: boolean,
     error: any,
     handleSubmit: any,
     updateTerm: any
 }
 
-const SearchPresenter = ({ volResults, input, loading, error, handleSubmit, updateTerm }: Iprops) => <Fragment>
-    <Form onSubmit={handleSubmit} >
-        <SearchInput id="search" type="text" placeholder="지역 또는 봉사를 입력하세요." value={input} onChange={updateTerm} nametag="지역 / 봉사"></SearchInput>
+const SearchPresenter = ({ volResults, input, error, handleSubmit, updateTerm }: Iprops) => {
+    return (
+        <Fragment>
 
-    </Form>
+            <SearchInput id="search" type="text" placeholder="지역 또는 봉사를 입력하세요." value={input} onChange={updateTerm} nametag="지역 / 봉사" handleSubmit={handleSubmit} ></SearchInput>
 
-    {loading ? <Loader
-        type="TailSpin"
-        color="#FFA263"
-        height={50}
-        width={50}
-        timeout={1000} //1 secs
-
-    /> : <>
-            {volResults && volResults.length > 0}
-            <Loader
-                type="TailSpin"
-                color="#FFA263"
-                height={50}
-                width={50}
-                timeout={1000} //1 secs
-
-            />
-        </>}
-</Fragment>
-
+        </Fragment>
+    )
+}
 export default SearchPresenter;

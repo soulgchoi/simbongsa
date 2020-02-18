@@ -1,7 +1,6 @@
 import React, { ReactElement, Component } from "react";
 import { Link } from "react-router-dom";
 
-import "assets/mycss";
 
 interface IProps {
   v_id: string;

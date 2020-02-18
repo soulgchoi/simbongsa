@@ -14,7 +14,6 @@ import storage from "lib/storage";
 import ActionButton from 'components/button/ActionButton'
 class SearchBar extends React.Component<any, any> {
     state = {
-        loading: false,
         error: ""
     }
     handleSubmit = (event: any) => {
@@ -33,16 +32,14 @@ class SearchBar extends React.Component<any, any> {
         SearchActions.changeInput({ input: value, key: "" })
     }
     searchByTerm = async () => {
-        const { input, VolActions } = this.props
-        this.setState({ loading: true })
+        const { input, VolActions, loading, UserActions } = this.props
+        UserActions.changeLoading(true)
         try {
-            VolActions.getVolList(input)
-
+            await VolActions.getVolList(input)
         } catch{
             this.setState({ error: "Can't find result." })
-
         } finally {
-            this.setState({ loading: false })
+            UserActions.changeLoading(false)
         }
 
     }
@@ -50,27 +47,18 @@ class SearchBar extends React.Component<any, any> {
     render() {
         const { volunteers, input } = this.props
         console.log("vol", volunteers)
-        const { loading, error } = this.state
+
+        const { error } = this.state
         return (
             <Fragment>
-                <Grid columns='equal'>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment><SearchPresenter
-                                volResults={volunteers}
-                                input={input}
-                                loading={loading}
-                                error={error}
-                                handleSubmit={this.handleSubmit}
-                                updateTerm={this.updateTerm}
-                            ></SearchPresenter></Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment><ActionButton action={this.handleSubmit} placeholder="검색" /></Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Fragment>
+                <SearchPresenter
+                    volResults={volunteers}
+                    input={input}
+                    error={error}
+                    handleSubmit={this.handleSubmit}
+                    updateTerm={this.updateTerm}
+                ></SearchPresenter>
+            </Fragment >
 
         )
     }
@@ -78,14 +66,16 @@ class SearchBar extends React.Component<any, any> {
 
 
 export default connect(
-    ({ vol, search }: any) => {
+    ({ vol, search, user }: any) => {
         return {
             volunteers: vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
             input: search.get("input"),
+            loading: user.get('loading')
         };
     },
     dispatch => ({
         VolActions: bindActionCreators(volActions, dispatch),
-        SearchActions: bindActionCreators(searchActions, dispatch)
+        SearchActions: bindActionCreators(searchActions, dispatch),
+        UserActions: bindActionCreators(userActions, dispatch),
     })
 )(SearchBar);

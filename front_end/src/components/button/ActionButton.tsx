@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import { Button } from 'semantic-ui-react'
-import "assets/mycss";
 interface Props {
   placeholder?: string;
   // disabled : boolean

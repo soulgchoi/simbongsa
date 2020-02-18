@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import "assets/mycss";
 
 import Logo from "assets/images/logo.png";
 import LinkButton from "components/button/LinkButton";

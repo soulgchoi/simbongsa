@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "assets/mycss";
 import iconSrc from "assets/images/location_marker.svg";
 
 //직접 만든 컴포넌트

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "assets/mycss";
 import validator from "validator";
 
 //storage = 데이터를 조금 더 편하게 넣고 조회하기 위한 헬퍼 모듈

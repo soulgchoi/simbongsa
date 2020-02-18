@@ -9,9 +9,9 @@ import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from 'redux/modules/search';
 import * as VolApi from 'lib/api/VolApi';
-import 'assets/mycss/map.scss';
 import storage from "lib/storage";
 import { MdZoomIn } from "react-icons/md";
+import * as userActions from 'redux/modules/user';
 
 declare global {
   interface Window {
@@ -29,6 +29,7 @@ interface IProps {
   SearchActions: any;
   volunteersForMap: any;
   showVolInfo: boolean;
+  UserActions: typeof userActions
 }
 
 interface IState {
@@ -50,7 +51,9 @@ class Map extends Component<IProps, IState> {
     width: window.innerWidth
   }
   componentDidMount() {
-    const { VolActions, volunteers, selectedMarker, volunteersForMap } = this.props;
+
+    const { VolActions, volunteers, selectedMarker, volunteersForMap, UserActions } = this.props;
+    UserActions.changeLoading(true)
     const currentLocation = this.props.currentLocation;
     const el = document.getElementById("map");
     const volMap = new window.kakao.maps.Map(el, {
@@ -74,6 +77,7 @@ class Map extends Component<IProps, IState> {
     let clusterer = makeMarker(volunteers.toJS(), volMap, VolActions, selectedMarker, volunteersForMap); // 탭, 뒤로가기로 다시 돌아왔을때 이미 volunteers가 세팅 돼있는 경우
     this.setState({ clusterer: clusterer });
     window.addEventListener('resize', this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+    UserActions.changeLoading(false)
   }
 
   // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -105,7 +109,8 @@ class Map extends Component<IProps, IState> {
 
   componentDidUpdate() {
     console.log("componentDidUpdate");
-    const { volunteers, VolActions, selectedMarker, volunteersForMap } = this.props;
+    const { volunteers, VolActions, selectedMarker, volunteersForMap, UserActions } = this.props;
+    UserActions.changeLoading(true)
     const { volMap, isSearchSubmit, SearchActions } = this.props;
     const { myLocation, isMyLocationClicked, isMarkerRenderingNeed } = this.state;
     console.log("선택", selectedMarker);
@@ -144,6 +149,7 @@ class Map extends Component<IProps, IState> {
       volMap.panTo(moveLatLon);
       SearchActions.searchSubmit(false);
     }
+    UserActions.changeLoading(false)
   }
 
   resetSelectedMarker = () => {
@@ -418,7 +424,7 @@ function resizeMap(volMap: any, height: number) {
 
 
 export default connect(
-  ({ vol, search }: any) => {
+  ({ vol, search, user }: any) => {
     return {
       volunteers: vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
       volunteersForMap: vol.get("volunteersForMap"),
@@ -426,11 +432,13 @@ export default connect(
       volMap: vol.get("volMap"),
       selectedMarker: vol.get("selectedMarker"),
       isSearchSubmit: search.get("isSearchSubmit"),
-      showVolInfo: vol.get('showVolInfo')
+      showVolInfo: vol.get('showVolInfo'),
+      loading: user.get('loading')
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
-    SearchActions: bindActionCreators(searchActions, dispatch)
+    SearchActions: bindActionCreators(searchActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
   })
 )(Map);
