@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "assets/mycss";
 // 직접 제작한 Component
 import Map from "components/map/Map";
 import VolInfo from "components/map/VolInfo";
@@ -20,18 +19,21 @@ interface State {
 
 //constructor -> render -> componentDidMount -> render
 class Location extends Component<Props, State> {
-  state = { width: window.innerWidth, height: (window.innerHeight - 345) };
+  state = { width: window.innerWidth, height: window.innerHeight - 345 };
   componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener("resize", this.updateDimensions);
   }
   updateDimensions = () => {
-    this.setState({ width: window.innerWidth, height: (window.innerHeight - 345) });
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight - 345
+    });
   };
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
+    window.removeEventListener("resize", this.updateDimensions);
   }
   render() {
-    const { height, } = this.state;
+    const { height } = this.state;
     return (
       <div style={{ height: height }}>
         <Map />
