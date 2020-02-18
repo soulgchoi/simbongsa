@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Router from './Router'
 import { Grid } from "semantic-ui-react";
 
-import Footer from "components/footer/Footer";
 
 // 로컬에 저장
 import storage from "lib/storage";
@@ -182,9 +181,8 @@ class App extends Component<any> {
     return (
       <div>
         <Container >
-        <Router />
+          <Router />
         </Container>
-        <Footer />
       </div>
     );
   }

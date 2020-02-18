@@ -5,6 +5,7 @@ import { Button } from "semantic-ui-react";
 interface Props {
   placeholder: string;
   link: string;
+  inverted?: boolean;
   disabled?: boolean;
   width?: number;
   height?: number;
@@ -14,15 +15,19 @@ export default function LinkButton({
   link,
   placeholder,
   disabled,
+  inverted = false,
   width,
   height
 }: Props): ReactElement {
   return (
     <div>
       <Link to={link}>
-        <Button color="orange" width={width} height={height}>
+        {inverted && <Button inverted color="orange" width={width} height={height}>
           {placeholder}
-        </Button>
+        </Button>}
+        {!inverted && <Button color="orange" width={width} height={height}>
+          {placeholder}
+        </Button>}
       </Link>
     </div>
   );
