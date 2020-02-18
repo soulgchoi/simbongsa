@@ -28,6 +28,7 @@ import com.a205.dao.CategoryDAO;
 import com.a205.dao.MemberDAO;
 import com.a205.dao.RegionDAO;
 import com.a205.dto.Category;
+import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
 import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
@@ -181,9 +182,14 @@ public class PostRestController {
 			view.setV_id(post.getV_id());
 			// feed.add(ff);
 			view.setFiles(storedFileNames);
-			int p_vote_cnt = service.countM_id(p_id);
-			System.out.println(p_vote_cnt);
-			view.setP_vote_cnt(p_vote_cnt);
+			List<Integer> m_ids = service.countM_id(p_id);
+			List<Member> post_vote_members = new ArrayList<Member>();
+			for(Integer m_idd:m_ids) {
+				Member member = memberService.selectByM_id(m_idd);
+				post_vote_members.add(member);
+				
+			}
+			view.setPost_vote_members(post_vote_members);
 			String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 			view.setUserId(userId);
 			
@@ -213,8 +219,14 @@ public class PostRestController {
 				view.setP_status(post.getP_status());
 				view.setV_id(post.getV_id());
 				view.setFiles(storedFileNames);
-				int p_vote_cnt = service.countM_id(p_id);
-				view.setP_vote_cnt(p_vote_cnt);
+				List<Integer> m_ids = service.countM_id(p_id);
+				List<Member> post_vote_members = new ArrayList<Member>();
+				for(Integer m_idd:m_ids) {
+					Member member = memberService.selectByM_id(m_idd);
+					post_vote_members.add(member);
+					
+				}
+				view.setPost_vote_members(post_vote_members);
 				String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 				view.setUserId(userId);
 
@@ -264,8 +276,14 @@ public class PostRestController {
 					view.setV_id(post.getV_id());
 					// feed.add(ff);
 					view.setFiles(storedFileNames);
-					int p_vote_cnt = service.countM_id(p_id);
-					view.setP_vote_cnt(p_vote_cnt);
+					List<Integer> m_ids = service.countM_id(p_id);
+					List<Member> post_vote_members = new ArrayList<Member>();
+					for(Integer m_idd:m_ids) {
+						Member member = memberService.selectByM_id(m_idd);
+						post_vote_members.add(member);
+						
+					}
+					view.setPost_vote_members(post_vote_members);
 					String userId2 = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 					view.setUserId(userId2);
 
@@ -300,8 +318,14 @@ public class PostRestController {
 				view.setV_id(post.getV_id());
 				// feed.add(ff);
 				view.setFiles(storedFileNames);
-				int p_vote_cnt = service.countM_id(p_id);
-				view.setP_vote_cnt(p_vote_cnt);
+				List<Integer> m_ids = service.countM_id(p_id);
+				List<Member> post_vote_members = new ArrayList<Member>();
+				for(Integer m_idd:m_ids) {
+					Member member = memberService.selectByM_id(m_idd);
+					post_vote_members.add(member);
+					
+				}
+				view.setPost_vote_members(post_vote_members);
 				String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 				view.setUserId(userId);
 

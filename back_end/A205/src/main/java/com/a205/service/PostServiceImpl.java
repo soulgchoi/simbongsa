@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public Integer countM_id(int p_id) {
+	public List<Integer> countM_id(int p_id) {
 		return dao.countM_id(p_id);
 	}
 	

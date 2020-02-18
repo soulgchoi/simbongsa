@@ -43,7 +43,7 @@
 	</select>
 	<select id="countM_id" resultType="java.lang.Integer"
 		parameterType="int">
-		select count(m_id)
+		select distinct m_id
 		from post_vote
 		where p_id = #{p_id}
 	</select>

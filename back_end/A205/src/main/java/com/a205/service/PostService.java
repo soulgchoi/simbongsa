@@ -20,7 +20,7 @@ public interface PostService {
 	public boolean remove(int no);
 
 	public int getid();
-	public Integer countM_id(int p_id);
+	public List<Integer> countM_id(int p_id);
 
 	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my);
 

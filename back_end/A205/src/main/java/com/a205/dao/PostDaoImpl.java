@@ -40,9 +40,9 @@ public class PostDaoImpl implements PostDao {
 //		return session.selectList(statement);
 //	}
 	@Override
-	public Integer countM_id(int p_id) {
+	public List<Integer> countM_id(int p_id) {
 		String statement = ns + "countM_id";
-		return session.selectOne(statement, p_id);
+		return session.selectList(statement, p_id);
 
 	}
 
