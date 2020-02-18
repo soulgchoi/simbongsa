@@ -114,9 +114,19 @@ class PostingForm extends React.Component<any, any> {
     this.props.history.push(`/${v_id}/list`);
   }
 
-  render() {
-    const { selectedFiles, p_content } = this.props.form;
-    var v_id = this.props.match.params.id;
+        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostFile", files,
+            {headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: "Bearer " + token
+                }
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err))
+        this.props.history.push(`/${v_id}/list`);
+        // this.goListPage();
+    }
 
     return (
       <Form>

@@ -1,8 +1,9 @@
 import React, { ReactElement } from "react";
 import LinkButton from "components/button/LinkButton";
 import { Link } from "react-router-dom";
-import { Button, Grid, Divider } from "semantic-ui-react";
+import { Button, Sticky, Menu } from "semantic-ui-react";
 // import "assets/mycss";
+import './Header.css'
 interface Props { }
 
 export default function Header({ }: Props): ReactElement {
@@ -35,3 +36,5 @@ export default function Header({ }: Props): ReactElement {
     </div>
   );
 }
+
+export default Header;

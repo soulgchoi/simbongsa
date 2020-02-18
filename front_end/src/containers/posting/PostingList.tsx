@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Post from "./Post";
-import storage from "lib/storage";
-import { Link } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Card from "components/posting/Card";
-
-let token = storage.get("token");
+import React, { Component } from 'react'
+import axios from 'axios'
+import Post from './Post';
+import storage from 'lib/storage'
+import { Link } from 'react-router-dom'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Card from 'components/posting/Card'
+import './PostingList.css'
+let token = storage.get('token')
 
 class PostingList extends Component<any, any> {
   constructor(props: any) {

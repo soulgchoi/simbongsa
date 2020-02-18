@@ -1,11 +1,35 @@
+
+.ui .celled .unstackable .table {
+    padding: 10px;
+}
+
 td.head {
-    font-weight: 500;
+    font-weight: 600;
     border-left: none;
     border-right: none;
 }
+
 
 table.ui.table {
     border: none;
     border-bottom: 1px solid rgba(34,36,38,.1);
     border-top: 1px solid rgba(34,36,38,.1);
+}
+
+div.buttons {
+    margin-top: 10px;
+    display: flex;
+}
+
+div.buttons a {
+    margin: auto;
+}
+
+.ui.button {
+    margin: 0 !important;
+    
+}
+
+a button:hover {
+    color: orange;
 }
