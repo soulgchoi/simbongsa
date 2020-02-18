@@ -61,6 +61,7 @@ export interface volState {
   showVolInfo: boolean;
   volunteer: Object;
   volListByUserId: List<any>;
+
 }
 
 const initialState = Map({
@@ -73,7 +74,8 @@ const initialState = Map({
   selectedMarker: null,
   showVolInfo: false,
   volunteer: { v_id: null },
-  volListByUserId: []
+  volListByUserId: [],
+
 });
 
 export default handleActions<any>(
@@ -140,8 +142,9 @@ export default handleActions<any>(
     ...pender({
       type: GET_VOL_LIST_BY_USER_ID,
       onSuccess: (state, action) => {
-        const { data } = action.payload;
-        return state.set("volListByUserId", data);
+        const { data } = action.payload.data;
+        console.log("유저 선호 봉사 정보", data);
+        return state.set("volListByUserId", List(data));
       }
     })
   },

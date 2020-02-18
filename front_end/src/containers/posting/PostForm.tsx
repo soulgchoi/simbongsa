@@ -1,26 +1,21 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
 import * as userActions from "redux/modules/user"
 import { bindActionCreators } from "redux";
-import LinkButton from 'components/button/LinkButton';
-import GoBackButton from 'components/button/GoBackButton'
-import { Form, TextArea } from 'semantic-ui-react'
-import { Checkbox } from 'semantic-ui-react'
-import storage from 'lib/storage'
-import { Link } from 'react-router-dom'
-let token = storage.get('token')
+import LinkButton from "components/button/LinkButton";
+import GoBackButton from "components/button/GoBackButton";
+import { Form, TextArea } from "semantic-ui-react";
+import { Checkbox } from "semantic-ui-react";
+import storage from "lib/storage";
+import { Link } from "react-router-dom";
+let token = storage.get("token");
 
 class PostingForm extends React.Component<any, any> {
-    state = {
-        p_status: "1"
-    }
-
-    componentWillMount() {
-        const { PostingActions } = this.props;
-        PostingActions.initializeForm("posting")
-    }
+  state = {
+    p_status: "1"
+  };
 
     handleChange = (e: any) => {
         this.setUserInfo()  
@@ -47,26 +42,27 @@ class PostingForm extends React.Component<any, any> {
             value: userId,
             form: "posting"
         })
+      }
+  componentWillMount() {
+    const { PostingActions } = this.props;
+    PostingActions.initializeForm("posting");
+  }
+
+  handleFileSelect = (e: any) => {
+    const { PostingActions } = this.props;
+    var id = e.target.id;
+    var value = e.target.files;
+    for (let i = 0; i < value.length; i++) {
+      PostingActions.changeFileInput(value[i]);
     }
+  };
 
-    handleFileSelect = (e: any) => {
-        const { PostingActions } = this.props;
-        var id = e.target.id
-        var value = e.target.files;
-        for (let i=0; i<value.length; i++) {
-            PostingActions.changeFileInput(
-                value[i]
-            )
-        }
-    }
-
-    handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            p_status: e.target.value
-        })
-        console.log(this.state.p_status)
-    };
-
+  handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      p_status: e.target.value
+    });
+    console.log(this.state.p_status);
+  };
 
 
     handleSubmit = (e:any) => {
@@ -164,6 +160,7 @@ class PostingForm extends React.Component<any, any> {
         );
     }
   }
+
 
 export default connect(
     (state: any) => ({

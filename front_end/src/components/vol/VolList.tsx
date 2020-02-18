@@ -1,35 +1,32 @@
 import React, { Component } from "react";
-import axios from 'axios';
-import { List } from 'immutable';
-import Vol from 'components/vol/Vol';
-import InfiniteScroll from 'react-infinite-scroll-component'
+import axios from "axios";
+import { List } from "immutable";
+import Vol from "components/vol/Vol";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface Props {
-    volunteers: any[];
-    width?: number;
-    height: string;
-    appendList: () => void; // volunteers 에 10개를 더 붙여주는 함수.
+  volunteers: any[];
+  width?: number;
+  height: string;
+  appendList: () => void; // volunteers 에 10개를 더 붙여주는 함수.
+  loadingMessage: string;
 }
-interface State {
-
-}
+interface State {}
 
 export default class VolList extends React.Component<Props, State> {
-    state = {
-        pageNum: 1
-    }
-    loadMoreData = () => {
-        this.setState({ pageNum: this.state.pageNum + 1 })
-        this.props.appendList();
-    }
-    render() {
-        const { volunteers, height } = this.props;
-        const { loadMoreData } = this;
-        const PrintArray = volunteers.map((vol: any, i: any) => {
-            return (
-                <Vol volunteer={vol} v_id={vol.v_id} key={i} />
-            )
-        })
+  state = {
+    pageNum: 1
+  };
+  loadMoreData = () => {
+    this.setState({ pageNum: this.state.pageNum + 1 });
+    this.props.appendList();
+  };
+  render() {
+    const { volunteers, height, loadingMessage } = this.props;
+    const { loadMoreData } = this;
+    const PrintArray = volunteers.map((vol: any, i: any) => {
+      return <Vol volunteer={vol} v_id={vol.v_id} key={i} />;
+    });
 
         console.log("높이", height);
         return (

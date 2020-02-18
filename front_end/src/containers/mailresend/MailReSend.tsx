@@ -1,7 +1,7 @@
 import React from "react";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss";
+// import "assets/mycss";
 import * as EmailValidator from "email-validator";
 // import UserApi from "apis/UserApi";
 
@@ -116,7 +116,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <button
             disabled={!this.state.isSubmit}
             className="btn btn--back btn--login"
-            // onClick={"#"}
+          // onClick={"#"}
           >
             메일 재전송
           </button>

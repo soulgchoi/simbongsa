@@ -8,6 +8,9 @@ import * as userActions from "redux/modules/user";
 const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오기
+const CHANGE_LOADING = "user/CHANGE_LOADING" // loading 설정
+const GET_FEED_LIST = "user/GET_FEED_LIST"; // 유저의 피드 리스트 가져오기
+const APPEND_FEED_LIST = "volunteer/APPEND_FEED_LIST";
 
 // const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
 // const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
@@ -19,8 +22,9 @@ export const setPreferInfo = createAction(
   SET_PREFER_INFO,
   UserAPI.localPreferInfo
 );
+export const changeLoading = createAction(CHANGE_LOADING)
 
-
+export const getFeedList = createAction(GET_FEED_LIST, UserAPI.getFeedList);
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
 //   GET_USER_FOLLOWER,
@@ -42,13 +46,19 @@ interface initialStateParams {
   logged: boolean; // 현재 로그인중인지 알려준다
   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: boolean;
+  loading: boolean;
+  feedList: List<any>;
 }
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
     email: "",
     userId: "",
+<<<<<<< HEAD
     m_id: "",
+=======
+    mId: "",
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
     preferInfo: Map({
       bgnTm: "",
       endTm: "",
@@ -64,22 +74,35 @@ const initialState = Map({
   // }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
-  emailValidate: false
+  emailValidate: false,
+  loading: false,
+  feedList: List([])
 });
 
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
+<<<<<<< HEAD
       const { sub, iss, aud } = action.payload;
+=======
+      const { sub, aud, iss } = action.payload;
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
       console.log("sub, iss", action);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
+<<<<<<< HEAD
         .setIn(["loggedInfo"], Map({ username: sub, userId: iss, m_id: aud }));
+=======
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, mId: aud }));
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
-
+    [CHANGE_LOADING]: (state, action) => {
+      console.log("loading 여기 들어오니", action.payload)
+      return state.set("loading", action.payload)
+    },
     ...pender({
       type: SET_PREFER_INFO,
 
@@ -103,7 +126,13 @@ export default handleActions<any>(
         // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
       }
     }),
-
+    ...pender({
+      type: GET_FEED_LIST,
+      onSuccess: (state, action) => {
+        console.log("피드리스트 액션", action);
+        state.set("feedLilst", List(action.data));
+      }
+    })
 
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),

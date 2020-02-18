@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
-import "assets/mycss";
+import React, { ReactElement, Fragment } from "react";
+import { Form, Button } from 'semantic-ui-react'
+// import "assets/mycss";
 
 interface Props {
   value: string;
@@ -9,31 +10,37 @@ interface Props {
   placeholder: string;
   nametag?: string;
   type: string;
+
+  handleSubmit: any
 }
-export default function Input({
+export default function SearchInput({
   value,
   onChange,
   id,
   placeholder,
   type,
   onEnter,
+  handleSubmit
 }: Props): ReactElement {
   return (
-    <div>
-      <div className="input-with-label" id={id}>
-        <input
-          value={value}
-          onChange={onChange}
-          id={id}
-          placeholder={placeholder}
-          type={type}
-          onKeyDown={event => {
-            if (event.key === "Enter" && onEnter !== undefined) {
-              onEnter(event);
-            }
-          }}
-        />
-      </div>
-    </div>
+    <Fragment>
+      <Form>
+        <Form.Field>
+          <input
+            value={value}
+            onChange={onChange}
+            id={id}
+            placeholder={placeholder}
+            type={type}
+            onKeyDown={event => {
+              if (event.key === "Enter" && onEnter !== undefined) {
+                onEnter(event);
+              }
+            }}
+          />
+        </Form.Field>
+      </Form>
+      <Button color='orange' type='submit' onClick={handleSubmit}>검색</Button>
+    </Fragment>
   );
 }

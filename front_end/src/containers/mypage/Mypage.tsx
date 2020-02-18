@@ -9,11 +9,11 @@ import { bindActionCreators } from "redux";
 import PieGraph from "components/graph/PieGraph";
 import * as volActions from "redux/modules/vol";
 import RegionList from "lib/json/region.json";
-
+import LinkButton from "components/button/LinkButton";
 interface Props {
   VolActions: any;
   userId: string;
-  volListByUserId: { data: [] };
+  volListByUserId: any[];
 }
 interface State {
   preferlocationDataList: any;
@@ -39,10 +39,9 @@ class Mypage extends Component<Props, State> {
     const { volListByUserId, userId } = this.props;
     let { preferlocationDataList, preferlocationLabelList } = this.state;
     // 봉사 리스트에 대해서 작업
-    let list = volListByUserId.data;
+    let list = volListByUserId;
     let preferLocationMap = new Map<string, number>();
     if (preferlocationDataList.size === 0 && typeof list !== "undefined") {
-      console.log("리스트 크기", list);
       list.forEach((item: any) => {
         // 지역 뽑아내기 (시, 구)
         let r_id = item.r_id - 1;
@@ -65,8 +64,10 @@ class Mypage extends Component<Props, State> {
       });
       // let preferTimeDataList = [],
       // let preferTimeLabelList = []
-      this.setState({ preferlocationDataList: preferlocationDataList });
-      this.setState({ preferlocationLabelList: preferlocationLabelList });
+      if (preferlocationDataList.size > 0 && preferlocationLabelList.size > 0) {
+        this.setState({ preferlocationDataList: preferlocationDataList });
+        this.setState({ preferlocationLabelList: preferlocationLabelList });
+      }
     }
     return this.state.preferlocationDataList.size > 0;
   }
@@ -79,16 +80,19 @@ class Mypage extends Component<Props, State> {
     const { preferlocationDataList, preferlocationLabelList } = this.state;
     return (
       <div>
-        마이페이지 입니다.
         <div>
-          <div>
-            <PieGraph
-              data={preferlocationDataList.toJS()}
-              labels={preferlocationLabelList.toJS()}
-              width={300}
-              height={300}
-            />
-          </div>
+          <LinkButton
+            link="http://localhost:3000/usersetting"
+            placeholder="내 정보 수정"
+          />
+
+          <PieGraph
+            title={"봉사 선호 지역 통계"}
+            data={preferlocationDataList.toJS()}
+            labels={preferlocationLabelList.toJS()}
+            width={300}
+            height={300}
+          />
           {/* <PieGraph
             data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]}
             labels={["red", "blue", "green"]}

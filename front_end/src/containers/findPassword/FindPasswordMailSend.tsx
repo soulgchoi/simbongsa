@@ -3,7 +3,7 @@ import { RouteComponentProps } from "@reach/router";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/error.scss";
+// import "assets/mycss/error.scss";
 
 interface IProps {
   location: {
@@ -12,13 +12,13 @@ interface IProps {
     };
   };
 }
-interface IState {}
+interface IState { }
 
 class FindPasswordMailSend extends React.Component<
   IProps,
   IState,
   RouteComponentProps
-> {
+  > {
   state = {
     email: null
   };

@@ -1,5 +1,5 @@
 import React from "react";
-import "assets/mycss";
+// import "assets/mycss";
 import PV from "password-validator";
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -186,8 +186,8 @@ class Login extends React.Component<any, any> {
                 prefix="등록 된 봉사활동 수 : "
                 suffix=" 개"
                 redraw={true}
-                // onEnd={() => console.log('Ended! 👏')}
-                // onStart={() => console.log('Started! 💨')}
+              // onEnd={() => console.log('Ended! 👏')}
+              // onStart={() => console.log('Started! 💨')}
               >
                 {/* {({ countUpRef, start }) => (
             <div>

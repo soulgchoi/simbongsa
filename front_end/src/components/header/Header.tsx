@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import LinkButton from "components/button/LinkButton";
-import "assets/mycss";
-interface Props {}
+// import "assets/mycss";
+interface Props { }
 
-export default function Header({}: Props): ReactElement {
+export default function Header({ }: Props): ReactElement {
   return (
     <div className="vol-header">
       <div className="vol-header-item">
