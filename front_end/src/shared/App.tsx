@@ -1,33 +1,9 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import Router from "./Router";
 import { Grid } from "semantic-ui-react";
-// import Login from "containers/login/Login2";
-import Login from "containers/login/Login";
-import Join from "containers/join/Join";
-import FindPassword from "containers/findPassword/FindPassword";
-import JoinComplete from "containers/join/JoinComplete";
-import MailReSend from "containers/mailresend/MailReSend";
-import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
-import Calendar from "components/calendar/Calendar";
-import Location from "containers/location/Location";
-import MainPage from "containers/mainpage/MainPage";
-import Intro from "containers/intro/Intro";
-import VolDetail from "components/vol/VolDetail";
-import PostingForm from "containers/posting/PostForm";
-import CalendarContainer from "containers/calendar/CalendarContainer";
-import SearchContainer from "containers/usersetting/SearchContainer";
-// import Postings from "containers/posting/Postings"
-import Feed from "containers/feed/Feed";
-import PostingList from "containers/posting/PostingList";
-import Mypage from "containers/mypage/Mypage";
-import Main from "containers/main/Main";
+
 import Header from "components/header/Header";
-import UserProfile from "containers/temp/temp";
-import EmailComplete from "containers/join/EmailComplete";
-import ChangePassword from "containers/findPassword/FindPasswordMailRecieve";
-// 직접 만든 component
-import TemporaryDrawer from "components/navi/TemporaryDrawer";
-import TodosContainer from "containers/usersetting/SearchContainer";
+
 // 로컬에 저장
 import storage from "lib/storage";
 // redux 관련
@@ -205,6 +181,7 @@ class App extends Component<any> {
   render() {
     return (
       <div>
+        <Router />
         <div>
           <Grid reversed="mobile vertically">
             <Grid.Row>
@@ -213,46 +190,7 @@ class App extends Component<any> {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column style={{ height: "95vh" }}>
-                {/* 여기에 라우트 합니다. */}
-                {/* <TemporaryDrawer /> */}
-                {/* <div className="wrapC"> */}
-                {/* <Route path="/" component={Header} /> */}
-                <Route exact path="/" component={Login} />
-                <Route exact path="/main" component={Intro} />
-                <Route exact path="/join" component={Join} />
-                <Route path="/findpassword" component={FindPassword} />
-                <Route
-                  path="/findpasswordmailsend"
-                  component={FindPasswordMailSend}
-                />
-                <Route path="/join/complete" component={JoinComplete} />
-                <Route path="/mailresend" component={MailReSend} />
-                <Route path="/calendar" component={CalendarContainer} />
-                <Route exact path="/mainpage" component={MainPage} />
-                <Route
-                  exact
-                  path="/mainpage/detail/:voltitle"
-                  component={VolDetail}
-                />
-                <Route path="/intro" component={Intro} />
-                <Route path="/location" component={Location} />
-                <Route exact path="/vol/:id/detail" component={VolDetail} />
-                <Route exact path="/vol/:id/write" component={PostingForm} />
-                <Route exact path="/:id/list" component={PostingList} />
-                {/* <Route exact path="/vol/detail/:id" component={VolDetail} /> */}
-                <Route exact path="/write" component={PostingForm} />
-                <Route exact path="/usersetting" component={SearchContainer} />
-                {/* <Route exact path="/list" component={Post} /> */}
-                <Route exact path="/userprofile" component={UserProfile} />
-                <Route path="/email/:email/:key" component={EmailComplete} />
-                <Route
-                  path="/changepassword/:token"
-                  component={ChangePassword}
-                />
-                <Route path="/mypage" component={Mypage} />
-                <Route path="/feed" component={Feed} />
-              </Grid.Column>
+              <Grid.Column></Grid.Column>
             </Grid.Row>
           </Grid>
         </div>
@@ -271,19 +209,3 @@ export default connect(
     SearchActions: bindActionCreators(searchActions, dispatch)
   })
 )(App);
-// export default connect(
-//   (state: any) => ({
-//     // props로 받아오는 정보들...
-//     form: state.auth.getIn(["login", "form"]),
-//     error: state.auth.getIn(["login", "error"]),
-//     result: state.auth.get("result"),
-//     logged: state.user.get("logged"),
-//     loggedInfo: state.user.get("loggedInfo"),
-//     initialNumber: state.base.get("initialNumber")
-//   }),
-//   dispatch => ({
-//     AuthActions: bindActionCreators(authActions, dispatch),
-//     UserActions: bindActionCreators(userActions, dispatch),
-//     BaseActions: bindActionCreators(baseActions, dispatch)
-//   })
-// ) (Login);
