@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import Router from "./Router";
-import { Grid } from "semantic-ui-react";
-
-import Header from "components/header/Header";
 
 // 로컬에 저장
 import storage from "lib/storage";
@@ -16,8 +13,6 @@ import jwt from "jsonwebtoken";
 // json 관련
 import locationAllList from "components/usersetting/temp.json";
 import categoryAllList from "components/usersetting/temp2.json";
-
-import { Container } from "semantic-ui-react";
 
 class App extends Component<any> {
   initializeUserInfo = async () => {
@@ -179,23 +174,7 @@ class App extends Component<any> {
   }
 
   render() {
-    return (
-      <div>
-        <Router />
-        <div>
-          <Grid reversed="mobile vertically">
-            <Grid.Row>
-              <Grid.Column style={{ height: "5vh" }}>
-                <Header />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column></Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </div>
-      </div>
-    );
+    return <Router />;
   }
 }
 
