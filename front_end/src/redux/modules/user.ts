@@ -54,7 +54,11 @@ const initialState = Map({
     // 현재 로그인중인 유저의 정보
     email: "",
     userId: "",
+<<<<<<< HEAD
+    m_id: "",
+=======
     mId: "",
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
     preferInfo: Map({
       bgnTm: "",
       endTm: "",
@@ -78,12 +82,20 @@ const initialState = Map({
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
+<<<<<<< HEAD
+      const { sub, iss, aud } = action.payload;
+=======
       const { sub, aud, iss } = action.payload;
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
       console.log("sub, iss", action);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
+<<<<<<< HEAD
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, m_id: aud }));
+=======
         .setIn(["loggedInfo"], Map({ username: sub, userId: iss, mId: aud }));
+>>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),

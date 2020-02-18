@@ -24,6 +24,8 @@ export interface PostingState {
             v_id: number;
             p_status: number;  // 1은 모집글, 2는 후기글
             m_id: number;
+            userId: string;
+            p_vote_cnt: number;
         };
     };
     result: {};
@@ -46,7 +48,10 @@ const initialState = Map({
             p_content: "",
             v_id: 1,
             p_status: 0,
-            m_id: 1
+            m_id: 0,
+            userId: "",
+            p_vote_cnt: 0,
+            isLike: false,
         })
     }),
     selectedfiles: [],

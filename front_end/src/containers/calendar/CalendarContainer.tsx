@@ -4,7 +4,7 @@ import { List } from "immutable";
 import { connect } from "react-redux";
 import { changeDate, changeToggle } from "redux/modules/calendar";
 import { bindActionCreators } from "redux";
-import Calendar from "components/calendar/Calendar";
+import Calendar from "components/Calendar/Calendar";
 import * as volActions from "redux/modules/vol";
 import VolList from "components/vol/VolList";
 interface Props {
