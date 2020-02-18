@@ -32,6 +32,12 @@ export default class ListUp extends Component {
                 className="main-list-details"
                 style={{ backgroundImage: item.css }}
               >
+                <div id="head">{item.head1}</div>
+                <div id="head">{item.head2}</div>
+                <div id="head">{item.head3}</div>
+                <p>{item.line2}</p>
+                <p>{item.line3}</p>
+                <p>{item.line4}</p>
                 <h2>{item.name}</h2>
               </div>
             </div>
