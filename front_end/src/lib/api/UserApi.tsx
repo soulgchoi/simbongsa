@@ -2,15 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
 import jwt from "jsonwebtoken";
+
 const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
-
-/* ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
-새로 발급 받은 토큰은 제대로 동작하지 않아서 기존에 발급 받은 토큰 중 하나를 임시로 이용함. 
-★☆★☆★☆★☆★☆★☆★☆★☆ */
-// const token =
-//   "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxd2VydEBuYXZlci5jb20iLCJhdWQiOiIyNiIsImlzcyI6InF3ZXJ0IiwiZXhwIjoxNjEzMTc4MTQ4LCJpYXQiOjE1ODE2NDIxNDh9.qiTNnygKG972ykS6jRswyMIP6mfbnEFhCZraN-RUb3xJlSDbS46SNNQY3g9adOojGWS5XuFjdXXS7crybvkYVA";
-
-// 토큰 인증 이슈가 해결 되면 이 주석과 위 토큰을 삭제하고, storage 에 저장된 토큰을 사용.
 
 /// 팔로우 관련 API 시작
 export const getUserFollower = async (userId: string) => {
@@ -64,7 +57,7 @@ export const followUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "insertfollow/", data, {
+  let response = await axios.post(restBaseApi + "/insertfollow/", data, {
     headers: { Authorization: token }
   });
 
@@ -76,7 +69,7 @@ export const unfollowUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "deletefollow/", data, {
+  let response = await axios.post(restBaseApi + "/deletefollow/", data, {
     headers: { Authorization: token }
   });
   return response;
@@ -113,10 +106,11 @@ export const localPreferRegister: ({
       prefer_category: preferCategory,
       prefer_region: preferRegion
     };
+
     try {
       const token = "Bearer " + storage.get("token");
-      console.log("체크 : ", data);
-      return axios.patch(restBaseApi + `rest/Member/${userId}`, data, {
+      console.log("사용자 선호 입력 API 체크 : ", data);
+      return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
         headers: { Authorization: token }
       });
     } catch (error) {
@@ -132,12 +126,12 @@ export const localPreferRegister: ({
 
 export const localPreferInfo = (userId: string) => {
   try {
-    console.log("userId는 이거입니다", userId)
-    const tokenTemp = storage.get("token")
+    console.log("userId는 이거입니다", userId);
+    const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
-    const userId2 = temp.iss
+    const userId2 = temp.iss;
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + `rest/Member/${userId2}/PreferDetail`, {
+    return axios.get(restBaseApi + `/rest/Member/${userId2}/PreferDetail`, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -148,14 +142,14 @@ export const localPreferInfo = (userId: string) => {
 
 export const getFeedList = (mId: string, pgNum: number) => {
   try {
-    console.log("mId", mId)
-    const tokenTemp = storage.get("token")
+    console.log("mId", mId);
+    const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
-    const mId2 = temp.aud
+    const mId2 = temp.aud;
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
-    return axios.get(restBaseApi + `rest/PostFeed/${mId2}/10/${pgNum}`, {
+    return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/10/${pgNum}`, {
       headers: { Authorization: token }
     });
   } catch (error) {

@@ -4,7 +4,7 @@ import storage from 'lib/storage'
 import { Icon, Button } from 'semantic-ui-react'
 import { connect } from "react-redux";
 
-let token = storage.get("token")
+let token = storage.get("token");
 
 interface IProps {
     comment: {

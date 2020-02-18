@@ -57,7 +57,7 @@ class CalendarContainer extends React.Component<Props, any> {
         {props.toggle && (
           <VolList
             loadingMessage="봉사활동 정보 불러오는 중"
-            volunteers={props.volunteersForCal}
+            volunteers={props.volunteersForCal.toJS()}
             appendList={loadMoreData}
             height={"59vh"}
           />

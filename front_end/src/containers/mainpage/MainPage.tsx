@@ -1,9 +1,20 @@
 import React, { Component, Fragment } from "react";
-import Tab from "containers/mainpage/Tab"
-import SearchBar from "components/search/SearchBar"
-import SearchContainer from 'containers/usersetting/SearchContainer';
-import ModalForm from './ModalForm'
-import { Grid, Segment, Responsive, Container, Header, Icon, Image, Dimmer, Loader, GridColumn } from 'semantic-ui-react'
+import Tab from "containers/mainpage/Tab";
+import SearchBar from "components/search/SearchBar";
+import SearchContainer from "containers/usersetting/SearchContainer";
+import ModalForm from "./ModalForm";
+import {
+  Grid,
+  Segment,
+  Responsive,
+  Container,
+  Header,
+  Icon,
+  Image,
+  Dimmer,
+  Loader,
+  GridColumn
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
@@ -13,39 +24,45 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 interface Iprops {
   loading: boolean
+  isRegister: boolean
+  SearchActions: typeof searchActions
 }
 class MainPage extends Component<Iprops> {
+  componentDidMount() {
+    const { SearchActions } = this.props
+    SearchActions.switchSaveButton(false)
+  }
+  componentWillUnmount() {
+    const { SearchActions } = this.props
+    SearchActions.switchSaveButton(true)
+  }
   render() {
     const { loading } = this.props
     return (
       <Fragment>
         <Segment>
-          {loading && <Dimmer active inverted>
-            <Loader>로딩중</Loader>
-          </Dimmer>}
+          {loading && (
+            <Dimmer active inverted>
+              <Loader>로딩중</Loader>
+            </Dimmer>
+          )}
           <Container>
             <div style={{ margin: 25 }}>
-              <Header as='h2' icon textAlign='center'>
-                <Image
-                  centered
-                  size='big'
-                  src='/images/volunteer.gif'
-                />
+              <Header as="h2" icon textAlign="center">
+                <Image centered size="big" src="/images/volunteer.gif" />
                 <Header.Content>최신 봉사활동 정보</Header.Content>
               </Header>
-
             </div>
-
             <SearchBar />
-            <Grid >
+            <div style={{
+              justifyContent: 'flex-end', display: 'flex', margin: 10
+            }}>
               <ModalForm />
-            </Grid>
-
+            </div>
           </Container>
-
           <Tab />
-        </Segment >
-      </Fragment >
+        </Segment>
+      </Fragment>
     );
   }
 }
@@ -53,6 +70,7 @@ export default connect(
   ({ user }: any) => {
     return {
       loading: user.get("loading"), // user에 있는 loading
+      isRegister: user.get("isRegister")
     };
   },
   dispatch => ({
@@ -61,7 +79,3 @@ export default connect(
     UserActions: bindActionCreators(userActions, dispatch)
   })
 )(MainPage);
-
-
-
-

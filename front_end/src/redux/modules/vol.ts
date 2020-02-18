@@ -23,7 +23,7 @@ const SET_SHOW_VOL_INFO = "vol/SET_SHOW_VOL_INFO";
 const SELECT_VOL = "volunteer/SELECT_VOL";
 const GET_VOL_LIST_BY_USER_ID = "vol/GET_VOL_LIST_BY_USER_ID";
 const DAY_VOL_LIST = "vol/DAY_VOL_LIST";
-
+const APPEND_VOL_LIST_FORCAL = "vol/APPEND_VOL_LIST_FORCAL"
 export const dayVolList = createAction(DAY_VOL_LIST);
 export const setVolMap = createAction(SET_VOL_MAP);
 export const setSelectedVolunteer = createAction(
@@ -39,6 +39,7 @@ export const appendList = createAction(
   APPEND_VOL_LIST,
   VolApi.getVolListByPage
 );
+export const appendListForCal = createAction(APPEND_VOL_LIST_FORCAL)
 export const getVolDetail = createAction(GET_VOL_DETAIL, VolApi.getVolDetail);
 export const setShowVolInfo = createAction(SET_SHOW_VOL_INFO);
 export const selectVol = createAction(SELECT_VOL);

@@ -30,6 +30,8 @@ import VolDetail from "components/vol/VolDetail";
 import Feed from "containers/feed/Feed";
 import PostingList from "containers/posting/PostingList";
 import PostingForm from "containers/posting/PostForm";
+import { Grid } from "semantic-ui-react";
+import Header from "components/header/Header";
 
 class Router extends Component {
   render() {
