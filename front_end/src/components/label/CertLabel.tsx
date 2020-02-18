@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import "assets/mycss";
+import "./CertLabel.css";
 
 interface IProps {
   v_Auth: number;
@@ -18,7 +18,7 @@ export default class CertLabel extends Component<IProps & any, any> {
   printFunc(): void {
     // console.log(this.props.v_Auth)
     if (this.props.v_Auth > 0) {
-      this.setState({ isCert: "인증" });
+      this.setState({ isCert: "시간인증" });
       this.setState({ isCertClass: "tag iscert" });
       this.setState({ visibility: "true" });
     } else if (this.props.v_Auth === null) {

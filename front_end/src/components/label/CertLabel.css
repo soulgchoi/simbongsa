@@ -1,0 +1,26 @@
+div.tag {
+      color: white;
+      margin-right: 2px;
+      display: inline;
+      padding: 3px;
+      border-radius: 5px;
+}
+div.iscert {
+      background-color: #EB6C6C;
+    }
+div.full {
+      background-color: #84DE62;
+    }
+div.n-full {
+      background-color: #00ADE0;
+    }
+div.w-full {
+      background-color: lightgray;
+    }
+div#true {
+      visibility: visible;
+    }
+div#false {
+      visibility: hidden;
+    }
+

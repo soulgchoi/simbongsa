@@ -8,16 +8,16 @@ interface Props { }
 export default function Header({ }: Props): ReactElement {
   return (
     <div>
-      <Button.Group fluid widths="3">
-        <Link to={"/mainpage"}>
-          <Button color="orange">main</Button>
-        </Link>
-        <Link to={"/feed"}>
-          <Button color="orange">feed</Button>
-        </Link>
-        <Link to={"/mypage"}>
-          <Button color="orange">my page</Button>
-        </Link>
+      <Button.Group widths="3">
+        <Button color="orange" href="/mainpage">
+          home
+        </Button>
+        <Button color="orange" href="/feed">
+          feed
+        </Button>
+        <Button color="orange" href="/mypage">
+          my
+        </Button>
       </Button.Group>
       {/* <Grid>
       <Grid.Row>

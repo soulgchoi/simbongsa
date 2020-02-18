@@ -1,7 +1,26 @@
 div.ui.modal.transition.visible.active div.actions {
     padding-bottom: 14px !important;
 }
-div.ui.modal.transition.visible.active div.actions div{
+div.label{
     display: flex;
     justify-content: center;
+}
+
+div.postedImage{
+    display: flex;
+    justify-content: center;
+}
+
+div.postContent{
+    color: black !important;
+}
+
+div.comment{
+    color: black !important;
+}
+
+
+div.comment div {
+    display: block !important;
+    width: 100%;
 }
