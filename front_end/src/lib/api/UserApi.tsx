@@ -42,10 +42,10 @@ export const checkFollow = async (followerId: string, followeeId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
     restBaseApi +
-      "isfollowing?follower_userid=" +
-      followerId +
-      "&followee_userid=" +
-      followeeId,
+    "isfollowing?follower_userid=" +
+    followerId +
+    "&followee_userid=" +
+    followeeId,
     { headers: { Authorization: token } }
   );
   console.log("팔로잉체크", response.data.data);
@@ -57,7 +57,7 @@ export const followUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "insertfollow/", data, {
+  let response = await axios.post(restBaseApi + "/insertfollow/", data, {
     headers: { Authorization: token }
   });
 
@@ -69,7 +69,7 @@ export const unfollowUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "deletefollow/", data, {
+  let response = await axios.post(restBaseApi + "/deletefollow/", data, {
     headers: { Authorization: token }
   });
   return response;
@@ -99,29 +99,30 @@ export const localPreferRegister: ({
   preferRegion,
   userId
 }: Iprefer) => {
-  let data = {
-    m_age: age,
-    m_bgnTm: bgnTm,
-    m_endTm: endTm,
-    prefer_category: preferCategory,
-    prefer_region: preferRegion
+    let data = {
+      m_age: age,
+      m_bgnTm: bgnTm,
+      m_endTm: endTm,
+      prefer_category: preferCategory,
+      prefer_region: preferRegion
+    };
+
+    try {
+      const token = "Bearer " + storage.get("token");
+      console.log("사용자 선호 입력 API 체크 : ", data);
+      return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
+        headers: { Authorization: token }
+      });
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
   };
-  try {
-    const token = "Bearer " + storage.get("token");
-    console.log("사용자 선호 입력 API 체크 : ", data);
-    return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
-      headers: { Authorization: token }
-    });
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
 
 export const localPreferInfo = (userId: string) => {
   try {

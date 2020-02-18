@@ -6,6 +6,7 @@ import temp from "components/usersetting/temp.json";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
+import { Button } from "semantic-ui-react"
 interface Props {
   locations: any;
   SearchActions: any;
@@ -77,7 +78,7 @@ class Locationcontainer extends Component<Props, State> {
     return (
 
       <Fragment>
-        <div style={{ "margin": 25 }} >
+        <div style={{ "margin": 1 }} >
           <Dropdown
             // placeholder={placeholder}
             value={input}
@@ -90,22 +91,25 @@ class Locationcontainer extends Component<Props, State> {
           // disabled={todos.size === 3}
           ></Dropdown>
         </div>
-        <ul>{locationItems}</ul>
+        {locationItems}
       </Fragment>
     );
   }
 }
 const LocationItem = ({ id, text, onRemove }: any) => (
   <div>
-    <li
+    <ul
       style={{
-
+        textDecoration: 'none',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        padding: 0
       }}
     >
-      {text} <button onClick={() => onRemove(id)} >[삭제하기]</button>
-    </li >
+      {text} <Button color='orange' size='mini' onClick={() => onRemove(id)} >삭제하기</Button>
+    </ul >
 
-  </div>
+  </div >
 );
 export default connect(
   ({ search }: any) => ({
