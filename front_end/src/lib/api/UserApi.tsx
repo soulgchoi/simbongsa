@@ -9,7 +9,7 @@ const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 export const getUserFollower = async (userId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
-    restBaseApi + "follow/" + userId + "/followers",
+    restBaseApi + "/follow/" + userId + "/followers",
     { headers: { Authorization: token } }
   );
   console.log("get follower", response);
@@ -25,7 +25,7 @@ export const getUserFollower = async (userId: string) => {
 export const getUserFollowing = async (userId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
-    restBaseApi + "follow/" + userId + "/followees",
+    restBaseApi + "/follow/" + userId + "/followees",
     { headers: { Authorization: token } }
   );
   console.log("get follower", response);
@@ -42,7 +42,7 @@ export const checkFollow = async (followerId: string, followeeId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
     restBaseApi +
-    "isfollowing?follower_userid=" +
+    "/isfollowing?follower_userid=" +
     followerId +
     "&followee_userid=" +
     followeeId,
