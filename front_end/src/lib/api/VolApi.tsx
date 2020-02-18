@@ -26,6 +26,7 @@ export const getVolListBySearch = (name: any): any => {
 
 export const getVolDetail = (id: number) => {
   try {
+
     const token = "Bearer " + storage.get("token");
     return axios.get(restBaseApi + "/vol/detail/" + id, {
       headers: { Authorization: token }
