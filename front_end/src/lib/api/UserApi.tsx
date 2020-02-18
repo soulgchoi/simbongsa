@@ -2,9 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { List } from "immutable";
 import storage from "lib/storage";
 import jwt from "jsonwebtoken";
+
 const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
-
-
 
 /// 팔로우 관련 API 시작
 export const getUserFollower = async (userId: string) => {
@@ -126,10 +125,10 @@ export const localPreferRegister: ({
 
 export const localPreferInfo = (userId: string) => {
   try {
-    console.log("userId는 이거입니다", userId)
-    const tokenTemp = storage.get("token")
+    console.log("userId는 이거입니다", userId);
+    const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
-    const userId2 = temp.iss
+    const userId2 = temp.iss;
     const token = "Bearer " + storage.get("token");
     return axios.get(restBaseApi + `rest/Member/${userId2}/PreferDetail`, {
       headers: { Authorization: token }
@@ -142,10 +141,10 @@ export const localPreferInfo = (userId: string) => {
 
 export const getFeedList = (mId: string, pgNum: number) => {
   try {
-    console.log("mId", mId)
-    const tokenTemp = storage.get("token")
+    console.log("mId", mId);
+    const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
-    const mId2 = temp.aud
+    const mId2 = temp.aud;
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
