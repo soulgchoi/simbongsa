@@ -32,42 +32,53 @@ import PostingList from "containers/posting/PostingList";
 import PostingForm from "containers/posting/PostForm";
 import { Grid } from "semantic-ui-react";
 import Header from "components/header/Header";
+import HeaderForMobile from "components/header/HeaderForMobile";
+
+
+
+import Footer from "components/footer/Footer";
+import FooterForMobile from "components/footer/FooterForMobile";
 
 class Router extends Component {
   render() {
     return (
-        <BrowserRouter>
-            {/* auth */}
-            <Route exact path="/join" component={Join} />
-            <Route path="/join/complete" component={JoinComplete} />
-            <Route path="/email/:email/:key" component={EmailComplete} />
+      <BrowserRouter>
+        {/* auth */}
+        <Route path="/" component={Header} />
+        <Route path="/" component={HeaderForMobile} />
+        <Route exact path="/join" component={Join} />
+        <Route path="/join/complete" component={JoinComplete} />
+        <Route path="/email/:email/:key" component={EmailComplete} />
 
-            <Route path="/mailresend" component={MailReSend} />
+        <Route path="/mailresend" component={MailReSend} />
 
-            <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Intro} />
 
-            <Route path="/findpassword" component={FindPassword} />
-            <Route path="/findpasswordmailsend" component={FindPasswordMailSend} />
-
-
-            {/* // user */}
-            <Route path="/mypage" component={Mypage} />
-            <Route exact path="/userprofile" component={UserProfile} />
-            <Route path="/changepassword/:token" component={ChangePassword} />
-
-            {/* curation */}
-            <Route path="/intro" component={Intro} />
-            <Route exact path="/mainpage" component={MainPage} />
-            <Route exact path="/usersetting" component={SearchContainer} />
-            <Route path="/location" component={Location} />
-            <Route path="/calendar" component={CalendarContainer} />
-
-            <Route exact path="/vol/:id/detail" component={VolDetail} />
+        <Route path="/findpassword" component={FindPassword} />
+        <Route path="/findpasswordmailsend" component={FindPasswordMailSend} />
 
 
-            <Route path="/feed" component={Feed} />
-            <Route exact path="/:id/list" component={PostingList} />
-            <Route exact path="/vol/:id/write" component={PostingForm} />
+        {/* // user */}
+        <Route path="/mypage" component={Mypage} />
+        <Route exact path="/userprofile" component={UserProfile} />
+        <Route path="/changepassword/:token" component={ChangePassword} />
+
+        {/* curation */}
+        <Route path="/intro" component={Intro} />
+        <Route exact path="/mainpage" component={MainPage} />
+        <Route exact path="/usersetting" component={SearchContainer} />
+        <Route path="/calendar" component={CalendarContainer} />
+
+        <Route exact path="/vol/:id/detail" component={VolDetail} />
+
+
+        <Route path="/feed" component={Feed} />
+        <Route exact path="/:id/list" component={PostingList} />
+        <Route exact path="/vol/:id/write" component={PostingForm} />
+
+        <Route path="/" component={Footer} />
+        <Route path="/" component={FooterForMobile} />
       </BrowserRouter>
     );
   }

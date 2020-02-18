@@ -41,7 +41,7 @@ export const getVolListByPage = (pgNum: number) => {
   try {
     const token = "Bearer " + storage.get("token");
     console.log("리스트 초기화 api");
-    console.log(restBaseApi + "vol/titles/10/" + pgNum);
+    console.log(restBaseApi + "/vol/titles/10/" + pgNum);
     return axios.get(restBaseApi + "/vol/titles/10/" + pgNum, {
       headers: { Authorization: token }
     });

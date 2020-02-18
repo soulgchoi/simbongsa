@@ -117,8 +117,8 @@ export default handleActions<any>(
     ...pender({
       type: GET_FEED_LIST,
       onSuccess: (state, action) => {
-        console.log("피드리스트 액션", action);
-        state.set("feedLilst", List(action.data));
+        console.log("피드리스트 액션", action.data.data);
+        return state.set("feedLilst", List(action.data.data));
       }
     })
 

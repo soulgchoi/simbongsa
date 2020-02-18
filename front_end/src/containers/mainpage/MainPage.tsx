@@ -22,22 +22,43 @@ import * as userActions from "redux/modules/user";
 import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
+import jwt from "jsonwebtoken";
+import storage from "lib/storage";
+
 interface Iprops {
-  loading: boolean
-  isRegister: boolean
-  SearchActions: typeof searchActions
+  loading: boolean;
+  isRegister: boolean;
+  SearchActions: typeof searchActions;
+  AuthActions: typeof authActions;
+  UserActions: typeof userActions;
+  match: any;
+  result: any;
 }
 class MainPage extends Component<Iprops> {
-  componentDidMount() {
-    const { SearchActions } = this.props
-    SearchActions.switchSaveButton(false)
+  async componentDidMount() {
+    const { SearchActions, AuthActions, UserActions } = this.props;
+    // const { id_token } = this.props.match.params;
+    const hash = window.location.hash;
+    if (hash.length > 0) {
+      const splitedHash = hash.split("id_token=");
+      if (splitedHash.length > 1) {
+        const id_token = splitedHash[1].split("&")[0];
+        await AuthActions.googleLogin(id_token);
+        console.log("메인페이지 마운트", id_token);
+        const token = this.props.result.toJS().token;
+        const userEmail = jwt.decode(token);
+        UserActions.setLoggedInfo(userEmail);
+        storage.set("token", token);
+      }
+    }
+    SearchActions.switchSaveButton(false);
   }
   componentWillUnmount() {
-    const { SearchActions } = this.props
-    SearchActions.switchSaveButton(true)
+    const { SearchActions } = this.props;
+    SearchActions.switchSaveButton(true);
   }
   render() {
-    const { loading } = this.props
+    const { loading } = this.props;
     return (
       <Fragment>
         <Segment>
@@ -54,9 +75,13 @@ class MainPage extends Component<Iprops> {
               </Header>
             </div>
             <SearchBar />
-            <div style={{
-              justifyContent: 'flex-end', display: 'flex', margin: 10
-            }}>
+            <div
+              style={{
+                justifyContent: "flex-end",
+                display: "flex",
+                margin: 10
+              }}
+            >
               <ModalForm />
             </div>
           </Container>
@@ -67,15 +92,17 @@ class MainPage extends Component<Iprops> {
   }
 }
 export default connect(
-  ({ user }: any) => {
+  ({ user, auth }: any) => {
     return {
       loading: user.get("loading"), // user에 있는 loading
-      isRegister: user.get("isRegister")
+      isRegister: user.get("isRegister"),
+      result: auth.get("result")
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
     SearchActions: bindActionCreators(searchActions, dispatch),
-    UserActions: bindActionCreators(userActions, dispatch)
+    UserActions: bindActionCreators(userActions, dispatch),
+    AuthActions: bindActionCreators(authActions, dispatch)
   })
 )(MainPage);

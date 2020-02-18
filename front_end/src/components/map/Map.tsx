@@ -39,8 +39,8 @@ interface IState {
   isMyLocationClicked: boolean;
   isMarkerRenderingNeed: boolean;
   clusterer: any;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
 }
 
 class Map extends Component<IProps, IState> {
@@ -49,8 +49,8 @@ class Map extends Component<IProps, IState> {
     myLocation: { y: 0, x: 0 },
     isMyLocationClicked: false,
     isMarkerRenderingNeed: true,
-    height: window.innerHeight - 435,
-    width: window.innerWidth
+    // height: window.innerHeight - 435,
+    // width: window.innerWidth
   };
   componentDidMount() {
     const {
@@ -113,10 +113,12 @@ class Map extends Component<IProps, IState> {
     if (showVolInfo !== nextProps.showVolInfo) {
       if (nextProps.showVolInfo) {
         console.log("축소");
-        resizeMap(volMap, window.innerHeight - 735);
+        // resizeMap(volMap, window.innerHeight - 735); // 지도 크기 재조정
+        resizeMap(volMap, "60vh"); // 지도 크기 재조정
       } else {
         console.log("확대");
-        resizeMap(volMap, window.innerHeight - 435);
+        // resizeMap(volMap, window.innerHeight - 435); // 지도 크기 재조정
+        resizeMap(volMap, "60vh"); // 지도 크기 재조정
       }
     }
     return true;
@@ -214,12 +216,13 @@ class Map extends Component<IProps, IState> {
   render() {
     console.log("render ");
     const { zoomIn, zoomOut, setMyLocation } = this;
-    const { height } = this.state;
+    // const { height } = this.state;
     const { volMap } = this.props;
     return (
-      <div className="map_wrap" id="map_wrap" style={{ height: height }}>
-        <div id="map" style={{ width: "100%", height: "60vh" }} />
-        <div className="custom_typecontrol radius_border">
+      <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
+        <div id="map" style={{ width: "100%", height: "40vh" }} />
+        {/* 내 위치는 HTTPS 를 사용해야합니다. */}
+        {/* <div className="custom_typecontrol radius_border">
           <span
             id="btnRoadmap"
             className="mylocation_btn"
@@ -229,7 +232,7 @@ class Map extends Component<IProps, IState> {
           >
             내위치
           </span>
-        </div>
+        </div> */}
         <div className="custom_zoomcontrol radius_border">
           <span
             onClickCapture={() => {
@@ -390,7 +393,7 @@ const makeMarker = (
   // 마커 클러스터러에 클릭이벤트를 등록합니다
   // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
   // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-  kakao.maps.event.addListener(clusterer, "clusterclick", function(
+  kakao.maps.event.addListener(clusterer, "clusterclick", function (
     cluster: any
   ) {
     // 기존에 선택한 봉사정보가 있으면 초기화
@@ -440,7 +443,7 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function() {
+  return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     if (!selectedMarker || selectedMarker !== marker) {
@@ -462,14 +465,15 @@ function makeClickListener(
 }
 
 // 지도를 표시하는 div 크기를 변경하는 함수입니다
-function resizeMap(volMap: any, height: number) {
+// function resizeMap(volMap: any, height: number) {
+function resizeMap(volMap: any, height: string) {
   let mapContainer = document.getElementById("map");
   let mapWrap = document.getElementById("map_wrap");
   // mapContainer!.style.width = '650px';
   console.log("맵컨테이너", mapContainer);
   let center = volMap.getCenter();
-  mapContainer!.style.height = height.toString() + "px";
-  mapWrap!.style.height = height.toString() + "px";
+  mapContainer!.style.height = height//.toString() + "px";
+  mapWrap!.style.height = height//.toString() + "px";
   volMap.relayout();
   volMap.panTo(center);
 }
