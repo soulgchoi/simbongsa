@@ -15,7 +15,7 @@ export const getVolListBySearch = (name: any): any => {
   try {
     const token = "Bearer " + storage.get("token");
     return axios.get(
-      restBaseApi + `vol/titles/4000/1/filtering/?vol_title=${name}`,
+      restBaseApi + `/vol/titles/4000/1/filtering/?vol_title=${name}`,
       { headers: { Authorization: token } }
     ); // 1/1  (페이지당 한개)/(1페이지)
   } catch (error) {
