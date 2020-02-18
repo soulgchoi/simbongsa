@@ -1,9 +1,20 @@
 import React, { Component, Fragment } from "react";
-import Tab from "containers/mainpage/Tab"
-import SearchBar from "components/search/SearchBar"
-import SearchContainer from 'containers/usersetting/SearchContainer';
-import ModalForm from './ModalForm'
-import { Grid, Segment, Responsive, Container, Header, Icon, Image, Dimmer, Loader, GridColumn } from 'semantic-ui-react'
+import Tab from "containers/mainpage/Tab";
+import SearchBar from "components/search/SearchBar";
+import SearchContainer from "containers/usersetting/SearchContainer";
+import ModalForm from "./ModalForm";
+import {
+  Grid,
+  Segment,
+  Responsive,
+  Container,
+  Header,
+  Icon,
+  Image,
+  Dimmer,
+  Loader,
+  GridColumn
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
@@ -26,39 +37,32 @@ class MainPage extends Component<Iprops> {
     SearchActions.switchSaveButton(true)
   }
   render() {
-    const { loading } = this.props
-
+    const { loading } = this.props;
     return (
       <Fragment>
         <Segment>
-          {loading && <Dimmer active inverted>
-            <Loader>로딩중</Loader>
-          </Dimmer>}
+          {loading && (
+            <Dimmer active inverted>
+              <Loader>로딩중</Loader>
+            </Dimmer>
+          )}
           <Container>
             <div style={{ margin: 25 }}>
-              <Header as='h2' icon textAlign='center'>
-                <Image
-                  centered
-                  size='big'
-                  src='/images/volunteer.gif'
-                />
+              <Header as="h2" icon textAlign="center">
+                <Image centered size="big" src="/images/volunteer.gif" />
                 <Header.Content>최신 봉사활동 정보</Header.Content>
               </Header>
-
             </div>
-
             <SearchBar />
-            <div style={{
-              justifyContent: 'flex-end', display: 'flex', margin: 10
-            }}>
+
+
+            <Grid>
               <ModalForm />
-            </div>
-
+            </Grid>
           </Container>
-
           <Tab />
-        </Segment >
-      </Fragment >
+        </Segment>
+      </Fragment>
     );
   }
 }
@@ -75,7 +79,3 @@ export default connect(
     UserActions: bindActionCreators(userActions, dispatch)
   })
 )(MainPage);
-
-
-
-

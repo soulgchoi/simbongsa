@@ -106,9 +106,10 @@ export const localPreferRegister: ({
       prefer_category: preferCategory,
       prefer_region: preferRegion
     };
+
     try {
       const token = "Bearer " + storage.get("token");
-      console.log("체크 : ", data);
+      console.log("사용자 선호 입력 API 체크 : ", data);
       return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
         headers: { Authorization: token }
       });
@@ -148,7 +149,7 @@ export const getFeedList = (mId: string, pgNum: number) => {
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
-    return axios.get(restBaseApi + `rest/PostFeed/${mId2}/10/${pgNum}`, {
+    return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/10/${pgNum}`, {
       headers: { Authorization: token }
     });
   } catch (error) {
