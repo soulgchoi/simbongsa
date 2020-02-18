@@ -15,7 +15,7 @@ export const getVolListBySearch = (name: any): any => {
   try {
     const token = "Bearer " + storage.get("token");
     return axios.get(
-      restBaseApi + `vol/titles/4000/1/filtering/?vol_title=${name}`,
+      restBaseApi + `/vol/titles/4000/1/filtering/?vol_title=${name}`,
       { headers: { Authorization: token } }
     ); // 1/1  (페이지당 한개)/(1페이지)
   } catch (error) {
@@ -28,7 +28,7 @@ export const getVolDetail = (id: number) => {
   try {
 
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + "vol/detail/" + id, {
+    return axios.get(restBaseApi + "/vol/detail/" + id, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -42,7 +42,7 @@ export const getVolListByPage = (pgNum: number) => {
     const token = "Bearer " + storage.get("token");
     console.log("리스트 초기화 api");
     console.log(restBaseApi + "vol/titles/10/" + pgNum);
-    return axios.get(restBaseApi + "vol/titles/10/" + pgNum, {
+    return axios.get(restBaseApi + "/vol/titles/10/" + pgNum, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -55,7 +55,7 @@ export const getVolListByUserId = (userId: string) => {
   try {
     const token = "Bearer " + storage.get("token");
     console.log("여기는 잘 되는가??");
-    return axios.get(restBaseApi + "rest/Member/" + userId + "/Vote", {
+    return axios.get(restBaseApi + "/rest/Member/" + userId + "/Vote", {
       headers: { Authorization: token }
     });
   } catch (error) {

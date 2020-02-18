@@ -22,7 +22,7 @@ class CommentForm extends React.Component<Props & any, {}> {
         "m_id": this.props.user.toJS().m_id,
     }
 
-    handleChange = (e:any) =>{
+    handleChange = (e: any) => {
         console.log(this.state.c_content)
         this.setState({
             "c_content": e.target.value
@@ -32,44 +32,44 @@ class CommentForm extends React.Component<Props & any, {}> {
 
     handleClick = () => {
         axios.post(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment`,
-        // axios.post(`http://70.12.247.87:8080/rest/Comment/`,
-        // axios.post(`http://70.12.247.126:8080/rest/Comment/`,
-        {
-            'c_content': this.state.c_content,
-            'p_id': this.props.inP_id.toString(),
-            'm_id': this.props.user.toJS().m_id
-        },
-        { headers: { Authorization: "Bearer " + token }}
+            // axios.post(`http://70.12.247.87:8080/rest/Comment/`,
+            // axios.post(`http://70.12.247.126:8080/rest/Comment/`,
+            {
+                'c_content': this.state.c_content,
+                'p_id': this.props.inP_id.toString(),
+                'm_id': this.props.user.toJS().m_id
+            },
+            { headers: { Authorization: "Bearer " + token } }
         )
-        .then(res => {
-            this.setState({
-                "c_content": ""
+            .then(res => {
+                this.setState({
+                    "c_content": ""
+                })
+                console.log(res)
             })
-        console.log(res)
-        })
-        .catch(err => console.log(err))
+            .catch(err => console.log(err))
         window.location.reload(true);
         // this.handleBack()
-        }
+    }
 
-        // handleBack() {
-        //     this.props.history.push('/');
-        // }
-        
+    // handleBack() {
+    //     this.props.history.push('/');
+    // }
+
 
     render() {
 
-        return(
+        return (
             <div>
                 <Form>
                     <div>
-                    <Input
-                        size='small'
-                        value={this.state.c_content}
-                        onChange={this.handleChange}
-                    ></Input>
-                    <Button
-                        onClick={this.handleClick}>
+                        <Input
+                            size='small'
+                            value={this.state.c_content}
+                            onChange={this.handleChange}
+                        ></Input>
+                        <Button
+                            onClick={this.handleClick}>
                             댓글 등록
                     </Button>
                     </div>
