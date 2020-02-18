@@ -15,7 +15,7 @@ interface Props {
         v_id: 0,
         m_id: 0,
         p_status: 0,
-        files?: []
+        files?: [],
     };
 }
 

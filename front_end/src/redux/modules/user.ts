@@ -54,7 +54,7 @@ const initialState = Map({
     // 현재 로그인중인 유저의 정보
     email: "",
     userId: "",
-    mId: "",
+    m_id: "",
     preferInfo: Map({
       bgnTm: "",
       endTm: "",
@@ -83,7 +83,7 @@ export default handleActions<any>(
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
-        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, mId: aud }));
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, m_id: aud }));
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
