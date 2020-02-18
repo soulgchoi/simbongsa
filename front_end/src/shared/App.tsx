@@ -21,14 +21,14 @@ class App extends Component<any> {
     console.log("token", token);
     const temp = jwt.decode(token);
     console.log("temp", temp);
-    const { UserActions, history } = this.props;
+    const { UserActions } = this.props;
 
     await UserActions.setLoggedInfo(temp);
 
     // history.push("/mainpage");
   };
   initializePreferInfo = (preferInfo: any) => {
-    const { times, ages, locations, categorys, SearchActions } = this.props;
+    const { SearchActions } = this.props;
     if (preferInfo) {
       console.log("preferInfo APP에서", preferInfo.toJS());
       const info = preferInfo.toJS();

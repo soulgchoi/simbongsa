@@ -52,8 +52,8 @@ class Router extends Component {
 
               <Route path="/mailresend" component={MailReSend} />
 
-              <Route exact path="/" component={Login} />
-
+              <Route exact path="/" component={Intro} />
+              <Route path="/login" component={Login} />
               <Route path="/findpassword" component={FindPassword} />
               <Route
                 path="/findpasswordmailsend"
