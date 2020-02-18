@@ -108,8 +108,8 @@ export const localPreferRegister: ({
   };
   try {
     const token = "Bearer " + storage.get("token");
-    console.log("체크 : ", data);
-    return axios.patch(restBaseApi + `rest/Member/${userId}`, data, {
+    console.log("사용자 선호 입력 API 체크 : ", data);
+    return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -130,7 +130,7 @@ export const localPreferInfo = (userId: string) => {
     const temp: any = jwt.decode(tokenTemp);
     const userId2 = temp.iss;
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + `rest/Member/${userId2}/PreferDetail`, {
+    return axios.get(restBaseApi + `/rest/Member/${userId2}/PreferDetail`, {
       headers: { Authorization: token }
     });
   } catch (error) {
@@ -148,7 +148,7 @@ export const getFeedList = (mId: string, pgNum: number) => {
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
-    return axios.get(restBaseApi + `rest/PostFeed/${mId2}/10/${pgNum}`, {
+    return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/10/${pgNum}`, {
       headers: { Authorization: token }
     });
   } catch (error) {

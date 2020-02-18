@@ -6,7 +6,7 @@ const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 
 export const checkEmailExists = (email: string) => {
   try {
-    return axios.get(restBaseApi + "rest/CheckEmail/" + email);
+    return axios.get(restBaseApi + "/rest/CheckEmail/" + email);
   } catch (error) {
     console.log(error);
     return false;
@@ -14,7 +14,7 @@ export const checkEmailExists = (email: string) => {
 };
 export const checkUsernameExists = (userid: string) => {
   try {
-    return axios.get(restBaseApi + "rest/CheckId/" + userid);
+    return axios.get(restBaseApi + "/rest/CheckId/" + userid);
   } catch (error) {
     return true;
   }
@@ -41,7 +41,7 @@ export const localRegister: ({
   };
   try {
     console.log("체크 : ", data);
-    return axios.post(restBaseApi + "register", data);
+    return axios.post(restBaseApi + "/register", data);
   } catch (error) {
     return false;
   }
@@ -56,7 +56,7 @@ export const localRegister: ({
 export const sendSignupEmail = (email: string) => {
   try {
     return axios.post(
-      restBaseApi + "email/regist",
+      restBaseApi + "/email/regist",
       { m_email: email } // )
     );
   } catch (error) {
@@ -82,7 +82,7 @@ export const localLogin: ({
   };
   try {
     console.log(restBaseApi, data);
-    return axios.post(restBaseApi + "authenticate", data);
+    return axios.post(restBaseApi + "/authenticate", data);
   } catch (error) {
     return false;
   }
@@ -93,7 +93,7 @@ export const localLogin: ({
 */
 export const checkStatus = (data: { email: string; password: string }) => {
   try {
-    return axios.post(restBaseApi + "authenticate", {
+    return axios.post(restBaseApi + "/authenticate", {
       password: data.password,
       username: data.email
     });
@@ -104,7 +104,7 @@ export const checkStatus = (data: { email: string; password: string }) => {
 
 export const googleLogin = (id_token: string) => {
   try {
-    return axios.post(restBaseApi + "loginByGoogle", id_token);
+    return axios.post(restBaseApi + "/loginByGoogle", id_token);
   } catch (error) {
     return true;
   }
@@ -126,7 +126,7 @@ export const emailValidate = (email: string, key: string) => {
   try {
     // http://13.124.127.232:8080/A205/email/enter?m_email=pjh5929@naver.com&m_key=m7OSjPN0jpGOTlTCM0QR
     return axios.get(
-      restBaseApi + "email/enter?m_email=" + email + "&m_key=" + key
+      restBaseApi + "/email/enter?m_email=" + email + "&m_key=" + key
     );
   } catch (error) {
     return true;
@@ -135,7 +135,7 @@ export const emailValidate = (email: string, key: string) => {
 
 // 비밀번호 찾기 메일 전송
 export const changePasswordEmailSend = async (email: string) => {
-  let response = await axios.post(restBaseApi + "email/change", {
+  let response = await axios.post(restBaseApi + "/email/change", {
     m_email: email
   });
   return response.data;
@@ -148,6 +148,6 @@ export const changePassword = async (
   password: string
 ) => {
   let data = { token: passwordToken, password: password };
-  let response = await axios.post(restBaseApi + "email/password", data);
+  let response = await axios.post(restBaseApi + "/email/password", data);
   return response.data;
 };

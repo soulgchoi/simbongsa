@@ -30,7 +30,7 @@ export const postReview = (posting: FormData) => {
 export const getPosts = (postNum: number) => {
   try {
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + "rest/Post/" + postNum, {
+    return axios.get(restBaseApi + "/rest/Post/" + postNum, {
       headers: { Authorization: token }
     });
   } catch (err) {
