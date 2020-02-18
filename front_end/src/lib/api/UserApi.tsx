@@ -57,7 +57,7 @@ export const followUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "insertfollow/", data, {
+  let response = await axios.post(restBaseApi + "/insertfollow/", data, {
     headers: { Authorization: token }
   });
 
@@ -69,7 +69,7 @@ export const unfollowUser = async (data: {
   followee_userid: string;
 }) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "deletefollow/", data, {
+  let response = await axios.post(restBaseApi + "/deletefollow/", data, {
     headers: { Authorization: token }
   });
   return response;
@@ -109,7 +109,7 @@ export const localPreferRegister: ({
     try {
       const token = "Bearer " + storage.get("token");
       console.log("체크 : ", data);
-      return axios.patch(restBaseApi + `rest/Member/${userId}`, data, {
+      return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
         headers: { Authorization: token }
       });
     } catch (error) {
@@ -130,7 +130,7 @@ export const localPreferInfo = (userId: string) => {
     const temp: any = jwt.decode(tokenTemp);
     const userId2 = temp.iss;
     const token = "Bearer " + storage.get("token");
-    return axios.get(restBaseApi + `rest/Member/${userId2}/PreferDetail`, {
+    return axios.get(restBaseApi + `/rest/Member/${userId2}/PreferDetail`, {
       headers: { Authorization: token }
     });
   } catch (error) {

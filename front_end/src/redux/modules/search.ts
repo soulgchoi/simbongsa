@@ -9,6 +9,7 @@ const REMOVE = "searchlocation/REMOVE";
 const PREFER_REGISTER = "searchlocation/PREFER_REGISTER";
 const INITIAL_INSERT = "searchlocation/INTIALIZE_FORM"
 const SEARCH_SUBMIT = "searchlocation/SEARCH_SUBMIT"
+const SWITCH_SAVE_BUTTON = 'seachloaction/SWITCH_SAVE_BUTTON';
 export const changeInput = createAction(CHANGE_INPUT);
 export const insert = createAction(INSERT);
 export const toggle = createAction(TOGGLE);
@@ -16,6 +17,7 @@ export const remove = createAction(REMOVE);
 export const preferRegister = createAction(PREFER_REGISTER, UserAPI.localPreferRegister)
 export const initialInsert = createAction(INITIAL_INSERT)
 export const searchSubmit = createAction(SEARCH_SUBMIT);
+export const switchSaveButton = createAction(SWITCH_SAVE_BUTTON)
 let idLocation = 0; // 아이템에 들어갈 고유 값 입니다
 let idCategory = 0; // 아이템에 들어갈 고유 값 입니다
 // Record 함수는 Record 형태 데이터를 만드는 함수를 반환합니다.
@@ -35,7 +37,8 @@ const initialState = Record({
     adult: false
   }),
   error: null,
-  isSearchSubmit: false
+  isSearchSubmit: false,
+  isRegister: true
 })();
 // Todo 아이템의 형식을 정합니다.
 const SearchLocationRecord = Record({
@@ -50,6 +53,9 @@ const SearchCategoryRecord = Record({
 });
 export default handleActions<any, any>(
   {
+    [SWITCH_SAVE_BUTTON]: (state, action) => {
+      return state.set('isRegister', action.payload)
+    },
     [INITIAL_INSERT]: (state, action) => {
       const { form, key, value } = action.payload
       console.log("initail_insert", form, key, value)

@@ -13,10 +13,21 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 interface Iprops {
   loading: boolean
+  isRegister: boolean
+  SearchActions: typeof searchActions
 }
 class MainPage extends Component<Iprops> {
+  componentDidMount() {
+    const { SearchActions } = this.props
+    SearchActions.switchSaveButton(false)
+  }
+  componentWillUnmount() {
+    const { SearchActions } = this.props
+    SearchActions.switchSaveButton(true)
+  }
   render() {
     const { loading } = this.props
+
     return (
       <Fragment>
         <Segment>
@@ -38,7 +49,7 @@ class MainPage extends Component<Iprops> {
 
             <SearchBar />
             <div style={{
-              justifyContent: 'flex-end', display: 'flex', marginRight: 0, marginTop: 10
+              justifyContent: 'flex-end', display: 'flex', margin: 10
             }}>
               <ModalForm />
             </div>
@@ -55,6 +66,7 @@ export default connect(
   ({ user }: any) => {
     return {
       loading: user.get("loading"), // user에 있는 loading
+      isRegister: user.get("isRegister")
     };
   },
   dispatch => ({
