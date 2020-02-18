@@ -23,6 +23,7 @@ class PostingForm extends React.Component<any, any> {
     }
 
     handleChange = (e: any) => {
+        this.setUserInfo()  
         const { PostingActions } = this.props;
         var { id, value } = e.target;
         // console.log(value)
@@ -31,7 +32,6 @@ class PostingForm extends React.Component<any, any> {
             value,
             form: "posting"
         });  
-        this.setUserInfo()  
     }
 
     setUserInfo() {
@@ -71,6 +71,7 @@ class PostingForm extends React.Component<any, any> {
 
     handleSubmit = (e:any) => {
         e.preventDefault();
+        console.log(this.props.form.toJS())
         const { p_content, m_id } = this.props.form.toJS();
         const { selectedfiles } = this.props
         var v_id = this.props.match.params.id
@@ -85,7 +86,7 @@ class PostingForm extends React.Component<any, any> {
                 p_content,
                 v_id,
                 p_status,
-                m_id
+                m_id,
             }
 
         axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,

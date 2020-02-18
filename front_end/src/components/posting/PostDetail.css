@@ -1,0 +1,7 @@
+div.ui.modal.transition.visible.active div.actions {
+    padding-bottom: 14px !important;
+}
+div.ui.modal.transition.visible.active div.actions div{
+    display: flex;
+    justify-content: center;
+}

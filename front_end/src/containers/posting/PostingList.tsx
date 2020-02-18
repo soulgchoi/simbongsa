@@ -13,14 +13,14 @@ class PostingList extends Component<any, any> {
         super(props)
         this.state = {
             posts: Array(),
-            pgNum: 1,
+            pgNum: 1
         }
     }
 
     // v_id & 팔로우 여부로
     v_id = this.props.match.params.id
     restAPI = "http://i02a205.p.ssafy.io:8080/A205/rest/VolFeed/";
-
+    // restAPI = "http://70.12.247.87:8080/rest/VolFeed/"
     componentDidMount() {
         console.log(this.restAPI + this.v_id + "/10/" + this.state.pgNum)
         axios.get(this.restAPI + this.v_id + "/10/" + this.state.pgNum,
@@ -30,7 +30,7 @@ class PostingList extends Component<any, any> {
             const data = res.data.data
             this.setState(
                 {
-                    posts: res.data.data,
+                    posts: data,
                     pgNum: this.state.pgNum + 1
                 })
                 console.log(this.state.posts)
