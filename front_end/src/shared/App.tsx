@@ -11,6 +11,7 @@ import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
 import Calendar from "components/calendar/Calendar";
 import Location from "containers/location/Location";
 import MainPage from "containers/mainpage/MainPage";
+import Intro from "containers/intro/Intro";
 
 import VolDetail from "components/vol/VolDetail";
 import PostingForm from "containers/posting/PostForm";
@@ -207,7 +208,7 @@ class App extends Component<any> {
           {/* <div className="wrapC"> */}
           {/* <Route path="/" component={Header} /> */}
           <Route exact path="/" component={Login} />
-          <Route exact path="/main" component={Main} />
+          <Route exact path="/main" component={Intro} />
           <Route exact path="/join" component={Join} />
           <Route path="/findpassword" component={FindPassword} />
           <Route
