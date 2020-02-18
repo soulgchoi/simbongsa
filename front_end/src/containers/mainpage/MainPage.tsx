@@ -37,9 +37,11 @@ class MainPage extends Component<Iprops> {
             </div>
 
             <SearchBar />
-            <Grid >
+            <div style={{
+              justifyContent: 'flex-end', display: 'flex', marginRight: 0, marginTop: 10
+            }}>
               <ModalForm />
-            </Grid>
+            </div>
 
           </Container>
 

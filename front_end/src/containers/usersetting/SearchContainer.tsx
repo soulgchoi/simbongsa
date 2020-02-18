@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
@@ -13,6 +13,7 @@ import { useRadioGroup } from "@material-ui/core";
 
 import { localPreferInfo } from "lib/api/UserApi";
 import { setPreferInfo } from "../../redux/modules/user";
+import { Container, Button, Grid } from "semantic-ui-react";
 interface Props {
   locations: any;
   categorys: any;
@@ -99,27 +100,48 @@ class SearchContainer extends Component<any, any> {
     const { handleLocalRegister } = this;
 
     return (
-      <div>
-        <div>
-          <h1>선호지역</h1>
-          <LocationContainer />
-        </div>
-        <div>
-          <h1>선호 시간대</h1>
-          <TimeContainer />
-        </div>
-        <h1>나이</h1>
-        <AgeContainer />
-        <div>
-          <h1>선호 봉사 종류</h1>
-          <CategoryContainer />
-        </div>
-        <div id="btn-div">
-          <button onClick={handleLocalRegister} className="my--btn">
-            저장하기
-          </button>
-        </div>
-      </div>
+      <Fragment>
+        <Container>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <h1>선호지역</h1>
+                <LocationContainer />
+              </Grid.Column>
+              <Grid.Column width={16}>
+                <h1>선호 시간대</h1>
+                <TimeContainer />
+
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <h1>선호 봉사 종류</h1>
+                <CategoryContainer />
+
+              </Grid.Column>
+              <Grid.Column width={16}>
+                <h1>나이</h1>
+                <AgeContainer />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+
+
+
+
+
+
+
+
+          <div style={{ justifyContent: 'center', display: 'flex' }}>
+            <Button onClick={handleLocalRegister} color='orange'>저장하기</Button>
+          </div>
+
+
+        </Container>
+      </Fragment>
     );
   }
 }
