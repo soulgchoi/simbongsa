@@ -21,28 +21,16 @@ const initialState: CalendarState = {
 export default handleActions<any>(
   {
     [DATE_CHANGE]: (state, action: any) => {
-<<<<<<< HEAD
-      console.log("날짜 바꾸기", action)
-      return produce(state, (draft:any) => {
-=======
       console.log("날짜 바꾸기", action.payload);
       return produce(state, (draft: any) => {
->>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
         draft.date = action.payload;
       });
     },
     [TOGGLE_CHANGE]: (state, action: any) => {
-<<<<<<< HEAD
-      return produce(state, (draft:any) => {
-        draft.toggle = action.payload
-      })
-    },
-=======
       return produce(state, (draft: any) => {
         draft.toggle = action.payload;
       });
     }
->>>>>>> 840610c3b077bd54dfaab05600487a32dd9146e7
   },
   initialState
 );
