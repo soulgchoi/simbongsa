@@ -1,12 +1,12 @@
 import React, { ReactElement } from "react";
-import "assets/mycss";
+// import "assets/mycss";
 
 import Logo from "assets/images/logo.png";
 import LinkButton from "components/button/LinkButton";
 
-interface Props { }
+interface Props {}
 
-export default function main({ }: Props): ReactElement {
+export default function main({}: Props): ReactElement {
   return (
     <div className="user" id="login">
       <div className="wrapC">

@@ -26,15 +26,8 @@ export default class PieGraph extends Component<Props, State> {
       ]
     },
     options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      }
+      maintainAspectRatio: false,
+      responsive: false
     }
   };
 
@@ -62,12 +55,6 @@ export default class PieGraph extends Component<Props, State> {
     }
     return this.state.data.datasets[0].data.length > 0;
   }
-  componentDidMount() {}
-  componentDidUpdate() {
-    const { data } = this.state;
-
-    console.log("데이터터터터", data);
-  }
 
   generateBackgroundColor = (numberOfItems: number): string[] => {
     // 아래 두 가지 라이브러리 사용, 첫 번째 : 무지개 색 만들기, 두 번째 : rgb->hsv 변환 후 s값을 반으로 줄여서 연하게 만들기
@@ -82,7 +69,7 @@ export default class PieGraph extends Component<Props, State> {
   };
 
   render() {
-    const { data } = this.state;
+    const { data, options } = this.state;
     const { width, height, title } = this.props;
     return (
       <div>
@@ -95,7 +82,7 @@ export default class PieGraph extends Component<Props, State> {
             data={data}
             width={width}
             height={height}
-            options={{ maintainAspectRatio: false }} // width, height 커스텀 사이즈로 하기 위해선 옵션에서 maintainAspectRatio: false 설정
+            options={options} // width, height 커스텀 사이즈로 하기 위해선 옵션에서 maintainAspectRatio: false 설정
           />
         )}
       </div>

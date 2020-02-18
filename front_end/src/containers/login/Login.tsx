@@ -1,5 +1,5 @@
 import React from "react";
-import "assets/mycss";
+// import "assets/mycss";
 import PV from "password-validator";
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";

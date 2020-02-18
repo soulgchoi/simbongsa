@@ -7,7 +7,7 @@ import * as UserAPI from "lib/api/UserApi";
 import FollowList from "components/user/profile/FollowList";
 import ActionButton from "components/button/ActionButton";
 
-import "assets/mycss";
+// import "assets/mycss";
 
 interface Props {
   UserActions: typeof userActions;

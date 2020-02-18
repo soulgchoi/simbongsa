@@ -52,7 +52,7 @@ class CalendarContainer extends React.Component<Props, any> {
           volunteers={props.volunteers}
           calActions={this.calActions}
         />
-        {props.toggle && <VolList volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
+        {props.toggle && <VolList loadingMessage="봉사활동 정보 불러오는 중" volunteers={props.volunteersForCal} appendList={loadMoreData} height={'59vh'} />}
       </div>
     );
   }

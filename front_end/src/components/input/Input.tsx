@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import "assets/mycss";
-
+// import "assets/mycss";
+import { Form } from "semantic-ui-react";
 interface Props {
   value: string;
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
@@ -17,11 +17,12 @@ export default function Input({
   placeholder,
   type,
   onEnter,
-  nametag,
+  nametag
 }: Props): ReactElement {
   return (
-    <div>
-      <div className="input-with-label" id={id}>
+    <Form>
+      <Form.Field>
+        <label>{nametag}</label>
         <input
           value={value}
           onChange={onChange}
@@ -34,8 +35,7 @@ export default function Input({
             }
           }}
         />
-        <label htmlFor={id}>{nametag}</label>
-      </div>
-    </div>
+      </Form.Field>
+    </Form>
   );
 }

@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import "assets/mycss";
+// import "assets/mycss";
+import { Form } from "semantic-ui-react";
 
 interface Props {
   value: string;
@@ -16,11 +17,11 @@ export default function Input({
   id,
   placeholder,
   type,
-  onEnter,
+  onEnter
 }: Props): ReactElement {
   return (
-    <div>
-      <div className="input-with-label" id={id}>
+    <Form>
+      <Form.Field>
         <input
           value={value}
           onChange={onChange}
@@ -33,7 +34,7 @@ export default function Input({
             }
           }}
         />
-      </div>
-    </div>
+      </Form.Field>
+    </Form>
   );
 }

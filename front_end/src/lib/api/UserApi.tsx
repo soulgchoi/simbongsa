@@ -136,12 +136,25 @@ export const localPreferRegister: ({
 export const localPreferInfo = (userId: string) => {
   try {
     const token = "Bearer " + storage.get("token");
-    console.log("userId ", restBaseApi + `rest/Member/${userId}/PreferDetail`);
     return axios.get(restBaseApi + `rest/Member/${userId}/PreferDetail`, {
       headers: { Authorization: token }
     });
   } catch (error) {
     console.log(error);
     return false;
+  }
+};
+
+export const getFeedList = (mId: number, pgNum: number) => {
+  try {
+    const token = "Bearer " + storage.get("token");
+    // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
+    // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
+    return axios.get(restBaseApi + `rest/PostFeed/${mId}/10/${pgNum}`, {
+      headers: { Authorization: token }
+    });
+  } catch (error) {
+    console.log(error);
+    return true;
   }
 };

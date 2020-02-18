@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import PieGraph from "components/graph/PieGraph";
 import * as volActions from "redux/modules/vol";
 import RegionList from "lib/json/region.json";
-
+import LinkButton from "components/button/LinkButton";
 interface Props {
   VolActions: any;
   userId: string;
@@ -80,17 +80,19 @@ class Mypage extends Component<Props, State> {
     const { preferlocationDataList, preferlocationLabelList } = this.state;
     return (
       <div>
-        마이페이지 입니다.
         <div>
-          <div>
-            <PieGraph
-              title={"봉사 선호 지역 통계"}
-              data={preferlocationDataList.toJS()}
-              labels={preferlocationLabelList.toJS()}
-              width={300}
-              height={300}
-            />
-          </div>
+          <LinkButton
+            link="http://localhost:3000/usersetting"
+            placeholder="내 정보 수정"
+          />
+
+          <PieGraph
+            title={"봉사 선호 지역 통계"}
+            data={preferlocationDataList.toJS()}
+            labels={preferlocationLabelList.toJS()}
+            width={300}
+            height={300}
+          />
           {/* <PieGraph
             data={[10, 20, 30, 40, 5, 5, 5, 5, 5, 5, 5, 5, 5]}
             labels={["red", "blue", "green"]}

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import LinkButton from "components/button/LinkButton";
-import "assets/mycss";
+// import "assets/mycss";
 interface Props {}
 
 export default function Header({}: Props): ReactElement {

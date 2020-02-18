@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/error.scss";
+// import "assets/mycss/error.scss";
 import * as EmailValidator from "email-validator";
 import * as AuthApi from "lib/api/AuthApi";
 import ActionButton from "components/button/ActionButton";
@@ -21,7 +21,7 @@ class FindPassword extends React.Component<Props> {
     isSubmit: false,
     component: this
   };
-  componentDidMount() { }
+  componentDidMount() {}
   checkForm = () => {
     let error = { ...this.state.error };
     if (
