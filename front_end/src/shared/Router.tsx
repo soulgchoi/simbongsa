@@ -65,7 +65,7 @@ class Router extends Component {
 
             <Route path="/feed" component={Feed} />
             <Route exact path="/:id/list" component={PostingList} />
-            <Route exact path="/write" component={PostingForm} />
+            <Route exact path="/vol/:id/write" component={PostingForm} />
       </BrowserRouter>
     );
   }

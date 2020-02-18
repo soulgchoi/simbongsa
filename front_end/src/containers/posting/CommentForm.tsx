@@ -3,16 +3,23 @@ import axios from 'axios';
 import storage from "lib/storage";
 import { useHistory } from 'react-router-dom';
 import GoBackButton from 'components/button/GoBackButton'
+import { connect } from "react-redux";
+
+
+import { Input, Form, Button } from 'semantic-ui-react'
+
 let token = storage.get("token")
+
 
 interface Props {
     "inP_id": number;
 }
 
-class CommentForm extends React.Component<Props, {}> {
+class CommentForm extends React.Component<Props & any, {}> {
     state = {
         "c_content": "",
-        "inP_id": ""
+        "inP_id": "",
+        "m_id": this.props.user.toJS().m_id,
     }
 
     handleChange = (e:any) =>{
@@ -30,7 +37,7 @@ class CommentForm extends React.Component<Props, {}> {
         {
             'c_content': this.state.c_content,
             'p_id': this.props.inP_id.toString(),
-            'm_id': "26"
+            'm_id': this.props.user.toJS().m_id
         },
         { headers: { Authorization: "Bearer " + token }}
         )
@@ -41,6 +48,7 @@ class CommentForm extends React.Component<Props, {}> {
         console.log(res)
         })
         .catch(err => console.log(err))
+        window.location.reload(true);
         // this.handleBack()
         }
 
@@ -53,19 +61,27 @@ class CommentForm extends React.Component<Props, {}> {
 
         return(
             <div>
-                <form>
-                    <input type="text"
+                <Form>
+                    <div>
+                    <Input
+                        size='small'
                         value={this.state.c_content}
                         onChange={this.handleChange}
-                    ></input>
-                    <button
+                    ></Input>
+                    <Button
                         onClick={this.handleClick}>
                             댓글 등록
-                    </button>
-                </form>
+                    </Button>
+                    </div>
+                </Form>
             </div>
         )
     }
 };
 
-export default CommentForm;
+export default connect(
+    (state: any) => ({
+        user: state.user.get("loggedInfo")
+    }),
+
+)(CommentForm);

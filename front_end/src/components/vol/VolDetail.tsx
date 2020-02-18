@@ -9,7 +9,7 @@ import * as VolApi from 'lib/api/VolApi';
 import PostingList from "containers/posting/PostingList"
 import PostingButton from 'components/button/PostingButton'
 
-import { Responsive, Segment, Table } from 'semantic-ui-react'
+import { Responsive, Segment, Table, Button } from 'semantic-ui-react'
 import './VolDetail.css'
 
 interface Props {
@@ -117,19 +117,18 @@ class VolDetail extends React.Component<any, any>{
                 </Table.Body>
                 </Table>
                 </Responsive>
+                <div className="buttons">
                 <PostingButton
                     v_id={volunteer.v_id}
                 />
-                <div>
                 <Link
                     to={{
                         pathname: `/${volunteer.v_id}/list`,
                     }}
                 >
-                    게시글 보러가기</Link>
+                    <Button>게시글 목록</Button></Link>
                 {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
                 </div>
-            
             </div>
             
         );

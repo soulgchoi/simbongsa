@@ -19,3 +19,9 @@ div.ui.card div.content div.description {
 div.ui.modal.transition.visible.active div.content div.description {
     word-break: break-all;
 }
+
+div.ui.card {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 330px;
+}

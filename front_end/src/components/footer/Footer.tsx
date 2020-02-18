@@ -3,11 +3,11 @@ import LinkButton from "components/button/LinkButton";
 import { Link } from "react-router-dom";
 import { Button, Sticky, Menu } from "semantic-ui-react";
 // import "assets/mycss";
-import './Header.css'
+import './Footer.css'
 interface Props { }
 
 // export default function Header({ }: Props): ReactElement {
-class Header extends React.Component<any, any>{
+class Footer extends React.Component<any, any>{
   render() {
     // const { activeItem } = this.state
     return (
@@ -43,4 +43,4 @@ class Header extends React.Component<any, any>{
   }
 }
 
-export default Header;
+export default Footer;

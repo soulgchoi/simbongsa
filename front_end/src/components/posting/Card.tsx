@@ -40,14 +40,11 @@ class CardComponent extends React.Component<Props&any, {}>{
 
     render() {
         return (
+
             <Card>
                 {/* <Image src='/images/avatar/large/matthew.png' wrapped ui={false} /> */}
                 <Card.Content>
                 <Card.Header>{this.props.post.userId}</Card.Header>
-                <Card.Description>
-                    {this.props.post.p_content}
-                </Card.Description>
-                
                 </Card.Content>
                 <Card.Content extra>
                     <PostDetail

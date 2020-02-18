@@ -1,0 +1,12 @@
+div.ui.menu {
+    text-shadow: orange;
+}
+
+.ui.menu a {
+    display: block;
+    margin: auto;
+}
+
+.ui.menu .item {
+    text-shadow: orange;
+}

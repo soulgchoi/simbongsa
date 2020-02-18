@@ -5,7 +5,7 @@ import storage from 'lib/storage'
 import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Card from 'components/posting/Card'
-
+import './PostingList.css'
 let token = storage.get('token')
 
 class PostingList extends Component<any, any> {

@@ -19,7 +19,7 @@ class PostingButton extends Component<IProps, {}> {
           state: this.props.v_id
         }}
       >
-        <Button>모집글 쓰러 가기</Button>
+        <Button>글 작성하기</Button>
       </Link>
     );
   }

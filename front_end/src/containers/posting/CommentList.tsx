@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import CommentItem from './Comment';
+import Comment from './Comment';
 import storage from 'lib/storage'
 
 let token = storage.get("token")
@@ -27,11 +27,10 @@ class CommentList extends React.Component<Props, States> {
 
         .then( res => {
             console.log(res)
-            if (res.data.length > 0) {
-                const data = res.data.map( (d: any) => {
-                    // if (data.p_id === this.props.inP_id) {
-                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content}
-                    // }
+            if (res.data.data.length > 0) {
+                console.log(res.data)
+                const data = res.data.data.map( (d: any) => {
+                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id}
                 })
                 this.setState({
                     comments: data
@@ -42,12 +41,13 @@ class CommentList extends React.Component<Props, States> {
     }
 
     render() {
+        console.log(this.state.comments)
         const prints = this.state.comments.map( (comment, i) => {
                 return (
-                    <CommentItem 
-                    comment={comment}
-                    inP_id={comment.p_id}
-                    key={i}
+                    <Comment
+                        comment={comment}
+                        inP_id={comment.p_id}
+                        key={i}
                     />
                 )
         })
