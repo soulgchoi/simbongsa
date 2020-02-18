@@ -7,10 +7,11 @@ import { List } from "immutable";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
-import * as searchActions from "redux/modules/search";
-import * as VolApi from "lib/api/VolApi";
+import * as searchActions from 'redux/modules/search';
+import * as VolApi from 'lib/api/VolApi';
 import storage from "lib/storage";
 import { MdZoomIn } from "react-icons/md";
+import * as userActions from 'redux/modules/user';
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ interface IProps {
   SearchActions: any;
   volunteersForMap: any;
   showVolInfo: boolean;
+  UserActions: typeof userActions
 }
 
 interface IState {
@@ -49,12 +51,9 @@ class Map extends Component<IProps, IState> {
     width: window.innerWidth
   };
   componentDidMount() {
-    const {
-      VolActions,
-      volunteers,
-      selectedMarker,
-      volunteersForMap
-    } = this.props;
+
+    const { VolActions, volunteers, selectedMarker, volunteersForMap, UserActions } = this.props;
+    UserActions.changeLoading(true)
     const currentLocation = this.props.currentLocation;
     const el = document.getElementById("map");
     const volMap = new window.kakao.maps.Map(el, {
@@ -82,7 +81,8 @@ class Map extends Component<IProps, IState> {
       volunteersForMap
     ); // 탭, 뒤로가기로 다시 돌아왔을때 이미 volunteers가 세팅 돼있는 경우
     this.setState({ clusterer: clusterer });
-    window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+    window.addEventListener('resize', this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+    UserActions.changeLoading(false)
   }
 
   // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -117,12 +117,8 @@ class Map extends Component<IProps, IState> {
 
   componentDidUpdate() {
     console.log("componentDidUpdate");
-    const {
-      volunteers,
-      VolActions,
-      selectedMarker,
-      volunteersForMap
-    } = this.props;
+    const { volunteers, VolActions, selectedMarker, volunteersForMap, UserActions } = this.props;
+    UserActions.changeLoading(true)
     const { volMap, isSearchSubmit, SearchActions } = this.props;
     const {
       myLocation,
@@ -163,6 +159,7 @@ class Map extends Component<IProps, IState> {
       volMap.panTo(moveLatLon);
       SearchActions.searchSubmit(false);
     }
+    UserActions.changeLoading(false)
   }
 
   resetSelectedMarker = () => {
@@ -380,7 +377,7 @@ const makeMarker = (
   // 마커 클러스터러에 클릭이벤트를 등록합니다
   // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
   // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-  kakao.maps.event.addListener(clusterer, "clusterclick", function(
+  kakao.maps.event.addListener(clusterer, "clusterclick", function (
     cluster: any
   ) {
     // 기존에 선택한 봉사정보가 있으면 초기화
@@ -430,7 +427,7 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function() {
+  return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     if (!selectedMarker || selectedMarker !== marker) {
@@ -465,7 +462,7 @@ function resizeMap(volMap: any, height: number) {
 }
 
 export default connect(
-  ({ vol, search }: any) => {
+  ({ vol, search, user }: any) => {
     return {
       volunteers: vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
       volunteersForMap: vol.get("volunteersForMap"),
@@ -473,11 +470,13 @@ export default connect(
       volMap: vol.get("volMap"),
       selectedMarker: vol.get("selectedMarker"),
       isSearchSubmit: search.get("isSearchSubmit"),
-      showVolInfo: vol.get("showVolInfo")
+      showVolInfo: vol.get('showVolInfo'),
+      loading: user.get('loading')
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
-    SearchActions: bindActionCreators(searchActions, dispatch)
+    SearchActions: bindActionCreators(searchActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
   })
 )(Map);

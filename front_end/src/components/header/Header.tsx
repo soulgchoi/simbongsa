@@ -3,9 +3,9 @@ import LinkButton from "components/button/LinkButton";
 import { Link } from "react-router-dom";
 import { Button, Grid, Divider } from "semantic-ui-react";
 // import "assets/mycss";
-interface Props {}
+interface Props { }
 
-export default function Header({}: Props): ReactElement {
+export default function Header({ }: Props): ReactElement {
   return (
     <div>
       <Button.Group widths="3">

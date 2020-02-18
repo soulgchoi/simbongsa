@@ -21,7 +21,7 @@ class FindPassword extends React.Component<Props> {
     isSubmit: false,
     component: this
   };
-  componentDidMount() {}
+  componentDidMount() { }
   checkForm = () => {
     let error = { ...this.state.error };
     if (

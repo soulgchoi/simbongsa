@@ -81,10 +81,7 @@ class Mypage extends Component<Props, State> {
     return (
       <div>
         <div>
-          <LinkButton
-            link={process.env.REACT_APP_FRONT_URI + "/usersetting"}
-            placeholder="내 정보 수정"
-          />
+          <LinkButton link={"/usersetting"} placeholder="내 정보 수정" />
 
           <PieGraph
             title={"봉사 선호 지역 통계"}

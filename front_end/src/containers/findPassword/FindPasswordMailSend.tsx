@@ -12,13 +12,13 @@ interface IProps {
     };
   };
 }
-interface IState {}
+interface IState { }
 
 class FindPasswordMailSend extends React.Component<
   IProps,
   IState,
   RouteComponentProps
-> {
+  > {
   state = {
     email: null
   };
