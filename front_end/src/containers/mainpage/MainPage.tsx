@@ -37,7 +37,7 @@ class MainPage extends Component<Iprops> {
     SearchActions.switchSaveButton(true)
   }
   render() {
-    const { loading } = this.props;
+    const { loading } = this.props
     return (
       <Fragment>
         <Segment>
@@ -54,11 +54,11 @@ class MainPage extends Component<Iprops> {
               </Header>
             </div>
             <SearchBar />
-
-
-            <Grid>
+            <div style={{
+              justifyContent: 'flex-end', display: 'flex', margin: 10
+            }}>
               <ModalForm />
-            </Grid>
+            </div>
           </Container>
           <Tab />
         </Segment>
