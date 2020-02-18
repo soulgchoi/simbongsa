@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { Button } from 'semantic-ui-react'
+import { Button } from "semantic-ui-react";
+// import "assets/mycss";
 interface Props {
   placeholder?: string;
   // disabled : boolean
@@ -10,12 +11,14 @@ interface State { }
 export default function ActionButton({
   placeholder,
   action
-  // disabled,
-}: Props): ReactElement {
+}: // disabled,
+  Props): ReactElement {
   return (
     <div>
       {/* <button className="my--btn" onClick={action} disabled={disabled}> */}
-      <Button color='orange' onClick={action}>{placeholder}</Button>
+      <Button color="orange" onClick={action}>
+        {placeholder}
+      </Button>
     </div>
   );
 }

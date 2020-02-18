@@ -4,14 +4,16 @@ import VolList from "components/vol/VolList";
 import { connect } from "react-redux";
 // import * as volActions from "redux/modules/volunteer";
 import * as volActions from "redux/modules/vol";
+import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
 interface Props {
-  VolActions: any;
-  volunteers: List<any>;
+  UserActions: any;
+  feedList: List<any>;
+  mId: number;
 }
 interface State {}
 
-class VolListPage extends Component<Props, State> {
+class Feed extends Component<Props, State> {
   state = {
     pageNum: 1,
     width: window.innerWidth,
@@ -19,19 +21,19 @@ class VolListPage extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { VolActions } = this.props;
-    VolActions.getInitailList(this.state.pageNum);
+    const { UserActions, mId } = this.props;
+    const { pageNum } = this.state;
+    UserActions.getFeedList(mId, pageNum);
     window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
   }
   shouldComponentUpdate(nextProps: any) {
-    const { volunteers } = nextProps;
-    return volunteers.size > 0;
+    const { feedList } = nextProps;
+    return feedList.size > 0;
   }
   loadMoreData = () => {
     this.setState({ pageNum: this.state.pageNum + 1 });
-    const { VolActions } = this.props;
-    VolActions.appendList(this.state.pageNum);
-    console.log(this.props.volunteers);
+    const { UserActions } = this.props;
+    UserActions.appendList(this.state.pageNum);
   };
 
   // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -47,16 +49,16 @@ class VolListPage extends Component<Props, State> {
   }
 
   render() {
-    const { volunteers } = this.props;
+    const { feedList } = this.props;
     const { loadMoreData } = this;
-    console.log("봉사자들", volunteers);
+    console.log("피드들", feedList);
     return (
       <div>
         <VolList
-          loadingMessage="봉사활동 목록을 불러오는중"
-          volunteers={volunteers.toJS()}
+          volunteers={feedList.toJS()}
           appendList={loadMoreData}
           height={"59vh"}
+          loadingMessage="피드 정보 불러오는 중"
         />
       </div>
     );
@@ -65,9 +67,11 @@ class VolListPage extends Component<Props, State> {
 
 export default connect(
   (state: any) => ({
-    volunteers: state.vol.get("volunteers")
+    feedList: state.user.get("feedList"),
+    mId: state.user.getIn(["loggedInfo", "mId"])
   }),
   dispatch => ({
-    VolActions: bindActionCreators(volActions, dispatch)
+    VolActions: bindActionCreators(volActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
   })
-)(VolListPage);
+)(Feed);

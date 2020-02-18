@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import "assets/mycss";
 import iconSrc from "assets/images/location_marker.svg";
 
 //직접 만든 컴포넌트
@@ -18,7 +19,7 @@ interface State {
 }
 
 class VolInfo extends Component<Props, State> {
-  state = { volunteers: [], volunteersForList: [] }
+  state = { volunteers: [], volunteersForList: [] };
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForMap } = this.props;
     if (volunteersForMap !== nextProps.volunteersForMap) {
@@ -32,8 +33,11 @@ class VolInfo extends Component<Props, State> {
         volunteersForList.push(vol);
         volunteers.shift();
         idx = idx + 1;
-      })
-      this.setState({ volunteers: volunteers, volunteersForList: volunteersForList });
+      });
+      this.setState({
+        volunteers: volunteers,
+        volunteersForList: volunteersForList
+      });
     }
     return true;
   }
@@ -48,12 +52,15 @@ class VolInfo extends Component<Props, State> {
       }
       newVolunteersForList.push(volunteer);
       idx = idx + 1;
-    })
+    });
     for (let i = 0; i < idx; ++i) {
       newVolunteers.shift();
     }
-    this.setState({ volunteers: newVolunteers, volunteersForList: newVolunteersForList });
-  }
+    this.setState({
+      volunteers: newVolunteers,
+      volunteersForList: newVolunteersForList
+    });
+  };
   render() {
     const { selectedVolunteer } = this.props;
     const { volunteersForList } = this.state;
@@ -63,29 +70,32 @@ class VolInfo extends Component<Props, State> {
         {!selectedVolunteer.v_id && volunteersForList.length === 0 && (
           <div id="text">
             지도에서
-          <b id="bold">
+            <b id="bold">
               위치
-            <span id="image">
+              <span id="image">
                 <img src={iconSrc} alt="마커아이콘" width="64" height="69" />
               </span>
-            </b>또는
-          <b id="bold">
+            </b>
+            또는
+            <b id="bold">
               숫자
-          <span className="circle">1365</span>
+              <span className="circle">1365</span>
             </b>
             를 클릭하면 봉사정보가 나와요
-        </div>
+          </div>
         )}
         {selectedVolunteer.v_id && (
           <div className="vol--info">
             <div>봉사활동명 : {selectedVolunteer.v_title}</div>
             <div>
-              봉사일정: {selectedVolunteer.v_pBgnD} ~ {selectedVolunteer.v_pEndD}{" "}
-              / {selectedVolunteer.v_bgnTm} ~ {selectedVolunteer.v_endTm}
+              봉사일정: {selectedVolunteer.v_pBgnD} ~{" "}
+              {selectedVolunteer.v_pEndD} / {selectedVolunteer.v_bgnTm} ~{" "}
+              {selectedVolunteer.v_endTm}
             </div>
             <div>봉사장소: {selectedVolunteer.v_location}</div>
             <div>
-              모집정보: {selectedVolunteer.v_mBgnD} ~ {selectedVolunteer.v_mEndD}
+              모집정보: {selectedVolunteer.v_mBgnD} ~{" "}
+              {selectedVolunteer.v_mEndD}
             </div>
             <LinkButton
               link={`vol/detail/${selectedVolunteer.v_id}`}
@@ -93,10 +103,16 @@ class VolInfo extends Component<Props, State> {
             />
           </div>
         )}
-        {volunteersForList.length > 0 && <VolList volunteers={volunteersForList} appendList={appendList} height={'30vh'} />}
+        {volunteersForList.length > 0 && (
+          <VolList
+            volunteers={volunteersForList}
+            appendList={appendList}
+            height={"30vh"}
+            loadingMessage="봉사 활동 정보 불러오는 중"
+          />
+        )}
       </div>
     );
-
   }
 }
 

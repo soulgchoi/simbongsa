@@ -70,6 +70,7 @@ export const getVolListByPage = (pgNum: number) => {
 export const getVolListByUserId = (userId: string) => {
   try {
     const token = "Bearer " + storage.get("token");
+    console.log("여기는 잘 되는가??");
     return axios.get(restBaseApi + "/rest/Member/" + userId + "/Vote", {
       headers: { Authorization: token }
     });

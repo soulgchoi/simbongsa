@@ -9,6 +9,9 @@ const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오기
 const CHANGE_LOADING = "user/CHANGE_LOADING" // loading 설정
+const GET_FEED_LIST = "user/GET_FEED_LIST"; // 유저의 피드 리스트 가져오기
+const APPEND_FEED_LIST = "volunteer/APPEND_FEED_LIST";
+
 // const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
 // const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
 // const SET_USER_ID = "user/SET_USER_ID";
@@ -21,6 +24,7 @@ export const setPreferInfo = createAction(
 );
 export const changeLoading = createAction(CHANGE_LOADING)
 
+export const getFeedList = createAction(GET_FEED_LIST, UserAPI.getFeedList);
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
 //   GET_USER_FOLLOWER,
@@ -43,13 +47,14 @@ interface initialStateParams {
   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: boolean;
   loading: boolean;
+  feedList: List<any>;
 }
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
     email: "",
     userId: "",
-    m_id: "",
+    mId: "",
     preferInfo: Map({
       bgnTm: "",
       endTm: "",
@@ -66,18 +71,19 @@ const initialState = Map({
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: false,
-  loading: false
+  loading: false,
+  feedList: List([])
 });
 
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
-      const { sub, iss, aud } = action.payload;
-      console.log("sub, iss", action.payload);
+      const { sub, aud, iss } = action.payload;
+      console.log("sub, iss", action);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
-        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, m_id: aud }));
+        .setIn(["loggedInfo"], Map({ username: sub, userId: iss, mId: aud }));
     },
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
@@ -108,7 +114,13 @@ export default handleActions<any>(
         // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
       }
     }),
-
+    ...pender({
+      type: GET_FEED_LIST,
+      onSuccess: (state, action) => {
+        console.log("피드리스트 액션", action);
+        state.set("feedLilst", List(action.data));
+      }
+    })
 
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
