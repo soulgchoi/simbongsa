@@ -6,7 +6,6 @@ export default function Intro() {
   return (
     <div>
       <Container>
-        <LinkButton link={"/login"} placeholder={"로그인"} />
         <ListUp></ListUp>
       </Container>
     </div>

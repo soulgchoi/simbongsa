@@ -49,6 +49,7 @@ export default class HeaderForMobile extends React.Component<
             <Header as="h2" color="orange" textAlign="center">
               <Image centered size="big" src="/images/volunteer.gif" />
               인트로 페이지 작은 화면 헤더
+              <LinkButton link={"/login"} placeholder={"로그인"} />
             </Header>
           )}
           {url === "login" && (
