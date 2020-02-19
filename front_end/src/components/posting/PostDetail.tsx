@@ -10,6 +10,7 @@ import temp from 'containers/temp/temp'
 
 import CommentList from 'containers/posting/CommentList'
 import CommentForm from 'containers/posting/CommentForm'
+import PostVote from 'components/posting/PostVote'
 
 import './Carousel.css'
 import './PostDetail.css'
@@ -44,12 +45,10 @@ class PostDetail extends React.Component<Props & any, {}> {
         v_id: 0,
         m_id: 0,
         p_status: 0,
-        // vote_cnt: this.props.post.post_vote_members.length,
+        vote_cnt: this.props.post.post_vote_members.length,
         post_vote_members: Array(),
         userId: 0
     }
-
-    
 
     handleVote(id:number) {
         var { m_id } = this.props.user.toJS()
@@ -66,10 +65,9 @@ class PostDetail extends React.Component<Props & any, {}> {
             console.log(res)
         })
         .catch(err => console.log(err))
-        // window.location.reload(true);
-        // this.forceUpdate()
-        window.location.reload(true);
+        this.setState({vote_cnt: this.state.vote_cnt+1})
     }
+
 
     render() {
         var { m_id, userId } = this.props.user.toJS()

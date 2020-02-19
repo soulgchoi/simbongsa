@@ -2,25 +2,30 @@ div.tag {
       color: white;
       margin-right: 2px;
       display: inline;
-      padding: 3px;
       border-radius: 5px;
 }
-div.iscert {
-      background-color: #EB6C6C;
+a.ui.tiny.label, .ui.tiny.labels .label {
+      font-size: 1em;
+      padding: 0.4em;
+
+}
+a.ui.label.iscert {
+      /* background-color: rgba(255, 42, 70, 0.356); */
+      background-color: rgba(255, 136, 0, 0.493);
     }
-div.full {
-      background-color: #84DE62;
+a.ui.label.full {
+      background-color: rgba(189, 189, 189, 0.596);
     }
-div.n-full {
-      background-color: #00ADE0;
+a.ui.label.n-full {
+      background-color: rgba(0, 172, 224, 0.479);
     }
-div.w-full {
+a.ui.label.w-full {
       background-color: lightgray;
     }
-div#true {
+a.ui.label#true {
       visibility: visible;
     }
-div#false {
+a.ui.label#false {
       visibility: hidden;
     }
 

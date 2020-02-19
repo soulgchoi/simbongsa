@@ -3,7 +3,7 @@ import axios from "axios";
 import { List } from "immutable";
 import Vol from "components/vol/Vol";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import "./VolList.css"
 interface Props {
   volunteers: any[];
   width?: number;
