@@ -170,8 +170,14 @@ public class MemberRestController {
 				view.setP_status(post.getP_status());
 				view.setV_id(post.getV_id());
 				view.setFiles(storedFileNames);
-				int p_vote_cnt = p_service.countM_id(p_id);
-				view.setP_vote_cnt(p_vote_cnt);
+				List<Integer> m_ids = p_service.countM_id(p_id);
+				List<Member> post_vote_members = new ArrayList<Member>();
+				for(Integer m_idd:m_ids) {
+					Member member = service.selectByM_id(m_idd);
+					post_vote_members.add(member);
+					
+				}
+				view.setPost_vote_members(post_vote_members);
 				String userId = service.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 				view.setUserId(userId);
 
