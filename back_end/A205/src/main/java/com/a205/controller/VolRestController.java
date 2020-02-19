@@ -62,11 +62,17 @@ public class VolRestController {
 			@RequestParam(value="v_pBgnD", required=false, defaultValue="") String v_pBgnD, 
 			@RequestParam(value="v_pEndD", required=false, defaultValue="") String v_pEndD,
 			@RequestParam(value="v_pstatus", required=false, defaultValue="0") int v_pstatus, // 1= 모집예정, 2=모집중, 3=모집완료
-			@RequestParam(value="ca_highNm", required=false, defaultValue="") String ca_highNm,
+			@RequestParam(value="ca_highNm1", required=false, defaultValue="") String ca_highNm1,
+			@RequestParam(value="ca_highNm2", required=false, defaultValue="") String ca_highNm2,
+			@RequestParam(value="ca_highNm3", required=false, defaultValue="") String ca_highNm3,
 			@RequestParam(value="v_bgnTm", required=false, defaultValue="") String v_bgnTm,
 			@RequestParam(value="v_endTm", required=false, defaultValue="") String v_endTm,
-			@RequestParam(value="r_sidoNm", required=false, defaultValue="") String r_sidoNm,
-			@RequestParam(value="r_gugunNm", required=false, defaultValue="") String r_gugunNm,
+			@RequestParam(value="r_sidoNm1", required=false, defaultValue="") String r_sidoNm1,
+			@RequestParam(value="r_gugunNm1", required=false, defaultValue="") String r_gugunNm1,
+			@RequestParam(value="r_sidoNm2", required=false, defaultValue="") String r_sidoNm2,
+			@RequestParam(value="r_gugunNm2", required=false, defaultValue="") String r_gugunNm2,
+			@RequestParam(value="r_sidoNm3", required=false, defaultValue="") String r_sidoNm3,
+			@RequestParam(value="r_gugunNm3", required=false, defaultValue="") String r_gugunNm3,
 			@RequestParam(value="vol_title", required=false, defaultValue="") String vol_title,
 			Model model) {
 		try {
@@ -74,11 +80,17 @@ public class VolRestController {
 			mf.setV_pBgnD(v_pBgnD);
 			mf.setV_pEndD(v_pEndD);
 			mf.setV_pstatus(v_pstatus);
-			mf.setCa_highNm(ca_highNm);
+			mf.setCa_highNm1(ca_highNm1);
+			mf.setCa_highNm2(ca_highNm2);
+			mf.setCa_highNm3(ca_highNm3);
 			mf.setV_bgnTm(v_bgnTm);
 			mf.setV_endTm(v_endTm);
-			mf.setR_sidoNm(r_sidoNm);
-			mf.setR_gugunNm(r_gugunNm);
+			mf.setR_sidoNm1(r_sidoNm1);
+			mf.setR_gugunNm1(r_gugunNm1);
+			mf.setR_sidoNm2(r_sidoNm2);
+			mf.setR_gugunNm2(r_gugunNm2);
+			mf.setR_sidoNm3(r_sidoNm3);
+			mf.setR_gugunNm3(r_gugunNm3);
 			mf.setVol_title(vol_title);
 			List<Vol> v = service.searchByFilter(no1, no2, mf);
 			return response(v, true, HttpStatus.OK);

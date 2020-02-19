@@ -18,11 +18,33 @@
     		<when test="v_bgnTm != null and v_endTm != null">
       			and <![CDATA[v_bgnTm >= #{v_bgnTm} and v_endTm <= #{v_endTm}]]>
     		</when>
-			<when test="r_sidoNm != null and r_gugunNm != null">
-				and r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
+			<otherwise>
+      			and v_id is not null
+    		</otherwise>
+    		
+    	</choose>
+    	and
+    	 (	
+    	<choose>
+    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+				 r_id in (select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
     		</when>
+			<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+    		</when>
+			<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+    		</when>
+			<otherwise>
+      			 v_id is not null
+    		</otherwise>
+    		
+    	</choose>
+    	)
+    	and
+    	<choose>
 			<when test="vol_title !=null">
-				and 
+				 
 				(
 				v_location like CONCAT('%',#{vol_title},'%')
 				or
@@ -31,18 +53,38 @@
 				v_organ like CONCAT('%',#{vol_title},'%')
 				or
 				v_detail like CONCAT('%',#{vol_title},'%')
-				)			</when>
-			<when test="ca_highNm !=null">
-				and ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
+				)			
 			</when>
 			<otherwise>
-      			and v_id is not null
+      			 v_id is not null
+    		</otherwise>
+			
+		</choose>
+		and
+		(
+		<choose>
+		
+			<when test="ca_highNm1 !=null">
+				 ca_id in (select ca_id from category where ca_highNm = #{ca_highNm1})
+			</when>
+						<when test="ca_highNm2 !=null">
+				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm2})
+			</when>
+						<when test="ca_highNm3 !=null">
+				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm3})
+			</when>
+			
+			<otherwise>
+      		 v_id is not null
     		</otherwise>
 		</choose>
+		)
 		order by
 		v_pBgnD DESC
 		limit #{listSize} offset #{startList}
 	</select>
+	
+	
 	<select id="selectByFilter2" resultType="vol" parameterType="myfilter">
 		select v_id, v_title, v_pStatus, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD, r_id, ca_id, v_Auth, v_x, v_y from `vol` where v_pStatus between 1 and 3
 		<choose>
