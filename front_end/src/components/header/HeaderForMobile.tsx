@@ -39,10 +39,11 @@ export default class HeaderForMobile extends React.Component<
               피드 페이지 작은 화면 헤더
             </Header>
           )}
-          {url === "mypage" && (
+          {(url === "mypage" || url === "usersetting") && (
             <Header as="h2" color="orange" textAlign="center">
               <Image centered size="big" src="/images/volunteer.gif" />
               마이 페이지 작은 화면 헤더
+              <LinkButton link={"/usersetting"} placeholder="내 정보 수정" />
             </Header>
           )}
           {url === "" && (
