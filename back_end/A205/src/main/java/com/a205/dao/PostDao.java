@@ -21,14 +21,14 @@ public interface PostDao {
 	public boolean addPostVote(Post_vote post_vote);
 	public boolean removePostVote(Post_vote post_vote);
 
-	public List<Integer> countM_id(int p_id);
+	public Integer countM_id(int p_id);
 	
 	boolean remove(int p_id);
 	
 	int getid();
 	
 	
-	public List<Integer> selectP_idByFilterWithoutFollerings(int listSize, int startList, MyFilter my, Integer m_id);
+	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my);
 	
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);
