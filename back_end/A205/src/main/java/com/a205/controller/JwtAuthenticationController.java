@@ -57,8 +57,12 @@ public class JwtAuthenticationController {
 		final int id = userDetailsService.loadUserIdByUsername(authenticationRequest.getUsername());
 		final String userId = userDetailsService.loadUserNickByUsername(authenticationRequest.getUsername());
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
+		Member member = memberDao.searchByEmail(email);
 		
-		return ResponseEntity.ok(new JwtResponse(token));
+		if(member.getM_key().equals("Y"))
+			return ResponseEntity.ok(new JwtResponse(token));
+		else 
+			return ResponseEntity.ok("EmailAthenticateNeed");
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
