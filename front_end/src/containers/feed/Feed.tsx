@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { List } from "immutable";
-import VolList from "components/vol/VolList";
 import { connect } from "react-redux";
 // import * as volActions from "redux/modules/volunteer";
 import * as volActions from "redux/modules/vol";
 import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Card from "components/posting/Card";
+// import "containers/posting/PostingList.css";
 interface Props {
   UserActions: any;
   feedList: List<any>;
   mId: number;
+  match: any;
 }
 interface State {}
 
@@ -19,48 +22,40 @@ class Feed extends Component<Props, State> {
     // width: window.innerWidth,
     // height: window.innerHeight - 345
   };
-
+  // v_id & 팔로우 여부로
+  v_id = this.props.match.params.id;
+  restAPI = process.env.REACT_APP_REST_BASE_API + "/rest/VolFeed/";
   componentDidMount() {
     const { UserActions, mId } = this.props;
     const { pageNum } = this.state;
     UserActions.getFeedList(mId, pageNum);
-    // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+    this.setState({ pageNum: pageNum + 1 });
   }
-  shouldComponentUpdate(nextProps: any) {
-    const { feedList } = nextProps;
-    return feedList.size > 0;
-  }
-  loadMoreData = () => {
-    this.setState({ pageNum: this.state.pageNum + 1 });
-    const { UserActions } = this.props;
-    UserActions.appendList(this.state.pageNum);
-  };
 
-  // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
-  // updateDimensions = () => {
-  //   this.setState({
-  //     width: window.innerWidth,
-  //     height: window.innerHeight - 345
-  //   });
-  // };
-  // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
-  // componentWillUnmount() {
-  //   window.removeEventListener("resize", this.updateDimensions);
-  // }
+  loadMoreData() {
+    const { UserActions, mId } = this.props;
+    const { pageNum } = this.state;
+    UserActions.getFeedList(mId, pageNum);
+    this.setState({ pageNum: pageNum + 1 });
+  }
 
   render() {
-    const { feedList } = this.props;
-    const { loadMoreData } = this;
-    console.log("피드들", feedList.toJS());
+    console.log(this.props);
+    console.log(this.state);
+    const feedList = this.props.feedList.toJS();
+    const postingList = feedList.map((feed: any, i: any) => {
+      return <Card post={feed} key={i} />;
+    });
     return (
-      <div>
-        <VolList
-          volunteers={feedList.toJS()}
-          appendList={loadMoreData}
-          height={"59vh"}
-          loadingMessage="피드 정보 불러오는 중"
-        />
-      </div>
+      <InfiniteScroll
+        dataLength={feedList.length}
+        next={this.loadMoreData.bind(this)}
+        hasMore={feedList.length <= this.state.pageNum * 10}
+        loader={<h4>게시글 목록을 불러오는 중</h4>}
+        endMessage={<h4>모든 정보를 확인했습니다.</h4>}
+      >
+        {postingList}
+      </InfiniteScroll>
     );
   }
 }
