@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import LinkButton from "components/button/LinkButton";
 import { Link } from "react-router-dom";
-import { Container, Responsive, Menu } from "semantic-ui-react";
+import { Container, Responsive, Header, Image } from "semantic-ui-react";
 // import "assets/mycss";
 interface Props {}
 
@@ -12,7 +12,10 @@ export interface IAppProps {
   history: any;
 }
 
-export default class Header extends React.Component<IAppProps, IState> {
+export default class HeaderForMobile extends React.Component<
+  IAppProps,
+  IState
+> {
   state = { activeItem: "" };
 
   public render() {
@@ -22,15 +25,40 @@ export default class Header extends React.Component<IAppProps, IState> {
     )[1];
     console.log("유알엘", url);
     return (
-      <div>
+      <Container style={{ "margin-top": "10px" }}>
         <Responsive {...Responsive.onlyMobile}>
           {url === "mainpage" && (
-            <Container>메인페이지 작은 화면 헤더</Container>
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              메인 페이지 작은 화면 헤더
+            </Header>
           )}
-          {url === "feed" && <Container>피드페이지 작은 화면 헤더</Container>}
-          {url === "mypage" && <Container>마이페이지 작은 화면 헤더</Container>}
+          {url === "feed" && (
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              피드 페이지 작은 화면 헤더
+            </Header>
+          )}
+          {url === "mypage" && (
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              마이 페이지 작은 화면 헤더
+            </Header>
+          )}
+          {url === "" && (
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              인트로 페이지 작은 화면 헤더
+            </Header>
+          )}
+          {url === "login" && (
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              로그인 페이지 작은 화면 헤더
+            </Header>
+          )}
         </Responsive>
-      </div>
+      </Container>
     );
   }
 }

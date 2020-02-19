@@ -68,12 +68,6 @@ class MainPage extends Component<Iprops> {
             </Dimmer>
           )}
           <Container>
-            <div style={{ margin: 25 }}>
-              <Header as="h2" icon textAlign="center">
-                <Image centered size="big" src="/images/volunteer.gif" />
-                <Header.Content>최신 봉사활동 정보</Header.Content>
-              </Header>
-            </div>
             <SearchBar />
             <div
               style={{

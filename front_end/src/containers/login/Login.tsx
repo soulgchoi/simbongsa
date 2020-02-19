@@ -150,7 +150,7 @@ class Login extends React.Component<any, any> {
         >
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="orange" textAlign="center">
-              <Image src="/logo.png" /> 로그인
+              <Image centered size="big" src="/images/volunteer.gif" /> 로그인
             </Header>
             <Form size="large">
               <Segment stacked>
@@ -200,7 +200,6 @@ class Login extends React.Component<any, any> {
             </Container>
             <Message>
               <Grid>
-                <Grid.Row></Grid.Row>
                 <Grid.Row columns={2}>
                   <Grid.Column>
                     <LinkButton
@@ -217,7 +216,7 @@ class Login extends React.Component<any, any> {
             </Message>
           </Grid.Column>
         </Grid>
-        <Grid columns={2} centered>
+        {/* <Grid columns={2} centered>
           <Grid.Row>
             <h1 className="title">로그인</h1>
           </Grid.Row>
@@ -271,7 +270,7 @@ class Login extends React.Component<any, any> {
               <LinkButton placeholder="회원가입" link="/join" />
             </Grid.Column>
           </Grid.Row>
-        </Grid>
+        </Grid> */}
 
         {/* <div id="page">
           <div id="content">
