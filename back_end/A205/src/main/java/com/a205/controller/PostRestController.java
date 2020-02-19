@@ -306,7 +306,6 @@ public class PostRestController {
 
 			}
 
-			System.out.println("---mf---"+mf);
 
 			List<Integer> plistForPrefer = service.selectP_idByFilterWithoutFollerings(no1, no2, mf, m_id);
 			System.out.println(plistForPrefer);
