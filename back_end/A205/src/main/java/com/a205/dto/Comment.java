@@ -13,4 +13,5 @@ public class Comment {
 	int p_id;
 	String c_content;
 	String c_date;
+	String userId;
 }

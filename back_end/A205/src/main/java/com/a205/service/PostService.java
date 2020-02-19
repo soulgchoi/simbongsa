@@ -28,6 +28,8 @@ public interface PostService {
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2);
 
 	public boolean add(Post_input post);
+
+	public List<Integer> searchMyPosts(String m_userId, int no1, int no2);
 	
 //	Integer getViewCnt(Integer no);
 //	Integer addViewCnt(Integer no);

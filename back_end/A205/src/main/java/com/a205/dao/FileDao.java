@@ -14,4 +14,7 @@ public interface FileDao{
 //	List<UploadFile> findById(int p_id);
 	List<String> findById(int p_id);
 	void insertFile(Map<String, Object> map);
+	void insertProfile(Map<String, Object> map);
+	void deleteProFile(int m_id);
+	String findByM_Id(int m_id);
 }
