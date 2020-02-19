@@ -29,6 +29,7 @@ class CardComponent extends React.Component<Props & any, {}> {
       m_id: 0,
       p_id: this.props.post.p_id,
       post_vote_members: [],
+      vote_cnt: 0,
       p_status: 0,
       userId: "",
       files: []
@@ -38,39 +39,70 @@ class CardComponent extends React.Component<Props & any, {}> {
   componentDidMount() {
     const { userId } = this.props.user.toJS();
     var id = this.props.post.p_id;
-    axios.get(process.env.REACT_APP_REST_BASE_API + "/rest/Post/" + id, 
+    // axios.get(process.env.REACT_APP_REST_BASE_API + "/rest/Post/" + id, 
+    axios.get("http://70.12.247.87:8080" + "/rest/Post/" + id, 
+
     {headers: { Authorization: "Bearer " + token }}
     )
     .then(res => {
       console.log(res);
-      const data = res.data.data;
-      console.log(data);
+      const resData = res.data.data;
+      console.log(resData);
+      // data.post_vote_members.map((member: any) => {
+      //   this.setState({ post: {post_vote_members: this.state.post.post_vote_members.concat(member.m_id)}})
+      // })
+      var temp = Array()
+      if (resData.post_vote_members.length > 0) {
+        for (let i=0; i<resData.post_vote_members.length; i++) {
+          temp.push(resData.post_vote_members[i].m_id.toString())
+        }
+      }
       this.setState({
         post: {
-          p_content: data.p_content,
-          v_id: data.v_id,
-          m_id: data.m_id,
-          p_stats: data.p_status,
-          files: data.files,
-          p_id: data.p_id,
-          post_vote_members: data.post_vote_members
+          p_content: resData.p_content,
+          v_id: resData.v_id,
+          m_id: resData.m_id,
+          p_stats: resData.p_status,
+          files: resData.files,
+          p_id: resData.p_id,
+          post_vote_members: temp,
+          vote_cnt: temp.length
         }
       });
+      console.log(this.state.post)
     })
     .catch(err => console.log(err));
   }
 
+  handleDelete(id:number, v_id:number) {
+    axios.delete("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id, 
+    { headers: { Authorization: "Bearer " + token }})
+    .then(res => {
+        console.log(res)
+    })
+    .catch(err => console.log(err))
+    window.location.reload(true);
+  }
+
     render() {
+        const {m_id} = this.props.user.toJS()
         return (
 
             <Card>
                 {/* <Image src='/images/avatar/large/matthew.png' wrapped ui={false} /> */}
                 <Card.Content>
-                <Card.Header>{this.props.post.userId}</Card.Header>
+                <Card.Header>{this.props.post.userId}
+                <span style={{float:'right'}}>
+                    {m_id == this.props.post.m_id &&
+                      <Icon name="x" onClick={(id:any, v_id:number)=>{ if (window.confirm("게시글을 삭제하시겠습니까?")) this.handleDelete(this.props.post.p_id, this.props.post.v_id)}}/>
+                    }
+                </span>    
+                </Card.Header>
+                  
                 </Card.Content>
                 <Card.Content extra>
                     <PostDetail
-                            post={this.props.post}
+                            post={this.state.post}
                     /> 
                 </Card.Content>
             </Card>

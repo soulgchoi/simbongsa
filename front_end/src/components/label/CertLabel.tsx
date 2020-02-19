@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Label, Icon } from 'semantic-ui-react';
 import "./CertLabel.css";
 
 interface IProps {
@@ -47,10 +48,13 @@ export default class CertLabel extends Component<IProps & any, any> {
     // this.printFunc()
     return (
       <div style={{ display: "inline" }}>
-        <div className={this.state.isCertClass} id={this.state.visibility}>
+        <Label size='tiny' as='a' id={this.state.visibility}><Icon name="time"/>{this.state.isCert}</Label>
+        <Label size='tiny' as='a'><Icon name='user' />{this.state.isFull}</Label>
+        {/* <div className={this.state.isCertClass} id={this.state.visibility}>
           {this.state.isCert}
         </div>
-        <div className={this.state.isFullClass}>{this.state.isFull}</div>
+        <div className={this.state.isFullClass}>{this.state.isFull}</div> */}
+        
       </div>
     );
   }
