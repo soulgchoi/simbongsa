@@ -33,6 +33,8 @@ public interface PostDao {
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2);
+
+	public List<Integer> searchMyPosts(int m_id, int no1, int no2);
 	
 //	public int addViewCnt(int no);
 //	public int getViewCnt(int no);

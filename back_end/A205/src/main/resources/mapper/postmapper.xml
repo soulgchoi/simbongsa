@@ -3,26 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.postmapper">
-	
+
 	<select id="searchMyFeed" resultType="int"
 		parameterType="java.util.Map">
 		select p_id from `post`
-		where m_id in (select f_followee_id
+		where m_id in (select
+		f_followee_id
 		from follow
 		where f_follower_id = #{m_id})
-		order by p_date desc
+		order by p_date
+		desc
 		limit #{listSize} offset #{startList};
 	</select>
-	
+
 	<select id="searchVolFeed" resultType="int"
 		parameterType="java.util.Map">
 		select p_id from `post`
 		where v_id = #{v_id}
-		and p_status != 0
+		and p_status
+		!= 0
 		order by p_date desc
 		limit #{listSize} offset #{startList};
 	</select>
-	
+
+	<select id="searchMyPosts" resultType="int"
+		parameterType="java.util.Map">
+		select p_id from `post`
+		where m_id = #{m_id}
+		order by p_date desc
+		limit #{listSize} offset #{startList};
+	</select>
+
 	<select id="nextPostId" resultType="int">
 		select max(p_id) from
 		`post`;
@@ -48,25 +59,28 @@
 		where p_id = #{p_id}
 	</select>
 
-	
-	<select id="selectP_idByFilter" resultType="java.lang.Integer" parameterType="myfilter">
-		select p_id from post where v_id 
-		in (select v_id from vol where v_pStatus between 1 and 3
+	<select id="selectP_idByFilter" resultType="java.lang.Integer"
+		parameterType="myfilter">
+		select p_id from post where v_id
+		in (select v_id from vol where
+		v_pStatus between 1 and 3
 		<choose>
 			<when test="r_sidoNm != null and r_gugunNm != null">
-				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
-    		</when>
+				or r_id in (select r_id from region where r_sidoNm =
+				#{r_sidoNm} and r_gugunNm = #{r_gugunNm})
+			</when>
 			<when test="ca_highNm !=null">
-				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
+				or ca_id in (select ca_id from category where
+				ca_highNm = #{ca_highNm})
 			</when>
 			<otherwise>
-      			and v_id is not null
-    		</otherwise>
+				and v_id is not null
+			</otherwise>
 		</choose>
 		)
 		order by p_id desc
 		limit #{listSize} offset #{startList}
-		
+
 	</select>
 
 
@@ -114,9 +128,9 @@
 
 	<delete id="deletePostVote" parameterType="post_vote">
 		delete from post_vote
-		where p_id = #{p_id} and m_id = #{m_id} 
+		where p_id = #{p_id} and m_id = #{m_id}
 	</delete>
-	
+
 	<insert id="insert" parameterType="post">
 		insert into
 		post(v_id,
