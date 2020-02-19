@@ -48,27 +48,63 @@
 		where p_id = #{p_id}
 	</select>
 
-	
-	<select id="selectP_idByFilter" resultType="java.lang.Integer" parameterType="myfilter">
-		select p_id from post where v_id 
-		in (select v_id from vol where v_pStatus between 1 and 3
-		<choose>
-			<when test="r_sidoNm != null and r_gugunNm != null">
-				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm} and r_gugunNm = #{r_gugunNm})
+
+
+	<select id="selectP_idByFilterWithoutFollerings" resultType="java.lang.Integer" parameterType="myfilter">
+		select p_id from post where
+		m_id not in (#{m_id})
+		
+		and
+		( m_id not in (select f_follower_id
+		from follow
+		where f_followee_id = #{m_id})
+		)
+		and
+		
+		v_id 
+		in (select v_id from vol where (v_pStatus between 1 and 3)
+		or
+		(	
+    	<choose>
+    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+				 r_id in (select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
     		</when>
-			<when test="ca_highNm !=null">
-				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm})
-			</when>
+			<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+    		</when>
+			<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+    		</when>
 			<otherwise>
-      			and v_id is not null
+      			 v_id is not null
+    		</otherwise>
+    		
+    	</choose>
+    	)
+		or
+		(
+		<choose>
+		
+			<when test="ca_highNm1 !=null">
+				 ca_id in (select ca_id from category where ca_highNm = #{ca_highNm1})
+			</when>
+			<when test="ca_highNm2 !=null">
+				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm2})
+			</when>
+			<when test="ca_highNm3 !=null">
+				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm3})
+			</when>
+			
+			<otherwise>
+      		  v_id is not null
     		</otherwise>
 		</choose>
+		)
 		)
 		order by p_id desc
 		limit #{listSize} offset #{startList}
 		
 	</select>
-
 
 	<!-- 포스트 검색?? -->
 	<select id="searchByCondition" resultType="post"

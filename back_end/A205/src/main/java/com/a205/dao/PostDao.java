@@ -28,7 +28,7 @@ public interface PostDao {
 	int getid();
 	
 	
-	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my);
+	public List<Integer> selectP_idByFilterWithoutFollerings(int listSize, int startList, MyFilter my, Integer m_id);
 	
 
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2);

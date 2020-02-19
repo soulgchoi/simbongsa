@@ -202,12 +202,12 @@ public class PostRestController {
 	}
 
 	@GetMapping("/PostFeed/{m_id}/{no1}/{no2}")
-	@ApiOperation("m_id의 피드 리턴(팔로우하는사람들의 포스트 가져오기)")
+	@ApiOperation("m_id의 피드 리턴(팔로우하는사람들의 포스트 가져오기) ")
 	public ResponseEntity<Map<String, Object>> getPostFeed(@PathVariable int m_id, @PathVariable int no1, @PathVariable int no2) {
 		try {
 			System.out.println("");
 			List<PostView> feed = new ArrayList<>();
-			List<Integer> plist = service.searchMyFeed(m_id, no1*(4/5), no2);
+			List<Integer> plist = service.searchMyFeed(m_id, no1, no2);
 			for (int p_id : plist) {
 				// HashMap<String, Object> map = new HashMap<String, Object>();
 				PostView view = new PostView();
@@ -232,63 +232,110 @@ public class PostRestController {
 
 				feed.add(view);
 			}
+			
 			System.out.println(feed);
+			return response(feed, true, HttpStatus.OK);
+
+		} catch (Exception e) {
+			logger.error("포스트조회실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+	@GetMapping("/PostFeed2/{m_id}/{no1}/{no2}")
+	@ApiOperation("m_id의 피드 리턴(큐레이션 )")
+	public ResponseEntity<Map<String, Object>> getPostFeed2(@PathVariable int m_id, @PathVariable int no1, @PathVariable int no2) {
+		try {
+			List<PostView> feed = new ArrayList<>();
 			// m id로 멤버객체 가져오기...
 			String userId = memberService.selectByM_id(m_id).getM_userid();
 			// m_id에 해당하는 디테일(선호정보 가져오기)
 			Member_detail member_detail = memberService.searchDetail(userId);
 			MyFilter mf = new MyFilter();
-			List<String> ca_highCd = member_detail.getM_prefer_category();
-			System.out.println("----------cahi-------"+ca_highCd);
-			if (ca_highCd.size() == 0) {
-				mf.setCa_highNm(null);
-			}else {
-				List<Category> categories = categoryDao.selectListByHighCd(ca_highCd.get(0));
-				String ca_highNm = categories.get(0).getCa_highNm();
-				mf.setCa_highNm(ca_highNm);
+			List<String> ca_highCds = member_detail.getM_prefer_category();
+			System.out.println("----------cahi-------"+ca_highCds);
+			if (ca_highCds.size() == 0) {
+				mf.setCa_highNm1(null);
+				mf.setCa_highNm2(null);
+				mf.setCa_highNm3(null);
+
 			}
+			if (ca_highCds.size() >= 1){
+				List<Category> categories1 = categoryDao.selectListByHighCd(ca_highCds.get(0));
+				String ca_highNm1 = categories1.get(0).getCa_highNm();
+				mf.setCa_highNm1(ca_highNm1);
+			}
+			if (ca_highCds.size() >= 2){
+				List<Category> categories2 = categoryDao.selectListByHighCd(ca_highCds.get(1));
+				String ca_highNm2 = categories2.get(0).getCa_highNm();
+				mf.setCa_highNm2(ca_highNm2);
+			}	
+			if (ca_highCds.size() >= 3){
+				List<Category> categories3 = categoryDao.selectListByHighCd(ca_highCds.get(2));
+				String ca_highNm3 = categories3.get(0).getCa_highNm();
+				mf.setCa_highNm3(ca_highNm3);
+			}
+			
 			List<String> prefer_regions = member_detail.getM_prefer_region();
 			System.out.println("-------prefer_regions" + prefer_regions);
 			if (prefer_regions.size() == 0) {
-				mf.setR_sidoNm(null);
-				mf.setR_gugunNm(null);
-			} else {
-				Region region = regionDao.selectByR_id(Integer.parseInt(prefer_regions.get(0)));
-				mf.setR_gugunNm(region.getR_gugunNm());
-				mf.setR_sidoNm(region.getR_sidoNm());
+				mf.setR_sidoNm1(null);
+				mf.setR_gugunNm1(null);
+				mf.setR_sidoNm2(null);
+				mf.setR_gugunNm2(null);
+				mf.setR_sidoNm3(null);
+				mf.setR_gugunNm3(null);
+
+			} 
+			if (prefer_regions.size() >= 1){
+				System.out.println("--2-2-2-2-2-22-2-"+prefer_regions.get(0));
+				Region region1 = regionDao.selectByR_id(Integer.parseInt(prefer_regions.get(0)));
+				mf.setR_gugunNm1(region1.getR_gugunNm());
+				mf.setR_sidoNm1(region1.getR_sidoNm());
 
 			}
-			
+			if (prefer_regions.size() >= 2){
+				Region region2 = regionDao.selectByR_id(Integer.parseInt(prefer_regions.get(1)));
+				mf.setR_gugunNm2(region2.getR_gugunNm());
+				mf.setR_sidoNm2(region2.getR_sidoNm());
+
+			}
+			if (prefer_regions.size() >= 3){
+				Region region3 = regionDao.selectByR_id(Integer.parseInt(prefer_regions.get(2)));
+				mf.setR_gugunNm3(region3.getR_gugunNm());
+				mf.setR_sidoNm3(region3.getR_sidoNm());
+
+			}
+
 			System.out.println("---mf---"+mf);
 
-			List<Integer> plistForPrefer = service.selectP_idByFilter(no1/5, no2, mf);
+			List<Integer> plistForPrefer = service.selectP_idByFilterWithoutFollerings(no1, no2, mf, m_id);
 			System.out.println(plistForPrefer);
 			for (int p_id : plistForPrefer) {
-				if (!plist.contains(p_id)) {
 				// HashMap<String, Object> map = new HashMap<String, Object>();
-					PostView view = new PostView();
-					Post post = service.selectOne(p_id);
-					List<String> storedFileNames = f_con.getMultipleFiles(p_id);
-					view.setP_id(post.getP_id());
-					view.setM_id(post.getM_id());
-					view.setP_content(post.getP_content());
-					view.setP_status(post.getP_status());
-					view.setV_id(post.getV_id());
-					// feed.add(ff);
-					view.setFiles(storedFileNames);
-					List<Integer> m_ids = service.countM_id(p_id);
-					List<Member> post_vote_members = new ArrayList<Member>();
-					for(Integer m_idd:m_ids) {
-						Member member = memberService.selectByM_id(m_idd);
-						post_vote_members.add(member);
-						
-					}
+				PostView view = new PostView();
+				Post post = service.selectOne(p_id);
+				List<String> storedFileNames = f_con.getMultipleFiles(p_id);
+				view.setP_id(post.getP_id());
+				view.setM_id(post.getM_id());
+				view.setP_content(post.getP_content());
+				view.setP_status(post.getP_status());
+				view.setV_id(post.getV_id());
+				// feed.add(ff);
+				view.setFiles(storedFileNames);
+				List<Integer> m_ids = service.countM_id(p_id);
+				List<Member> post_vote_members = new ArrayList<Member>();
+				for(Integer m_idd:m_ids) {
+					Member member = memberService.selectByM_id(m_idd);
+					post_vote_members.add(member);
+					
+					
 					view.setPost_vote_members(post_vote_members);
-					String userId2 = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
-					view.setUserId(userId2);
-
-					feed.add(view);
 				}
+				String userId2 = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
+				view.setUserId(userId2);
+
+				feed.add(view);
+
 			}
 			System.out.println(feed);
 			return response(feed, true, HttpStatus.OK);
@@ -298,6 +345,9 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
+	
+
+	
 	
 	@GetMapping("/VolFeed/{v_id}/{no1}/{no2}")
 	@ApiOperation("v_id의 피드 리턴(봉사 관련 포스트 가져오기)")

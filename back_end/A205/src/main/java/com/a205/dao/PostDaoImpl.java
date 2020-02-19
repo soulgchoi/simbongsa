@@ -16,6 +16,8 @@ import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 import com.a205.dto.Vol;
 
+import io.swagger.models.auth.In;
+
 @Repository
 public class PostDaoImpl implements PostDao {
 
@@ -90,10 +92,14 @@ public class PostDaoImpl implements PostDao {
 
 	
 	@Override
-	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my){
-		String statement = ns + "selectP_idByFilter";
+	public List<Integer> selectP_idByFilterWithoutFollerings(int listSize, int startList, MyFilter my, Integer m_id){
+		String statement = ns + "selectP_idByFilterWithoutFollerings";
+		
+		
 		my.setListSize(listSize);
 		my.setStartList((startList-1)*listSize);
+		my.setM_id(m_id);
+		
 		return session.selectList(statement, my);
 	}
 	
