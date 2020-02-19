@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import {
     Dropdown
 } from "semantic-ui-react";
-import temp2 from "components/usersetting/temp2.json"
+import temp2 from "lib/json/temp2.json"
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";

@@ -4,13 +4,21 @@ import VolList from "components/vol/VolList";
 import { connect } from "react-redux";
 // import * as volActions from "redux/modules/volunteer";
 import * as volActions from "redux/modules/vol";
+import * as searchActions from "redux/modules/search";
+import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
 import { Container } from "semantic-ui-react";
 interface Props {
-  VolActions: any;
-  volunteers: List<any>;
+  volunteersForList: List<any>;
+  input: string
+  SearchActions: typeof searchActions
+  VolActions: typeof volActions
+  UserActions: typeof userActions
+  locations: any
+  categorys: any
+  times: any
 }
-interface State {}
+interface State { }
 
 class VolListPage extends Component<Props, State> {
   state = {
@@ -20,20 +28,69 @@ class VolListPage extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { VolActions } = this.props;
-    VolActions.getInitailList(this.state.pageNum);
+    // const { VolActions } = this.props;
+    // VolActions.getInitailList(this.state.pageNum);
     // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
   }
   shouldComponentUpdate(nextProps: any) {
-    const { volunteers } = nextProps;
-    return volunteers.size > 0;
+    const { volunteersForList } = nextProps;
+    return volunteersForList.size > 0;
   }
-  loadMoreData = () => {
+  loadMoreData = async () => {
+    const { VolActions, input, locations, categorys, times, UserActions } = this.props
+    let preferLocate = locations.toJS().map((location: any) => location.text)
+
+    let preferCategory = categorys.toJS().map((category: any) => category.text)
+    const locateSize = preferLocate.length
+    const categorySize = preferCategory.length
+
+    for (let i = 0; i < 3 - locateSize; i++) {
+      preferLocate.push("null null")
+
+    }
+    for (let i = 0; i < 3 - categorySize; i++) {
+      preferCategory.push(null)
+    }
+
+    const firstLocation = preferLocate[0].split(" ")
+    const secondLocation = preferLocate[1].split(" ")
+    const thirdLocation = preferLocate[2].split(" ")
+
+    const firstCategory = preferCategory[0]
+    console.log(firstCategory)
+    const secondCategory = preferCategory[1]
+    const thirdCategory = preferCategory[2]
+
+    let bgnTm = "";
+    let endTm = "";
+
+    if (times.toJS().morning === true) {
+      bgnTm = "00:00:00";
+    } else if (times.toJS().morning === false) {
+      bgnTm = "12:00:01";
+    }
+    if (times.toJS().afternoon === true) {
+      endTm = "23:59:59";
+    } else if (times.toJS().afternoon === false) {
+      endTm = "12:00:00";
+    }
+    if (times.toJS().afternoon === false && times.toJS().morning === false) {
+      bgnTm = "00:00:01";
+      endTm = "23:59:58";
+    }
+    console.log("hihihihihihihih", preferLocate)
+    UserActions.changeLoading(true)
     this.setState({ pageNum: this.state.pageNum + 1 });
-    const { VolActions } = this.props;
     console.log("어펜드 되나???");
-    VolActions.appendList(this.state.pageNum);
-    console.log(this.props.volunteers);
+    try {
+      VolActions.appendList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: this.state.pageNum });
+    }
+    catch (e) {
+      console.log(e)
+    }
+    finally {
+      UserActions.changeLoading(false)
+    }
   };
 
   // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -49,13 +106,13 @@ class VolListPage extends Component<Props, State> {
   // }
 
   render() {
-    const { volunteers } = this.props;
+    const { volunteersForList } = this.props;
     const { loadMoreData } = this;
-    console.log("봉사자들", volunteers);
+    console.log("봉사자들", volunteersForList);
     return (
       <VolList
         loadingMessage="봉사활동 목록을 불러오는중"
-        volunteers={volunteers.toJS()}
+        volunteers={volunteersForList.toJS()}
         appendList={loadMoreData}
         height={"52vh"}
       />
@@ -64,10 +121,18 @@ class VolListPage extends Component<Props, State> {
 }
 
 export default connect(
-  (state: any) => ({
-    volunteers: state.vol.get("volunteers")
-  }),
+  ({ vol, search, user }: any) => {
+    return {
+      volunteersForList: vol.get("volunteersForList"), // store에 있는 state를 this.pros로 연결
+      input: search.get("input"),
+      locations: search.get("locations"),
+      categorys: search.get("categorys"),
+      times: search.get("times"),
+    };
+  },
   dispatch => ({
-    VolActions: bindActionCreators(volActions, dispatch)
+    VolActions: bindActionCreators(volActions, dispatch),
+    SearchActions: bindActionCreators(searchActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch),
   })
 )(VolListPage);
