@@ -16,7 +16,6 @@ interface Props {
     v_id: 0;
     m_id: 0;
     p_status: 0;
-    p_vote_cnt: 0;
     userId: "";
     files: [];
   };
@@ -24,25 +23,41 @@ interface Props {
 
 class CardComponent extends React.Component<Props & any, {}> {
   state = {
-    v_ids: Array(),
-    ids: Array()
+    post: {
+      p_content: "",
+      v_id: 0,
+      m_id: 0,
+      p_id: this.props.post.p_id,
+      post_vote_members: [],
+      p_status: 0,
+      userId: "",
+      files: []
+    }
   };
 
   componentDidMount() {
     const { userId } = this.props.user.toJS();
-    axios
-      .get(
-        process.env.REACT_APP_REST_BASE_API +
-          "/rest/Member/" +
-          userId +
-          "/Vote",
-        { headers: { Authorization: "Bearer " + token } }
-      )
-      .then(res => {
-        this.setState({ v_ids: res.data.data });
-        console.log(this.state.v_ids);
-      })
-      .catch(err => console.log(err));
+    var id = this.props.post.p_id;
+    axios.get(process.env.REACT_APP_REST_BASE_API + "/rest/Post/" + id, 
+    {headers: { Authorization: "Bearer " + token }}
+    )
+    .then(res => {
+      console.log(res);
+      const data = res.data.data;
+      console.log(data);
+      this.setState({
+        post: {
+          p_content: data.p_content,
+          v_id: data.v_id,
+          m_id: data.m_id,
+          p_stats: data.p_status,
+          files: data.files,
+          p_id: data.p_id,
+          post_vote_members: data.post_vote_members
+        }
+      });
+    })
+    .catch(err => console.log(err));
   }
 
     render() {

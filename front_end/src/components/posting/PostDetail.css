@@ -21,6 +21,6 @@ div.comment{
 
 
 div.comment div {
-    display: block !important;
+    margin-top: 0.5em;
     width: 100%;
 }

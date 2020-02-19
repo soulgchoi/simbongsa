@@ -44,7 +44,7 @@ export const checkFollow = async (followerId: string, followeeId: string) => {
     restBaseApi +
     "/isfollowing?follower_userid=" +
     followerId +
-    "/&followee_userid=" +
+    "&followee_userid=" +
     followeeId,
     { headers: { Authorization: token } }
   );
