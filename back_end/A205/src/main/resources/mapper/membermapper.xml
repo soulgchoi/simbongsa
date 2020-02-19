@@ -45,10 +45,7 @@
 	</select>
 		
  	<select id="selectByEmail" resultType="member" parameterType="string">
-		select * from `member` 
-		<if test ="value!=null">
-			where m_email = #{email}
-		</if>
+		select * from `member` where m_email = #{email}
 	</select>
 	
 	<update id="update" parameterType="member">

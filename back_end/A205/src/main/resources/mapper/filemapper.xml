@@ -6,19 +6,41 @@
 
 	<insert id="insertFile" parameterType="java.util.Map">
 		insert into
-		`file`(p_id, f_name, f_key, f_size)
-		values(#{p_id}, #{originalFileName}, #{storedFileName}, #{file_size})
+		`file`(p_id,
+		f_name, f_key, f_size)
+		values(#{p_id}, #{originalFileName},
+		#{storedFileName}, #{file_size})
 	</insert>
-	
-<!-- 	<select id="selectFileList" parameterType="int">
-		select f_id, f_name, f_key, round(f_size/1024, 1)
-		from `file`
-		where p_id = #{p_id}
-	</select> -->
-	<select id="selectFileList" resultType="java.lang.String" parameterType="int">
+
+	<insert id="insertProfile" parameterType="java.util.Map">
+		insert into
+		`file`(m_id, f_name, f_key, f_size)
+		values(#{m_id},
+		#{originalFileName}, #{storedFileName}, #{file_size})
+		on duplicate key
+		update f_name={originalFileName}, f_key=#{storedFileName},
+		f_size=#{file_size}
+	</insert>
+
+	<delete id="deleteProfile" parameterType="int">
+		delete from `file`
+		where m_id=#{m_id}
+	</delete>
+
+	<!-- <select id="selectFileList" parameterType="int"> select f_id, f_name, 
+		f_key, round(f_size/1024, 1) from `file` where p_id = #{p_id} </select> -->
+	<select id="selectFileList" resultType="java.lang.String"
+		parameterType="int">
 		select f_key
 		from `file`
 		where p_id = #{p_id}
+	</select>
+
+	<select id="selectProfile" resultType="java.lang.String"
+		parameterType="int">
+		select f_key
+		from `file`
+		where m_id = #{m_id}
 	</select>
 
 </mapper>

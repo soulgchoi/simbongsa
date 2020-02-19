@@ -3,26 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.postmapper">
-	
+
 	<select id="searchMyFeed" resultType="int"
 		parameterType="java.util.Map">
 		select p_id from `post`
-		where m_id in (select f_followee_id
+		where m_id in (select
+		f_followee_id
 		from follow
 		where f_follower_id = #{m_id})
-		order by p_date desc
+		order by p_date
+		desc
 		limit #{listSize} offset #{startList};
 	</select>
-	
+
 	<select id="searchVolFeed" resultType="int"
 		parameterType="java.util.Map">
 		select p_id from `post`
 		where v_id = #{v_id}
-		and p_status != 0
+		and p_status
+		!= 0
 		order by p_date desc
 		limit #{listSize} offset #{startList};
 	</select>
-	
+
+	<select id="searchMyPosts" resultType="int"
+		parameterType="java.util.Map">
+		select p_id from `post`
+		where m_id = #{m_id}
+		order by p_date desc
+		limit #{listSize} offset #{startList};
+	</select>
+
 	<select id="nextPostId" resultType="int">
 		select max(p_id) from
 		`post`;
@@ -103,7 +114,7 @@
 		)
 		order by p_id desc
 		limit #{listSize} offset #{startList}
-		
+
 	</select>
 
 	<!-- 포스트 검색?? -->
@@ -150,9 +161,9 @@
 
 	<delete id="deletePostVote" parameterType="post_vote">
 		delete from post_vote
-		where p_id = #{p_id} and m_id = #{m_id} 
+		where p_id = #{p_id} and m_id = #{m_id}
 	</delete>
-	
+
 	<insert id="insert" parameterType="post">
 		insert into
 		post(v_id,

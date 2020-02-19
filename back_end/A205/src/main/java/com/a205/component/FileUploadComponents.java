@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +28,18 @@ public class FileUploadComponents {
 	public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file, int p_id) {
 
 		String storedFileName = service.storeFile(file, p_id);
+
+		//String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/uploads/")
+				.path(storedFileName).toUriString();
+
+		return new FileUploadResponse(file.getOriginalFilename(), fileDownloadUri, file.getContentType(),
+				file.getSize());
+	}
+	
+	public FileUploadResponse uploadProfile(@RequestParam("file") MultipartFile file, int m_id) {
+
+		String storedFileName = service.storeProfile(file, m_id);
 
 		//String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/uploads/")
@@ -69,6 +80,13 @@ public class FileUploadComponents {
 		// 이 아래로 포스트에 해당하는 파일의 경로들을 받아옴
 		public List<String> getMultipleFiles(int p_id) {
 			return service.getUploadFile(p_id);
+		}
+		
+		public String getProfile(int m_id) {
+			return service.getProfile(m_id);
+		}
+		public void deleteProfile(int m_id) {
+			service.deleteProfile(m_id);
 		}
 
 }

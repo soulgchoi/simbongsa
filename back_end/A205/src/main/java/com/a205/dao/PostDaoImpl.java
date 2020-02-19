@@ -123,6 +123,16 @@ public class PostDaoImpl implements PostDao {
 		return session.selectList(statement, map);
 	}
 	
+	@Override
+	public List<Integer> searchMyPosts(int m_id, int no1, int no2) {
+		String statement = ns + "searchMyPosts";
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("m_id", m_id);
+		map.put("listSize", no1);
+		map.put("startList", (no2-1)*no1);
+		return session.selectList(statement, map);
+	}
+	
 	/*
 	@Override
 	public int addViewCnt(int no) {

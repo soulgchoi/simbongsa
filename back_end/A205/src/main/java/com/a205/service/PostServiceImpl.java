@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.a205.dao.MemberDAO;
 import com.a205.dao.PostDao;
 import com.a205.dto.MyFilter;
 import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
-import com.a205.dto.Vol;
 
 import io.swagger.models.auth.In;
 
@@ -19,7 +19,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostDao dao;
-
+	@Autowired
+	private MemberDAO m_dao;
+	
 	@Override
 	public Post selectOne(int no) {
 		return dao.selectOne(no);
@@ -69,6 +71,12 @@ public class PostServiceImpl implements PostService {
 	public List<Integer> searchMyFeed(int m_id, int no1, int no2){
 		return dao.searchMyFeed(m_id, no1, no2);
 	}
+
+	@Override
+	public List<Integer> searchMyPosts(String m_userId, int no1, int no2) {
+		int m_id= m_dao.search(m_userId).getM_id();
+		return dao.searchMyPosts(m_id, no1, no2);
+	}
 	
 	@Override
 	public List<Integer> searchVolFeed(int v_id, int no1, int no2){
@@ -79,6 +87,7 @@ public class PostServiceImpl implements PostService {
 	public List<Integer> selectP_idByFilterWithoutFollerings(int listSize, int startList, MyFilter my, Integer m_id){
 		return dao.selectP_idByFilterWithoutFollerings(listSize, startList, my, m_id);
 	}
+
 
 	
 //	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {

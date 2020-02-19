@@ -82,8 +82,6 @@ public class CommentRestController {
 		}
 	}
 
-	
-
 	@DeleteMapping("/Comment/{c_id}")
 	@ApiOperation("No에 해당하는 하나의 포스트에 해당 댓글을 지운다.")
 	public ResponseEntity<Map<String, Object>> removeComment(@PathVariable int c_id, HttpServletRequest request) {
