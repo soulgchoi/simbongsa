@@ -29,9 +29,9 @@ div.buttons a {
     margin: auto;
 }
 
-.ui.button {
+button.ui.button {
     margin: 0 !important;
-    
+    background-color: rgba(255, 136, 0, 0.493);
 }
 
 a button:hover {

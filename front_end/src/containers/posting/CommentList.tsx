@@ -54,7 +54,9 @@ class CommentList extends React.Component<Props, States> {
 
         return (
             <div>
-                {prints}
+                {this.state.comments.length > 0 ? 
+                (prints)
+                : (<div style={{color: 'rgb(185, 185, 185)'}}>첫번째 댓글을 작성해보세요.</div> )}
                 {/* <span onClick={()=>this.deleteComment()}></span> */}
             </div>
     )}

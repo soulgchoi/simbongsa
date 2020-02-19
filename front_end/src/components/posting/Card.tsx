@@ -39,8 +39,8 @@ class CardComponent extends React.Component<Props & any, {}> {
   componentDidMount() {
     const { userId } = this.props.user.toJS();
     var id = this.props.post.p_id;
-    // axios.get(process.env.REACT_APP_REST_BASE_API + "/rest/Post/" + id, 
-    axios.get("http://70.12.247.87:8080" + "/rest/Post/" + id, 
+    axios.get(process.env.REACT_APP_REST_BASE_API + "/rest/Post/" + id, 
+    // axios.get("http://70.12.247.87:8080" + "/rest/Post/" + id, 
 
     {headers: { Authorization: "Bearer " + token }}
     )

@@ -7,7 +7,7 @@ div.ui.menu {
     margin: auto;
 }
 
-.ui.menu .item {
+.ui.menu a.item {
     text-shadow: orange;
 }
 

@@ -11,6 +11,8 @@ import temp from 'containers/temp/temp'
 import CommentList from 'containers/posting/CommentList'
 import CommentForm from 'containers/posting/CommentForm'
 import PostVote from 'components/posting/PostVote'
+import CommentPrint from 'components/posting/CommentPrint'
+
 
 import './Carousel.css'
 import './PostDetail.css'
@@ -38,11 +40,6 @@ interface Props {
 
 
 class PostDetail extends React.Component<Props & any, {}> {
-    state={
-        // vote_cnt: this.props.post.vote_cnt,
-        vote_cnt: this.props.post.post_vote_members.length,
-        post_vote_members: Array(),
-    }
 
     handleVote(id:number) {
         var { m_id } = this.props.user.toJS()
@@ -59,7 +56,7 @@ class PostDetail extends React.Component<Props & any, {}> {
             console.log(res)
         })
         .catch(err => console.log(err))
-        this.setState({vote_cnt: this.state.vote_cnt+1})
+        // this.setState({vote_cnt: this.state.vote_cnt+1})
     }
 
 
@@ -100,21 +97,10 @@ class PostDetail extends React.Component<Props & any, {}> {
                         : (<div style={{color: 'rgb(185, 185, 185)'}}>내용이 없는 글입니다.</div>)}
                     </div>
                     <Divider />
-                    <div className="label">
-                        <Label
-                            as='a' 
-                            color={this.props.post.post_vote_members.includes(m_id) ? 'grey' : 'orange'} 
-                            size="large" 
-                            onClick={(id:any)=>this.handleVote(this.props.post.p_id)}
-                        >
-                            <Icon name="hand paper" />함께 해요 {this.props.post.vote_cnt}
-                        </Label>
-                    </div>
                     <Divider />
-                    <div className="comment">
-                    <CommentList inP_id={this.props.post.p_id}/>
-                    <CommentForm inP_id={this.props.post.p_id}/>
-                    </div>
+                    <CommentPrint 
+                        post={this.props.post}
+                    />
                 </div>
             </div>
         )

@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import LinkButton from "components/button/LinkButton";
 import GoBackButton from "components/button/GoBackButton";
 import { Form, TextArea } from "semantic-ui-react";
-import { Checkbox } from "semantic-ui-react";
+import { Checkbox, Button } from "semantic-ui-react";
 import storage from "lib/storage";
 import { Link } from "react-router-dom";
 let token = storage.get("token");
@@ -146,12 +146,9 @@ class PostingForm extends React.Component<any, any> {
                 onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
-            <label htmlFor="files">이미지 업로드</label>
-                {/* {imagepreview} */}
-
-            <button onClick={this.handleSubmit}>
+            <Button onClick={this.handleSubmit}>
                 게시글 등록하기
-            </button>
+            </Button>
             
             <GoBackButton
                     text="취소하기"
