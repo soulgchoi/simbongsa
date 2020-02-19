@@ -15,6 +15,7 @@ export default class ListUp extends Component {
   componentDidMount() {
     setInterval(this.rotate, 4000);
   }
+  componentWillUnmount() {}
   render() {
     console.log(this.state.data);
     return (

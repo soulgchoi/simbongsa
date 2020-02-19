@@ -1,6 +1,6 @@
 import React from "react";
 import PV from "password-validator";
-import { Grid, Image } from "semantic-ui-react";
+import { Grid, Image, Header, Form, Segment, Button, Message, Container } from "semantic-ui-react";
 
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -133,6 +133,57 @@ class Login extends React.Component<any, any> {
           pageOnChange={this.handlePageChange}
           animationTimer={700}
         > */}
+
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='orange' textAlign='center'>
+              <Image src='/logo.png' /> 로그인
+            </Header>
+            <Form size='large'>
+              <Segment stacked>
+                <Form.Input fluid icon="user" iconPosition="left" placeholder='이메일을 입력하세요.' onChange={handleChange} />
+                <Form.Input
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder='비밀번호를 입력하세요.'
+                  type='password'
+                  onChange={handleChange}
+                />
+
+                <Button inverted color='orange' fluid size='large'>
+                  로그인
+            </Button>
+              </Segment>
+            </Form>
+            <Container textAlign="right">
+              <GoogleLogin
+                icon={true}
+                clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
+                onSuccess={handleGoogleLogin}
+                onFailure={result => console.log(result)}
+                cookiePolicy={"single_host_origin"}
+                responseType="id_token"
+                uxMode="redirect"
+                redirectUri={process.env.REACT_APP_FRONT_URI + "/mainpage"}
+              /></Container>
+            <Message>
+              <Grid >
+                <Grid.Row>
+
+                </Grid.Row>
+                <Grid.Row columns={2} >
+                  <Grid.Column >
+                    <LinkButton link="/findpassword" inverted={true} placeholder="비밀번호 찾기" />
+                  </Grid.Column>
+                  <Grid.Column >
+                    <LinkButton placeholder="회원가입" link="/join" />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Message>
+          </Grid.Column>
+        </Grid>
         <Grid columns={2} centered>
           <Grid.Row>
             <h1 className="title">로그인</h1>

@@ -101,13 +101,11 @@ class Mypage extends Component<Props, State> {
         this.setState({ preferCategoryLabelList: preferCategoryLabelList });
       }
     }
-    return (
-      this.state.preferlocationDataList.size > 0 &&
-      this.state.preferCategoryDataList.size > 0
-    );
+    return preferlocationDataList.size > 0 && preferCategoryDataList.size > 0;
   }
   componentDidMount() {
     const { VolActions, userId } = this.props;
+    console.log("마이페이지 userId", userId);
     VolActions.getVolListByUserId(userId);
   }
 
