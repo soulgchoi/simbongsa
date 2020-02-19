@@ -103,8 +103,8 @@ class PostingForm extends React.Component<any, any> {
             console.log(res)
         })
         .catch(err => console.log(err))
-        this.props.history.push(`/${v_id}/list`);
-        // this.goListPage();
+        // this.props.history.push(`/${v_id}/list`);
+        this.goListPage();
     }
 
     goListPage() {
