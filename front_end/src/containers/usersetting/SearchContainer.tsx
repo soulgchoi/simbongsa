@@ -109,7 +109,14 @@ class SearchContainer extends Component<any, any> {
   render() {
     console.log("여기는 search");
     const { handleLocalRegister } = this;
-    const { isRegister } = this.props
+    const { isRegister, locations,
+      categorys,
+      times,
+      ages, } = this.props
+    console.log("locations", locations.toJS());
+    console.log("categorys", categorys.toJS());
+    console.log("times", times.toJS());
+    console.log("ages", ages.toJS());
     return (
       <Fragment>
         <Container>

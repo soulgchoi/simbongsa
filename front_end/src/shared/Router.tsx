@@ -31,18 +31,19 @@ import Feed from "containers/feed/Feed";
 import PostingList from "containers/posting/PostingList";
 import PostingForm from "containers/posting/PostForm";
 import { Grid } from "semantic-ui-react";
-import Header from "components/header/Header";
 import HeaderForMobile from "components/header/HeaderForMobile";
 
-import Footer from "components/footer/Footer";
+import FooterForDesktop from "components/footer/FooterForDesktop";
 import FooterForMobile from "components/footer/FooterForMobile";
-
+import HeaderForDesktop from "components/header/HeaderForDesktop";
+import LoginChecker from "components/loginchecker/LoginChecker";
 class Router extends Component {
   render() {
     return (
       <BrowserRouter>
         {/* auth */}
-        <Route path="/" component={Header} />
+        <Route path="/" component={LoginChecker} />
+        <Route path="/" component={HeaderForDesktop} />
         <Route path="/" component={HeaderForMobile} />
         <Route exact path="/join" component={Join} />
         <Route path="/join/complete" component={JoinComplete} />
@@ -73,7 +74,7 @@ class Router extends Component {
         <Route exact path="/:id/list" component={PostingList} />
         <Route exact path="/vol/:id/write" component={PostingForm} />
 
-        <Route path="/" component={Footer} />
+        <Route path="/" component={FooterForDesktop} />
         <Route path="/" component={FooterForMobile} />
       </BrowserRouter>
     );
