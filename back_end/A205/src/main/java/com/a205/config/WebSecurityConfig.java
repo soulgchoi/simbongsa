@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				// dont authenticate this particular request
 
-				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**", "/uploads/**").permitAll()
+				.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**", "/uploads/**", "/email/**").permitAll()
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 //			.antMatchers("/authenticate", "/register", "/loginByGoogle", "/rest/CheckId/**", "/rest/CheckEmail/**").permitAll()
 //				.antMatchers("/").permitAll()
