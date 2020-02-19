@@ -46,6 +46,8 @@ public class VolDaoImpl implements VolDao {
 	@Override
 	public List<Vol> searchByFilter(int listSize, int startList, MyFilter my) {
 		String statement1 = ns + "selectByFilter"; 	//봉사명
+		String statement2 = ns + "selectByFilter2"; //지역
+		List<String> ca_Id = new ArrayList<String>();
 		
 		MyFilter m = new MyFilter();
 		
@@ -75,52 +77,20 @@ public class VolDaoImpl implements VolDao {
 			m.setV_endTm(my.getV_endTm());
 		}
 		
-		if(my.getR_sidoNm1().equals("")) {
-			m.setR_sidoNm1(null);
+		if(my.getR_sidoNm().equals("")) {
+			m.setR_sidoNm(null);
 		}else {
-			m.setR_sidoNm1(my.getR_sidoNm1());
-			System.out.println(m.getR_sidoNm1());
-
-		}
-		if(my.getR_sidoNm2().equals("")) {
-			m.setR_sidoNm2(null);
-		}else {
-			m.setR_sidoNm2(my.getR_sidoNm2());
-			System.out.println(m.getR_sidoNm2());
-
-		}
-		if(my.getR_sidoNm3().equals("")) {
-			System.out.println("---asdif---");
-			m.setR_sidoNm3(null);
-		}else {
-			m.setR_sidoNm3(my.getR_sidoNm3());
-			System.out.println(m.getR_sidoNm3());
-			System.out.println("---asdelse---");
+			m.setR_sidoNm(my.getR_sidoNm());
+			System.out.println(m.getR_sidoNm());
 
 		}
 		
-		if(my.getR_gugunNm1().equals("")) {
-			m.setR_gugunNm1(null);
+		if(my.getR_gugunNm().equals("")) {
+			m.setR_gugunNm(null);
 		}else {
 
-			m.setR_gugunNm1(my.getR_gugunNm1());
-			System.out.println(m.getR_gugunNm1());
-
-		}
-		if(my.getR_gugunNm2().equals("")) {
-			m.setR_gugunNm2(null);
-		}else {
-
-			m.setR_gugunNm2(my.getR_gugunNm2());
-			System.out.println(m.getR_gugunNm2());
-
-		}
-		if(my.getR_gugunNm3().equals("")) {
-			m.setR_gugunNm3(null);
-		}else {
-
-			m.setR_gugunNm3(my.getR_gugunNm3());
-			System.out.println(m.getR_gugunNm3());
+			m.setR_gugunNm(my.getR_gugunNm());
+			System.out.println(m.getR_gugunNm());
 
 		}
 		
@@ -128,57 +98,24 @@ public class VolDaoImpl implements VolDao {
 			m.setVol_title(null);
 		}else {
 			m.setVol_title(my.getVol_title());
-			System.out.println("---------------title"+my.getVol_title());
 		}
 		
 		m.setListSize(listSize);
 		m.setStartList((startList-1)*listSize);	
-		System.out.println(my.getCa_highNm1()+"my");
-		System.out.println(m.getCa_highNm1()+"m");
-		if(my.getCa_highNm1().equals("")) {
-			m.setCa_highNm1(null);
-		}else {
-			m.setCa_highNm1(my.getCa_highNm1());
-//			List<Category> ca = categoryDao.selectList(my.getCa_highNm1());
-//			
-//			System.out.println("------------calist");
-//			System.out.println(ca);
-//			List<String> ca_Id = new ArrayList<String>();
-//
-//			for(Category c : ca) {
-//				ca_Id.add(c.getCa_id().toString());
-//			}			
-//			m.setCa_id(ca_Id);
-		}
-		if(my.getCa_highNm2().equals("")) {
-			m.setCa_highNm2(null);
-		}else {
-			m.setCa_highNm2(my.getCa_highNm2());
-//			List<Category> ca = categoryDao.selectList(my.getCa_highNm2());
-//			List<String> ca_Id = new ArrayList<String>();
-//
-//			for(Category c : ca) {
-//				ca_Id.add(c.getCa_id().toString());
-//			}			
-//			m.setCa_id(ca_Id);
-		}
-		if(my.getCa_highNm3().equals("")) {
-			m.setCa_highNm3(null);
-		}else {
-			m.setCa_highNm3(my.getCa_highNm3());
-//			List<Category> ca = categoryDao.selectList(my.getCa_highNm3());
-//			List<String> ca_Id = new ArrayList<String>();
-//
-//			for(Category c : ca) {
-//				ca_Id.add(c.getCa_id().toString());
-//			}			
-//			m.setCa_id(ca_Id);
-		}
 		
-		System.out.println("----------------m--------------"+m);
+		if(my.getCa_highNm().equals("")) {
+			my.setCa_highNm(null);
+		}else {
+			m.setCa_highNm(my.getCa_highNm());
+			List<Category> ca = categoryDao.selectList(my.getCa_highNm());
+			for(Category c : ca) {
+				ca_Id.add(c.getCa_id().toString());
+			}			
+			m.setCa_id(ca_Id);
+		}
 		
 		List<Vol> f1 = session.selectList(statement1, m);
-		System.out.println(f1);
+		
 		return f1;
 	}
 }
