@@ -17,6 +17,7 @@ const LOCAL_LOGIN = "auth/LOCAL_LOGIN"; // 이메일 로그인
 const LOGOUT = "auth/LOGOUT"; // 로그아웃
 const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
 const LOGIN_CHECK = "auth/LOGIN_CHECK";
+const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
@@ -28,7 +29,6 @@ type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
-const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 export const loginCheck = createAction(LOGIN_CHECK);
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
