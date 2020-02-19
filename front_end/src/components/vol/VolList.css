@@ -1,0 +1,26 @@
+div.listtitle {
+    word-break: normal;
+    line-height: 1.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    font-size: 1.2em;   
+}
+
+div.list{
+    /* padding: 0.4em; */
+    padding: 0.6em;
+    /* padding-bottom: 0.8em; */
+    border-bottom: solid .5px lightgray;
+}
+
+div.linktodetail {
+    display: inline;
+    float: right;
+    
+}
+
+div.linktodetail a {
+    text-decoration: none;
+    color: orange;
+    font-size: 1em;
+}

@@ -22,6 +22,6 @@ div.ui.modal.transition.visible.active div.content div.description {
 
 div.ui.card {
     margin: auto;
-    margin-bottom: 20px;
+    margin-top: 1.5em !important;
     width: 330px;
 }

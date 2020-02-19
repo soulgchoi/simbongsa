@@ -49,7 +49,7 @@ class CommentForm extends React.Component<Props & any, {}> {
         console.log(res)
         })
         .catch(err => console.log(err))
-        window.location.reload(true);
+        // window.location.reload(true);
         // this.handleBack()
         }
 
