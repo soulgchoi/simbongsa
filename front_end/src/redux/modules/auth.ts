@@ -16,6 +16,7 @@ const LOCAL_REGISTER = "auth/LOCAL_REGISTER"; // 이메일 가입
 const LOCAL_LOGIN = "auth/LOCAL_LOGIN"; // 이메일 로그인
 const LOGOUT = "auth/LOGOUT"; // 로그아웃
 const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
+const LOGIN_CHECK = "auth/LOGIN_CHECK";
 
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
@@ -28,7 +29,7 @@ export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
 const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
-
+export const loginCheck = createAction(LOGIN_CHECK);
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
   AuthAPI.checkEmailExists
@@ -82,6 +83,7 @@ export interface AuthState {
     };
   };
   result: {};
+  loginCheck: boolean;
 }
 
 const initialState = Map({
@@ -113,7 +115,8 @@ const initialState = Map({
       password: null
     })
   }),
-  result: Map({})
+  result: Map({}),
+  loginCheck: true
 });
 
 export default handleActions<any>(
@@ -129,6 +132,9 @@ export default handleActions<any>(
     [SET_ERROR]: (state, action) => {
       const { form, message, name } = action.payload;
       return state.setIn([form, "error", name], message);
+    },
+    [LOGIN_CHECK]: (state, action) => {
+      return state.set("loginCheck", action.payload);
     },
     ...pender({
       type: CHECK_STATUS,

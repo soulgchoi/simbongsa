@@ -56,33 +56,6 @@ class MailReSend extends React.Component<IProps, IState> {
       });
     });
   };
-  // login() {
-  //   if (this.state.isSubmit) {
-  //     let { email } = this.state;
-  //     let data = {
-  //       email,
-  //       password
-  //     };
-
-  //     //요청 후에는 버튼 비활성화
-  //     this.isSubmit = false;
-
-  //     UserApi.requestLogin(
-  //       data,
-  //       res => {
-  //         //통신을 통해 전달받은 값 콘솔에 출력
-  //         //                        console.log(res);
-
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       },
-  //       error => {
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       }
-  //     );
-  //   }
-  // }
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: e.currentTarget.value }, () => {
       this.checkForm();
@@ -96,7 +69,6 @@ class MailReSend extends React.Component<IProps, IState> {
           <div className="input-with-label">
             <input
               value={this.state.email}
-              v-bind="{error : error.password, complete:!error.password&&password.length!==0}"
               onKeyDown={event => {
                 if (event.key === "Enter") {
                   //this.login();
@@ -116,7 +88,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <button
             disabled={!this.state.isSubmit}
             className="btn btn--back btn--login"
-          // onClick={"#"}
+            // onClick={"#"}
           >
             메일 재전송
           </button>
