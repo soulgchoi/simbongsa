@@ -31,6 +31,7 @@ class Vol extends React.Component<Props & any, any> {
                 <div className="listtitle">
                     {volunteer.v_title}
                 </div>
+                
             </div>
         )
     }
