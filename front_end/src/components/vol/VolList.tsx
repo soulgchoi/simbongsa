@@ -34,7 +34,7 @@ export default class VolList extends React.Component<Props, State> {
         dataLength={volunteers.length}
         height={height}
         next={loadMoreData}
-        hasMore={volunteers.length < this.state.pageNum * 10}
+        hasMore={volunteers.length >= this.state.pageNum * 10}
         loader={<h4>봉사활동 목록을 불러오는중</h4>}
         endMessage={<h3>모든 정보를 확인했습니다.</h3>}
       >

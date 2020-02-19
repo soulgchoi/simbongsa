@@ -21,4 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock*
 .vscode/
-pakage-lock.json
+package-lock.json

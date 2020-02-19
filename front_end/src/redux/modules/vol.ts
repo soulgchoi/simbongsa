@@ -11,6 +11,7 @@ type ChangeInputPayload = string;
 
 // 가장 아래 있는 handleActions와 연결해줌
 const SET_SELECTED_VOLUNTEER = "vol/GET_VOL_BY_ID"; // v_id로 봉사정보 가져오기
+const GET_VOL_LIST_TO_LIST = "vol/GET_VOL_LIST_TO_LIST";
 const GET_VOL_LIST = "vol/GET_VOL_LIST";
 const RESET_SELECTED_VOL = "vol/RESET_SELECTED_VOL";
 const SET_CURRENT_LOCATION = "vol/SET_CURRENT_LOCATION";
@@ -32,20 +33,21 @@ export const setSelectedVolunteer = createAction(
 );
 export const resetSelectedVol = createAction(RESET_SELECTED_VOL);
 export const getVolList = createAction(GET_VOL_LIST, VolApi.getVolListBySearch); // 이후 list 받는 api로 수정해야함
+export const getVolListToList = createAction(GET_VOL_LIST_TO_LIST, VolApi.getVolListBySearchPage); // 이후 list 받는 api로 수정해야함
 export const setCurrentLocation = createAction(SET_CURRENT_LOCATION);
 export const setSelectedMarker = createAction(SET_SELECTED_MARKER);
 export const setVolunteersForMap = createAction(SET_VOL_LIST_FOR_MAP);
 export const appendList = createAction(
   APPEND_VOL_LIST,
-  VolApi.getVolListByPage
+  VolApi.getVolListBySearchPage
 );
 export const appendListForCal = createAction(APPEND_VOL_LIST_FORCAL)
 export const getVolDetail = createAction(GET_VOL_DETAIL, VolApi.getVolDetail);
 export const setShowVolInfo = createAction(SET_SHOW_VOL_INFO);
 export const selectVol = createAction(SELECT_VOL);
 export const getInitailList = createAction(
-  GET_VOL_LIST,
-  VolApi.getVolListByPage
+  GET_VOL_LIST_TO_LIST,
+  VolApi.getVolListBySearchPage
 );
 export const getVolListByUserId = createAction(
   GET_VOL_LIST_BY_USER_ID,
@@ -54,6 +56,7 @@ export const getVolListByUserId = createAction(
 
 export interface volState {
   volunteers: List<any>;
+  volunteersForList: List<any>;
   volunteersForMap: List<any>;
   volunteersForCal: List<any>;
   currentLocation: { y: number; x: number };
@@ -67,6 +70,7 @@ export interface volState {
 
 const initialState = Map({
   volunteers: List([]),
+  volunteersForList: List([]),
   volunteersForMap: List([]), // 지도에서 검색결과로 사용할 봉사리스트
   volunteersForCal: List([]), // 달력에서 검색결과로 사용할 봉사리스트
   currentLocation: { y: 37.5668260054857, x: 126.978656785931 },
@@ -114,6 +118,17 @@ export default handleActions<any>(
       }
     }),
     ...pender({
+      type: GET_VOL_LIST_TO_LIST,
+      onSuccess: (state, action) => {
+        const { data } = action.payload.data;
+        console.log("페이로드드드드", data);
+        return state.set("volunteersForList", List(data));
+      },
+      onFailure: (state, action) => {
+        console.log("실패:", action.payload);
+      }
+    }),
+    ...pender({
       type: GET_VOL_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
@@ -128,10 +143,10 @@ export default handleActions<any>(
       type: APPEND_VOL_LIST,
       onSuccess: (state, action) => {
         console.log("에펜드 리스트트트트", action.payload);
-        const volunteers = state.get("volunteers");
+        const volunteersForList = state.get("volunteersForList");
         return state.set(
-          "volunteers",
-          volunteers.concat(action.payload.data.data)
+          "volunteersForList",
+          volunteersForList.concat(action.payload.data.data)
         );
       }
     }),
