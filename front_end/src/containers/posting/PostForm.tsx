@@ -10,6 +10,8 @@ import { Form, TextArea } from "semantic-ui-react";
 import { Checkbox, Button } from "semantic-ui-react";
 import storage from "lib/storage";
 import { Link } from "react-router-dom";
+
+import './PostForm.css'
 let token = storage.get("token");
 
 class PostingForm extends React.Component<any, any> {
@@ -146,6 +148,7 @@ class PostingForm extends React.Component<any, any> {
                 onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
+            <div className="buttons">
             <Button onClick={this.handleSubmit}>
                 게시글 등록하기
             </Button>
@@ -153,6 +156,7 @@ class PostingForm extends React.Component<any, any> {
             <GoBackButton
                     text="취소하기"
                 />
+            </div>
             </Form>
         );
     }

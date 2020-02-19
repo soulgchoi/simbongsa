@@ -60,18 +60,11 @@ class VolDetail extends React.Component<any, any>{
 
     render() {
         const { volunteer } = this.state;
-        const wkday = volunteer.v_actWkdy
-        console.log(volunteer)
         return (
             <div>
-                <CertLabel
-                    v_Auth={volunteer.v_Auth}
-                    v_pStatus={volunteer.v_pStatus}
-                />
-
-                <h3 className="title">
+                <div className="title">
                     {volunteer.v_title}
-                </h3>
+                </div>
             <Responsive minWidth={320} maxWidth={2559}>
             <Table unstackable celled>
                 <Table.Body>
@@ -131,6 +124,7 @@ class VolDetail extends React.Component<any, any>{
                 >
                     <Button>게시글 목록</Button></Link>
                 {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
+                <Button as='a' href={volunteer.v_url}>신청하러 가기</Button>
                 </div>
             </div>
             

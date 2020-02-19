@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Icon, Image } from "semantic-ui-react";
 import PostDetail from "components/posting/PostDetail";
+import PostUser from "./PostUser"
 import "./Card.css";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -92,6 +93,7 @@ class CardComponent extends React.Component<Props & any, {}> {
                 {/* <Image src='/images/avatar/large/matthew.png' wrapped ui={false} /> */}
                 <Card.Content>
                 <Card.Header>{this.props.post.userId}
+                <PostUser profileUserId={this.props.post.userId} />
                 <span style={{float:'right'}}>
                     {m_id == this.props.post.m_id &&
                       <Icon name="x" onClick={(id:any, v_id:number)=>{ if (window.confirm("게시글을 삭제하시겠습니까?")) this.handleDelete(this.props.post.p_id, this.props.post.v_id)}}/>

@@ -30,7 +30,7 @@ class CommentList extends React.Component<Props, States> {
             if (res.data.data.length > 0) {
                 console.log(res.data)
                 const data = res.data.data.map( (d: any) => {
-                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.userId}
+                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.m_userid}
                 })
                 this.setState({
                     comments: data

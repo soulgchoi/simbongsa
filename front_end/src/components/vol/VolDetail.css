@@ -25,21 +25,35 @@ div.buttons {
     display: flex;
 }
 
+
 div.buttons a {
     margin: auto;
 }
 
-button.ui.button {
-    margin: 0 !important;
+.buttons button.ui.button {
+    margin: 0;
     background-color: rgba(255, 136, 0, 0.493);
+    padding: 1em;
+
 }
+
 
 a button:hover {
     color: orange;
 }
 
-h3.title {
+a.ui.button {
+    margin: auto;
+    padding: 1em;
+    background-color: #FD7317;
+    color: white
+}
+
+div.title {
     line-height: 1.5em;
     word-break: keep-all;
-    padding: 0.2em;
+    padding: 0.5em;
+    font-size: 1.3em;
+    font-weight: bold;
+
 }

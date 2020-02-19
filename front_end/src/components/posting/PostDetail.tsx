@@ -18,7 +18,8 @@ import axios from 'axios';
 import storage from 'lib/storage'
 import { Redirect } from 'react-router-dom';
 import { redirectTo } from '@reach/router';
-import UserProfile from 'components/user/profile/UserProfile';
+// import UserProfile from 'components/user/profile/UserProfile';
+import PostUser from './PostUser';
 let token = storage.get('token')
 
 
@@ -77,12 +78,6 @@ class PostDetail extends React.Component<Props & any, {}> {
         return (
             <div>
                 <div>
-                    <div>
-                    
-                        <UserProfile profileUserId={this.props.post.userId} />
-                        
-                    </div>
-                    <Divider />
                     <div className="postedImage">
                     {this.props.post.files.length > 0 ?
                         (<Carousel>

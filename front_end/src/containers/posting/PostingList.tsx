@@ -15,6 +15,7 @@ class PostingList extends Component<any, any> {
       posts: Array(),
       pgNum: 1
     };
+    console.log(this.props)
   }
 
   // v_id & 팔로우 여부로
