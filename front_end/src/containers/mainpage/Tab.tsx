@@ -3,9 +3,14 @@ import { Tab } from "semantic-ui-react";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Location from "containers/location/Location";
 import VolListPage from "containers/vollistpage/VolListPage";
+import { list } from "react-immutable-proptypes";
 const panes = [
   {
-    menuItem: "리스트",
+    menuItem: {
+      key: "list",
+      content: "리스트",
+      icon: "list alternate outline"
+    },
     render: () => (
       <Tab.Pane>
         <VolListPage />
@@ -13,7 +18,7 @@ const panes = [
     )
   },
   {
-    menuItem: "지도",
+    menuItem: { key: "map", content: "지도", icon: "map outline" },
     render: () => (
       <Tab.Pane>
         <Location />
@@ -21,7 +26,11 @@ const panes = [
     )
   },
   {
-    menuItem: "달력",
+    menuItem: {
+      key: "calendar",
+      content: "달력",
+      icon: "calendar alternate outline"
+    },
     render: () => (
       <Tab.Pane>
         <CalendarContainer />

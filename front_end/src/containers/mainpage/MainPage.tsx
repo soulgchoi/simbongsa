@@ -3,6 +3,8 @@ import Tab from "containers/mainpage/Tab";
 import SearchBar from "components/search/SearchBar";
 import SearchContainer from "containers/usersetting/SearchContainer";
 import ModalForm from "./ModalForm";
+import './MainPage.css'
+
 import {
   Grid,
   Segment,

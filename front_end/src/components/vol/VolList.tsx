@@ -40,6 +40,6 @@ export default class VolList extends React.Component<Props, State> {
       >
         {PrintArray}
       </InfiniteScroll>
-    )
+    );
   }
 }

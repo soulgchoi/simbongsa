@@ -5,8 +5,9 @@ import { useHistory } from 'react-router-dom';
 import GoBackButton from 'components/button/GoBackButton'
 import { connect } from "react-redux";
 
+import './CommentForm.css'
 
-import { Input, Form, Button } from 'semantic-ui-react'
+import { Input, Form, Button, Label } from 'semantic-ui-react'
 
 let token = storage.get("token")
 
@@ -61,19 +62,18 @@ class CommentForm extends React.Component<Props & any, {}> {
 
         return(
             <div>
-                <Form>
-                    <div>
+                {/* <Form> */}
                     <Input
                         size='small'
                         value={this.state.c_content}
                         onChange={this.handleChange}
-                    ></Input>
-                    <Button
-                        onClick={this.handleClick}>
-                            댓글 등록
-                    </Button>
-                    </div>
-                </Form>
+                        label={<Button
+                            onClick={this.handleClick}
+                            >등록</Button>
+                        }
+                        labelPosition="right"
+                    />
+                {/* </Form> */}
             </div>
         )
     }

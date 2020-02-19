@@ -1,6 +1,15 @@
 import React from "react";
 import PV from "password-validator";
-import { Grid, Image, Header, Form, Segment, Button, Message, Container } from "semantic-ui-react";
+import {
+  Grid,
+  Image,
+  Header,
+  Form,
+  Segment,
+  Button,
+  Message,
+  Container
+} from "semantic-ui-react";
 
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -134,26 +143,47 @@ class Login extends React.Component<any, any> {
           animationTimer={700}
         > */}
 
-        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+        <Grid
+          textAlign="center"
+          style={{ height: "100vh" }}
+          verticalAlign="middle"
+        >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color='orange' textAlign='center'>
-              <Image src='/logo.png' /> 로그인
+            <Header as="h2" color="orange" textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" /> 로그인
             </Header>
-            <Form size='large'>
+            <Form size="large">
               <Segment stacked>
-                <Form.Input fluid icon="user" iconPosition="left" placeholder='이메일을 입력하세요.' onChange={handleChange} />
                 <Form.Input
                   fluid
-                  icon="lock"
+                  icon="user"
+                  id="email"
+                  value={email}
                   iconPosition="left"
-                  placeholder='비밀번호를 입력하세요.'
-                  type='password'
+                  placeholder="이메일을 입력하세요."
+                  onChange={handleChange}
+                />
+                <Form.Input
+                  fluid
+                  id="password"
+                  icon="lock"
+                  value={password}
+                  iconPosition="left"
+                  placeholder="비밀번호를 입력하세요."
+                  type="password"
                   onChange={handleChange}
                 />
 
-                <Button inverted color='orange' fluid size='large'>
+                <Button
+                  inverted
+                  color="orange"
+                  valuex
+                  fluid
+                  size="large"
+                  onClick={handleLocalLogin}
+                >
                   로그인
-            </Button>
+                </Button>
               </Segment>
             </Form>
             <Container textAlign="right">
@@ -166,17 +196,19 @@ class Login extends React.Component<any, any> {
                 responseType="id_token"
                 uxMode="redirect"
                 redirectUri={process.env.REACT_APP_FRONT_URI + "/mainpage"}
-              /></Container>
+              />
+            </Container>
             <Message>
-              <Grid >
-                <Grid.Row>
-
-                </Grid.Row>
-                <Grid.Row columns={2} >
-                  <Grid.Column >
-                    <LinkButton link="/findpassword" inverted={true} placeholder="비밀번호 찾기" />
+              <Grid>
+                <Grid.Row columns={2}>
+                  <Grid.Column>
+                    <LinkButton
+                      link="/findpassword"
+                      inverted={true}
+                      placeholder="비밀번호 찾기"
+                    />
                   </Grid.Column>
-                  <Grid.Column >
+                  <Grid.Column>
                     <LinkButton placeholder="회원가입" link="/join" />
                   </Grid.Column>
                 </Grid.Row>
@@ -184,7 +216,7 @@ class Login extends React.Component<any, any> {
             </Message>
           </Grid.Column>
         </Grid>
-        <Grid columns={2} centered>
+        {/* <Grid columns={2} centered>
           <Grid.Row>
             <h1 className="title">로그인</h1>
           </Grid.Row>
@@ -238,7 +270,7 @@ class Login extends React.Component<any, any> {
               <LinkButton placeholder="회원가입" link="/join" />
             </Grid.Column>
           </Grid.Row>
-        </Grid>
+        </Grid> */}
 
         {/* <div id="page">
           <div id="content">
