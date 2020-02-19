@@ -128,6 +128,7 @@ class UserProfile extends Component<Props, State> {
                 this.setState({ showPage: page.PROFILE });
               }}
             />{" "}
+            팔로워 리스트
             <FollowList list={followerList} />
           </div>
         )}
@@ -139,6 +140,7 @@ class UserProfile extends Component<Props, State> {
                 this.setState({ showPage: page.PROFILE });
               }}
             />
+            팔로잉 리스트
             <FollowList list={followingList} />
           </div>
         )}
