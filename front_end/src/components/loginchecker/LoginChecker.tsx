@@ -29,8 +29,7 @@ export default class LoginChecker extends Component<Props, State> {
       (token === "EmailAuthenticateNeed" ||
         token === "undefined" ||
         token === null) &&
-      url !== "" &&
-      !needAuthUrl.test(url)
+      needAuthUrl.test(url)
     ) {
       this.props.history.push("/");
     }
