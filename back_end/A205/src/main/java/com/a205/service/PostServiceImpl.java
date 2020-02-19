@@ -12,6 +12,8 @@ import com.a205.dto.Post;
 import com.a205.dto.Post_input;
 import com.a205.dto.Post_vote;
 
+import io.swagger.models.auth.In;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -40,7 +42,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public Integer countM_id(int p_id) {
+	public List<Integer> countM_id(int p_id) {
 		return dao.countM_id(p_id);
 	}
 	
@@ -82,8 +84,8 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
-	public List<Integer> selectP_idByFilter(int listSize, int startList, MyFilter my){
-		return dao.selectP_idByFilter(listSize, startList, my);
+	public List<Integer> selectP_idByFilterWithoutFollerings(int listSize, int startList, MyFilter my, Integer m_id){
+		return dao.selectP_idByFilterWithoutFollerings(listSize, startList, my, m_id);
 	}
 
 

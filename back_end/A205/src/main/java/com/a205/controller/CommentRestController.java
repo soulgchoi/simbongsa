@@ -98,7 +98,8 @@ public class CommentRestController {
 			Comment comment = service.searchOne(c_id);
 			
 //			int comment_m_id = service.searchOne(c_id).getM_id();
-//			
+			System.out.println(m);
+			System.out.println(comment);
 			if (comment.getM_id() == m.getM_id()) {
 			boolean result = service.remove(c_id);
 			return response(result, true, HttpStatus.OK);
