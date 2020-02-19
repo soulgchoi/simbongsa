@@ -4,29 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.commentmapper">
 
-	<insert id="insert"  parameterType="comment_mini">
-		insert into `comment`(m_id, p_id, c_content) 
-		  values(#{m_id}, #{p_id}, #{c_content})
+	<insert id="insert" parameterType="comment_mini">
+		insert into `comment`(m_id,
+		p_id, c_content)
+		values(#{m_id}, #{p_id}, #{c_content})
 	</insert>
 
 	<select id="searchOne" resultType="comment" parameterType="int">
-		select * from `comment`
-		where c_id = #{c_id}
+		select c.*, m.m_userid
+		from `comment` c, `member` m
+		where m.m_id = c.m_id
+		and c_id = #{c_id};
 	</select>
 
-	<select id="searchListComments" resultType="comment" parameterType="int">
-		select * from `comment`
-		where p_id = #{p_id}
+	<select id="searchListComments" resultType="comment"
+		parameterType="int">
+		select c.*, m.m_userid
+		from `comment` c, `member` m
+		where m.m_id = c.m_id
+		and p_id = #{p_id};
 	</select>
 
 	<delete id="delete" parameterType="int">
 		delete from comment
-		where c_id = #{c_id}
+		where c_id
+		= #{c_id}
 	</delete>
 
 	<update id="update" parameterType="comment_upd">
 		update comment set
-		c_content = #{c_content}
+		c_content =
+		#{c_content}
 		where c_id = #{c_id}
 		and m_id = #{m_id}
 	</update>

@@ -42,21 +42,18 @@ public class CommentDAOImp implements CommentDAO {
 	public Comment searchOne(int c_id) {
 		String statement = ns+ "searchOne";
 		return session.selectOne(statement, c_id);
-
 	}
 	
 	@Override
 	public boolean remove(int c_id) {
 		String statement = ns+ "delete";
 		return session.delete(statement, c_id) >0;
-
 	}
 	
 	@Override
 	public boolean update(Comment_update new_comment) {
 		String statement = ns+ "update";
 		return session.update(statement, new_comment)>0;
-
 	}
 		
 }
