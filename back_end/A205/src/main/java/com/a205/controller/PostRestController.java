@@ -113,7 +113,7 @@ public class PostRestController {
 	
 	@PostMapping("/PostFile")
 	@ApiOperation("전달받은 포스트 파일을 등록한다.")
-	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files", required = false) MultipartFile[] files) {
+	public ResponseEntity<Map<String, Object>> insertFile(@RequestParam(value = "files") MultipartFile[] files) {
 		try {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			List<FileUploadResponse> fileResponses = null;
@@ -184,6 +184,9 @@ public class PostRestController {
 			int p_vote_cnt = service.countM_id(p_id);
 			System.out.println(p_vote_cnt);
 			view.setP_vote_cnt(p_vote_cnt);
+			String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
+			view.setUserId(userId);
+			
 ////			feed.add(view);
 			return response(view, true, HttpStatus.OK);
 		} catch (Exception e) {
@@ -212,6 +215,9 @@ public class PostRestController {
 				view.setFiles(storedFileNames);
 				int p_vote_cnt = service.countM_id(p_id);
 				view.setP_vote_cnt(p_vote_cnt);
+				String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
+				view.setUserId(userId);
+
 				feed.add(view);
 			}
 			System.out.println(feed);
@@ -260,6 +266,9 @@ public class PostRestController {
 					view.setFiles(storedFileNames);
 					int p_vote_cnt = service.countM_id(p_id);
 					view.setP_vote_cnt(p_vote_cnt);
+					String userId2 = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
+					view.setUserId(userId2);
+
 					feed.add(view);
 				}
 			}
@@ -293,6 +302,9 @@ public class PostRestController {
 				view.setFiles(storedFileNames);
 				int p_vote_cnt = service.countM_id(p_id);
 				view.setP_vote_cnt(p_vote_cnt);
+				String userId = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
+				view.setUserId(userId);
+
 
 				feed.add(view);
 			}

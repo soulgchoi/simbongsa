@@ -17,6 +17,7 @@ public class PostView {
 	String m_id;
 	String p_status;
 	Integer p_vote_cnt;
+	String userId;
 	List<String> files;
 	public PostView(String v_id, String p_content, String m_id, String p_status, List<String> files) {
 		this.v_id = v_id;
