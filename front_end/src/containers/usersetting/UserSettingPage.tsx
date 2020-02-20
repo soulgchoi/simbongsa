@@ -1,18 +1,24 @@
 import React, { Component } from "react";
-import SearchContainer from "containers/usersetting/SearchContainer";
 import LinkButton from "components/button/LinkButton";
-interface Props {}
-interface State {}
+import UserSettingTab from "containers/usersetting/UserSettingTab";
+import { Container, Menu } from "semantic-ui-react";
+interface Props {
+  history: any;
+}
+interface State {
+  image: string;
+  activeItem: string;
+}
 
 export default class UserSettingPage extends Component<Props, State> {
-  state = {};
+  state = { image: "", activeItem: "" };
+  handleFileSelect = (e: any) => {
+    var value = e.target.files;
+    this.setState({ image: value });
+  };
 
   render() {
-    return (
-      <div>
-        <SearchContainer />
-        <LinkButton link="/withdraw" placeholder="회원 탈퇴" />
-      </div>
-    );
+    const { image, activeItem } = this.state;
+    return <UserSettingTab />;
   }
 }
