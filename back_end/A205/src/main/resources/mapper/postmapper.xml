@@ -75,41 +75,53 @@
 		v_id 
 		in (select v_id from vol where (v_pStatus between 1 and 3)
 		or
-		(	
-    	<choose>
-    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
-				 r_id in (select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
-    		</when>
-			<when test="r_sidoNm2 != null and r_gugunNm2 != null">
-				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
-    		</when>
-			<when test="r_sidoNm3 != null and r_gugunNm3 != null">
-				or r_id in (select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
-    		</when>
-			<otherwise>
-      			 v_id is not null
-    		</otherwise>
-    		
-    	</choose>
+		(
+		r_id in	
+			(
+	    	<choose>
+				<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+					(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
+					(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+	    		</when>
+				<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+					(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+	    		</when>
+	    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
+	    		</when>
+				<otherwise>
+	      			 r_id from region
+	    		</otherwise>
+	    	</choose>
+    		)
     	)
 		or
 		(
-		<choose>
-		
-			<when test="ca_highNm1 !=null">
-				 ca_id in (select ca_id from category where ca_highNm = #{ca_highNm1})
-			</when>
-			<when test="ca_highNm2 !=null">
-				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm2})
-			</when>
-			<when test="ca_highNm3 !=null">
-				or ca_id in (select ca_id from category where ca_highNm = #{ca_highNm3})
-			</when>
-			
-			<otherwise>
-      		  v_id is not null
-    		</otherwise>
-		</choose>
+		ca_id
+			(
+			<choose>
+				<when test="ca_highNm3 !=null">
+					(select ca_id from category where ca_highNm = #{ca_highNm3}),
+					(select ca_id from category where ca_highNm = #{ca_highNm2}),
+				 	(select ca_id from category where ca_highNm = #{ca_highNm1})
+					
+				</when>
+				<when test="ca_highNm2 !=null">
+					(select ca_id from category where ca_highNm = #{ca_highNm2}),
+				 	(select ca_id from category where ca_highNm = #{ca_highNm1})
+					
+				</when>
+				<when test="ca_highNm1 !=null">
+					 (select ca_id from category where ca_highNm = #{ca_highNm1})
+				</when>
+				
+				<otherwise>
+	      		  ca_id from category
+	    		</otherwise>
+			</choose>
+			)
 		)
 		)
 		order by p_id desc
