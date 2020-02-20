@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import GoBackButton from "components/button/GoBackButton";
-import { Container, Button } from "semantic-ui-react";
+import { Container, Button, Image } from "semantic-ui-react";
+import { List } from "immutable";
 interface Props {}
 interface State {
   selectedFiles: any[];
@@ -12,10 +12,8 @@ export default class Profile extends Component<Props, State> {
     var id = e.target.id;
     var value = e.target.files;
     console.log(value[0]);
-    let newFileList: any[] = [];
-    newFileList.push(value[0]);
-    console.log("new", newFileList);
-    this.setState({ selectedFiles: newFileList });
+    this.setState({ selectedFiles: [value[0]] });
+    // this.setState({ selectedFiles: newFileList });
   };
   render() {
     const { selectedFiles } = this.state;
@@ -23,12 +21,13 @@ export default class Profile extends Component<Props, State> {
     return (
       <div>
         <Container>
+          프로필 사진 선택<br></br>
           <input
             type="file"
             id="files"
+            multiple
             accept="image/*"
             onChange={this.handleFileSelect}
-            value={selectedFiles}
           />
         </Container>
       </div>

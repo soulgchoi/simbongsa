@@ -175,3 +175,12 @@ export const getNormalFeedList = (mId: string, pgNum: number) => {
     return true;
   }
 };
+
+export const changePassword = async (eMail: string, password: string) => {
+  let data = { m_email: eMail, m_password: password };
+  const token = "Bearer " + storage.get("token");
+  let response = await axios.post(restBaseApi + "/rest/Member/Password", data, {
+    headers: { Authorization: token }
+  });
+  return response;
+};

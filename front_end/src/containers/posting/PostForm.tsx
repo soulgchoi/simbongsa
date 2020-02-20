@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import * as postingActions from "redux/modules/posting";
 import * as userActions from "redux/modules/user";
-import { bindActionCreators } from "redux";
 import LinkButton from "components/button/LinkButton";
 import GoBackButton from "components/button/GoBackButton";
 import { Form, TextArea } from "semantic-ui-react";
@@ -111,6 +111,7 @@ class PostingForm extends React.Component<any, any> {
   render() {
     const { selectedFiles, p_content } = this.props.form;
     var v_id = this.props.match.params.id;
+    console.log("선택된 파일들", selectedFiles);
     return (
       <Form>
         <label>
