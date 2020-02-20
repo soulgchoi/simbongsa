@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import {
     Dropdown
 } from "semantic-ui-react";
+import "./CategoryContainer.css"
 import temp2 from "lib/json/temp2.json"
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -90,7 +91,7 @@ class CategorySelection extends Component<Props, State> {
                     <Dropdown
                         // placeholder={placeholder}
                         value={input}
-                        placeholder="선호하는 봉사 종류를 입력해주세요."
+                        placeholder="봉사 종류를 입력해주세요."
                         search
                         selection
                         onChange={handleChange}
@@ -111,10 +112,10 @@ const LocationItem = ({ id, text, onRemove }: any) => (
                 textDecoration: 'none',
                 display: 'flex',
                 justifyContent: 'flex-start',
-                padding: 0
+                padding: 0,
             }}
         >
-            {text} <Button color='orange' size='mini' onClick={() => onRemove(id)} >삭제하기</Button>
+            <div id="CategoryText">{text}</div> <Button color='orange' size='mini' onClick={() => onRemove(id)} >삭제하기</Button>
         </ul >
 
     </div >

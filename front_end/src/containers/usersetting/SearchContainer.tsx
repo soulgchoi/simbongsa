@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
 import * as userActions from "redux/modules/user";
+import "./SearchContainer.css"
 import {
   AgeContainer,
   CategoryContainer,
@@ -135,7 +136,7 @@ class SearchContainer extends Component<any, any> {
 
             <Grid.Row>
               <Grid.Column width={16}>
-                <h1>선호 봉사 종류</h1>
+                <h1>선호 봉사</h1>
                 <CategoryContainer />
 
               </Grid.Column>
