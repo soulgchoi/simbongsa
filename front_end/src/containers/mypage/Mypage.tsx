@@ -15,7 +15,7 @@ import LinkButton from "components/button/LinkButton";
 interface Props {
   VolActions: any;
   userId: string;
-  volListByUserId: any[];
+  volListByUserId: List<any>;
 }
 interface State {
   preferlocationDataList: any;
@@ -26,45 +26,45 @@ interface State {
 
 class Mypage extends Component<Props, State> {
   state = {
-    preferlocationDataList: List(),
-    preferlocationLabelList: List(),
-    preferCategoryDataList: List(),
-    preferCategoryLabelList: List()
+    preferlocationDataList: [] as any,
+    preferlocationLabelList: [] as any,
+    preferCategoryDataList: [] as any,
+    preferCategoryLabelList: [] as any
   };
-  constructor(props: any) {
-    super(props);
-    console.log();
-  }
-
-  shouldComponentUpdate(nextProps: any) {
+  action = async () => {
+    const { userId, VolActions } = this.props
+    console.log("mypage action 인풋", userId)
+    await VolActions.getVolListByUserId(userId);
     // TODO : volListByUser에서 봉사지역, 봉사 시간등을 추출해서 통계 자료 data, labels 만들기...
-    const { volListByUserId, userId } = this.props;
-    let {
-      preferlocationDataList,
-      preferlocationLabelList,
-      preferCategoryDataList,
-      preferCategoryLabelList
-    } = this.state;
+    const { volListByUserId } = this.props;
+    console.log("Mypage에서 action", volListByUserId.toJS())
+    let preferlocationDataList = [] as any
+    let preferlocationLabelList = [] as any
+    let preferCategoryDataList = [] as any
+    let preferCategoryLabelList = [] as any
+
     // 봉사 리스트에 대해서 작업
-    let list = volListByUserId;
+    let list = volListByUserId.toJS();
     let preferLocationMap = new Map<string, number>();
     let preferCategoryMap = new Map<string, number>();
-    if (preferlocationDataList.size === 0 && typeof list !== "undefined") {
+    if (preferlocationDataList.length === 0 && typeof list !== "undefined") {
       list.forEach((item: any) => {
         console.log("아이템", item);
         // 지역 뽑아내기 (시, 구)
         let r_id = item.r_id - 1;
         let region1 = RegionList[r_id].r_sidoNm; // 시, 도
         let region2 = RegionList[r_id].r_gugunNm; // 구, 군
-
+        console.log("region1", region1)
         // 선호 시간 뽑아내기 (시작 시간, 끝 시간)
         let beginTime = item.v_bgnTm; // 17:00:00 양식
         let endTime = item.v_endTm;
         // 같은 시 갯수 세기 ( 나중에 구 갯수도 추가 )
         if (typeof preferLocationMap.get(region1) === "undefined") {
           preferLocationMap.set(region1, 1);
+          console.log("같은시 갯수 세기", preferLocationMap)
         } else {
           preferLocationMap.set(region1, preferLocationMap.get(region1)! + 1);
+          console.log("같은시 갯수 세기", preferLocationMap)
         }
 
         // 카테고리 뽑아내기
@@ -82,31 +82,34 @@ class Mypage extends Component<Props, State> {
           );
         }
       });
+      console.log("LocationMap", preferLocationMap)
       preferLocationMap.forEach((regionCount, regionName) => {
-        preferlocationDataList = preferlocationDataList.push(regionCount);
-        preferlocationLabelList = preferlocationLabelList.push(regionName);
+
+        console.log("변경 전", preferlocationDataList, regionCount, regionName)
+        preferlocationDataList.push(regionCount);
+        console.log("변경 후", preferlocationDataList)
+        preferlocationLabelList.push(regionName);
       });
+      console.log("다 돌고나서 변경 후", preferlocationDataList)
       preferCategoryMap.forEach((categoryCount, categoryName) => {
-        preferCategoryDataList = preferCategoryDataList.push(categoryCount);
-        preferCategoryLabelList = preferCategoryLabelList.push(categoryName);
+        preferCategoryDataList.push(categoryCount);
+        preferCategoryLabelList.push(categoryName);
       });
       // let preferTimeDataList = [],
       // let preferTimeLabelList = []
-      if (preferlocationDataList.size > 0 && preferlocationLabelList.size > 0) {
-        this.setState({ preferlocationDataList: preferlocationDataList });
-        this.setState({ preferlocationLabelList: preferlocationLabelList });
-      }
-      if (preferCategoryDataList.size > 0 && preferCategoryLabelList.size > 0) {
-        this.setState({ preferCategoryDataList: preferCategoryDataList });
-        this.setState({ preferCategoryLabelList: preferCategoryLabelList });
-      }
+      console.log("함수가 처리되고", preferlocationDataList, preferlocationLabelList, preferCategoryDataList, preferCategoryLabelList)
+
+      this.setState({ preferlocationDataList: preferlocationDataList, preferlocationLabelList: preferlocationLabelList, preferCategoryDataList: preferCategoryDataList, preferCategoryLabelList: preferCategoryLabelList });
+
     }
-    return preferlocationDataList.size > 0 && preferCategoryDataList.size > 0;
   }
+
   componentDidMount() {
     const { VolActions, userId } = this.props;
     console.log("마이페이지 userId", userId);
-    VolActions.getVolListByUserId(userId);
+
+    this.action()
+
   }
 
   render() {
@@ -116,20 +119,21 @@ class Mypage extends Component<Props, State> {
       preferCategoryDataList,
       preferCategoryLabelList
     } = this.state;
+    console.log("mypage에서 넘겨주는 정보", preferlocationDataList, preferlocationLabelList, preferCategoryDataList, preferCategoryLabelList)
     return (
       <div>
         <div>
           <PieGraph
             title={"봉사 선호 지역 통계"}
-            data={preferlocationDataList.toJS()}
-            labels={preferlocationLabelList.toJS()}
+            data={preferlocationDataList}
+            labels={preferlocationLabelList}
             width={250}
             height={250}
           />
           <PieGraph
             title={"선호 봉사 분야 통계"}
-            data={preferCategoryDataList.toJS()}
-            labels={preferCategoryLabelList.toJS()}
+            data={preferCategoryDataList}
+            labels={preferCategoryLabelList}
             width={250}
             height={250}
           />

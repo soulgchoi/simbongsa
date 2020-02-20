@@ -1,26 +1,27 @@
 import React, { Component } from "react";
 import { Pie } from "react-chartjs-2";
+import { Map, List } from "immutable";
 // @ts-ignore
 var palette = require("google-palette");
 var convert = require("color-convert");
 interface Props {
-  labels: string[];
-  data: number[];
+  labels: any[];
+  data: any[];
   width: any;
   height: any;
   title: string;
 }
-interface State {}
+interface State { }
 
 export default class PieGraph extends Component<Props, State> {
   state = {
     data: {
-      labels: [],
+      labels: [] as any,
       datasets: [
         {
           label: "",
-          data: [],
-          backgroundColor: [],
+          data: [] as any,
+          backgroundColor: [] as any,
           borderWidth: 3
         }
       ]
@@ -31,6 +32,34 @@ export default class PieGraph extends Component<Props, State> {
     }
   };
 
+
+  // action() {
+  //   console.log("action에서 Props", this.props)
+  //   const propsData = this.props.data;
+
+  //   const { generateBackgroundColor } = this;
+  //   const { data } = this.state;
+  //   const { labels } = this.props;
+  //   const len = propsData.length;
+  //   console.log("넘겨받은 정보", propsData)
+  //   this.setState({
+  //     data: {
+  //       ...data,
+  //       labels: labels,
+  //       datasets: [
+  //         {
+  //           ...data.datasets,
+  //           data: propsData,
+  //           backgroundColor: generateBackgroundColor(len)
+  //         }
+  //       ]
+  //     }
+  //   });
+  // }
+  // componentDidMount() {
+  //   console.log("didMount")
+  //   this.action()
+  // }
   shouldComponentUpdate(nextProps: any) {
     const propsData = this.props.data;
     console.log("should Update?", propsData);
@@ -45,7 +74,7 @@ export default class PieGraph extends Component<Props, State> {
           labels: labels,
           datasets: [
             {
-              ...data.datasets[0],
+              ...data.datasets,
               data: propsData,
               backgroundColor: generateBackgroundColor(len)
             }
@@ -53,8 +82,12 @@ export default class PieGraph extends Component<Props, State> {
         }
       });
     }
+    console.log("should", this.state.data)
     return this.state.data.datasets[0].data.length > 0;
   }
+
+
+
 
   generateBackgroundColor = (numberOfItems: number): string[] => {
     // 아래 두 가지 라이브러리 사용, 첫 번째 : 무지개 색 만들기, 두 번째 : rgb->hsv 변환 후 s값을 반으로 줄여서 연하게 만들기
@@ -65,12 +98,14 @@ export default class PieGraph extends Component<Props, State> {
       (item: string) =>
         "#" + convert.hsv.hex([convert.hex.hsv(item)[0], 50, 100])
     );
+    console.log("색깔", list)
     return list;
   };
 
   render() {
     const { data, options } = this.state;
     const { width, height, title } = this.props;
+    console.log("그래프에 필요한 것들...", data, width, height, options)
     return (
       <div>
         <div> {title} </div>
@@ -89,3 +124,4 @@ export default class PieGraph extends Component<Props, State> {
     );
   }
 }
+

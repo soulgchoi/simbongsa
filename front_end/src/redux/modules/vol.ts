@@ -79,7 +79,7 @@ const initialState = Map({
   selectedMarker: null,
   showVolInfo: false,
   volunteer: { v_id: null },
-  volListByUserId: [],
+  volListByUserId: List([]),
 
 });
 
