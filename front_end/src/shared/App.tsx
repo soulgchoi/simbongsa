@@ -44,9 +44,7 @@ class App extends Component<IProps> {
 
     const { userId } = this.props
     console.log("userId", userId)
-    UserActions.changeLoading(true)
     await UserActions.setPreferInfo(userId);
-    UserActions.changeLoading(false)
     const { preferInfo } = this.props
     console.log("preferInfo", preferInfo)
     this.initializePreferInfo(preferInfo)

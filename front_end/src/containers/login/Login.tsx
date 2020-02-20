@@ -10,6 +10,8 @@ import {
   Message,
   Container
 } from "semantic-ui-react";
+import locationAllList from "lib/json/temp.json";
+import categoryAllList from "lib/json/searchCategory.json";
 
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -33,6 +35,8 @@ import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 import * as baseActions from "redux/modules/base";
+import * as volActions from "redux/modules/vol";
+import * as searchActions from "redux/modules/search";
 import storage from "lib/storage";
 import validator from "validator";
 
@@ -138,6 +142,14 @@ class Login extends React.Component<any, any> {
       UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       storage.set("token", token);
+      const { userId } = this.props
+      console.log("userId", userId)
+      await UserActions.setPreferInfo(userId);
+      const { preferInfo } = this.props
+      console.log("preferInfo", preferInfo)
+      this.initializePreferInfo(preferInfo)
+
+      await this.initialSearch()
       history.push("/mainpage");
     } catch (e) {
       // error 발생시
@@ -145,7 +157,164 @@ class Login extends React.Component<any, any> {
       this.setError("잘못된 계정정보입니다.", "email");
     }
   };
+  initialSearch = () => {
+    const { input, VolActions, locations, categorys, times } = this.props
+    let preferLocate = locations.toJS().map((location: any) => location.text)
+    console.log(preferLocate)
+    let preferCategory = categorys.toJS().map((category: any) => category.text)
+    const locateSize = preferLocate.length
+    const categorySize = preferCategory.length
+    console.log(locateSize)
+    for (let i = 0; i < 3 - locateSize; i++) {
+      preferLocate.push("null null")
+      console.log("for문")
+    }
+    for (let i = 0; i < 3 - categorySize; i++) {
+      preferCategory.push(null)
+    }
+    console.log("preferLocate", preferLocate)
+    console.log("preferCategory", preferCategory)
+    const firstLocation = preferLocate[0].split(" ")
+    const secondLocation = preferLocate[1].split(" ")
+    const thirdLocation = preferLocate[2].split(" ")
 
+    const firstCategory = preferCategory[0]
+    console.log(firstCategory)
+    const secondCategory = preferCategory[1]
+    const thirdCategory = preferCategory[2]
+
+    let bgnTm = "";
+    let endTm = "";
+
+    if (times.toJS().morning === true) {
+      bgnTm = "00:00:00";
+    } else if (times.toJS().morning === false) {
+      bgnTm = "12:00:01";
+    }
+    if (times.toJS().afternoon === true) {
+      endTm = "23:59:59";
+    } else if (times.toJS().afternoon === false) {
+      endTm = "12:00:00";
+    }
+    if (times.toJS().afternoon === false && times.toJS().morning === false) {
+      bgnTm = "00:00:01";
+      endTm = "23:59:58";
+    }
+    VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
+    VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
+  }
+  initializePreferInfo = (preferInfo: any) => {
+    const { SearchActions } = this.props;
+    if (preferInfo) {
+      console.log("preferInfo APP에서", preferInfo.toJS());
+      const info = preferInfo.toJS();
+
+      // 시간 관련
+      if (info.bgnTm === "00:00:00") {
+        SearchActions.initialInsert({
+          form: "times",
+          key: "morning",
+          value: true
+        });
+      } else {
+        SearchActions.initialInsert({
+          form: "times",
+          key: "morning",
+          value: false
+        });
+      }
+      if (info.endTm === "23:59:59") {
+        SearchActions.initialInsert({
+          form: "times",
+          key: "afternoon",
+          value: true
+        });
+      } else {
+        SearchActions.initialInsert({
+          form: "times",
+          key: "afternoon",
+          value: false
+        });
+      }
+      // 나이 관련
+      const today = new Date();
+      const year = today.getFullYear();
+      if (!info.age) {
+        SearchActions.initialInsert({
+          form: "ages",
+          key: "adult",
+          value: false
+        });
+        SearchActions.initialInsert({
+          form: "ages",
+          key: "youth",
+          value: false
+        });
+      } else {
+        const age = Number(info.age.split("-")[0]);
+        const result = Math.abs(age - year);
+        console.log("초기 year, age", year, age);
+        if (result > 18) {
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "adult",
+            value: true
+          });
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "youth",
+            value: false
+          });
+        } else if (0 < result && result <= 18) {
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "adult",
+            value: false
+          });
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "youth",
+            value: true
+          });
+        } else {
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "adult",
+            value: false
+          });
+          SearchActions.initialInsert({
+            form: "ages",
+            key: "youth",
+            value: false
+          });
+        }
+      }
+
+      for (let j = 0; j < info.preferRegion.length; j++) {
+        //지역 관련
+        console.log("for문 도는중");
+        const splitValue = locationAllList[
+          info.preferRegion[j] - 1
+        ].value.split("/");
+        console.log(splitValue[1], splitValue[0]);
+        SearchActions.insert({
+          form: "location",
+          text: splitValue[1],
+          key: splitValue[0]
+        });
+      }
+
+      // 봉사활동 카테고리 관련
+      for (let j = 0; j < info.preferCategory.length; j++) {
+        const number: keyof typeof categoryAllList = info.preferCategory[j]
+        SearchActions.insert({
+          form: "category",
+          text: categoryAllList[number],
+          key: number
+        });
+      }
+    }
+  }
   handleGoogleLogin = async (response: any) => {
     const { AuthActions, UserActions, history } = this.props;
     // 구글로그인 성공할 경우 response로 로그인 정보가 담긴 객체 하나를 준다.
@@ -350,11 +519,21 @@ export default connect(
     result: state.auth.get("result"),
     logged: state.user.get("logged"),
     loggedInfo: state.user.get("loggedInfo"),
-    initialNumber: state.base.get("initialNumber")
+    initialNumber: state.base.get("initialNumber"),
+    userId: state.user.getIn(["loggedInfo", "userId"]),
+    preferInfo: state.user.getIn(["loggedInfo", "preferInfo"]),
+    volunteers: state.vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
+    input: state.search.get("input"),
+    loading: state.user.get('loading'),
+    locations: state.search.get("locations"),
+    categorys: state.search.get("categorys"),
+    times: state.search.get("times"),
   }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),
     UserActions: bindActionCreators(userActions, dispatch),
-    BaseActions: bindActionCreators(baseActions, dispatch)
+    BaseActions: bindActionCreators(baseActions, dispatch),
+    SearchActions: bindActionCreators(searchActions, dispatch),
+    VolActions: bindActionCreators(volActions, dispatch)
   })
 )(Login);
