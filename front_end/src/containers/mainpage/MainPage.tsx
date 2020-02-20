@@ -27,6 +27,7 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import jwt from "jsonwebtoken";
 import storage from "lib/storage";
+import { Search } from 'semantic-ui-react';
 
 interface Iprops {
   loading: boolean;
@@ -36,6 +37,8 @@ interface Iprops {
   UserActions: typeof userActions;
   match: any;
   result: any;
+  input: string;
+  isSearchSubmit: boolean
 }
 class MainPage extends Component<Iprops> {
   async componentDidMount() {
@@ -61,20 +64,23 @@ class MainPage extends Component<Iprops> {
     SearchActions.switchSaveButton(true);
   }
   render() {
-    const { loading } = this.props;
+    const { loading, input, isSearchSubmit } = this.props;
+    const result = input + ' 검색결과 입니다.'
+
     return (
       <Fragment>
         <Container>
           <SearchBar />
           <div
             style={{
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               display: "flex",
               marginTop: 10,
               marginBottom: 10,
             }}
+            id="divText"
           >
-            <ModalForm />
+            <div>{isSearchSubmit && input.length > 0 && result}</div><ModalForm />
           </div>
         </Container>
         <Tab />
@@ -83,11 +89,13 @@ class MainPage extends Component<Iprops> {
   }
 }
 export default connect(
-  ({ user, auth }: any) => {
+  ({ user, auth, search }: any) => {
     return {
       loading: user.get("loading"), // user에 있는 loading
       isRegister: user.get("isRegister"),
-      result: auth.get("result")
+      result: auth.get("result"),
+      input: search.get("input"),
+      isSearchSubmit: search.get("isSearchSubmit"),
     };
   },
   dispatch => ({

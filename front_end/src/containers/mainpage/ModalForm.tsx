@@ -11,12 +11,41 @@ import * as searchActions from "redux/modules/search";
 import './ModalForm.css'
 interface IState {
     open: boolean
-
+    active: boolean
 }
 
 class ModalExampleDimmer extends Component<any, IState> {
-    state = { open: false }
-
+    state = { open: false, active: true }
+    componentDidUpdate(prevProps: any, prevState: any) { // 이전 props, state에 대한 정보
+        if (this.props.locations !== prevProps.locations) {
+            this.isActive()
+        }
+        else if (this.props.categorys !== prevProps.categorys) {
+            this.isActive()
+        }
+        else if (this.props.times !== prevProps.times) {
+            this.isActive()
+        }
+    }
+    isActive: any = () => {
+        const { locations, categorys, times } = this.props
+        let preferLocate = locations.toJS().map((location: any) => location.text)
+        if (preferLocate.length > 0) {
+            this.setState({ active: true })
+            return
+        }
+        let preferCategory = categorys.toJS().map((category: any) => category.text)
+        if (preferCategory.length > 0) {
+            this.setState({ active: true })
+            return
+        }
+        if (times.morning === true || times.afternoon === true) {
+            this.setState({ active: true })
+            return
+        }
+        this.setState({ active: false })
+        return
+    }
     show = () => () => this.setState({ open: true })
     close = () => this.setState({ open: false })
     handleSubmit = (event: any) => {
@@ -79,11 +108,11 @@ class ModalExampleDimmer extends Component<any, IState> {
 
     }
     render() {
-        const { open } = this.state
-
+        const { open, active } = this.state
+        console.log("액티브니??", active)
         return (
             <div>
-                <Button id="filter-button" color="orange" onClick={this.show()}>필터</Button>
+                <Button color={active ? "orange" : "grey"} id="filter-button" onClick={this.show()}>필터</Button>
                 <Modal emmer={'blurring'} open={open} onClose={this.close} size='fullscreen' centered={false}>
                     <Modal.Header>필터 설정</Modal.Header>
                     <Modal.Content scrolling>
