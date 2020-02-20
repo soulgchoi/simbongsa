@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import {
-    Dropdown
+    Dropdown, Icon
 } from "semantic-ui-react";
 import "./CategoryContainer.css"
 import temp2 from "lib/json/temp2.json"
@@ -106,19 +106,17 @@ class CategorySelection extends Component<Props, State> {
     }
 }
 const LocationItem = ({ id, text, onRemove }: any) => (
-    <div>
-        <ul
-            style={{
-                textDecoration: 'none',
-                display: 'flex',
-                justifyContent: 'flex-start',
-                padding: 0,
-            }}
-        >
-            <div id="CategoryText">{text}</div> <Button color='orange' size='mini' onClick={() => onRemove(id)} >삭제하기</Button>
-        </ul >
-
+    <div style={{
+        width: 250,
+        textDecoration: 'none',
+        padding: 0,
+        marginTop: 15,
+        marginBottom: 15,
+        display: 'flex',
+    }}>
+        <Button className="ulBtn" color='orange' size='mini'><Icon name="delete" onClick={() => onRemove(id)} />{text}</Button>
     </div >
+
 );
 export default connect(
     ({ search }: any) => ({
