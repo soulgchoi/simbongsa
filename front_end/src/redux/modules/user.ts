@@ -9,7 +9,8 @@ const SET_LOGGED_INFO = "user/SET_LOGGED_INFO"; // 로그인 정보 설정
 const SET_VALIDATED = "user/SET_VALIDATED"; // validated 값 설정
 const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오기
 const CHANGE_LOADING = "user/CHANGE_LOADING"; // loading 설정
-const GET_FEED_LIST = "user/GET_FEED_LIST"; // 유저의 피드 리스트 가져오기
+const GET_NORMAL_FEED_LIST = "user/GET_NORMAL_FEED_LIST"; // 유저의 피드 리스트 가져오기
+const GET_PREFER_FEED_LIST = "user/GET_PREFER_FEED_LIST"; // 유저의 피드 리스트 가져오기
 const APPEND_FEED_LIST = "volunteer/APPEND_FEED_LIST";
 
 // const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
@@ -24,7 +25,14 @@ export const setPreferInfo = createAction(
 );
 export const changeLoading = createAction(CHANGE_LOADING);
 
-export const getFeedList = createAction(GET_FEED_LIST, UserAPI.getFeedList);
+export const getPreferFeedList = createAction(
+  GET_PREFER_FEED_LIST,
+  UserAPI.getPreferFeedList
+);
+export const getNormalFeedList = createAction(
+  GET_NORMAL_FEED_LIST,
+  UserAPI.getNormalFeedList
+);
 // export const setUserId = createAction(SET_USER_ID);
 // export const setUserFollower = createAction(
 //   GET_USER_FOLLOWER,
@@ -47,7 +55,8 @@ interface initialStateParams {
   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: boolean;
   loading: boolean;
-  feedList: List<any>;
+  normarlFeedList: List<any>;
+  preferFeedList: List<any>;
 }
 const initialState = Map({
   loggedInfo: Map({
@@ -72,7 +81,8 @@ const initialState = Map({
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: false,
   loading: false,
-  feedList: List([])
+  normalFeedList: List([]),
+  preferFeedList: List([])
 });
 
 export default handleActions<any>(
@@ -115,11 +125,19 @@ export default handleActions<any>(
       }
     }),
     ...pender({
-      type: GET_FEED_LIST,
+      type: GET_NORMAL_FEED_LIST,
+      onSuccess: (state, action) => {
+        const { data } = action.payload.data;
+        console.log("피드리스트 액션 노말", data);
+        return state.set("normalFeedList", List(data));
+      }
+    }),
+    ...pender({
+      type: GET_PREFER_FEED_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
         console.log("피드리스트 액션", data);
-        return state.set("feedList", List(data));
+        return state.set("preferFeedList", List(data));
       }
     })
 

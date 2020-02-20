@@ -13,6 +13,8 @@ interface Props {
   feedList: List<any>;
   mId: number;
   match: any;
+  preferFeedList: any;
+  normalFeedList: any;
 }
 interface State {}
 
@@ -28,29 +30,55 @@ class Feed extends Component<Props, State> {
   componentDidMount() {
     const { UserActions, mId } = this.props;
     const { pageNum } = this.state;
-    UserActions.getFeedList(mId, pageNum);
+    UserActions.getPreferFeedList(mId, pageNum);
+    UserActions.getNormalFeedList(mId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
   }
 
   loadMoreData() {
     const { UserActions, mId } = this.props;
     const { pageNum } = this.state;
-    UserActions.getFeedList(mId, pageNum);
+    UserActions.getPreferFeedList(mId, pageNum);
+    UserActions.getNormalFeedList(mId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
-    const feedList = this.props.feedList.toJS();
-    const postingList = feedList.map((feed: any, i: any) => {
-      return <Card post={feed} key={i} />;
-    });
+    const preferFeedList = this.props.preferFeedList.toJS();
+    const normalFeedList = this.props.normalFeedList.toJS();
+    console.log("노말입니다", normalFeedList);
+    // 8 : 2 비율로 넣기
+    let idx = 0; // idx가 8,9면 normal 넣기
+    let idxP = 0,
+      idxN = 0;
+    console.log("리스트", preferFeedList.length, normalFeedList.length);
+    const size = preferFeedList.length + normalFeedList.lenth;
+    console.log("사이즈", size);
+    let postingList: any[] = [];
+    // preferFeedList.map((feed: any, i: any) => {
+    //   return <Card post={feed} key={i} />;
+    // });
+    for (let i = 0; i < size; ++i) {
+      console.log("여기");
+      if (idx < 8 || idxN >= normalFeedList.length) {
+        postingList.push(<Card post={preferFeedList[idxP]} key={i} />);
+        idxP = idxP + 1;
+      }
+      if (idx >= 8 || idxP >= preferFeedList.length) {
+        postingList.push(<Card post={normalFeedList[idxN]} key={i} />);
+        idxN = idxN + 1;
+      }
+      idx = idx + 1;
+      if (idx > 9) {
+        idx = 0;
+      }
+    }
+    console.log("포스팅 리스트", postingList);
     return (
       <InfiniteScroll
-        dataLength={feedList.length}
+        dataLength={postingList.length}
         next={this.loadMoreData.bind(this)}
-        hasMore={feedList.length <= this.state.pageNum * 10}
+        hasMore={postingList.length >= this.state.pageNum * 10}
         loader={<h4>게시글 목록을 불러오는 중</h4>}
         endMessage={<h4>모든 정보를 확인했습니다.</h4>}
       >
@@ -62,7 +90,8 @@ class Feed extends Component<Props, State> {
 
 export default connect(
   (state: any) => ({
-    feedList: state.user.get("feedList")
+    preferFeedList: state.user.get("preferFeedList"),
+    normalFeedList: state.user.get("normalFeedList")
     // mId: state.user.getIn(["loggedInfo", "mId"])
   }),
   dispatch => ({
