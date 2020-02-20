@@ -58,7 +58,7 @@ class PostingList extends Component<any, any> {
       <InfiniteScroll
         dataLength={posts.length}
         next={this.loadMoreData.bind(this)}
-        hasMore={posts.lehgth < this.state.pgNum * 10}
+        hasMore={posts.lehgth >= this.state.pgNum * 10}
         loader={<h4>게시글 목록을 불러오는 중</h4>}
         endMessage={<h4>모든 정보를 확인했습니다.</h4>}
       >
