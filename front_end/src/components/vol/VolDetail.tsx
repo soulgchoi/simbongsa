@@ -80,7 +80,7 @@ class VolDetail extends React.Component<any, any> {
                 <Table.Cell className="content">
                   {volunteer.v_pBgnD} ~ {volunteer.v_pEndD}
                 </Table.Cell>
-              </Table.Row>}
+              </Table.Row>
               <Table.Row>
                 <Table.Cell className="head">봉사시간</Table.Cell>
                 <Table.Cell className="content">
