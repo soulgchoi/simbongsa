@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react";
-import LinkButton from "components/button/LinkButton";
-import { Button, Sticky, Menu, Responsive } from "semantic-ui-react";
+import React from "react";
+import { Menu, Responsive } from "semantic-ui-react";
 
 // import "assets/mycss";
 import './Footer.css'
@@ -24,7 +23,6 @@ class Footer extends React.Component<any, any>{
 
   render() {
     const { activeItem } = this.state
-    // const { activeItem } = this.state
     return (
       <div>
         {/* 작은 화면에서 보여줌 */}

@@ -97,65 +97,83 @@ class PostingForm extends React.Component<any, any> {
           "Content-Type": "multipart/form-data",
           Authorization: "Bearer " + token
         }
-      })
-      .then(res => {})
-      .catch(err => console.log(err));
-    this.props.history.push(`/${v_id}/postinglist`);
-    this.goListPage();
-  };
 
-  goListPage() {
-    window.location.reload(true);
-  }
+        axios.post(restBaseApi + "/rest/Post", post,
+            { headers: { Authorization: "Bearer " + token } })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
 
-  render() {
-    const { selectedFiles, p_content } = this.props.form;
-    var v_id = this.props.match.params.id;
-    console.log("선택된 파일들", selectedFiles);
-    return (
-      <Form>
-        <label>
-          <input
-            type="radio"
-            value="1"
-            checked={this.state.p_status === "1"}
-            onChange={this.handleStatusChange}
-          />
-          모집
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="2"
-            checked={this.state.p_status === "2"}
-            onChange={this.handleStatusChange}
-          />
-          후기
-        </label>
-        <TextArea
-          value={p_content}
-          className="posting"
-          name="content"
-          id="p_content"
-          placeholder="내용을 입력하세요."
-          onChange={this.handleChange}
-        />
-        <input
-          type="file"
-          id="files"
-          multiple
-          accept="image/*"
-          onChange={this.handleFileSelect}
-          value={selectedFiles}
-        />
-        <div className="buttons">
-          <Button onClick={this.handleSubmit}>게시글 등록하기</Button>
+        axios.post(restBaseApi + "/rest/PostFile", files,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: "Bearer " + token
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
 
-          <GoBackButton text="취소하기" />
-        </div>
-      </Form>
-    );
-  }
+        
+        this.goListPage();
+    }
+
+    goListPage() {
+        var v_id = this.props.match.params.id
+        this.props.history.push(`/${v_id}/postinglist`);
+        window.location.reload(true);
+
+    }
+
+    render() {
+        const { selectedFiles, p_content } = this.props.form;
+        var v_id = this.props.match.params.id
+
+        return (
+
+            <Form>
+                <label>
+                    <input type="radio" value="1" checked={this.state.p_status === "1"}
+                        onChange={this.handleStatusChange}
+                    />
+                    모집
+            </label>
+                <label>
+                    <input type="radio" value="2" checked={this.state.p_status === "2"}
+                        onChange={this.handleStatusChange}
+                    />
+                    후기
+            </label>
+                <TextArea
+                    value={p_content}
+                    className="posting"
+                    name="content"
+                    id="p_content"
+                    placeholder="내용을 입력하세요."
+                    onChange={this.handleChange} />
+                <input
+                    type="file"
+                    id="files"
+                    multiple
+                    accept='image/*'
+                    onChange={this.handleFileSelect}
+                    value={selectedFiles}
+                />
+                <div className="buttons">
+                    <Button onClick={this.handleSubmit}>
+                        게시글 등록하기
+            </Button>
+
+                    <GoBackButton
+                        text="취소하기"
+                    />
+                </div>
+            </Form>
+        );
+    }
 }
 export default connect(
   (state: any) => ({

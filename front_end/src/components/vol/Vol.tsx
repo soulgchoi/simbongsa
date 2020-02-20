@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CertLabel from 'components/label/CertLabel'
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux";

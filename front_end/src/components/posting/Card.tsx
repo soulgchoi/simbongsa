@@ -90,13 +90,42 @@ class CardComponent extends React.Component<Props & any, {}> {
     window.location.reload(true);
   }
 
-  render() {
-    const { color } = this.props;
-    console.log("컬러", color);
-    const { m_id } = this.props.user.toJS();
-    if (this.state.result === true) {
-      this.handleDelete(this.props.post.p_id);
-      this.setState({ result: false });
+    render() {
+        const {m_id} = this.props.user.toJS()
+        if (this.state.result === true) {
+          this.handleDelete(this.props.post.p_id)
+          this.setState({ result: false})
+      }
+        return (
+
+            <Card>
+                <Card.Content>
+                <Card.Header>{this.props.post.userId}
+                <span style={{float:'right'}}>
+                    {m_id == this.props.post.m_id &&
+                      <Icon name="x" onClick={this.show}/>
+                    }
+                    <Confirm
+                      content='작성한 글을 삭제하시겠습니까?'
+                      cancelButton='아니오'
+                      confirmButton='네'
+                      open={this.state.open}
+                      onCancel={this.handleCancle}
+                      onConfirm={this.handleConfirm}
+                      size='tiny'
+                    />
+                </span>
+                <PostUser profileUserId={this.props.post.userId} />
+                </Card.Header>
+                  
+                </Card.Content>
+                <Card.Content extra>
+                    <PostDetail
+                            post={this.state.post}
+                    /> 
+                </Card.Content>
+            </Card>
+        )
     }
     return (
       <Card color={color}>

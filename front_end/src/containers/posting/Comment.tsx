@@ -35,7 +35,7 @@ class Comment extends React.Component<IProps & any, {}>{
         axios.delete( restBaseApi + `/rest/Comment/${c_id}`, 
         { headers: { Authorization: "Bearer " + token }})
         .then( res => {
-            // console.log(res)
+            console.log(res)
         })
         .catch( err => console.log(err))
         window.location.reload(true);

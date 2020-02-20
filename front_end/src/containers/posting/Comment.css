@@ -9,3 +9,12 @@ span.content {
     color: gray;
     margin-bottom: 3px;
 }
+
+div.ui.page.modals.dimmer.transition.visible.active div.ui.modal.transition.visible.active div.actions {
+    padding-bottom: 0px !important;
+}
+
+div.ui.page.modals.dimmer.transition.visible.active div.ui.modal.transition.visible.active div.actions button.ui.primary {
+    background-color: rgba(255, 136, 0, 0.493);
+}
+

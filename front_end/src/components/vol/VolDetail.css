@@ -26,6 +26,7 @@ table.ui.table {
 div.buttons {
     margin-top: 10px;
     display: flex;
+    justify-content: center;
 }
 
 

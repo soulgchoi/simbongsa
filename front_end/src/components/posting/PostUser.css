@@ -1,10 +1,11 @@
 .user-profile button.ui.orange.button {
-    padding: 0.35em;
+    padding: 0.2em;
     font-size: 1em;
+    float: right;
 }
 
 div.user-profile {
-    display: inline-block;
+    display: block;
     font-size: 0.75em;
     color: rgb(156, 156, 156)
 
@@ -12,5 +13,5 @@ div.user-profile {
 
 div.user-profile div div {
     display: inline;
-    margin-left: 1em;
+    margin-right: 1em;
 }

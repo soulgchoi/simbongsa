@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react";
-import LinkButton from "components/button/LinkButton";
-import { Button, Sticky, Menu, Responsive, Container } from "semantic-ui-react";
+import React from "react";
+import { Responsive, Container } from "semantic-ui-react";
 
 // import "assets/mycss";
 import './Footer.css'

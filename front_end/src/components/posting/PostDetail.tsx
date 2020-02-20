@@ -44,7 +44,6 @@ class PostDetail extends React.Component<Props & any, {}> {
         post_vote, 
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
-            console.log(res)
         })
         .catch(err => console.log(err))
         window.location.reload(true);

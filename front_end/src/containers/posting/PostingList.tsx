@@ -10,7 +10,7 @@ class PostingList extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      posts: Array(),
+      posts: [],
       pgNum: 1
     };
   }
@@ -25,6 +25,7 @@ class PostingList extends Component<any, any> {
       })
       .then(res => {
         const data = res.data.data;
+
         this.setState({
           posts: data,
           pgNum: this.state.pgNum + 1
@@ -41,7 +42,7 @@ class PostingList extends Component<any, any> {
       .then(res => {
         const data = res.data.data;
         this.setState({
-          posts: this.state.posts.concat(res.data.data),
+          posts: this.state.posts.concat(data),
           pgNum: this.state.pgNum + 1
         });
       })
@@ -50,7 +51,6 @@ class PostingList extends Component<any, any> {
 
   render() {
     const { posts } = this.state;
-    console.log("posts", posts)
     const postingList = posts.map((post: any, i: any) => {
       return <Card post={post} key={i} />;
     });
@@ -58,7 +58,7 @@ class PostingList extends Component<any, any> {
       <InfiniteScroll
         dataLength={posts.length}
         next={this.loadMoreData.bind(this)}
-        hasMore={posts.lehgth < this.state.pgNum * 10}
+        hasMore={posts.lehgth >= this.state.pgNum * 10}
         loader={<h4>게시글 목록을 불러오는 중</h4>}
         endMessage={<h4>모든 정보를 확인했습니다.</h4>}
       >

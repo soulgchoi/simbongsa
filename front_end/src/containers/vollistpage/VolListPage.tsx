@@ -7,7 +7,6 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
-import { Container } from "semantic-ui-react";
 interface Props {
   volunteersForList: List<any>;
   input: string;

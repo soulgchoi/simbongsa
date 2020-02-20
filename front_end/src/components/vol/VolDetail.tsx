@@ -26,12 +26,12 @@ class VolDetail extends React.Component<any, any> {
       v_pStatus: null,
       v_title: null,
       v_mBgnD: null,
-      v_mEndD: null,
+      v_mEndD: "",
       v_pBgnD: null,
       v_pEndD: null,
       v_bgnTm: null,
       v_endTm: null,
-      v_wanted: null,
+      v_wanted: 0,
       v_actWkdy: null,
       v_adult: null,
       v_young: null,
@@ -39,7 +39,7 @@ class VolDetail extends React.Component<any, any> {
       v_location: null,
       v_target: null,
       v_url: null,
-      v_appnow: null,
+      v_appnow: 0,
       v_detail: null
     }
   };
@@ -52,7 +52,7 @@ class VolDetail extends React.Component<any, any> {
       // axios를 잘 리턴한 경우
       result.then(response => {
         this.setState({ volunteer: response.data.data });
-        console.log(response.data.data);
+        // console.log(response.data.data);
       });
     }
     // return 값이 true인 경우에만 컴포넌트 업데이트
@@ -152,10 +152,10 @@ class VolDetail extends React.Component<any, any> {
           >
             <Button>게시글 목록</Button>
           </Link>
-          {/* <PostingList v_id={volunteer.v_id}>{volunteer.v_id}</PostingList> */}
-          <Button as="a" href={volunteer.v_url}>
+        <Button as="a" href={volunteer.v_url}>
             신청하러 가기
-          </Button>
+        </Button>
+
         </div>
       </div>
     );
