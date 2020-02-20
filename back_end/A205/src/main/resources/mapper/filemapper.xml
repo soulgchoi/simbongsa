@@ -18,7 +18,7 @@
 		values(#{m_id},
 		#{originalFileName}, #{storedFileName}, #{file_size})
 		on duplicate key
-		update f_name={originalFileName}, f_key=#{storedFileName},
+		update f_name=#{originalFileName}, f_key=#{storedFileName},
 		f_size=#{file_size}
 	</insert>
 
