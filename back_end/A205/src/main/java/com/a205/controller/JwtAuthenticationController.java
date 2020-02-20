@@ -59,7 +59,7 @@ public class JwtAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
 		Member member = memberDao.searchByEmail(email);
 		
-		if(member.getM_key().equals("Y"))
+		if(member.getM_key().equals("Y") || member.getM_key().equals(null))
 			return ResponseEntity.ok(new JwtResponse(token));
 		else 
 			return ResponseEntity.ok("EmailAuthenticateNeed");
