@@ -39,7 +39,9 @@ class VolDetail extends React.Component<any, any>{
             v_organ: null,
             v_location: null,
             v_target: null,
-            v_url: null,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+            v_url: null,       
+            v_appnow: null,
+            v_detail: ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
         }
     };
 
@@ -50,6 +52,7 @@ class VolDetail extends React.Component<any, any>{
         if (typeof result === "object") { // axios를 잘 리턴한 경우
             result.then(response => {
                 this.setState({ volunteer: response.data.data });
+                console.log(response.data.data)
             }
             )
         }
@@ -81,7 +84,7 @@ class VolDetail extends React.Component<any, any>{
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">모집인원</Table.Cell>
-                        <Table.Cell className="content">{volunteer.v_wanted}</Table.Cell>
+                            <Table.Cell className="content">{volunteer.v_appnow} / {volunteer.v_wanted} 명</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">활동요일</Table.Cell>
@@ -109,6 +112,10 @@ class VolDetail extends React.Component<any, any>{
                         <Table.Cell className="head">주소</Table.Cell>
                         <Table.Cell className="content">{volunteer.v_location}</Table.Cell>
                     </Table.Row>
+                    <Table.Row>
+                        <Table.Cell className="head">세부사항</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_detail}</Table.Cell>
+                    </Table.Row>
                 </Table.Body>
                 </Table>
                 </Responsive>
@@ -118,7 +125,7 @@ class VolDetail extends React.Component<any, any>{
                 />
                 <Link
                     to={{
-                        pathname: `/${volunteer.v_id}/list`,
+                        pathname: `/${volunteer.v_id}/postinglist`,
                     }}
                 >
                     <Button>게시글 목록</Button></Link>
