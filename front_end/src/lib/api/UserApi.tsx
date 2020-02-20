@@ -182,5 +182,15 @@ export const changePassword = async (eMail: string, password: string) => {
   let response = await axios.post(restBaseApi + "/rest/Member/Password", data, {
     headers: { Authorization: token }
   });
+  console.log("비밀번호 변경", response);
+  // response 안에서 데이터 추출하기.
   return response;
+};
+
+export const getUserInfo = async (userId: string) => {
+  const token = "Bearer " + storage.get("token");
+  let response = await axios.get(restBaseApi + `/rest/Member/${userId}`, {
+    headers: { Authorization: token }
+  });
+  return response.data.data;
 };

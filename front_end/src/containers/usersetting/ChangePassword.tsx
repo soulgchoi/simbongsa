@@ -9,15 +9,34 @@ import AuthError from "components/error/AuthError";
 interface Props {
   email: string;
 }
-interface State {}
+interface State {
+  password: string;
+  passwordConfirm: string;
+  error: {
+    password: string;
+    passwordConfirm: string;
+  };
+}
 
 interface validate {
-    [name: string]: (value: string) => boolean;
-  }
+  [name: string]: (value: string) => boolean;
+}
 
 class ChangePassword extends Component<Props, State> {
-  state = {};
+  state = {
+    password: "",
+    passwordConfirm: "",
+    error: { password: "", passwordConfirm: "" }
+  };
   handleChangePassword = () => {
+    const { email } = this.props;
+    let password = "";
+    let response = UserApi.changePassword(email, password);
+    response.then(item => {
+      console.log(item);
+    });
+  };
+  handleChangePasswordConfirm = () => {
     const { email } = this.props;
     let password = "";
     let response = UserApi.changePassword(email, password);
@@ -27,12 +46,12 @@ class ChangePassword extends Component<Props, State> {
   };
 
   setError = (message: any, name: string) => {
-    const { AuthActions } = this.props;
-    AuthActions.setError({
-      form: "join",
-      message,
-      name
-    });
+    // const { AuthActions } = this.props;
+    // AuthActions.setError({
+    //   form: "join",
+    //   message,
+    //   name
+    // });
   };
 
   validate: validate = {
@@ -67,32 +86,35 @@ class ChangePassword extends Component<Props, State> {
       return true;
     },
     passwordConfirm: (value: string) => {
-      if (this.props.form.get("password") !== value) {
+      if (this.state.password !== value) {
         this.setError("비밀번호확인이 일치하지 않습니다.", "passwordConfirm");
         return false;
       }
       this.setError(null, "passwordConfirm");
       return true;
     }
+  };
 
   render() {
+    const { password, passwordConfirm, error } = this.state;
+    const { handleChangePassword, handleChangePasswordConfirm } = this;
     return (
       <div>
         비밀번호 변경
         <br />
-        <AuthError error={error2.password} />
+        <AuthError error={error.password} />
         <Input
           value={password}
-          onChange={handleChange}
+          onChange={handleChangePassword}
           id="password"
           placeholder="비밀번호를 입력하세요"
           type="password"
           nametag="비밀번호"
         />
-        <AuthError error={error2.passwordConfirm} />
+        <AuthError error={error.passwordConfirm} />
         <Input
           value={passwordConfirm}
-          onChange={handleChange}
+          onChange={handleChangePasswordConfirm}
           id="passwordConfirm"
           placeholder="비밀번호를 다시한번 입력하세요"
           type="password"
