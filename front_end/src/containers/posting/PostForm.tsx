@@ -17,19 +17,19 @@ const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get("token");
 
 class PostingForm extends React.Component<any, any> {
-  state = {
-    p_status: "1"
-  };
+    state = {
+        p_status: "1"
+    };
 
     handleChange = (e: any) => {
-        this.setUserInfo()  
+        this.setUserInfo()
         const { PostingActions } = this.props;
         var { id, value } = e.target;
         PostingActions.changeInput({
             id,
             value,
             form: "posting"
-        });  
+        });
     }
 
     setUserInfo() {
@@ -45,29 +45,29 @@ class PostingForm extends React.Component<any, any> {
             value: userId,
             form: "posting"
         })
-      }
-  componentWillMount() {
-    const { PostingActions } = this.props;
-    PostingActions.initializeForm("posting");
-  }
-
-  handleFileSelect = (e: any) => {
-    const { PostingActions } = this.props;
-    var id = e.target.id;
-    var value = e.target.files;
-    for (let i = 0; i < value.length; i++) {
-      PostingActions.changeFileInput(value[i]);
     }
-  };
+    componentWillMount() {
+        const { PostingActions } = this.props;
+        PostingActions.initializeForm("posting");
+    }
 
-  handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      p_status: e.target.value
-    });
-  };
+    handleFileSelect = (e: any) => {
+        const { PostingActions } = this.props;
+        var id = e.target.id;
+        var value = e.target.files;
+        for (let i = 0; i < value.length; i++) {
+            PostingActions.changeFileInput(value[i]);
+        }
+    };
+
+    handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            p_status: e.target.value
+        });
+    };
 
 
-    handleSubmit = (e:any) => {
+    handleSubmit = (e: any) => {
         e.preventDefault();
         console.log(this.props.form.toJS())
         const { p_content, m_id } = this.props.form.toJS();
@@ -76,32 +76,34 @@ class PostingForm extends React.Component<any, any> {
         var p_status = this.state.p_status
 
         const files = new FormData()
-        for (let j=0; j<selectedfiles.length; j++){
+        for (let j = 0; j < selectedfiles.length; j++) {
+            console.log("file이 추가됩니다!!")
             files.append("files", selectedfiles[j])
         }
         const post = {
-                p_content,
-                v_id,
-                p_status,
-                m_id,
-            }
+            p_content,
+            v_id,
+            p_status,
+            m_id,
+        }
 
-        axios.post( restBaseApi + "/rest/Post", post,
-        { headers: { Authorization: "Bearer " + token }})
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => console.log(err))
+        axios.post(restBaseApi + "/rest/Post", post,
+            { headers: { Authorization: "Bearer " + token } })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err))
 
-        axios.post( restBaseApi + "/rest/PostFile", files,
-            {headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: "Bearer " + token
+        axios.post(restBaseApi + "/rest/PostFile", files,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: "Bearer " + token
                 }
-        })
-        .then(res => {
-        })
-        .catch(err => console.log(err))
+            })
+            .then(res => {
+            })
+            .catch(err => console.log(err))
         this.props.history.push(`/${v_id}/postinglist`);
         this.goListPage();
     }
@@ -114,50 +116,50 @@ class PostingForm extends React.Component<any, any> {
     render() {
         const { selectedFiles, p_content } = this.props.form;
         var v_id = this.props.match.params.id
-        
+
         return (
-            
+
             <Form>
-            <label>
-            <input type="radio" value="1" checked={this.state.p_status === "1"}
-                onChange={this.handleStatusChange}
-            />
-                모집
+                <label>
+                    <input type="radio" value="1" checked={this.state.p_status === "1"}
+                        onChange={this.handleStatusChange}
+                    />
+                    모집
             </label>
-            <label>
-            <input type="radio" value="2" checked={this.state.p_status === "2"}
-                onChange={this.handleStatusChange}
-            />
-                후기
+                <label>
+                    <input type="radio" value="2" checked={this.state.p_status === "2"}
+                        onChange={this.handleStatusChange}
+                    />
+                    후기
             </label>
-            <TextArea
-                value={p_content}
-                className="posting"
-                name="content"
-                id="p_content"
-                placeholder="내용을 입력하세요."
-                onChange={this.handleChange} />
-            <input
-                type="file"
-                id="files"
-                multiple
-                accept='image/*'
-                onChange={this.handleFileSelect}
-                value={selectedFiles}
-            />
-            <div className="buttons">
-            <Button onClick={this.handleSubmit}>
-                게시글 등록하기
-            </Button>
-            
-            <GoBackButton
-                    text="취소하기"
+                <TextArea
+                    value={p_content}
+                    className="posting"
+                    name="content"
+                    id="p_content"
+                    placeholder="내용을 입력하세요."
+                    onChange={this.handleChange} />
+                <input
+                    type="file"
+                    id="files"
+                    multiple
+                    accept='image/*'
+                    onChange={this.handleFileSelect}
+                    value={selectedFiles}
                 />
-            </div>
+                <div className="buttons">
+                    <Button onClick={this.handleSubmit}>
+                        게시글 등록하기
+            </Button>
+
+                    <GoBackButton
+                        text="취소하기"
+                    />
+                </div>
             </Form>
         );
     }
-  }
+}
 
 
 export default connect(

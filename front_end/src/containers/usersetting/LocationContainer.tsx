@@ -6,7 +6,7 @@ import temp from "lib/json/temp.json";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
-import { Button } from "semantic-ui-react"
+import { Icon, Button } from "semantic-ui-react"
 interface Props {
   locations: any;
   SearchActions: any;
@@ -97,18 +97,16 @@ class Locationcontainer extends Component<Props, State> {
   }
 }
 const LocationItem = ({ id, text, onRemove }: any) => (
-  <div>
-    <ul
-      style={{
-        textDecoration: 'none',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        padding: 0
-      }}
-    >
-      {text} <Button color='orange' size='mini' onClick={() => onRemove(id)} >삭제하기</Button>
-    </ul >
-
+  <div style={{
+    width: 250,
+    textDecoration: 'none',
+    padding: 0,
+    marginTop: 15,
+    marginBottom: 15,
+    display: 'flex',
+    justifyContent: 'space-between'
+  }}>
+    <Button className="ulBtn" color='orange' size='mini'>{text}   <Icon name="delete" onClick={() => onRemove(id)} /></Button>
   </div >
 );
 export default connect(

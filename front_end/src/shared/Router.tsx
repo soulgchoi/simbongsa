@@ -22,6 +22,7 @@ import ChangePassword from "containers/findPassword/FindPasswordMailRecieve";
 import Intro from "containers/intro/Intro";
 import MainPage from "containers/mainpage/MainPage";
 import SearchContainer from "containers/usersetting/SearchContainer";
+import UserSettingPage from "containers/usersetting/UserSettingPage";
 import Location from "containers/location/Location";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 
@@ -32,7 +33,7 @@ import PostingList from "containers/posting/PostingList";
 import PostingForm from "containers/posting/PostForm";
 import { Grid } from "semantic-ui-react";
 import HeaderForMobile from "components/header/HeaderForMobile";
-
+import Withdraw from "containers/usersetting/Withdraw";
 import FooterForDesktop from "components/footer/FooterForDesktop";
 import FooterForMobile from "components/footer/FooterForMobile";
 import HeaderForDesktop from "components/header/HeaderForDesktop";
@@ -65,7 +66,7 @@ class Router extends Component {
         {/* curation */}
         <Route path="/intro" component={Intro} />
         <Route exact path="/mainpage" component={MainPage} />
-        <Route exact path="/usersetting" component={SearchContainer} />
+        <Route exact path="/usersetting" component={UserSettingPage} />
         <Route path="/calendar" component={CalendarContainer} />
 
         <Route exact path="/vol/:id/detail" component={VolDetail} />
@@ -73,6 +74,8 @@ class Router extends Component {
         <Route path="/feed" component={Feed} />
         <Route exact path="/:id/postinglist" component={PostingList} />
         <Route exact path="/vol/:id/write" component={PostingForm} />
+
+        <Route path="/withdraw" component={Withdraw} />
 
         <Route path="/" component={FooterForDesktop} />
         <Route path="/" component={FooterForMobile} />

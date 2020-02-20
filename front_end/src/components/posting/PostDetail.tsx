@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Image, Label, Icon, Divider } from 'semantic-ui-react'
 import Carousel from 'nuka-carousel'
 
-
 import CommentList from 'containers/posting/CommentList'
 import CommentForm from 'containers/posting/CommentForm'
 
@@ -35,7 +34,7 @@ interface Props {
 
 class PostDetail extends React.Component<Props & any, {}> {
 
-    handleVote(id:number) {
+    handleVote(id: number) {
         var { m_id } = this.props.user.toJS()
         var post_vote = {
             p_id: id,
@@ -54,9 +53,9 @@ class PostDetail extends React.Component<Props & any, {}> {
 
     render() {
         var { m_id, userId } = this.props.user.toJS()
-        const images = this.props.post.files.map( (file:any, i:number) => {
+        const images = this.props.post.files.map((file: any, i: number) => {
             return (
-                <img key={i} src={ restBaseApi + "/uploads/" + file} />
+                <img key={i} src={restBaseApi + "/uploads/" + file} />
             )
         })
         console.log(this.props.post.post_vote_members)
@@ -64,20 +63,20 @@ class PostDetail extends React.Component<Props & any, {}> {
             <div>
                 <div>
                     <div className="postedImage">
-                    {this.props.post.files.length > 0 ?
-                        (<Carousel>
-                            {images}
-                        </Carousel>)
-                        : (<Image>
-                        <Label content='No Image' icon='warning' />
-                        </Image>)
-                    }
+                        {this.props.post.files.length > 0 ?
+                            (<Carousel>
+                                {images}
+                            </Carousel>)
+                            : (<Image>
+                                <Label content='No Image' icon='warning' />
+                            </Image>)
+                        }
                     </div>
                     <Divider />
                     <div className="postContent">
-                        {this.props.post.p_content.length > 0 ? 
-                        (<div>{this.props.post.p_content}</div>)
-                        : (<div style={{color: 'rgb(185, 185, 185)'}}>내용이 없는 글입니다.</div>)}
+                        {this.props.post.p_content.length > 0 ?
+                            (<div>{this.props.post.p_content}</div>)
+                            : (<div style={{ color: 'rgb(185, 185, 185)' }}>내용이 없는 글입니다.</div>)}
                     </div>
                     <Divider />
                     <div className="label">
@@ -107,8 +106,8 @@ class PostDetail extends React.Component<Props & any, {}> {
                     </Link>
                     <Divider />
                     <div className="comment">
-                    <CommentList inP_id={this.props.post.p_id}/>
-                    <CommentForm inP_id={this.props.post.p_id}/>
+                        <CommentList inP_id={this.props.post.p_id} />
+                        <CommentForm inP_id={this.props.post.p_id} />
                     </div>
                 </div>
             </div>

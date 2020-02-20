@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
 import { Checkbox } from 'semantic-ui-react'
+import "./TimeContainer.css"
 interface Props {
     times: any
     SearchActions: any
