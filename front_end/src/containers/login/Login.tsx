@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import locationAllList from "lib/json/temp.json";
 import categoryAllList from "lib/json/searchCategory.json";
-import './Login.css';
+import "./Login.css";
 
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -40,7 +40,7 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import storage from "lib/storage";
 import validator from "validator";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 // jwt
 import jwt from "jsonwebtoken";
@@ -348,8 +348,13 @@ class Login extends React.Component<any, any> {
     const userEmail = jwt.decode(token);
     UserActions.setLoggedInfo(userEmail);
     storage.set("token", token);
+    const { userId } = this.props;
+    console.log("userId", userId);
+    await UserActions.setPreferInfo(userId);
     const { preferInfo } = this.props;
+    console.log("preferInfo", preferInfo);
     this.initializePreferInfo(preferInfo);
+
     await this.initialSearch();
     history.push("/mainpage");
   };
@@ -369,7 +374,7 @@ class Login extends React.Component<any, any> {
         >
           <Grid.Column style={{ maxWidth: 450 }}>
             {/* <Header as="h2" color="orange" textAlign="center"> */}
-              <Image centered size="tiny" src="/images/logo1.png" />
+            <Image centered size="tiny" src="/images/logo1.png" />
             {/* </Header> */}
             <Form size="large">
               <Segment stacked>
@@ -405,7 +410,6 @@ class Login extends React.Component<any, any> {
                 >
                   로그인
                 </Button>
-              
               </Segment>
             </Form>
             <Container textAlign="right">
@@ -424,13 +428,17 @@ class Login extends React.Component<any, any> {
             <div className="authlink">
               <div>
                 <span className="message">비밀번호를 잊으셨나요?</span>
-                <Link to="/findpassword"><a className="link">비밀번호 찾기</a></Link>
-                <br/>
+                <Link to="/findpassword">
+                  <a className="link">비밀번호 찾기</a>
+                </Link>
+                <br />
               </div>
               <div>
                 <span className="message">아직 심봉사의 회원이 아니세요?</span>
                 {/* <LinkButton placeholder="회원가입" link="/join" /> */}
-                <Link to="/join"><a className="link">회원가입</a></Link>
+                <Link to="/join">
+                  <a className="link">회원가입</a>
+                </Link>
               </div>
             </div>
             {/* <Message>

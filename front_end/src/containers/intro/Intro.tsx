@@ -11,7 +11,9 @@ interface Props {
 }
 interface State {}
 class Intro extends Component<Props & any, State> {
-  
+  scrollBottom() {
+    window.scrollTo(0, window.innerHeight)
+  }
   render() {
     const { loginCheck } = this.props;
     return (
@@ -20,6 +22,7 @@ class Intro extends Component<Props & any, State> {
          (<Container gref>
             <ListUp />
             <div className="loginbutton" >
+              {this.scrollBottom()}
             <AuthError error="로그인 후 이용해주세요!" />
             <Button className="loginbutton" as="a" href="/login">로그인</Button>
             </div>

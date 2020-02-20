@@ -21,7 +21,7 @@ interface State {
 class VolInfo extends Component<Props, State> {
   state = { volunteers: [], volunteersForList: [] };
   shouldComponentUpdate(nextProps: any) {
-    const { volunteersForMap } = this.props;
+    const { volunteersForMap, selectedVolunteer } = this.props;
     if (volunteersForMap !== nextProps.volunteersForMap) {
       let volunteers = nextProps.volunteersForMap.toJS();
       let volunteersForList: any[] = [];
