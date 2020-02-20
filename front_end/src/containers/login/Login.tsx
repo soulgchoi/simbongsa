@@ -142,14 +142,14 @@ class Login extends React.Component<any, any> {
       UserActions.setLoggedInfo(loggedInfo);
       // UserActions.setLoggedFlag(true);
       storage.set("token", token);
-      const { userId } = this.props
-      console.log("userId", userId)
+      const { userId } = this.props;
+      console.log("userId", userId);
       await UserActions.setPreferInfo(userId);
-      const { preferInfo } = this.props
-      console.log("preferInfo", preferInfo)
-      this.initializePreferInfo(preferInfo)
+      const { preferInfo } = this.props;
+      console.log("preferInfo", preferInfo);
+      this.initializePreferInfo(preferInfo);
 
-      await this.initialSearch()
+      await this.initialSearch();
       history.push("/mainpage");
     } catch (e) {
       // error 발생시
@@ -158,30 +158,30 @@ class Login extends React.Component<any, any> {
     }
   };
   initialSearch = () => {
-    const { input, VolActions, locations, categorys, times } = this.props
-    let preferLocate = locations.toJS().map((location: any) => location.text)
-    console.log(preferLocate)
-    let preferCategory = categorys.toJS().map((category: any) => category.text)
-    const locateSize = preferLocate.length
-    const categorySize = preferCategory.length
-    console.log(locateSize)
+    const { input, VolActions, locations, categorys, times } = this.props;
+    let preferLocate = locations.toJS().map((location: any) => location.text);
+    console.log(preferLocate);
+    let preferCategory = categorys.toJS().map((category: any) => category.text);
+    const locateSize = preferLocate.length;
+    const categorySize = preferCategory.length;
+    console.log(locateSize);
     for (let i = 0; i < 3 - locateSize; i++) {
-      preferLocate.push("null null")
-      console.log("for문")
+      preferLocate.push("null null");
+      console.log("for문");
     }
     for (let i = 0; i < 3 - categorySize; i++) {
-      preferCategory.push(null)
+      preferCategory.push(null);
     }
-    console.log("preferLocate", preferLocate)
-    console.log("preferCategory", preferCategory)
-    const firstLocation = preferLocate[0].split(" ")
-    const secondLocation = preferLocate[1].split(" ")
-    const thirdLocation = preferLocate[2].split(" ")
+    console.log("preferLocate", preferLocate);
+    console.log("preferCategory", preferCategory);
+    const firstLocation = preferLocate[0].split(" ");
+    const secondLocation = preferLocate[1].split(" ");
+    const thirdLocation = preferLocate[2].split(" ");
 
-    const firstCategory = preferCategory[0]
-    console.log(firstCategory)
-    const secondCategory = preferCategory[1]
-    const thirdCategory = preferCategory[2]
+    const firstCategory = preferCategory[0];
+    console.log(firstCategory);
+    const secondCategory = preferCategory[1];
+    const thirdCategory = preferCategory[2];
 
     let bgnTm = "";
     let endTm = "";
@@ -200,9 +200,30 @@ class Login extends React.Component<any, any> {
       bgnTm = "00:00:01";
       endTm = "23:59:58";
     }
-    VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
-    VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
-  }
+    VolActions.getVolList({
+      input: input,
+      firstLocation: firstLocation,
+      secondLocation: secondLocation,
+      thirdLocation: thirdLocation,
+      firstCategory: firstCategory,
+      secondCategory: secondCategory,
+      thirdCategory: thirdCategory,
+      bgnTm: bgnTm,
+      endTm: endTm
+    });
+    VolActions.getInitailList({
+      input: input,
+      firstLocation: firstLocation,
+      secondLocation: secondLocation,
+      thirdLocation: thirdLocation,
+      firstCategory: firstCategory,
+      secondCategory: secondCategory,
+      thirdCategory: thirdCategory,
+      bgnTm: bgnTm,
+      endTm: endTm,
+      pageNum: 1
+    });
+  };
   initializePreferInfo = (preferInfo: any) => {
     const { SearchActions } = this.props;
     if (preferInfo) {
@@ -306,7 +327,7 @@ class Login extends React.Component<any, any> {
 
       // 봉사활동 카테고리 관련
       for (let j = 0; j < info.preferCategory.length; j++) {
-        const number: keyof typeof categoryAllList = info.preferCategory[j]
+        const number: keyof typeof categoryAllList = info.preferCategory[j];
         SearchActions.insert({
           form: "category",
           text: categoryAllList[number],
@@ -314,7 +335,7 @@ class Login extends React.Component<any, any> {
         });
       }
     }
-  }
+  };
   handleGoogleLogin = async (response: any) => {
     const { AuthActions, UserActions, history } = this.props;
     // 구글로그인 성공할 경우 response로 로그인 정보가 담긴 객체 하나를 준다.
@@ -325,6 +346,9 @@ class Login extends React.Component<any, any> {
     const userEmail = jwt.decode(token);
     UserActions.setLoggedInfo(userEmail);
     storage.set("token", token);
+    const { preferInfo } = this.props;
+    this.initializePreferInfo(preferInfo);
+    await this.initialSearch();
     history.push("/mainpage");
   };
 
@@ -524,10 +548,10 @@ export default connect(
     preferInfo: state.user.getIn(["loggedInfo", "preferInfo"]),
     volunteers: state.vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
     input: state.search.get("input"),
-    loading: state.user.get('loading'),
+    loading: state.user.get("loading"),
     locations: state.search.get("locations"),
     categorys: state.search.get("categorys"),
-    times: state.search.get("times"),
+    times: state.search.get("times")
   }),
   dispatch => ({
     AuthActions: bindActionCreators(authActions, dispatch),

@@ -49,30 +49,51 @@ class Feed extends Component<Props, State> {
     console.log("노말입니다", normalFeedList);
     // 8 : 2 비율로 넣기
     let idx = 0; // idx가 8,9면 normal 넣기
-    let idxP = 0,
-      idxN = 0;
+    let idxP = 0;
+    let idxN = 0;
+    let pLength = preferFeedList.length;
+    let nLength = normalFeedList.length;
     console.log("리스트", preferFeedList.length, normalFeedList.length);
-    const size = preferFeedList.length + normalFeedList.lenth;
-    console.log("사이즈", size);
+    // const size = s1 + s2;
+    // console.log("사이즈", size);
     let postingList: any[] = [];
     // preferFeedList.map((feed: any, i: any) => {
     //   return <Card post={feed} key={i} />;
     // });
-    for (let i = 0; i < size; ++i) {
-      console.log("여기");
-      if (idx < 8 || idxN >= normalFeedList.length) {
-        postingList.push(<Card post={preferFeedList[idxP]} key={i} />);
-        idxP = idxP + 1;
+    while (idxP < pLength || idxN < nLength) {
+      for (let i = 0; i < 8; ++i) {
+        // 8개 넣기, 그 전에 바닥나면 안넣음
+        if (idxP === pLength) {
+          break;
+        }
+        postingList.push(<Card post={preferFeedList[idxP]} key={idx} />);
+        idx += 1;
+        idxP += 1;
       }
-      if (idx >= 8 || idxP >= preferFeedList.length) {
-        postingList.push(<Card post={normalFeedList[idxN]} key={i} />);
-        idxN = idxN + 1;
-      }
-      idx = idx + 1;
-      if (idx > 9) {
-        idx = 0;
+      for (let i = 0; i < 2; ++i) {
+        if (idxN === nLength) {
+          break;
+        }
+        postingList.push(<Card post={normalFeedList[idxN]} key={idx} />);
+        idx += 1;
+        idxN += 1;
       }
     }
+    // for (let i = 0; i < size; ++i) {
+    //   console.log("여기");
+    //   if (idx < 8 || idxN >= normalFeedList.length) {
+    //     postingList.push(<Card post={preferFeedList[idxP]} key={i} />);
+    //     idxP = idxP + 1;
+    //   }
+    //   if (idx >= 8 || idxP >= preferFeedList.length) {
+    //     postingList.push(<Card post={normalFeedList[idxN]} key={i} />);
+    //     idxN = idxN + 1;
+    //   }
+    //   idx = idx + 1;
+    //   if (idx > 9) {
+    //     idx = 0;
+    //   }
+    // }
     console.log("포스팅 리스트", postingList);
     return (
       <InfiniteScroll
