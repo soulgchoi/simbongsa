@@ -10,6 +10,7 @@ import PieGraph from "components/graph/PieGraph";
 import * as volActions from "redux/modules/vol";
 import RegionList from "lib/json/region.json";
 import CategoryList from "lib/json/category.json";
+import Tab from 'containers/mypage/TabforMypage';
 
 import LinkButton from "components/button/LinkButton";
 interface Props {
@@ -134,6 +135,7 @@ class Mypage extends Component<Props, State> {
             width={250}
             height={250}
           />
+          <Tab />
         </div>
       </div>
     );
