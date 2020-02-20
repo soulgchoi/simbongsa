@@ -10,7 +10,7 @@ class PostingList extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      posts: Array(),
+      posts: [],
       pgNum: 1
     };
   }
@@ -25,8 +25,7 @@ class PostingList extends Component<any, any> {
       })
       .then(res => {
         const data = res.data.data;
-        console.log(this.restAPI + this.v_id + "/10/" + this.state.pgNum)
-        console.log(res)
+
         this.setState({
           posts: data,
           pgNum: this.state.pgNum + 1
@@ -43,7 +42,7 @@ class PostingList extends Component<any, any> {
       .then(res => {
         const data = res.data.data;
         this.setState({
-          posts: this.state.posts.concat(res.data.data),
+          posts: this.state.posts.concat(data),
           pgNum: this.state.pgNum + 1
         });
       })
@@ -52,7 +51,6 @@ class PostingList extends Component<any, any> {
 
   render() {
     const { posts } = this.state;
-    console.log("posts", posts)
     const postingList = posts.map((post: any, i: any) => {
       return <Card post={post} key={i} />;
     });

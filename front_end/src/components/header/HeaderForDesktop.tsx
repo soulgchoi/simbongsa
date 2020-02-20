@@ -1,8 +1,6 @@
-import React, { ReactElement } from "react";
-import LinkButton from "components/button/LinkButton";
-import { Link } from "react-router-dom";
+import React from "react";
 import { Container, Responsive, Menu } from "semantic-ui-react";
-// import "assets/mycss";
+
 interface Props {}
 
 interface IState {

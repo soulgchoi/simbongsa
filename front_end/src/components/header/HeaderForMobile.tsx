@@ -1,10 +1,8 @@
-import React, { ReactElement } from "react";
-import LinkButton from "components/button/LinkButton";
-import { Link } from "react-router-dom";
-import { Container, Responsive, Header, Image, Grid, Menu, Icon, Popup, Button } from "semantic-ui-react";
+import React from "react";
+
+import { Container, Responsive, Image, Grid, Menu, Icon, Popup } from "semantic-ui-react";
 import { connect } from "react-redux";
 import storage from "lib/storage";
-import ActionButton from "components/button/ActionButton";
 
 import './Header.css'
 interface Props {}
@@ -30,7 +28,6 @@ class HeaderForMobile extends React.Component<
     const { loginCheck } = this.props;
     const token = storage.get("token");
     console.log(token, "톸");
-    const { activeItem } = this.state;
     const url = window.location.href.split(
       `${process.env.REACT_APP_FRONT_URI!}/`
     )[1];

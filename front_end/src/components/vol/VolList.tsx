@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { List } from "immutable";
+import React from "react";
 import Vol from "components/vol/Vol";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./VolList.css"
@@ -22,13 +20,12 @@ export default class VolList extends React.Component<Props, State> {
     this.props.appendList();
   };
   render() {
-    const { volunteers, height, loadingMessage } = this.props;
+    const { volunteers, height } = this.props;
     const { loadMoreData } = this;
     const PrintArray = volunteers.map((vol: any, i: any) => {
       return <Vol volunteer={vol} v_id={vol.v_id} key={i} />;
     });
 
-    console.log("높이", height);
     return (
       <InfiniteScroll
         dataLength={volunteers.length}

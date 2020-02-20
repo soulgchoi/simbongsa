@@ -1,17 +1,12 @@
-import _ from 'lodash'
-import React, { Component, Fragment } from 'react'
-import { Search, Grid, Header, Segment, Placeholder } from 'semantic-ui-react'
+// import _ from 'lodash'
+import React, { Fragment } from 'react'
 import SearchPresenter from 'components/search/SearchPresenter';
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
-import storage from "lib/storage";
-import ActionButton from 'components/button/ActionButton'
 interface Iprops {
     input: string
     SearchActions: typeof searchActions
@@ -31,7 +26,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
         error: "",
     }
     handleSubmit = (event: any) => {
-        const { input, SearchActions } = this.props
+        const {  SearchActions } = this.props
         event.preventDefault()
 
         this.searchByTerm();
@@ -100,8 +95,6 @@ class SearchBar extends React.Component<Iprops, Istate> {
         }
 
     }
-
-
 
     render() {
         const { volunteers, input } = this.props

@@ -22,19 +22,21 @@ class CommentList extends React.Component<Props, States> {
             comments: []
         }
 
-        axios.get(restBaseApi + `/rest/Comment/${this.props.inP_id}/`,
+        axios.get(restBaseApi + `/rest/Comment/${this.props.inP_id}`,
         { headers: { Authorization: "Bearer " + token }})
 
         .then( res => {
+            console.log(res)
             if (res.data.data.length > 0) {
                 const data = res.data.data.map( (d: any) => {
-                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.m_userid}
+                        return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.userId}
                 })
                 this.setState({
                     comments: data
                 })
             }
         })
+        .catch(err => console.log(err))
 
     }
 

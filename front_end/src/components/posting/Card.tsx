@@ -97,7 +97,6 @@ class CardComponent extends React.Component<Props & any, {}> {
             <Card>
                 <Card.Content>
                 <Card.Header>{this.props.post.userId}
-                <PostUser profileUserId={this.props.post.userId} />
                 <span style={{float:'right'}}>
                     {m_id == this.props.post.m_id &&
                       <Icon name="x" onClick={this.show}/>
@@ -111,7 +110,8 @@ class CardComponent extends React.Component<Props & any, {}> {
                       onConfirm={this.handleConfirm}
                       size='tiny'
                     />
-                </span>    
+                </span>
+                <PostUser profileUserId={this.props.post.userId} />
                 </Card.Header>
                   
                 </Card.Content>
