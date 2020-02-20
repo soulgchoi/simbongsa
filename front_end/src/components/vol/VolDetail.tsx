@@ -40,7 +40,7 @@ class VolDetail extends React.Component<any, any> {
       v_target: null,
       v_url: null,
       v_appnow: null,
-      v_detail: ""
+      v_detail: null
     }
   };
 
@@ -80,7 +80,7 @@ class VolDetail extends React.Component<any, any> {
                 <Table.Cell className="content">
                   {volunteer.v_pBgnD} ~ {volunteer.v_pEndD}
                 </Table.Cell>
-              </Table.Row>
+              </Table.Row>}
               <Table.Row>
                 <Table.Cell className="head">봉사시간</Table.Cell>
                 <Table.Cell className="content">
@@ -90,7 +90,13 @@ class VolDetail extends React.Component<any, any> {
               <Table.Row>
                 <Table.Cell className="head">모집인원</Table.Cell>
                 <Table.Cell className="content">
-                  {volunteer.v_appnow} / {volunteer.v_wanted} 명
+                  {volunteer.v_wanted} 명 /일
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell className="head">현재인원</Table.Cell>
+                <Table.Cell className="content">
+                  {volunteer.v_appnow} 명
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
