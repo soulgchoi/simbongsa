@@ -21,7 +21,7 @@ interface State {
 class VolInfo extends Component<Props, State> {
   state = { volunteers: [], volunteersForList: [] };
   shouldComponentUpdate(nextProps: any) {
-    const { volunteersForMap, selectedVolunteer } = this.props;
+    const { volunteersForMap } = this.props;
     if (volunteersForMap !== nextProps.volunteersForMap) {
       let volunteers = nextProps.volunteersForMap.toJS();
       let volunteersForList: any[] = [];
@@ -63,8 +63,9 @@ class VolInfo extends Component<Props, State> {
   };
   render() {
     const { selectedVolunteer } = this.props;
-    const { volunteersForList } = this.state;
+    let { volunteersForList } = this.state;
     const { appendList } = this;
+    console.log("선택된 친구", selectedVolunteer);
     return (
       <div className="main--text">
         {!selectedVolunteer.v_id && volunteersForList.length === 0 && (
