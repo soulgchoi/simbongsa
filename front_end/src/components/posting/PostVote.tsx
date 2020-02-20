@@ -3,8 +3,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Label, Icon } from 'semantic-ui-react';
 
-import storage from 'lib/storage'
+import storage from 'lib/storage';
 
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get('token')
 
 interface IProps {
@@ -20,21 +21,18 @@ class PostVote extends React.Component<IProps & any, any> {
             post_vote_members: this.props.post_vote_members,
             vote_cnt: this.props.post_vote_members.length
         }
-        console.log(this.state)
     }
     handleVote(id:number) {
         var { m_id } = this.props.user.toJS()
-        console.log(this.props)
         var post_vote = {
             p_id: id,
             m_id: m_id
         }
-        console.log(post_vote)
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostVote/",
+        axios.post( restBaseApi + "/rest/PostVote/",
         post_vote, 
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
-            console.log(res)
+            // console.log(res)
         })
         .catch(err => console.log(err))
         this.setState({vote_cnt: this.state.vote_cnt+1})

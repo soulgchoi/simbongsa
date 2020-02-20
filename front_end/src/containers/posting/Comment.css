@@ -1,0 +1,11 @@
+span.name {
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 1px;
+}
+
+span.content {
+    font-size: 1em;
+    color: gray;
+    margin-bottom: 3px;
+}

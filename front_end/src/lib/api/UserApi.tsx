@@ -25,7 +25,7 @@ export const getUserFollower = async (userId: string) => {
 export const getUserFollowing = async (userId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
-    restBaseApi + "/follow/" + userId + "followees",
+    restBaseApi + "/follow/" + userId + "/followees",
     { headers: { Authorization: token } }
   );
   console.log("get follower", response);
