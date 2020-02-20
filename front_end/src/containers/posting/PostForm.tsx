@@ -7,9 +7,13 @@ import { bindActionCreators } from "redux";
 import LinkButton from "components/button/LinkButton";
 import GoBackButton from "components/button/GoBackButton";
 import { Form, TextArea } from "semantic-ui-react";
-import { Checkbox } from "semantic-ui-react";
+import { Checkbox, Button } from "semantic-ui-react";
 import storage from "lib/storage";
 import { Link } from "react-router-dom";
+
+import './PostForm.css'
+
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get("token");
 
 class PostingForm extends React.Component<any, any> {
@@ -21,7 +25,6 @@ class PostingForm extends React.Component<any, any> {
         this.setUserInfo()  
         const { PostingActions } = this.props;
         var { id, value } = e.target;
-        // console.log(value)
         PostingActions.changeInput({
             id,
             value,
@@ -61,7 +64,6 @@ class PostingForm extends React.Component<any, any> {
     this.setState({
       p_status: e.target.value
     });
-    console.log(this.state.p_status);
   };
 
 
@@ -72,7 +74,6 @@ class PostingForm extends React.Component<any, any> {
         const { selectedfiles } = this.props
         var v_id = this.props.match.params.id
         var p_status = this.state.p_status
-        console.log(selectedfiles)
 
         const files = new FormData()
         for (let j=0; j<selectedfiles.length; j++){
@@ -85,31 +86,29 @@ class PostingForm extends React.Component<any, any> {
                 m_id,
             }
 
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
+        axios.post( restBaseApi + "/rest/Post", post,
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
             console.log(res)
         })
         .catch(err => console.log(err))
-        console.log(post, files)
 
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostFile", files,
+        axios.post( restBaseApi + "/rest/PostFile", files,
             {headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: "Bearer " + token
                 }
         })
         .then(res => {
-            console.log(res)
         })
         .catch(err => console.log(err))
-        // this.props.history.push(`/${v_id}/list`);
+        this.props.history.push(`/${v_id}/list`);
         this.goListPage();
     }
 
     goListPage() {
-        var v_id = this.props.match.params.id
-        this.props.history.push(`/${v_id}/list`)
+        window.location.reload(true);
+
     }
 
     render() {
@@ -146,16 +145,15 @@ class PostingForm extends React.Component<any, any> {
                 onChange={this.handleFileSelect}
                 value={selectedFiles}
             />
-            <label htmlFor="files">이미지 업로드</label>
-                {/* {imagepreview} */}
-
-            <button onClick={this.handleSubmit}>
+            <div className="buttons">
+            <Button onClick={this.handleSubmit}>
                 게시글 등록하기
-            </button>
+            </Button>
             
             <GoBackButton
                     text="취소하기"
                 />
+            </div>
             </Form>
         );
     }

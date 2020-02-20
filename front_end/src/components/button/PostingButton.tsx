@@ -2,7 +2,6 @@ import React, { ReactElement, Component } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "semantic-ui-react";
 
-// import "assets/mycss";
 
 interface IProps {
   v_id: string;
@@ -19,7 +18,7 @@ class PostingButton extends Component<IProps, {}> {
           state: this.props.v_id
         }}
       >
-        <Button>글 작성하기</Button>
+        <Button className="post">글 작성하기</Button>
       </Link>
     );
   }

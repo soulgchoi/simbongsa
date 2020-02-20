@@ -43,8 +43,7 @@ export default class CertLabel extends Component<IProps & any, any> {
   }
 
   render() {
-    // console.log(this.props)
-    // this.printFunc()
+
     return (
       <div style={{ display: "inline" }}>
           <Label className={this.state.isCertClass} size='tiny' as='a' id={this.state.visibility}><Icon name="time"/>{this.state.isCert}</Label>

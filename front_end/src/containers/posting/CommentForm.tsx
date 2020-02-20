@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import storage from "lib/storage";
-import { useHistory } from 'react-router-dom';
-import GoBackButton from 'components/button/GoBackButton'
+
 import { connect } from "react-redux";
 
 import './CommentForm.css'
 
-import { Input, Form, Button, Label } from 'semantic-ui-react'
+import { Input, Button } from 'semantic-ui-react'
 
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get("token")
 
 
@@ -24,17 +24,13 @@ class CommentForm extends React.Component<Props & any, {}> {
     }
 
     handleChange = (e:any) =>{
-        console.log(this.state.c_content)
         this.setState({
             "c_content": e.target.value
         })
-        console.log(this.props.inP_id)
     }
 
     handleClick = () => {
-        axios.post(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment`,
-        // axios.post(`http://70.12.247.87:8080/rest/Comment/`,
-        // axios.post(`http://70.12.247.126:8080/rest/Comment/`,
+        axios.post(restBaseApi + '/rest/Comment',
         {
             'c_content': this.state.c_content,
             'p_id': this.props.inP_id.toString(),
@@ -46,34 +42,25 @@ class CommentForm extends React.Component<Props & any, {}> {
             this.setState({
                 "c_content": ""
             })
-        console.log(res)
         })
         .catch(err => console.log(err))
-        // window.location.reload(true);
-        // this.handleBack()
+        window.location.reload(true);
         }
-
-        // handleBack() {
-        //     this.props.history.push('/');
-        // }
-        
 
     render() {
 
         return(
             <div>
-                {/* <Form> */}
-                    <Input
-                        size='small'
-                        value={this.state.c_content}
-                        onChange={this.handleChange}
-                        label={<Button
-                            onClick={this.handleClick}
-                            >등록</Button>
-                        }
-                        labelPosition="right"
-                    />
-                {/* </Form> */}
+                <Input
+                    size='small'
+                    value={this.state.c_content}
+                    onChange={this.handleChange}
+                    label={<Button
+                        onClick={this.handleClick}
+                        >등록</Button>
+                    }
+                    labelPosition="right"
+                />
             </div>
         )
     }
