@@ -102,13 +102,17 @@ class PostingForm extends React.Component<any, any> {
                 }
             })
             .then(res => {
+                console.log(res)
             })
             .catch(err => console.log(err))
-        this.props.history.push(`/${v_id}/postinglist`);
+
+        
         this.goListPage();
     }
 
     goListPage() {
+        var v_id = this.props.match.params.id
+        this.props.history.push(`/${v_id}/postinglist`);
         window.location.reload(true);
 
     }

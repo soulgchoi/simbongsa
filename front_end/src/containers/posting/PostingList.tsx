@@ -25,6 +25,8 @@ class PostingList extends Component<any, any> {
       })
       .then(res => {
         const data = res.data.data;
+        console.log(this.restAPI + this.v_id + "/10/" + this.state.pgNum)
+        console.log(res)
         this.setState({
           posts: data,
           pgNum: this.state.pgNum + 1
