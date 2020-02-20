@@ -13,7 +13,7 @@ td.content {
     word-break: keep-all;
 }
 
-td.content {
+td.content.detail {
     word-break: normal;
 }
 
