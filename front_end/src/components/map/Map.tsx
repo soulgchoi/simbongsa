@@ -364,7 +364,7 @@ const makeMarker = (
     selectedIconSize,
     selectedIconOption
   );
-  let markers = [];
+  let markers = [] as any;
   for (var i = 0; i < positions.size; i++) {
     // 마커를 생성합니다
     let id = volunteers[i].v_id;
@@ -393,7 +393,7 @@ const makeMarker = (
   // 마커 클러스터러에 클릭이벤트를 등록합니다
   // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
   // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-  kakao.maps.event.addListener(clusterer, "clusterclick", function(
+  kakao.maps.event.addListener(clusterer, "clusterclick", function (
     cluster: any
   ) {
     // 기존에 선택한 봉사정보가 있으면 초기화
@@ -443,7 +443,7 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function() {
+  return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     if (!selectedMarker || selectedMarker !== marker) {

@@ -112,9 +112,9 @@ const LocationItem = ({ id, text, onRemove }: any) => (
         padding: 0,
         marginTop: 15,
         marginBottom: 15,
-        display: 'flex',
+
     }}>
-        <Button className="ulBtn" color='orange' size='mini'><Icon name="delete" onClick={() => onRemove(id)} />{text}</Button>
+        <Button className="ulBtn" color='orange' size='mini'>{text}<Icon name="delete" onClick={() => onRemove(id)} /></Button>
     </div >
 
 );

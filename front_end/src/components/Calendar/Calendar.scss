@@ -52,10 +52,10 @@
         
         height: 0;
         padding-bottom: calc(100%/7);
-        div.count {
+        .ui.mini.button.count {
           position: relative;
           top: 0%;
-          transform: translate(-0%, 100%);
+          transform: translate(-0%, 150%);
           background-color: rgba(#ffa263, 0.3);
           border: none;
           color:black;
