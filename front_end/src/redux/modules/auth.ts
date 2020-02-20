@@ -16,6 +16,8 @@ const LOCAL_REGISTER = "auth/LOCAL_REGISTER"; // 이메일 가입
 const LOCAL_LOGIN = "auth/LOCAL_LOGIN"; // 이메일 로그인
 const LOGOUT = "auth/LOGOUT"; // 로그아웃
 const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
+const LOGIN_CHECK = "auth/LOGIN_CHECK";
+const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
 
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
@@ -27,8 +29,7 @@ type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
-const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
-
+export const loginCheck = createAction(LOGIN_CHECK);
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
   AuthAPI.checkEmailExists
@@ -82,6 +83,7 @@ export interface AuthState {
     };
   };
   result: {};
+  loginCheck: boolean;
 }
 
 const initialState = Map({
@@ -109,11 +111,12 @@ const initialState = Map({
       password: ""
     }),
     error: Map({
-      email: null,
-      password: null
+      email: "",
+      password: ""
     })
   }),
-  result: Map({})
+  result: Map({}),
+  loginCheck: true
 });
 
 export default handleActions<any>(
@@ -129,6 +132,9 @@ export default handleActions<any>(
     [SET_ERROR]: (state, action) => {
       const { form, message, name } = action.payload;
       return state.setIn([form, "error", name], message);
+    },
+    [LOGIN_CHECK]: (state, action) => {
+      return state.set("loginCheck", action.payload);
     },
     ...pender({
       type: CHECK_STATUS,
@@ -164,8 +170,11 @@ export default handleActions<any>(
     ...pender({
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
-        console.log(action.payload.data.token);
-        return state.set("result", Map(action.payload.data));
+        const { data } = action.payload;
+        if (data === "EmailAthenticateNeed") {
+          return state.set("result", "EmailAuthenticateNeed");
+        }
+        return state.set("result", Map(data));
       }
     }),
     ...pender({

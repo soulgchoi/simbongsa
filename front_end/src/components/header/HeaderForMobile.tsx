@@ -24,12 +24,14 @@ export default class HeaderForMobile extends React.Component<
     history.push("/");
   };
   public render() {
+    const token = storage.get("token");
+    console.log(token, "톸");
     const { activeItem } = this.state;
     const url = window.location.href.split(
       `${process.env.REACT_APP_FRONT_URI!}/`
     )[1];
     return (
-      <Container style={{ "margin-top": "10px" }}>
+      <Container style={{ marginTop: "10px" }}>
         <Responsive {...Responsive.onlyMobile}>
           {url === "mainpage" && (
             <Grid>
@@ -50,32 +52,70 @@ export default class HeaderForMobile extends React.Component<
             </Grid>
           )}
           {url === "feed" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              피드 페이지 작은 화면 헤더{" "}
-              <ActionButton action={this.handleLogout} placeholder="로그아웃" />
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    피드 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <ActionButton
+                    action={this.handleLogout}
+                    placeholder="로그아웃"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {(url === "mypage" || url === "usersetting") && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              마이 페이지 작은 화면 헤더
-              <LinkButton link={"/usersetting"} placeholder="내 정보 수정" />
-              <ActionButton action={this.handleLogout} placeholder="로그아웃" />
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    마이 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <ActionButton
+                    action={this.handleLogout}
+                    placeholder="로그아웃"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {url === "" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              인트로 페이지 작은 화면 헤더
-              <LinkButton link={"/login"} placeholder={"로그인"} />
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    인트로 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  {(token === null || typeof token === "undefined") && (
+                    <LinkButton link={"/login"} placeholder={"로그인"} />
+                  )}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {url === "login" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              로그인 페이지 작은 화면 헤더
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    로그인 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}></Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
         </Responsive>
       </Container>

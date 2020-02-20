@@ -187,6 +187,7 @@ class Join extends React.Component<any, any> {
       <div className="user" id="join">
         <div className="wrapC">
           <h1 className="title">가입하기</h1>
+          <AuthError error={error2.email} />
           <Input
             value={email}
             onChange={handleChange}
@@ -195,7 +196,7 @@ class Join extends React.Component<any, any> {
             type="text"
             nametag="이메일"
           />
-          <AuthError error={error2.email} />
+          <AuthError error={error2.userid} />
           <Input
             value={userid}
             onChange={handleChange}
@@ -204,7 +205,7 @@ class Join extends React.Component<any, any> {
             type="text"
             nametag="아이디"
           />
-          <AuthError error={error2.userid} />
+          <AuthError error={error2.password} />
           <Input
             value={password}
             onChange={handleChange}
@@ -213,8 +214,8 @@ class Join extends React.Component<any, any> {
             type="password"
             nametag="비밀번호"
           />
-          <AuthError error={error2.password} />
 
+          <AuthError error={error2.passwordConfirm} />
           <Input
             value={passwordConfirm}
             onChange={handleChange}
@@ -223,7 +224,6 @@ class Join extends React.Component<any, any> {
             type="password"
             nametag="비밀번호 확인"
           />
-          <AuthError error={error2.passwordConfirm} />
 
           {/* <label>
             <input

@@ -34,30 +34,58 @@ import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 import * as baseActions from "redux/modules/base";
 import storage from "lib/storage";
+import validator from "validator";
 
 // jwt
 import jwt from "jsonwebtoken";
 
+interface validate {
+  [name: string]: (value: string) => boolean;
+}
+
 class Login extends React.Component<any, any> {
-  handlePageChange = (number: any) => {
-    const { BaseActions } = this.props;
-    BaseActions.setInitialNumber(number); // set initial number, to reset it from the previous selected.
+  validate: validate = {
+    email: (value: string) => {
+      if (!validator.isEmail(value)) {
+        this.setError("잘못된 이메일 형식 입니다.", "email");
+        return false;
+      }
+      this.setError(null, "email");
+      return true;
+    },
+    password: (value: string) => {
+      if (!validator.isLength(value, { min: 8 })) {
+        this.setError("비밀번호를 8자 이상 입력하세요.", "password");
+        return false;
+      }
+      this.setError(null, "password"); // 이메일과 아이디는 에러 null 처리를 중복확인 부분에서 하게 됩니다
+      return true;
+    }
   };
 
-  // getPagesNumbers = () => {
-  //   const pageNumbers = [];
-
-  //   for (let i = 1; i <= 5; i++) {
-  //     pageNumbers.push(
-  //       <div>{i}</div>
-  //       // import { Pager } from "react-bootstrap"; 해야함
-  //       // <Pager.Item key={i} eventKey={i - 1} onSelect={this.handlePageChange}>
-  //       //   {i}
-  //       // </Pager.Item>,
-  //     );
-  //   }
-  //   return [...pageNumbers];
-  // };
+  async componentDidMount() {
+    const { SearchActions, AuthActions, UserActions } = this.props;
+    // const { id_token } = this.props.match.params;
+    const hash = window.location.hash;
+    if (hash.length > 0) {
+      const splitedHash = hash.split("id_token=");
+      if (splitedHash.length > 1) {
+        const id_token = splitedHash[1].split("&")[0];
+        await AuthActions.googleLogin(id_token);
+        console.log("로그인페이지 마운트", id_token);
+        console.log("리저트", this.props.result.toJS());
+        const token = this.props.result.toJS().token;
+        console.log("톡ㅋ토", token);
+        const userEmail = jwt.decode(token);
+        await UserActions.setLoggedInfo(userEmail);
+        storage.set("token", token);
+      }
+      const token = storage.get("token");
+      if (token !== null && token !== "undefined") {
+        this.props.history.push("/mainpage");
+      }
+    }
+  }
 
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
@@ -67,6 +95,9 @@ class Login extends React.Component<any, any> {
       value,
       form: "login"
     });
+
+    const validation = this.validate[id](value);
+    if (!validation) return;
   };
 
   // 컴포넌트가 종료될때 로그인 폼을 초기화 시킨다.
@@ -93,8 +124,13 @@ class Login extends React.Component<any, any> {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
     // 로그인을 시도
+    // console.log("메일 비번", email, password);
     try {
       await AuthActions.localLogin({ email, password });
+      if (this.props.result === "EmailAuthenticateNeed") {
+        history.push("/mailresend");
+        return;
+      }
       console.log("최초확인용", this.props.result.toJS());
       const token = this.props.result.toJS().token;
       const loggedInfo = jwt.decode(token);
@@ -127,8 +163,7 @@ class Login extends React.Component<any, any> {
     console.log(this.props.loggedInfo.toJS());
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin, handleGoogleLogin } = this;
-    const { error } = this.props;
-    const error2 = error.toJS();
+    const error = this.props.error.toJS();
     // const pagesNumbers = this.getPagesNumbers();
     return (
       <div>
@@ -154,6 +189,7 @@ class Login extends React.Component<any, any> {
             </Header>
             <Form size="large">
               <Segment stacked>
+                <AuthError error={error.email} />
                 <Form.Input
                   fluid
                   icon="user"
@@ -163,6 +199,7 @@ class Login extends React.Component<any, any> {
                   placeholder="이메일을 입력하세요."
                   onChange={handleChange}
                 />
+                <AuthError error={error.password} />
                 <Form.Input
                   fluid
                   id="password"
@@ -177,7 +214,7 @@ class Login extends React.Component<any, any> {
                 <Button
                   inverted
                   color="orange"
-                  valuex
+                  valuex="true"
                   fluid
                   size="large"
                   onClick={handleLocalLogin}
@@ -194,8 +231,9 @@ class Login extends React.Component<any, any> {
                 onFailure={result => console.log(result)}
                 cookiePolicy={"single_host_origin"}
                 responseType="id_token"
+                buttonText="구글 로그인"
                 uxMode="redirect"
-                redirectUri={process.env.REACT_APP_FRONT_URI + "/mainpage"}
+                redirectUri={process.env.REACT_APP_FRONT_URI + "/login"}
               />
             </Container>
             <Message>
