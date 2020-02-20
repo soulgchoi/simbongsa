@@ -3,7 +3,7 @@ import axios from "axios";
 import { List } from "immutable";
 import Vol from "components/vol/Vol";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import "./VolList.css"
 interface Props {
   volunteers: any[];
   width?: number;
@@ -11,7 +11,7 @@ interface Props {
   appendList: () => void; // volunteers 에 10개를 더 붙여주는 함수.
   loadingMessage: string;
 }
-interface State {}
+interface State { }
 
 export default class VolList extends React.Component<Props, State> {
   state = {
@@ -34,7 +34,7 @@ export default class VolList extends React.Component<Props, State> {
         dataLength={volunteers.length}
         height={height}
         next={loadMoreData}
-        hasMore={volunteers.length <= this.state.pageNum * 10}
+        hasMore={volunteers.length >= this.state.pageNum * 10}
         loader={<h4>봉사활동 목록을 불러오는중</h4>}
         endMessage={<h3>모든 정보를 확인했습니다.</h3>}
       >

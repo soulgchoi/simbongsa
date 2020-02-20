@@ -1,8 +1,10 @@
 import React, { ReactElement } from "react";
 import LinkButton from "components/button/LinkButton";
 import { Link } from "react-router-dom";
-import { Container, Responsive, Header, Image } from "semantic-ui-react";
-// import "assets/mycss";
+import { Container, Responsive, Header, Image, Grid } from "semantic-ui-react";
+import storage from "lib/storage";
+import ActionButton from "components/button/ActionButton";
+
 interface Props {}
 
 interface IState {
@@ -17,45 +19,104 @@ export default class HeaderForMobile extends React.Component<
   IState
 > {
   state = { activeItem: "" };
-
+  handleLogout = () => {
+    const { history } = this.props;
+    storage.remove("token");
+    history.push("/");
+  };
   public render() {
+    const token = storage.get("token");
+    console.log(token, "톸");
     const { activeItem } = this.state;
     const url = window.location.href.split(
       `${process.env.REACT_APP_FRONT_URI!}/`
     )[1];
-    console.log("유알엘", url);
     return (
-      <Container style={{ "margin-top": "10px" }}>
+      <Container style={{ marginTop: "10px" }}>
         <Responsive {...Responsive.onlyMobile}>
           {url === "mainpage" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              메인 페이지 작은 화면 헤더
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    메인 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <ActionButton
+                    action={this.handleLogout}
+                    placeholder="로그아웃"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {url === "feed" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              피드 페이지 작은 화면 헤더
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    피드 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <ActionButton
+                    action={this.handleLogout}
+                    placeholder="로그아웃"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
-          {url === "mypage" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              마이 페이지 작은 화면 헤더
-            </Header>
+          {(url === "mypage" || url === "usersetting") && (
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    마이 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <ActionButton
+                    action={this.handleLogout}
+                    placeholder="로그아웃"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {url === "" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              인트로 페이지 작은 화면 헤더
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    인트로 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  {(token === null || typeof token === "undefined") && (
+                    <LinkButton link={"/login"} placeholder={"로그인"} />
+                  )}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
           {url === "login" && (
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" />
-              로그인 페이지 작은 화면 헤더
-            </Header>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                  <Header as="h2" color="orange" textAlign="center">
+                    <Image centered size="big" src="/images/volunteer.gif" />
+                    로그인 페이지 작은 화면 헤더
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={6}></Grid.Column>
+              </Grid.Row>
+            </Grid>
           )}
         </Responsive>
       </Container>

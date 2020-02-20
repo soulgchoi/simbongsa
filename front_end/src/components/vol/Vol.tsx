@@ -18,7 +18,7 @@ class Vol extends React.Component<Props & any, any> {
                 <CertLabel
                     v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
-                />
+                /> 
                 <div className="linktodetail">
                     <Link
                         to={{
@@ -31,6 +31,7 @@ class Vol extends React.Component<Props & any, any> {
                 <div className="listtitle">
                     {volunteer.v_title}
                 </div>
+                
             </div>
         )
     }

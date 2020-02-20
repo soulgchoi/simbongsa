@@ -3,6 +3,8 @@ import Tab from "containers/mainpage/Tab";
 import SearchBar from "components/search/SearchBar";
 import SearchContainer from "containers/usersetting/SearchContainer";
 import ModalForm from "./ModalForm";
+import './MainPage.css'
+
 import {
   Grid,
   Segment,
@@ -61,26 +63,27 @@ class MainPage extends Component<Iprops> {
     const { loading } = this.props;
     return (
       <Fragment>
-        <Segment>
-          {loading && (
-            <Dimmer active inverted>
-              <Loader>로딩중</Loader>
-            </Dimmer>
-          )}
-          <Container>
-            <SearchBar />
-            <div
-              style={{
-                justifyContent: "flex-end",
-                display: "flex",
-                margin: 10
-              }}
-            >
-              <ModalForm />
-            </div>
-          </Container>
-          <Tab />
-        </Segment>
+
+        <Container>
+          <div style={{ margin: 25 }}>
+            <Header as="h2" icon textAlign="center">
+              <Image centered size="big" src="/images/volunteer.gif" />
+              <Header.Content>최신 봉사활동 정보</Header.Content>
+            </Header>
+          </div>
+          <SearchBar />
+          <div
+            style={{
+              justifyContent: "flex-end",
+              display: "flex",
+              margin: 10
+            }}
+          >
+            <ModalForm />
+          </div>
+        </Container>
+        <Tab />
+
       </Fragment>
     );
   }

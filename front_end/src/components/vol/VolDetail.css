@@ -7,8 +7,12 @@ td.head {
     font-weight: 600;
     border-left: none;
     border-right: none;
+    /* width: 77px; */
 }
 
+td.content {
+    word-break: keep-all;
+}
 
 table.ui.table {
     border: none;
@@ -32,4 +36,10 @@ div.buttons a {
 
 a button:hover {
     color: orange;
+}
+
+h3.title {
+    line-height: 1.5em;
+    word-break: keep-all;
+    padding: 0.2em;
 }

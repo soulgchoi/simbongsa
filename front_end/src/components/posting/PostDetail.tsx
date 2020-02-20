@@ -10,6 +10,7 @@ import temp from 'containers/temp/temp'
 
 import CommentList from 'containers/posting/CommentList'
 import CommentForm from 'containers/posting/CommentForm'
+import PostVote from 'components/posting/PostVote'
 
 import './Carousel.css'
 import './PostDetail.css'
@@ -29,6 +30,7 @@ interface Props {
         m_id: number,
         p_status: number,
         post_vote_members: Array<any>,
+        vote_cnt: number,
         userId: string,
         files: []
     };
@@ -37,24 +39,15 @@ interface Props {
 
 class PostDetail extends React.Component<Props & any, {}> {
     state={
-        vote_cnt: this.props.post.p_vote_cnt !== null ? this.props.post.p_vote_cnt : 0,
+        // vote_cnt: this.props.post.vote_cnt,
         p_id: 0,
         p_content: "",
         v_id: 0,
         m_id: 0,
         p_status: 0,
+        vote_cnt: this.props.post.post_vote_members.length,
         post_vote_members: Array(),
         userId: 0
-    }
-
-    handleDelete(id:number, v_id:number) {
-        axios.delete("http://i02a205.p.ssafy.io:8080/A205/rest/Post/" + id, 
-        { headers: { Authorization: "Bearer " + token }})
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => console.log(err))
-        window.location.reload(true);
     }
 
     handleVote(id:number) {
@@ -72,10 +65,9 @@ class PostDetail extends React.Component<Props & any, {}> {
             console.log(res)
         })
         .catch(err => console.log(err))
-        // window.location.reload(true);
-        // this.forceUpdate()
-        window.location.reload(true);
+        this.setState({vote_cnt: this.state.vote_cnt+1})
     }
+
 
     render() {
         var { m_id, userId } = this.props.user.toJS()
@@ -92,10 +84,9 @@ class PostDetail extends React.Component<Props & any, {}> {
             <div>
                 <div>
                     <div>
+                    
                         <UserProfile profileUserId={this.props.post.userId} />
-                        {m_id == this.props.post.m_id &&
-                            <Icon name="x" onClick={(id:any, v_id:number)=>{ if (window.confirm("게시글을 삭제하시겠습니까?")) this.handleDelete(this.props.post.p_id, this.props.post.v_id)}}/>
-                    }
+                        
                     </div>
                     <Divider />
                     <div className="postedImage">
@@ -112,8 +103,13 @@ class PostDetail extends React.Component<Props & any, {}> {
                     <div className="postContent">{this.props.post.p_content}</div>
                     <Divider />
                     <div className="label">
-                        <Label as='a' color='orange' size="large" onClick={(id:any)=>this.handleVote(this.props.post.p_id)}>
-                            <Icon name="hand paper" />함께 해요 {this.state.vote_cnt}
+                        <Label
+                            as='a' 
+                            color={this.props.post.post_vote_members.includes(m_id) ? 'grey' : 'orange'} 
+                            size="large" 
+                            onClick={(id:any)=>this.handleVote(this.props.post.p_id)}
+                        >
+                            <Icon name="hand paper" />함께 해요 {this.props.post.vote_cnt}
                         </Label>
                     </div>
                     <Divider />

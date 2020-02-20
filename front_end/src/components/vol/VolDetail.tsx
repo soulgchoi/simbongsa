@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import * as VolApi from 'lib/api/VolApi';
 import PostingList from "containers/posting/PostingList"
 import PostingButton from 'components/button/PostingButton'
+import VolWeekday from './VolWeekday'
 
 import { Responsive, Segment, Table, Button } from 'semantic-ui-react'
 import './VolDetail.css'
@@ -37,7 +38,8 @@ class VolDetail extends React.Component<any, any>{
             v_young: null,
             v_organ: null,
             v_location: null,
-            v_target: null
+            v_target: null,
+            v_url: null,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
         }
     };
 
@@ -48,6 +50,7 @@ class VolDetail extends React.Component<any, any>{
         if (typeof result === "object") { // axios를 잘 리턴한 경우
             result.then(response => {
                 this.setState({ volunteer: response.data.data });
+                console.log(response.data.data)
             }
             )
         }
@@ -57,6 +60,8 @@ class VolDetail extends React.Component<any, any>{
 
     render() {
         const { volunteer } = this.state;
+        const wkday = volunteer.v_actWkdy
+        console.log(volunteer)
         return (
             <div>
                 <CertLabel
@@ -64,55 +69,53 @@ class VolDetail extends React.Component<any, any>{
                     v_pStatus={volunteer.v_pStatus}
                 />
 
-                <h3 className="">
+                <h3 className="title">
                     {volunteer.v_title}
                 </h3>
             <Responsive minWidth={320} maxWidth={2559}>
             <Table unstackable celled>
                 <Table.Body>
                     <Table.Row>
-                        <Table.Cell className="head">모집기간</Table.Cell>
-                        <Table.Cell>{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</Table.Cell>
+                        <Table.Cell width="5" className="head">모집기간</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_mBgnD} ~ {volunteer.v_mEndD}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">봉사기간</Table.Cell>
-                        <Table.Cell>{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_pBgnD} ~ {volunteer.v_pEndD}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">봉사시간</Table.Cell>
-                        <Table.Cell>{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_bgnTm} ~ {volunteer.v_endTm}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">모집인원</Table.Cell>
-                        <Table.Cell>{volunteer.v_wanted}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_wanted}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">활동요일</Table.Cell>
-                        <Table.Cell>{volunteer.v_actWkdy}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell className="head">봉사분야</Table.Cell>
-                        <Table.Cell></Table.Cell>
+                        <Table.Cell className="content">
+                            <VolWeekday weekday={this.state.volunteer.v_actWkdy}/>
+                        </Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">봉사자유형</Table.Cell>
-                        <Table.Cell>{volunteer.v_adult === "Y" ? "성인" : null} {volunteer.v_young === "Y" ? "청소년" : null}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_adult === "Y" ? "성인" : null} {volunteer.v_young === "Y" ? "청소년" : null}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">모집기관</Table.Cell>
-                        <Table.Cell>{volunteer.v_organ}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_organ}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">봉사장소</Table.Cell>
-                        <Table.Cell>{volunteer.v_location}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_location}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">봉사대상</Table.Cell>
-                        <Table.Cell>{volunteer.v_target}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_target}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">주소</Table.Cell>
-                        <Table.Cell>{volunteer.v_location}</Table.Cell>
+                        <Table.Cell className="content">{volunteer.v_location}</Table.Cell>
                     </Table.Row>
                 </Table.Body>
                 </Table>

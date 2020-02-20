@@ -36,12 +36,13 @@ import HeaderForMobile from "components/header/HeaderForMobile";
 import FooterForDesktop from "components/footer/FooterForDesktop";
 import FooterForMobile from "components/footer/FooterForMobile";
 import HeaderForDesktop from "components/header/HeaderForDesktop";
-
+import LoginChecker from "components/loginchecker/LoginChecker";
 class Router extends Component {
   render() {
     return (
       <BrowserRouter>
         {/* auth */}
+        <Route path="/" component={LoginChecker} />
         <Route path="/" component={HeaderForDesktop} />
         <Route path="/" component={HeaderForMobile} />
         <Route exact path="/join" component={Join} />

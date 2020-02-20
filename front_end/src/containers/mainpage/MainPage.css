@@ -1,0 +1,4 @@
+div.ui.segment, .ui.segments .segment {
+    border: none;
+    box-shadow: none;
+}
