@@ -83,6 +83,7 @@ export default class HeaderForMobile extends React.Component<
                     action={this.handleLogout}
                     placeholder="로그아웃"
                   />
+                  <LinkButton link="/usersetting" placeholder="내 정보 수정" />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

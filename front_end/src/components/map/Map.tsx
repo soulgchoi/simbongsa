@@ -48,7 +48,7 @@ class Map extends Component<IProps, IState> {
     clusterer: window.kakao.maps.MarkerClusterer,
     myLocation: { y: 0, x: 0 },
     isMyLocationClicked: false,
-    isMarkerRenderingNeed: true,
+    isMarkerRenderingNeed: true
     // height: window.innerHeight - 435,
     // width: window.innerWidth
   };
@@ -114,11 +114,11 @@ class Map extends Component<IProps, IState> {
       if (nextProps.showVolInfo) {
         console.log("축소");
         // resizeMap(volMap, window.innerHeight - 735); // 지도 크기 재조정
-        resizeMap(volMap, "60vh"); // 지도 크기 재조정
+        // resizeMap(volMap, "60vh"); // 지도 크기 재조정
       } else {
         console.log("확대");
         // resizeMap(volMap, window.innerHeight - 435); // 지도 크기 재조정
-        resizeMap(volMap, "60vh"); // 지도 크기 재조정
+        // resizeMap(volMap, "60vh"); // 지도 크기 재조정
       }
     }
     return true;
@@ -393,7 +393,7 @@ const makeMarker = (
   // 마커 클러스터러에 클릭이벤트를 등록합니다
   // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
   // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-  kakao.maps.event.addListener(clusterer, "clusterclick", function (
+  kakao.maps.event.addListener(clusterer, "clusterclick", function(
     cluster: any
   ) {
     // 기존에 선택한 봉사정보가 있으면 초기화
@@ -443,7 +443,7 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function () {
+  return function() {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     if (!selectedMarker || selectedMarker !== marker) {
@@ -472,8 +472,8 @@ function resizeMap(volMap: any, height: string) {
   // mapContainer!.style.width = '650px';
   console.log("맵컨테이너", mapContainer);
   let center = volMap.getCenter();
-  mapContainer!.style.height = height//.toString() + "px";
-  mapWrap!.style.height = height//.toString() + "px";
+  mapContainer!.style.height = height; //.toString() + "px";
+  mapWrap!.style.height = height; //.toString() + "px";
   volMap.relayout();
   volMap.panTo(center);
 }
