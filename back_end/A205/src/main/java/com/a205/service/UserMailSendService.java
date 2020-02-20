@@ -67,8 +67,8 @@ public class UserMailSendService {
 		MimeMessage mail = javaMailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 心봉사 입니다!</h2><br><br>" + "<h3>" + m_email.substring(0, m_email.lastIndexOf("@"))
 				+ "님</h3>" + "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : "
-//				+ "<a href='http://13.124.127.232:8080/A205/email/enter?m_email=" + m_email + "&m_key=" + key
-				+ "<a href='http://localhost:3000/email/" + m_email + "/" + key
+				+ "<a href='http://i02a205.p.ssafy.io/email/" + m_email + "/" + key
+//				+ "<a href='http://localhost:3000/email/" + m_email + "/" + key
 				+ "'>인증하기</a></p>" + "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
 		try {
 			mail.setSubject("[본인인증] 心봉사님의 인증메일입니다", "utf-8");
@@ -92,8 +92,8 @@ public class UserMailSendService {
 		MimeMessage mail = javaMailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 心봉사 입니다!</h2><br><br>" + "<h3>" + m_email.substring(0, m_email.lastIndexOf("@"))
 				+ "님</h3>" + "<p>변경하기 버튼을 누르시면 비밀번호를 변경하실 수 있습니다 : "
-//				+ "<a href='http://13.124.127.232:8080/A205/changepassword/password?passtoken=" + passtoken 
-				+ "<a href='http://localhost:3000/changepassword/" + passtoken 
+				+ "<a href='http://i02a205.p.ssafy.io/changepassword/" + passtoken
+//				+ "<a href='htttp://localhost:3000/changepassword/" + passtoken 
 				+ "'>변경하기</a></p>" + "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
 		try {
 			mail.setSubject("[본인인증] 心봉사님의 비밀번호 변경메일입니다", "utf-8");

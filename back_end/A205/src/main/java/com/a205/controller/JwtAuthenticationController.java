@@ -62,7 +62,7 @@ public class JwtAuthenticationController {
 		if(member.getM_key().equals("Y"))
 			return ResponseEntity.ok(new JwtResponse(token));
 		else 
-			return ResponseEntity.ok("EmailAthenticateNeed");
+			return ResponseEntity.ok("EmailAuthenticateNeed");
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
