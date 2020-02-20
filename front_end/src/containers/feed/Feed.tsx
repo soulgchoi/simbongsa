@@ -74,7 +74,9 @@ class Feed extends Component<Props, State> {
         if (idxN === nLength) {
           break;
         }
-        postingList.push(<Card post={normalFeedList[idxN]} key={idx} />);
+        postingList.push(
+          <Card color="orange" post={normalFeedList[idxN]} key={idx} />
+        );
         idx += 1;
         idxN += 1;
       }

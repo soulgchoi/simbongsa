@@ -100,12 +100,12 @@ class CardComponent extends React.Component<Props & any, {}> {
     }
     return (
       <Card color={color}>
-        <Card.Content>
+        <Card.Content style={{ backgroundColor: "orange" }}>
           <Card.Header>
             {this.props.post.userId}
             <PostUser profileUserId={this.props.post.userId} />
             <span style={{ float: "right" }}>
-              {m_id == this.props.post.m_id && (
+              {m_id === this.props.post.m_id && (
                 <Icon name="x" onClick={this.show} />
               )}
               <Confirm
