@@ -33,10 +33,10 @@ class SearchBar extends React.Component<Iprops, Istate> {
     handleSubmit = (event: any) => {
         const { input, SearchActions } = this.props
         event.preventDefault()
-        if (input !== "") {
-            this.searchByTerm();
-            SearchActions.searchSubmit(true);
-        }
+
+        this.searchByTerm();
+        SearchActions.searchSubmit(true);
+
     }
 
     updateTerm = (event: any) => {
