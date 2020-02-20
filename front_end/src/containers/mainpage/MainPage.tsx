@@ -15,7 +15,8 @@ import {
   Image,
   Dimmer,
   Loader,
-  GridColumn
+  GridColumn,
+  Button
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -69,7 +70,8 @@ class MainPage extends Component<Iprops> {
             style={{
               justifyContent: "flex-end",
               display: "flex",
-              margin: 10
+              marginTop: 10,
+              marginBottom: 10,
             }}
           >
             <ModalForm />

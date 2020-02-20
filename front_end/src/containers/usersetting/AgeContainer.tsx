@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
 import { Checkbox } from 'semantic-ui-react'
+import './AgeContainer.css'
 interface Props {
     ages: any
     SearchActions: any
@@ -28,18 +29,20 @@ class AgeContainer extends Component<Props, State> {
         console.log("ages", ages.toJS())
         return (
             <Fragment>
-                <Checkbox
-                    radio
-                    label='청소년'
-                    checked={youth}
-                    onChange={() => handleToggle('youth', 'adult')}
-                />
-                <Checkbox
-                    radio
-                    label='성인'
-                    checked={adult}
-                    onClick={() => handleToggle('adult', 'youth')}
-                />
+                <div id="age">
+                    <Checkbox
+                        radio
+                        label='청소년'
+                        checked={youth}
+                        onChange={() => handleToggle('youth', 'adult')}
+                    />
+                    <Checkbox
+                        radio
+                        label='성인'
+                        checked={adult}
+                        onClick={() => handleToggle('adult', 'youth')}
+                    />
+                </div>
             </Fragment>
         );
     };
