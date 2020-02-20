@@ -52,4 +52,20 @@ export const uploadProfileImage = async (mId: string, file: any) => {
   );
   let data = response.data;
   console.log("업로드 파일 리스폰스.data", data);
+  return data;
+};
+
+export const getPostByUser = (userId: string, pageNum: number) => {
+  const token = "Bearer " + storage.get("token");
+  try {
+    return axios.get(
+      restBaseApi + `/rest/Member/Post/${userId}/10/${pageNum}`,
+      {
+        headers: { Authorization: token }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return true;
+  }
 };
