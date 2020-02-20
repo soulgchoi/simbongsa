@@ -50,6 +50,7 @@ class HeaderForMobile extends React.Component<
                   {(url === "mypage" || url === "usersetting") && ("마이페이지")}
                   {url === "" && ("")}
                   {url === "login" && ("로그인")}
+                  {url === "join" && ("회원가입")}
                   {window.location.href.includes("detail") && ("봉사활동 상세정보")}
                   {window.location.href.includes("write") && ("글 작성하기")}
                   {window.location.href.includes("postinglist") && ("모집 & 후기")}

@@ -12,6 +12,7 @@ import './Carousel.css'
 import './PostDetail.css'
 import axios from 'axios';
 import storage from 'lib/storage'
+import { Link } from 'react-router-dom';
 
 const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get('token')
@@ -33,11 +34,6 @@ interface Props {
 
 
 class PostDetail extends React.Component<Props & any, {}> {
-    state={
-        // vote_cnt: this.props.post.vote_cnt,
-        vote_cnt: this.props.post.post_vote_members.length,
-        post_vote_members: Array(),
-    }
 
     handleVote(id:number) {
         var { m_id } = this.props.user.toJS()
@@ -45,15 +41,14 @@ class PostDetail extends React.Component<Props & any, {}> {
             p_id: id,
             m_id: m_id
         }
-        console.log(post_vote)
         axios.post(restBaseApi + "/rest/PostVote/",
         post_vote, 
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
-            // console.log(res)
+            console.log(res)
         })
         .catch(err => console.log(err))
-        this.setState({vote_cnt: this.state.vote_cnt+1})
+        window.location.reload(true);
     }
 
 
@@ -64,7 +59,7 @@ class PostDetail extends React.Component<Props & any, {}> {
                 <img key={i} src={ restBaseApi + "/uploads/" + file} />
             )
         })
-        console.log(this.props.post.p_id)
+        console.log(this.props.post.post_vote_members)
         return (
             <div>
                 <div>
@@ -86,15 +81,30 @@ class PostDetail extends React.Component<Props & any, {}> {
                     </div>
                     <Divider />
                     <div className="label">
-                        <Label
+                        {this.props.post.post_vote_members.includes(m_id) ?
+                        (<Label
                             as='a' 
-                            color={this.props.post.post_vote_members.includes(m_id) ? 'grey' : 'orange'} 
+                            color='grey'
                             size="large" 
-                            onClick={(id:any)=>this.handleVote(this.props.post.p_id)}
                         >
-                            <Icon name="hand paper" />함께 해요 {this.props.post.vote_cnt}
-                        </Label>
+                            <Icon name="hand paper" /> {this.props.post.post_vote_members.length} <span style={{marginLeft:"10px", marginRight:"10px"}}>함께 해요</span>
+                            
+                        </Label>)
+                        : (<Label
+                                as='a' 
+                                color='orange'
+                                size="large" 
+                                onClick={(id:any)=>this.handleVote(this.props.post.p_id)}
+                            >
+                                <Icon name="hand paper" /> {this.props.post.post_vote_members.length} <span style={{marginLeft:"10px", marginRight:"10px"}}>함께 해요</span>
+                            </Label>)
+                        }
                     </div>
+                    <Link to={{pathname: `/vol/${this.props.post.v_id}/detail`}}>
+                        <p style={{textAlign:"center", padding:"0.5em", color:"rgb(100, 100, 100)"}}>
+                            상세정보로 이동
+                        </p>
+                    </Link>
                     <Divider />
                     <div className="comment">
                     <CommentList inP_id={this.props.post.p_id}/>
@@ -110,5 +120,4 @@ export default connect(
     (state: any) => ({
         user: state.user.get("loggedInfo")
     }),
-
 )(PostDetail);

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import "assets/mycss";
 import validator from "validator";
-
+import '../login/Login.css'
 //storage = 데이터를 조금 더 편하게 넣고 조회하기 위한 헬퍼 모듈
 import storage from "lib/storage";
 
@@ -17,6 +17,8 @@ import LinkButton from "components/button/LinkButton";
 import ActionButton from "components/button/ActionButton";
 import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
+
+import { Button, Grid, Image, Form, Segment, Icon } from 'semantic-ui-react'
 
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
@@ -184,68 +186,90 @@ class Join extends React.Component<any, any> {
     const { email, userid, password, passwordConfirm } = this.props.form.toJS();
     const { handleChange, handleLocalRegister } = this;
     return (
-      <div className="user" id="join">
-        <div className="wrapC">
-          <h1 className="title">가입하기</h1>
+      <div>
+        <Grid
+          textAlign="center"
+          style={{ height: "100vh" }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            {/* <Header as="h2" color="orange" textAlign="center"> */}
+              <Image centered size="tiny" src="/images/logo1.png" />
+            {/* </Header> */}
+          
+          
+          <Form size="large">
+          <Segment stacked>
           <AuthError error={error2.email} />
-          <Input
+          <Form.Input
+            fluid
             value={email}
             onChange={handleChange}
+            icon="user"
+            iconPosition="left"
             id="email"
             placeholder="이메일을 입력하세요"
             type="text"
             nametag="이메일"
           />
-          <AuthError error={error2.userid} />
-          <Input
+           <AuthError error={error2.userid} />
+          <Form.Input
+            fluid
             value={userid}
             onChange={handleChange}
             id="userid"
+            icon="user outline"
+            iconPosition="left"
             placeholder="닉네임을 입력하세요"
             type="text"
             nametag="아이디"
           />
-          <AuthError error={error2.password} />
-          <Input
+         <AuthError error={error2.password} />
+          <Form.Input
+            fluid
             value={password}
             onChange={handleChange}
             id="password"
+            icon="lock"
+            iconPosition="left"
             placeholder="비밀번호를 입력하세요"
             type="password"
             nametag="비밀번호"
           />
-
           <AuthError error={error2.passwordConfirm} />
-          <Input
+          <Form.Input
+            fluid
             value={passwordConfirm}
             onChange={handleChange}
             id="passwordConfirm"
+            icon="check square"
+            iconPosition="left"
             placeholder="비밀번호를 다시한번 입력하세요"
             type="password"
             nametag="비밀번호 확인"
           />
-
-          {/* <label>
-            <input
-              checked={this.state.isTerm}
-              type="checkbox"
-              id="term"
-              onChange={this.handleCheckBox}
-            />
-            <span>약관을 동의합니다.</span>
-          </label> */}
-
-          <span onClick={() => this.setState({ termPopup: true })}>
-            약관보기
-          </span>
-          <br />
-          <br />
-
-          <button onClick={handleLocalRegister} className="my--btn">
-            가입하기
-          </button>
-          {/* <LinkButton link="/join/complete" placeholder="가입하기" /> */}
-        </div>
+          
+          {/* <div className="policy">
+            <Icon name="check circle outline" />
+              <span onClick={() => this.setState({ termPopup: true })}>
+                가입약관
+              </span>
+          </div> */}
+          <Button
+            className="login"
+            inverted
+            valuex="true"
+            fluid
+            size="large"
+            onClick={handleLocalRegister}
+          >
+                  회원가입
+                </Button>
+                </Segment>
+          </Form>
+          
+        </Grid.Column>
+      </Grid>
       </div>
     );
   }

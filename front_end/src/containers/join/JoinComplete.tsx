@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-// import "assets/mycss";
+
+import { Icon } from 'semantic-ui-react'
 
 interface Iprops {
   location: {
@@ -22,24 +23,28 @@ class JoinComplete extends React.Component<any, any> {
     return (
       <div className="user" id="login">
         <div className="wrapC">
-          <h1 className="title">가입완료</h1>
           <div className="input-with-label">
-            <h1>환영합니다.</h1>
+            <h1 style={{ marginBottom:"2em", marginTop:"1em", color:"rgb(78, 78, 78)"}}>환영합니다!</h1>
           </div>
-          <Link
-            to={{
-              pathname: "/mailresend",
-              state: { email: email }
-            }}
-            className="btn--back"
-          >
-            <button className="btn btn--back btn--join">
-              메일이 도착하지 않았나요?
-            </button>
+          <div>
+            <span className="message" style={{ fontSize: "1.2em"}}> 메일이 도착하지 않았나요?</span>
+
+            <Link
+              to={{
+                pathname: "/mailresend",
+                state: { email: email }
+              }}
+              className="link"
+              style={{ fontSize: "1.2em"}}
+            >
+              메일 재발송
+            </Link>
+          </div>
+          <div style={{marginTop:"1rem"}}>
+          <Link to={"/login"} className="link" style={{ fontSize: "1.2em"}}>
+            <Icon name="long arrow alternate left"></Icon><span className="btn btn--back btn--join">로그인 화면으로</span>
           </Link>
-          <Link to={"/"} className="btn--back">
-            <button className="btn btn--back btn--join">로그인 화면으로</button>
-          </Link>
+          </div>
         </div>
       </div>
     );

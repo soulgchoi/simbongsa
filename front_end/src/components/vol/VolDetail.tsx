@@ -114,7 +114,7 @@ class VolDetail extends React.Component<any, any>{
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell className="head">세부사항</Table.Cell>
-                        <Table.Cell className="content">{volunteer.v_detail}</Table.Cell>
+                        <Table.Cell className="content detail">{volunteer.v_detail}</Table.Cell>
                     </Table.Row>
                 </Table.Body>
                 </Table>

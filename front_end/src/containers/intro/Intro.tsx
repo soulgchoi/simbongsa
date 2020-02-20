@@ -18,12 +18,12 @@ class Intro extends Component<Props & any, State> {
       <div>
         {!loginCheck ?
          (<Container gref>
-          <ListUp />
-          <div className="loginbutton" >
-          <AuthError error="로그인 후 이용해주세요!" />
-          <Button className="loginbutton" as="a" href="/login">로그인</Button>
-          </div>
-          </Container>)
+            <ListUp />
+            <div className="loginbutton" >
+            <AuthError error="로그인 후 이용해주세요!" />
+            <Button className="loginbutton" as="a" href="/login">로그인</Button>
+            </div>
+            </Container>)
         : (<Container>
           <ListUp />
           </Container>)
