@@ -1,5 +1,6 @@
 package com.a205.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,14 @@ public class CommentRestController {
 	@ApiOperation("해당하는 포스트에 달린 모든 댓글을 가져온다 .")
 	public ResponseEntity<Map<String, Object>> getComments(@PathVariable int p_id) {
 		try {
+			
 			List<Comment> comments = service.searchListComments(p_id);
+			for(Comment comment:comments) {
+				int m_id = comment.getM_id();
+				String userId =  memberDao.selectByM_id(m_id).getM_userid();
+				System.out.println(userId);
+				comment.setUserId(userId);
+			}
 			return response(comments, true, HttpStatus.OK);
 		} catch (Exception e) {
 			Logger.error("댓글 불러오기 실패", e);
