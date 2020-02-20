@@ -16,8 +16,10 @@ public class Vol_Mini {
 	String v_pEndD;
 	String v_mBgnD;
 	String v_mEndD;
-	String r_id;
-	String ca_id;
+	String r_sidoNm;
+	String r_gugunNm;
+	String ca_highNm;
+	String ca_lowNm;
 	String v_Auth;
 	String v_x;
 	String v_y;
