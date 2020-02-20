@@ -38,3 +38,18 @@ export const getPosts = (postNum: number) => {
     return true;
   }
 };
+export const uploadProfileImage = async (mId: string, file: any) => {
+  const token = "Bearer " + storage.get("token");
+  let response = await axios.post(
+    restBaseApi + `/rest/Member/PostProfile/${mId}`,
+    file,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: token
+      }
+    }
+  );
+  let data = response.data;
+  console.log("업로드 파일 리스폰스.data", data);
+};

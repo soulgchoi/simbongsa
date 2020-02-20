@@ -19,7 +19,7 @@ interface State {
 }
 
 class VolInfo extends Component<Props, State> {
-  state = { volunteers: [], volunteersForList: [] };
+  state = { volunteers: [] as any, volunteersForList: [] as any };
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForMap } = this.props;
     if (volunteersForMap !== nextProps.volunteersForMap) {
@@ -65,6 +65,8 @@ class VolInfo extends Component<Props, State> {
     const { selectedVolunteer } = this.props;
     const { volunteersForList } = this.state;
     const { appendList } = this;
+    console.log("선택된 친구", selectedVolunteer);
+    // if(selectedVolunteer !=)
     return (
       <div className="main--text">
         {!selectedVolunteer.v_id && volunteersForList.length === 0 && (
@@ -84,7 +86,7 @@ class VolInfo extends Component<Props, State> {
             를 클릭하면 봉사정보가 나와요
           </div>
         )}
-        {selectedVolunteer.v_id && (
+        {/* {selectedVolunteer.v_id && (
           <div className="vol--info">
             <div>봉사활동명 : {selectedVolunteer.v_title}</div>
             <div>
@@ -102,6 +104,14 @@ class VolInfo extends Component<Props, State> {
               placeholder="상세보기"
             />
           </div>
+        )} */}
+        {selectedVolunteer.v_id && (
+          <VolList
+            volunteers={[selectedVolunteer]}
+            appendList={appendList}
+            height={"30vh"}
+            loadingMessage="봉사 활동 정보 불러오는 중"
+          />
         )}
         {volunteersForList.length > 0 && (
           <VolList

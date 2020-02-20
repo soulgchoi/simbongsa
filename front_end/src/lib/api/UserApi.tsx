@@ -42,10 +42,10 @@ export const checkFollow = async (followerId: string, followeeId: string) => {
   const token = "Bearer " + storage.get("token");
   let response = await axios.get(
     restBaseApi +
-    "/isfollowing?follower_userid=" +
-    followerId +
-    "&followee_userid=" +
-    followeeId,
+      "/isfollowing?follower_userid=" +
+      followerId +
+      "&followee_userid=" +
+      followeeId,
     { headers: { Authorization: token } }
   );
   console.log("팔로잉체크", response.data.data);
@@ -99,30 +99,30 @@ export const localPreferRegister: ({
   preferRegion,
   userId
 }: Iprefer) => {
-    let data = {
-      m_age: age,
-      m_bgnTm: bgnTm,
-      m_endTm: endTm,
-      prefer_category: preferCategory,
-      prefer_region: preferRegion
-    };
-
-    try {
-      const token = "Bearer " + storage.get("token");
-      console.log("사용자 선호 입력 API 체크 : ", data);
-      return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
-        headers: { Authorization: token }
-      });
-    } catch (error) {
-      return false;
-    }
-    // try {
-    //   return axios.post(restBaseApi + "Member", data);
-    // } catch (error) {
-    //   console.log(error);
-    //   return true;
-    // }
+  let data = {
+    m_age: age,
+    m_bgnTm: bgnTm,
+    m_endTm: endTm,
+    prefer_category: preferCategory,
+    prefer_region: preferRegion
   };
+
+  try {
+    const token = "Bearer " + storage.get("token");
+    console.log("사용자 선호 입력 API 체크 : ", data);
+    return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
+      headers: { Authorization: token }
+    });
+  } catch (error) {
+    return false;
+  }
+  // try {
+  //   return axios.post(restBaseApi + "Member", data);
+  // } catch (error) {
+  //   console.log(error);
+  //   return true;
+  // }
+};
 
 export const localPreferInfo = (userId: string) => {
   try {
@@ -140,7 +140,7 @@ export const localPreferInfo = (userId: string) => {
   }
 };
 
-export const getFeedList = (mId: string, pgNum: number) => {
+export const getPreferFeedList = (mId: string, pgNum: number) => {
   try {
     console.log("mId", mId);
     const tokenTemp = storage.get("token");
@@ -149,11 +149,48 @@ export const getFeedList = (mId: string, pgNum: number) => {
     const token = "Bearer " + storage.get("token");
     // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
-    return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/10/${pgNum}`, {
+    return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/8/${pgNum}`, {
       headers: { Authorization: token }
     });
   } catch (error) {
     console.log(error);
     return true;
   }
+};
+
+export const getNormalFeedList = (mId: string, pgNum: number) => {
+  try {
+    console.log("mId", mId);
+    const tokenTemp = storage.get("token");
+    const temp: any = jwt.decode(tokenTemp);
+    const mId2 = temp.aud;
+    const token = "Bearer " + storage.get("token");
+    // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
+    // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
+    return axios.get(restBaseApi + `/rest/PostFeed2/${mId2}/2/${pgNum}`, {
+      headers: { Authorization: token }
+    });
+  } catch (error) {
+    console.log(error);
+    return true;
+  }
+};
+
+export const changePassword = async (eMail: string, password: string) => {
+  let data = { m_email: eMail, m_password: password };
+  const token = "Bearer " + storage.get("token");
+  let response = await axios.post(restBaseApi + "/rest/Member/Password", data, {
+    headers: { Authorization: token }
+  });
+  console.log("비밀번호 변경", response);
+  // response 안에서 데이터 추출하기.
+  return response;
+};
+
+export const getUserInfo = async (userId: string) => {
+  const token = "Bearer " + storage.get("token");
+  let response = await axios.get(restBaseApi + `/rest/Member/${userId}`, {
+    headers: { Authorization: token }
+  });
+  return response.data.data;
 };

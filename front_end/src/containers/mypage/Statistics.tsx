@@ -25,7 +25,7 @@ interface State {
   preferCategoryLabelList: any;
 }
 
-class Mypage extends Component<Props, State> {
+class Statistics extends Component<Props, State> {
   state = {
     preferlocationDataList: List(),
     preferlocationLabelList: List(),
@@ -121,7 +121,20 @@ class Mypage extends Component<Props, State> {
     return (
       <div>
         <div>
-          <Tab />
+          <PieGraph
+            title={"봉사 선호 지역 통계"}
+            data={preferlocationDataList.toJS()}
+            labels={preferlocationLabelList.toJS()}
+            width={250}
+            height={250}
+          />
+          <PieGraph
+            title={"선호 봉사 분야 통계"}
+            data={preferCategoryDataList.toJS()}
+            labels={preferCategoryLabelList.toJS()}
+            width={250}
+            height={250}
+          />
         </div>
       </div>
     );
@@ -136,4 +149,4 @@ export default connect(
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch)
   })
-)(Mypage);
+)(Statistics);
