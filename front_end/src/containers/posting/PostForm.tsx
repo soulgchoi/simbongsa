@@ -46,10 +46,6 @@ class PostingForm extends React.Component<any, any> {
       form: "posting"
     });
   }
-  componentWillMount() {
-    const { PostingActions } = this.props;
-    PostingActions.initializeForm("posting");
-  }
 
   handleFileSelect = (e: any) => {
     const { PostingActions } = this.props;
@@ -76,6 +72,7 @@ class PostingForm extends React.Component<any, any> {
 
     const files = new FormData();
     for (let j = 0; j < selectedfiles.length; j++) {
+      console.log("file이 추가됩니다!!");
       files.append("files", selectedfiles[j]);
     }
     const post = {
@@ -103,7 +100,7 @@ class PostingForm extends React.Component<any, any> {
       })
       .then(res => {})
       .catch(err => console.log(err));
-    this.props.history.push(`/${v_id}/list`);
+    this.props.history.push(`/${v_id}/postinglist`);
     this.goListPage();
   };
 
@@ -159,7 +156,6 @@ class PostingForm extends React.Component<any, any> {
     );
   }
 }
-
 export default connect(
   (state: any) => ({
     form: state.posting.getIn(["posting", "form"]),

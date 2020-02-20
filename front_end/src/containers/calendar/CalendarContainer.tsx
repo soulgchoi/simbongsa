@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import Calendar from "components/calendar/Calendar";
 import * as volActions from "redux/modules/vol";
 import VolList from "components/vol/VolList";
+import './CalendarContainer.css'
 interface Props {
   date: MomentTypes;
   changeDate: typeof changeDate;
@@ -54,14 +55,16 @@ class CalendarContainer extends React.Component<Props, any> {
           volunteers={props.volunteers}
           calActions={this.calActions}
         />
-        {props.toggle && (
-          <VolList
-            loadingMessage="봉사활동 정보 불러오는 중"
-            volunteers={props.volunteersForCal.toJS()}
-            appendList={loadMoreData}
-            height={"59vh"}
-          />
-        )}
+        <div className="calendarVolList">
+          {props.toggle && (
+            <VolList
+              loadingMessage="봉사활동 정보 불러오는 중"
+              volunteers={props.volunteersForCal.toJS()}
+              appendList={loadMoreData}
+              height={"59vh"}
+            />
+          )}
+        </div>
       </div>
     );
   }
