@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Button } from 'semantic-ui-react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import moment, { Moment as MomentTypes } from "moment";
 import './Calendar.scss';
@@ -37,7 +38,7 @@ function Body(props: Props) {
     function generate() {
         const startWeek = props.date.clone().startOf('month').week();
         const endWeek = props.date.clone().endOf('month').week() === 1 ? 53 : props.date.clone().endOf('month').week();
-        let calendar = [];
+        let calendar = [] as any;
         for (let week = startWeek; week <= endWeek; week++) {
             calendar.push(
                 <div className="row" key={week}>
@@ -59,7 +60,7 @@ function Body(props: Props) {
                             return (
                                 <Fragment>
                                     <div className={`box`} key={i} onClick={() => props.calActions(current, true, isVol)}>
-                                        {Expressed && <div className={`count`} key={i} onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</div>}
+                                        {Expressed && <Button className={`count`} key={i} size='mini' onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</Button>}
                                         <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
 
                                     </div>

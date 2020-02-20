@@ -50,6 +50,7 @@ class PostingList extends Component<any, any> {
 
   render() {
     const { posts } = this.state;
+    console.log("posts", posts)
     const postingList = posts.map((post: any, i: any) => {
       return <Card post={post} key={i} />;
     });

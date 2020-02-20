@@ -3,9 +3,7 @@
     height:30px;
     margin-right: 5px 
 }
-#ulContainer{
-    display: flex;
-}
+
 div.ui.search.dropdown{
     width:240px;
 }

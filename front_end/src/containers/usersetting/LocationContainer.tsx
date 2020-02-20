@@ -106,7 +106,7 @@ const LocationItem = ({ id, text, onRemove }: any) => (
     display: 'flex',
     justifyContent: 'space-between'
   }}>
-    <Button className="ulBtn" color='orange' size='mini'><Icon name="delete" onClick={() => onRemove(id)} />{text}</Button>
+    <Button className="ulBtn" color='orange' size='mini'>{text}   <Icon name="delete" onClick={() => onRemove(id)} /></Button>
   </div >
 );
 export default connect(
