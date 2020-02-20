@@ -12,6 +12,7 @@ import {
 } from "semantic-ui-react";
 import locationAllList from "lib/json/temp.json";
 import categoryAllList from "lib/json/searchCategory.json";
+import './Login.css';
 
 // import KakaoLogin from "components/user/snsLogin/Kakao";
 // import GoogleLogin from "components/user/snsLogin/Google";
@@ -39,6 +40,7 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import storage from "lib/storage";
 import validator from "validator";
+import { Link } from 'react-router-dom'
 
 // jwt
 import jwt from "jsonwebtoken";
@@ -336,26 +338,15 @@ class Login extends React.Component<any, any> {
     // const pagesNumbers = this.getPagesNumbers();
     return (
       <div>
-        {/* 
-        <Grid.Row verticalAlign="top">
-        <Grid.Row verticalAlign="middle">
-        <Grid.Row verticalAlign="bottom">
-        */}
-
-        {/* <ReactPageScroller
-          pageOnChange={this.handlePageChange}
-          animationTimer={700}
-        > */}
-
         <Grid
           textAlign="center"
           style={{ height: "100vh" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="orange" textAlign="center">
-              <Image centered size="big" src="/images/volunteer.gif" /> 로그인
-            </Header>
+            {/* <Header as="h2" color="orange" textAlign="center"> */}
+              <Image centered size="tiny" src="/images/logo1.png" />
+            {/* </Header> */}
             <Form size="large">
               <Segment stacked>
                 <AuthError error={error.email} />
@@ -381,8 +372,8 @@ class Login extends React.Component<any, any> {
                 />
 
                 <Button
+                  className="login"
                   inverted
-                  color="orange"
                   valuex="true"
                   fluid
                   size="large"
@@ -390,6 +381,7 @@ class Login extends React.Component<any, any> {
                 >
                   로그인
                 </Button>
+              
               </Segment>
             </Form>
             <Container textAlign="right">
@@ -400,12 +392,24 @@ class Login extends React.Component<any, any> {
                 onFailure={result => console.log(result)}
                 cookiePolicy={"single_host_origin"}
                 responseType="id_token"
-                buttonText="구글 로그인"
+                buttonText="구글 계정으로 로그인"
                 uxMode="redirect"
                 redirectUri={process.env.REACT_APP_FRONT_URI + "/login"}
               />
             </Container>
-            <Message>
+            <div className="authlink">
+              <div>
+                <span className="message">비밀번호를 잊으셨나요?</span>
+                <Link to="/findpassword"><a className="link">비밀번호 찾기</a></Link>
+                <br/>
+              </div>
+              <div>
+                <span className="message">아직 심봉사의 회원이 아니세요?</span>
+                {/* <LinkButton placeholder="회원가입" link="/join" /> */}
+                <Link to="/join"><a className="link">회원가입</a></Link>
+              </div>
+            </div>
+            {/* <Message>
               <Grid>
                 <Grid.Row columns={2}>
                   <Grid.Column>
@@ -420,7 +424,7 @@ class Login extends React.Component<any, any> {
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
-            </Message>
+            </Message> */}
           </Grid.Column>
         </Grid>
         {/* <Grid columns={2} centered>

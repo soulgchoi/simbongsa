@@ -43,7 +43,7 @@ class Router extends Component {
     return (
       <BrowserRouter>
         {/* auth */}
-        <Route path="/" component={LoginChecker} />
+        {/* <Route path="/" component={LoginChecker} /> */}
         <Route path="/" component={HeaderForDesktop} />
         <Route path="/" component={HeaderForMobile} />
         <Route exact path="/join" component={Join} />

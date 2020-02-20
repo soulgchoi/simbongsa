@@ -104,6 +104,7 @@ class Mypage extends Component<Props, State> {
     return preferlocationDataList.size > 0 && preferCategoryDataList.size > 0;
   }
   componentDidMount() {
+    window.scrollTo(0, 0)
     const { VolActions, userId } = this.props;
     console.log("마이페이지 userId", userId);
     VolActions.getVolListByUserId(userId);
