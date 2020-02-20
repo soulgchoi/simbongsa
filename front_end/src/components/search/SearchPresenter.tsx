@@ -33,7 +33,7 @@ const SearchPresenter = ({ volResults, input, error, handleSubmit, updateTerm }:
   return (
     <Fragment>
 
-      <SearchInput id="search" type="text" placeholder="지역 또는 봉사를 입력하세요." value={input} onChange={updateTerm} nametag="지역 / 봉사" handleSubmit={handleSubmit} ></SearchInput>
+      <SearchInput id="search" type="text" placeholder="봉사 관련 키워드를 입력하세요." value={input} onChange={updateTerm} nametag="지역 / 봉사" handleSubmit={handleSubmit} ></SearchInput>
 
     </Fragment>
   )

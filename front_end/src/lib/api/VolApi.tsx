@@ -64,6 +64,7 @@ export const getVolListBySearch = ({ input, firstLocation, secondLocation, third
         url += '&'
       }
       url += `vol_title=${input}`
+      isAmpersand = true
     }
     if (isAmpersand) {
       url += '&'
@@ -144,14 +145,12 @@ export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, t
       url += `ca_highNm3=${thirdCategory}`
       isAmpersand = true
     }
-    if (isAmpersand) {
-      url += '&'
-    }
     if (input !== '') {
       if (isAmpersand) {
         url += '&'
       }
       url += `vol_title=${input}`
+      isAmpersand = true
     }
     if (isAmpersand) {
       url += '&'
