@@ -19,3 +19,7 @@ div.ui.menu {
     /* background-color: rgba(255, 136, 0, 0.24); */
     font-weight: bold;
 }
+
+.ui.menu .item>i.icon {
+    margin: auto;
+}

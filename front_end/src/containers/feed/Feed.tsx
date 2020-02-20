@@ -50,7 +50,7 @@ class Feed extends Component<Props, State> {
       <InfiniteScroll
         dataLength={feedList.length}
         next={this.loadMoreData.bind(this)}
-        hasMore={feedList.length <= this.state.pageNum * 10}
+        hasMore={feedList.length >= this.state.pageNum * 10}
         loader={<h4>게시글 목록을 불러오는 중</h4>}
         endMessage={<h4>모든 정보를 확인했습니다.</h4>}
       >

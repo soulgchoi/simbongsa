@@ -16,7 +16,7 @@ import jwt from "jsonwebtoken";
 import locationAllList from "lib/json/temp.json";
 import categoryAllList from "lib/json/searchCategory.json";
 
-import { Container } from 'semantic-ui-react'
+import { Container, Image } from 'semantic-ui-react'
 import * as volActions from 'redux/modules/vol';
 interface IProps {
   UserActions: typeof userActions
@@ -244,20 +244,20 @@ class App extends Component<IProps> {
   }
 
   render() {
-    const { loading } = this.props
+    const { loading } = this.props;
     return (
-      <div>
-        <Segment>
+        <div style={{ marginTop: "2.85714286em"}}>
+        <Segment style={{marginBottom: "3em"}}>
           {loading && (
             <Dimmer active inverted>
               <Loader>로딩중</Loader>
             </Dimmer>
           )}
-          <Container >
+          <Container>
             <Router />
           </Container>
         </Segment>
-      </div>
+        </div>
     );
   }
 }
