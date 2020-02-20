@@ -9,11 +9,10 @@ import AuthError from "components/error/AuthError";
 interface Props {
   loginCheck: boolean;
 }
-interface State { }
+interface State {}
 class Intro extends Component<Props, State> {
   render() {
     const { loginCheck } = this.props;
-    console.log("록쳌", loginCheck)
     return (
       <div>
         <Container>

@@ -10,21 +10,21 @@ interface Props {
   AuthActions: typeof authActions;
   loginCheck: boolean;
 }
-interface State { }
+interface State {}
 
 class LoginChecker extends Component<Props, State> {
   state = {};
   componentDidMount() {
     console.log("주소", window.location.href);
-    const url = window.location.href.split(
-      `${process.env.REACT_APP_FRONT_URI!}/`
-    )[1].split('#')[0];
+    const url = window.location.href
+      .split(`${process.env.REACT_APP_FRONT_URI!}/`)[1]
+      .split("#")[0];
     console.log("유알엘", url);
     const token = storage.get("token");
     if (token === "EmailAuthenticateNeed") {
       this.props.history.push("/mailresend");
     }
-    if ((token === "undefined" || token === null) && url !== 'login') {
+    if ((token === "undefined" || token === null) && url !== "login") {
       this.props.history.push("/");
     }
     console.log("통과");

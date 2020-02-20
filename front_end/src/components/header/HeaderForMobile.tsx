@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Container, Responsive, Header, Image, Grid } from "semantic-ui-react";
 import storage from "lib/storage";
 import ActionButton from "components/button/ActionButton";
-
 interface Props {}
 
 interface IState {

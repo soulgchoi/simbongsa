@@ -2,10 +2,10 @@ import React from "react";
 import * as EmailValidator from "email-validator";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as authActions from 'redux/modules/auth';
-import { Map } from 'immutable';
+import * as authActions from "redux/modules/auth";
+import { Map } from "immutable";
 // import UserApi from "apis/UserApi";
-import * as AuthApi from 'lib/api/AuthApi'
+import * as AuthApi from "lib/api/AuthApi";
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
 
@@ -39,9 +39,7 @@ class MailReSend extends React.Component<IProps, IState> {
   componentDidMount() {
     const { email } = this.props;
     console.log(this.props);
-    this.setState({ email: email }, () =>
-      this.checkForm()
-    );
+    this.setState({ email: email }, () => this.checkForm());
   }
   checkForm = () => {
     let error = { ...this.state.error };
@@ -80,11 +78,11 @@ class MailReSend extends React.Component<IProps, IState> {
     } catch (e) {
       if (e.response.status === 409) {
         const { key } = e.response.data;
-        const message = "회원 가입한 이메일이 아닙니다."
+        const message = "회원 가입한 이메일이 아닙니다.";
         return this.setError(message, key);
       }
     }
-  }
+  };
 
   checkEmailExists = debounce(async (email: string) => {
     const { AuthActions } = this.props;
@@ -135,7 +133,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <button
             disabled={!this.state.isSubmit}
             className="btn btn--back btn--login"
-          // onClick={"#"}
+            // onClick={"#"}
           >
             메일 재전송
           </button>
@@ -147,13 +145,13 @@ class MailReSend extends React.Component<IProps, IState> {
 
 export default connect(
   ({ auth }: any) => ({
-    email: auth.getIn(['login', 'form', 'email']),
+    email: auth.getIn(["login", "form", "email"]),
     form: auth.getIn(["join", "form"]),
     error: auth.getIn(["join", "error"]),
     exists: auth.getIn(["join", "exists"]),
     result: auth.get("result")
   }),
   dispatch => ({
-    AuthActions: bindActionCreators(authActions, dispatch),
+    AuthActions: bindActionCreators(authActions, dispatch)
   })
 )(MailReSend);

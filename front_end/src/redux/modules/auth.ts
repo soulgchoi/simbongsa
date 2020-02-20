@@ -29,6 +29,7 @@ type ChangeInputPayload = string;
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form
 export const checkStatus = createAction(CHECK_STATUS, AuthAPI.checkStatus);
+export const loginCheck = createAction(LOGIN_CHECK);
 export const checkEmailExists = createAction(
   CHECK_EMAIL_EXISTS,
   AuthAPI.checkEmailExists
@@ -51,7 +52,6 @@ export const googleLogin = createAction(GOOGLE_LOGIN, AuthAPI.googleLogin); //
 export const logout = createAction(LOGOUT);
 
 export const setError = createAction(SET_ERROR); // { form, message }
-export const loginCheck = createAction(LOGIN_CHECK);
 
 export interface AuthState {
   join: {
@@ -171,8 +171,8 @@ export default handleActions<any>(
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
         const { data } = action.payload;
-        if (data === 'EmailAthenticateNeed') {
-          return state.set("result", 'EmailAuthenticateNeed');
+        if (data === "EmailAthenticateNeed") {
+          return state.set("result", "EmailAuthenticateNeed");
         }
         return state.set("result", Map(data));
       }
