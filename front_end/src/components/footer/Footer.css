@@ -12,5 +12,10 @@ div.ui.menu {
 }
 
 .ui .borderless .menu {
-    margin-top: 0 !important;
+    /* margin-top: 0 !important; */
+}
+
+.ui.borderless.bottom.fixed.three.item.menu a.active.item {
+    /* background-color: rgba(255, 136, 0, 0.24); */
+    font-weight: bold;
 }

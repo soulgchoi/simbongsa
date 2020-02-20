@@ -4,11 +4,9 @@ import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
 import * as UserAPI from "lib/api/UserApi";
 
-import FollowList from "components/user/profile/FollowList";
 import ActionButton from "components/button/ActionButton";
 
 import "./PostUser.css"
-// import "assets/mycss";
 
 interface Props {
   UserActions: typeof userActions;
@@ -64,7 +62,6 @@ class PostUser extends Component<Props, State> {
   };
   handleUnfollow = async () => {
     const { loginUserId, profileUserId } = this.props;
-    console.log("언팔로우");
     await UserAPI.unfollowUser({
       follower_userid: loginUserId,
       followee_userid: profileUserId

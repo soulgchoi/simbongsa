@@ -50,7 +50,6 @@ class VolDetail extends React.Component<any, any>{
         if (typeof result === "object") { // axios를 잘 리턴한 경우
             result.then(response => {
                 this.setState({ volunteer: response.data.data });
-                console.log(response.data.data)
             }
             )
         }

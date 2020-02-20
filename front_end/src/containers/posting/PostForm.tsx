@@ -12,6 +12,8 @@ import storage from "lib/storage";
 import { Link } from "react-router-dom";
 
 import './PostForm.css'
+
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get("token");
 
 class PostingForm extends React.Component<any, any> {
@@ -23,7 +25,6 @@ class PostingForm extends React.Component<any, any> {
         this.setUserInfo()  
         const { PostingActions } = this.props;
         var { id, value } = e.target;
-        // console.log(value)
         PostingActions.changeInput({
             id,
             value,
@@ -63,7 +64,6 @@ class PostingForm extends React.Component<any, any> {
     this.setState({
       p_status: e.target.value
     });
-    console.log(this.state.p_status);
   };
 
 
@@ -74,7 +74,6 @@ class PostingForm extends React.Component<any, any> {
         const { selectedfiles } = this.props
         var v_id = this.props.match.params.id
         var p_status = this.state.p_status
-        console.log(selectedfiles)
 
         const files = new FormData()
         for (let j=0; j<selectedfiles.length; j++){
@@ -87,31 +86,29 @@ class PostingForm extends React.Component<any, any> {
                 m_id,
             }
 
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/Post", post,
+        axios.post( restBaseApi + "/rest/Post", post,
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
             console.log(res)
         })
         .catch(err => console.log(err))
-        console.log(post, files)
 
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostFile", files,
+        axios.post( restBaseApi + "/rest/PostFile", files,
             {headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: "Bearer " + token
                 }
         })
         .then(res => {
-            console.log(res)
         })
         .catch(err => console.log(err))
-        // this.props.history.push(`/${v_id}/list`);
+        this.props.history.push(`/${v_id}/list`);
         this.goListPage();
     }
 
     goListPage() {
-        var v_id = this.props.match.params.id
-        this.props.history.push(`/${v_id}/list`)
+        window.location.reload(true);
+
     }
 
     render() {

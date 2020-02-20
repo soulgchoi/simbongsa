@@ -3,7 +3,7 @@ import LinkButton from "components/button/LinkButton";
 import { Button, Sticky, Menu, Responsive, Container } from "semantic-ui-react";
 
 // import "assets/mycss";
-// import './Footer.css'
+import './Footer.css'
 interface Props {}
 
 // export default function Header({ }: Props): ReactElement {

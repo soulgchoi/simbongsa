@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Post from './Post';
 import storage from 'lib/storage'
-import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Card from 'components/posting/Card'
 import './PostingList.css'
@@ -15,51 +13,42 @@ class PostingList extends Component<any, any> {
       posts: Array(),
       pgNum: 1
     };
-    console.log(this.props)
   }
 
   // v_id & 팔로우 여부로
   v_id = this.props.match.params.id;
   restAPI = process.env.REACT_APP_REST_BASE_API + "/rest/VolFeed/";
   componentDidMount() {
-    console.log(this.restAPI + this.v_id + "/10/" + this.state.pgNum);
     axios
       .get(this.restAPI + this.v_id + "/10/" + this.state.pgNum, {
         headers: { Authorization: "Bearer " + token }
       })
       .then(res => {
-        console.log("res.data", res.data.data);
         const data = res.data.data;
         this.setState({
           posts: data,
           pgNum: this.state.pgNum + 1
         });
-        console.log(this.state.posts);
       })
       .catch(err => console.log(err));
   }
 
   loadMoreData() {
-    console.log(this.v_id);
     axios
       .get(this.restAPI + this.v_id + "/10/" + this.state.pgNum, {
         headers: { Authorization: "Bearer " + token }
       })
       .then(res => {
-        console.log("res.data", res);
         const data = res.data.data;
         this.setState({
           posts: this.state.posts.concat(res.data.data),
           pgNum: this.state.pgNum + 1
         });
-        console.log(this.state.posts);
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
     const { posts } = this.state;
     const postingList = posts.map((post: any, i: any) => {
       return <Card post={post} key={i} />;

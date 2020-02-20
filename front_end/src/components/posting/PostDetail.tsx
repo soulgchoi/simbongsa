@@ -1,25 +1,19 @@
 import React from 'react'
-import * as userActions from "redux/modules/user"
 import { connect } from "react-redux";
 
-import { Button, Header, Image, Modal, Label, Icon, Divider } from 'semantic-ui-react'
-import ImageCarousel from './ImageCarousel'
+import { Image, Label, Icon, Divider } from 'semantic-ui-react'
 import Carousel from 'nuka-carousel'
 
-import temp from 'containers/temp/temp'
 
 import CommentList from 'containers/posting/CommentList'
 import CommentForm from 'containers/posting/CommentForm'
-import PostVote from 'components/posting/PostVote'
 
 import './Carousel.css'
 import './PostDetail.css'
 import axios from 'axios';
 import storage from 'lib/storage'
-import { Redirect } from 'react-router-dom';
-import { redirectTo } from '@reach/router';
-// import UserProfile from 'components/user/profile/UserProfile';
-import PostUser from './PostUser';
+
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get('token')
 
 
@@ -47,17 +41,16 @@ class PostDetail extends React.Component<Props & any, {}> {
 
     handleVote(id:number) {
         var { m_id } = this.props.user.toJS()
-        console.log(this.props)
         var post_vote = {
             p_id: id,
             m_id: m_id
         }
         console.log(post_vote)
-        axios.post("http://i02a205.p.ssafy.io:8080/A205/rest/PostVote/",
+        axios.post(restBaseApi + "/rest/PostVote/",
         post_vote, 
         { headers: { Authorization: "Bearer " + token }})
         .then(res => {
-            console.log(res)
+            // console.log(res)
         })
         .catch(err => console.log(err))
         this.setState({vote_cnt: this.state.vote_cnt+1})
@@ -66,12 +59,9 @@ class PostDetail extends React.Component<Props & any, {}> {
 
     render() {
         var { m_id, userId } = this.props.user.toJS()
-        console.log(m_id, userId)
-        console.log(this.props.post)
         const images = this.props.post.files.map( (file:any, i:number) => {
-            console.log(file)
             return (
-                <img key={i} src={"http://i02a205.p.ssafy.io:8080/A205/uploads/" + file} />
+                <img key={i} src={ restBaseApi + "/uploads/" + file} />
             )
         })
         console.log(this.props.post.p_id)

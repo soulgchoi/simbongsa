@@ -3,6 +3,7 @@ import axios from 'axios';
 import Comment from './Comment';
 import storage from 'lib/storage'
 
+const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 let token = storage.get("token")
 
 interface Props {
@@ -21,14 +22,11 @@ class CommentList extends React.Component<Props, States> {
             comments: []
         }
 
-        console.log(this.props.inP_id)
-        axios.get(`http://i02a205.p.ssafy.io:8080/A205/rest/Comment/${this.props.inP_id}/`,
+        axios.get(restBaseApi + `/rest/Comment/${this.props.inP_id}/`,
         { headers: { Authorization: "Bearer " + token }})
 
         .then( res => {
-            console.log(res)
             if (res.data.data.length > 0) {
-                console.log(res.data)
                 const data = res.data.data.map( (d: any) => {
                         return {c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.m_userid}
                 })
@@ -41,7 +39,6 @@ class CommentList extends React.Component<Props, States> {
     }
 
     render() {
-        console.log(this.state.comments)
         const prints = this.state.comments.map( (comment, i) => {
                 return (
                     <Comment
@@ -57,7 +54,6 @@ class CommentList extends React.Component<Props, States> {
                 {this.state.comments.length > 0 ? 
                 (prints)
                 : (<div style={{color: 'rgb(185, 185, 185)'}}>첫번째 댓글을 작성해보세요.</div> )}
-                {/* <span onClick={()=>this.deleteComment()}></span> */}
             </div>
     )}
 };
