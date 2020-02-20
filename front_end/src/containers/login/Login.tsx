@@ -327,6 +327,14 @@ class Login extends React.Component<any, any> {
     const userEmail = jwt.decode(token);
     UserActions.setLoggedInfo(userEmail);
     storage.set("token", token);
+    const { userId } = this.props
+    console.log("userId", userId)
+    await UserActions.setPreferInfo(userId);
+    const { preferInfo } = this.props
+    console.log("preferInfo", preferInfo)
+    this.initializePreferInfo(preferInfo)
+
+    await this.initialSearch()
     history.push("/mainpage");
   };
 
@@ -345,7 +353,7 @@ class Login extends React.Component<any, any> {
         >
           <Grid.Column style={{ maxWidth: 450 }}>
             {/* <Header as="h2" color="orange" textAlign="center"> */}
-              <Image centered size="tiny" src="/images/logo1.png" />
+            <Image centered size="tiny" src="/images/logo1.png" />
             {/* </Header> */}
             <Form size="large">
               <Segment stacked>
@@ -381,7 +389,7 @@ class Login extends React.Component<any, any> {
                 >
                   로그인
                 </Button>
-              
+
               </Segment>
             </Form>
             <Container textAlign="right">
@@ -401,7 +409,7 @@ class Login extends React.Component<any, any> {
               <div>
                 <span className="message">비밀번호를 잊으셨나요?</span>
                 <Link to="/findpassword"><a className="link">비밀번호 찾기</a></Link>
-                <br/>
+                <br />
               </div>
               <div>
                 <span className="message">아직 심봉사의 회원이 아니세요?</span>
