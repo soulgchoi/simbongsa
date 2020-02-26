@@ -59,7 +59,6 @@ class MyPost extends Component<Props, State> {
 
 export default connect(
   ({ user, posting, vol }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"]),
     postList: posting.get("postsByUser").toJS()
   }),
   dispatch => ({

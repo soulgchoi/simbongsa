@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Icon, Confirm } from "semantic-ui-react";
 import PostDetail from "components/posting/PostDetail";
-import PostUser from "./PostUser"
+import UserProfile from "components/user/profile/UserProfile"
 import "./Card.scss";
 import { connect } from "react-redux";
 import * as PostingApi from 'lib/api/PostingApi'
@@ -108,7 +108,7 @@ class CardComponent extends React.Component<Props, {}> {
                 size='tiny'
               />
             </span>
-            <PostUser profileUserId={this.props.post.userId} />
+            <UserProfile profileUserId={this.props.post.userId} />
           </Card.Header>
 
         </Card.Content>

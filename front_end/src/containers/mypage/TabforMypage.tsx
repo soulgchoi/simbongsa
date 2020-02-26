@@ -9,35 +9,36 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
 
-const panes = [
+const panes = (userId :string) =>{ return [
   {
     menuItem: {
       key: "vollist",
-      content: "나의 봉사",
+      content: "봉사활동",
       icon: "group"
     },
-    render: () => <Tab.Pane><MyVol /></Tab.Pane>
+    render: () => <Tab.Pane><MyVol userId={userId}/></Tab.Pane>
   },
   {
     menuItem: {
-      key: "posting", content: "내 게시글",
+      key: "posting", content: "게시글",
       icon: "write"
     },
-    render: () => <Tab.Pane><MyPost /></Tab.Pane>
+    render: () => <Tab.Pane><MyPost userId={userId}/></Tab.Pane>
   },
   {
     menuItem: {
       key: "calendar",
-      content: "봉사 통계",
+      content: "봉사통계",
       icon: "pie graph"
     },
     render: () => (
       <Tab.Pane>
-        <Statistics />
+        <Statistics userId={userId}/>
       </Tab.Pane>
     )
   }
-];
+]
+};
 
 interface Props {
   VolActions: any;
@@ -52,9 +53,10 @@ class TabExampleBasic extends React.Component<Props, State> {
     VolActions.getVolListByUserId(userId);
   }
   public render() {
+    const{ userId } = this.props;
     return (
       <div id="tab">
-        <Tab panes={panes} />
+        <Tab panes={panes(userId)} />
       </div>
     );
   }
@@ -63,7 +65,6 @@ class TabExampleBasic extends React.Component<Props, State> {
 
 export default connect(
   ({ user, vol }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"]),
     volListByUserId: vol.get("volListByUserId")
   }),
   dispatch => ({

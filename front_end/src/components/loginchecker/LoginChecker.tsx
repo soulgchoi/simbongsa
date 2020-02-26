@@ -25,7 +25,7 @@ class LoginChecker extends Component<Props, State> {
     const token = storage.get("token");
     // 토큰이 존재 하지 않음 === 로그인 안함
     // 로그인 안한 사람이 로그인이 필요한 페이지 접근시 강제로 인트로 페이지로 보냄
-    const needAuthUrl = /\bmainpage\b|\bfeed\b|\bmypage\b|\busersetting\b|\bcalendar\b/;
+    const needAuthUrl = /\bmainpage\b|\bfeed\b|\bmypage\b|\busersetting\b|\bcalendar\b|\buser\b/;
     if (token !== null && token.split('.')[0] === 'eyJhbGciOiJIUzUxMiJ9') {
       AuthActions.loginCheck(true);
     }

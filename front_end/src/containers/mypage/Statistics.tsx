@@ -132,7 +132,6 @@ class Statistics extends Component<Props, State> {
 
 export default connect(
   ({ user, vol }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"]),
     volListByUserId: vol.get("volListByUserId")
   }),
   dispatch => ({

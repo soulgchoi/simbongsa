@@ -40,7 +40,6 @@ class MyVol extends Component<Props, State> {
 
 export default connect(
   ({ user, posting, vol }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"]),
     volListByUserId: vol.get("volListByUserId")
   }),
   dispatch => ({

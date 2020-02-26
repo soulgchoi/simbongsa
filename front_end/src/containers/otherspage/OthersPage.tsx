@@ -12,6 +12,7 @@ import UserProfile from "components/user/profile/UserProfile";
 interface Props {
   VolActions: any;
   userId: string;
+  match : any;
 }
 interface State {
 }
@@ -24,14 +25,14 @@ class Mypage extends Component<Props, State> {
   }
 
   render() {
-    const{userId} = this.props;
+    const userId = this.props.match.params.id;
     return (
       <div>
         <Container textAlign="center">
           <UserProfile profileUserId={userId}/>
         </Container>
         <Container text>
-          <TabforMypage userId={userId}/>
+          <TabforMypage userId={userId} />
         </Container>
       </div>
     );
@@ -40,7 +41,6 @@ class Mypage extends Component<Props, State> {
 
 export default connect(
   ({ user }: any) => ({
-    userId: user.getIn(["loggedInfo", "userId"]),
   }),
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch)

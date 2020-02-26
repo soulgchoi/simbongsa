@@ -18,6 +18,7 @@ const SET_USER_FOLLOW_TAG = "user/SET_USER_FOLLOW_TAG";
 const FOLLOW_USER = 'user/FOLLOW_USER';
 const UNFOLLOW_USER = 'user/UNFOLLOW_USER';
 const SET_USER_PROFILE_IMAGE = 'user/SET_USER_PROFILE_IMAGE';
+const SET_OTHERS_ID = 'user/SET_OTHERS_ID';
 // const SET_USER_ID = "user/SET_USER_ID";
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
@@ -44,6 +45,7 @@ export const setUserFollowTag = createAction(SET_USER_FOLLOW_TAG, UserAPI.checkF
 export const followUser = createAction(FOLLOW_USER, UserAPI.followUser, (loginUserId,profileUserId)=>{return profileUserId});
 export const unfollowUser = createAction(UNFOLLOW_USER, UserAPI.unfollowUser, (loginUserId,profileUserId)=>{return profileUserId});
 export const setUserProfileImage = createAction(SET_USER_PROFILE_IMAGE, UserAPI.getUserInfo, profileUserId=>profileUserId);
+export const setOthersID = createAction(SET_OTHERS_ID);
 // export const setUserId = createAction(SET_USER_ID);
 
 // interface initialStateParams{
@@ -89,7 +91,9 @@ const initialState = Map({
     //          followingList: string[];
     //          isProfileUserFollowedByLoginUser: boolean;
     //          profileImage : string;
-  })
+  }),
+
+  othersId : "" // 다른 사람 프로필을 조회하기 위한 아이디
 });
 
 export default handleActions<any>(
@@ -191,7 +195,11 @@ export default handleActions<any>(
         const profileUserId = action.meta;
         return state.setIn(["userProfileMap", profileUserId, "profileImage"], `${process.env.REACT_APP_REST_BASE_API}/uploads/${profile}`);
       }
-    })
+    }),
+
+    [SET_OTHERS_ID] : (state, action)=>{
+      return state.set("othersId", action.payload);
+    }
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
 
