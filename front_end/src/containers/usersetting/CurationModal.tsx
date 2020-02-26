@@ -104,9 +104,9 @@ class CurationModal extends Component<IProps, IState> {
         open={this.state.modalOpen}
         onClose={this.handleClose}
         basic
-        size='small'
+        size='mini'
       >
-        <Header icon='browser' content='Cookies policy' />
+        <Header icon='browser' content='선호정보 저장' />
         <Modal.Content>
           <h3>선호정보가 저장되었습니다.</h3>
         </Modal.Content>

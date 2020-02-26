@@ -5,19 +5,24 @@ import { bindActionCreators } from "redux";
 import { List } from "immutable";
 import * as PostingApi from "lib/api/PostingApi";
 import * as UsergApi from "lib/api/UserApi";
+import FloatingMessage from "components/message/FloatingMessage"
 interface Props {
   mId: string;
   userId: string;
 }
 interface State {
   selectedFiles: any[];
+  isSubmit: boolean
 }
 
 class Profile extends Component<Props, State> {
-  state = { selectedFiles: [] };
+  state = { selectedFiles: [], isSubmit: false };
   componentDidMount() {
     const { userId } = this.props;
     // let data = UsergApi.getUserInfo(userId);
+  }
+  componentWillUnmount(){
+    this.setState({isSubmit:false})
   }
   handleFileSelect = (e: any) => {
     var id = e.target.id;
@@ -35,10 +40,12 @@ class Profile extends Component<Props, State> {
       file.append("file", selectedFiles[0]);
     }
     let data = await PostingApi.uploadProfileImage(mId, file);
+    this.setState({isSubmit: true})
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
   };
   render() {
+    let { isSubmit } = this.state
     return (
       <div>
         <Container>
@@ -52,6 +59,7 @@ class Profile extends Component<Props, State> {
               onChange={this.handleFileSelect}
             />
             <Button onClick={this.handleSubmit}>프로필 사진 등록하기</Button>
+            {isSubmit && <FloatingMessage/>}
           </Form>
         </Container>
       </div>
