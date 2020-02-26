@@ -16,6 +16,7 @@ interface Props {
   loginUserId: string; // 현재 로그인한 유저의 아이디, 자동으로 세팅된다.
   userProfileMap : any; // 현재 표시중인 모든 유저들의 프로필 정보를 저장한 맵. key : 유저아이디, value : 팔로워, 팔로잉, 현재팔로우중여부
   history : any;
+  profileSize : string;
 }
 enum page {
   PROFILE,
@@ -79,7 +80,7 @@ class UserProfile extends Component<Props, State> {
   }
 
   render() {
-    const { loginUserId, profileUserId, userProfileMap } = this.props;
+    const { loginUserId, profileUserId, userProfileMap, profileSize } = this.props;
     
     // 첫 렌더링때 아직 유저프로필 맵이 세팅 안된 상태에서 우선 빈화면 출력
     if(typeof userProfileMap.get(profileUserId) === 'undefined'){
@@ -102,7 +103,11 @@ class UserProfile extends Component<Props, State> {
         {/* {showPage === page.PROFILE && ( */}
           <div>
             <div id="userId" onClick={this.handleIdClick} >
-            <Image src={profileImageFlag!=="null"?profileImage:profile_default} avatar/>
+            {profileSize==='mini' ?
+            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar/>
+            :
+            <Image src={profileImageFlag!=="null"?profileImage:profile_default} resizeMode="contain" spaced="right" circular verticalAlign="bottom" size="tiny"/>
+            }
             {profileUserId}
             </div>
             <div>
@@ -137,7 +142,6 @@ export default withRouter(connect(
     return {
       loginUserId: user.getIn(["loggedInfo", "userId"]),
       userProfileMap : user.get("userProfileMap"),
-      profileUserId : ownProps.profileUserId,
     };
   },
   dispatch => ({

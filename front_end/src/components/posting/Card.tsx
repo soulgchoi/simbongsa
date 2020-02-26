@@ -108,7 +108,7 @@ class CardComponent extends React.Component<Props, {}> {
                 size='tiny'
               />
             </span>
-            <UserProfile profileUserId={this.props.post.userId} />
+            <UserProfile profileSize="mini" profileUserId={this.props.post.userId} />
           </Card.Header>
 
         </Card.Content>
