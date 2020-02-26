@@ -4,7 +4,7 @@ import { Menu, Responsive } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
-
+import * as pageActions from 'redux/modules/page';
 // import "assets/mycss";
 import './Footer.css'
 interface Props { }
@@ -15,7 +15,8 @@ class Footer extends React.Component<any, any>{
 
   handleItemClick = (e: any, { name }: any) => {
     this.setState({ activeItem: name })
-    const { history } = this.props
+    const { history, PageActions } = this.props
+    PageActions.setCurrentTab(0);
     if (name === 'HOME') {
       history.push('/mainpage')
     } else if (name === 'FEED') {
@@ -54,6 +55,7 @@ export default connect(
     loginCheck: state.auth.get("loginCheck")
   }),
   dispatch => ({
-    AuthActions: bindActionCreators(authActions, dispatch)
+    AuthActions: bindActionCreators(authActions, dispatch),
+    PageActions: bindActionCreators(pageActions, dispatch)
   })
 )(Footer);

@@ -1,6 +1,10 @@
 import React from "react";
 import { Container, Responsive, Menu } from "semantic-ui-react";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authActions from "redux/modules/auth";
+import * as pageActions from 'redux/modules/page';
 interface Props {}
 
 interface IState {
@@ -8,9 +12,10 @@ interface IState {
 }
 export interface IAppProps {
   history: any;
+  PageActions : any;
 }
 
-export default class HeaderForDesktop extends React.Component<
+class HeaderForDesktop extends React.Component<
   IAppProps,
   IState
 > {
@@ -18,7 +23,8 @@ export default class HeaderForDesktop extends React.Component<
 
   handleItemClick = (e: any, { name }: any) => {
     this.setState({ activeItem: name });
-    const { history } = this.props;
+    const { history, PageActions } = this.props;
+    PageActions.setCurrentTab(0);
     if (name === "HOME") {
       history.push("/mainpage");
     } else if (name === "FEED") {
@@ -62,3 +68,13 @@ export default class HeaderForDesktop extends React.Component<
     );
   }
 }
+
+export default connect(
+  (state: any) => ({
+    loginCheck: state.auth.get("loginCheck")
+  }),
+  dispatch => ({
+    AuthActions: bindActionCreators(authActions, dispatch),
+    PageActions: bindActionCreators(pageActions, dispatch)
+  })
+)(HeaderForDesktop);
