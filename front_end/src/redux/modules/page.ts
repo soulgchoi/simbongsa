@@ -1,7 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import { Map, List, fromJS } from "immutable";
-import { pender } from "redux-pender/lib/utils";
-import * as PostingApi from "lib/api/PostingApi";
+import { Map, List } from "immutable";
 
 enum VolTab{
     List,
@@ -22,10 +20,9 @@ export const setVolListForMap = createAction(SET_VOL_LIST_FOR_MAP);
 const initialState = Map({
     currentTab : 0,
     currentMapInfo : Map({
-        location : {y : 0, x : 0},
+        location : Map({y : 0, x : 0}),
         level : 14,
     }),
-    volListForMap : List([])
 });
 
 export default handleActions<any>(
@@ -34,13 +31,10 @@ export default handleActions<any>(
         return state.set("currentTab", action.payload);
     },
     [SET_CURRENT_MAP_INFO] : (state, action) =>{
-        console.log("셋맵페이로드", action.payload);
+        console.log("셋맵페이로드", action);
         const { y, x, level } = action.payload;
         const data = { location : { y : y, x : x}, level : level};
         return state.set("currentMapInfo", Map(data));
-    },
-    [SET_VOL_LIST_FOR_MAP] : (state, action) =>{
-        return state.set("volListForMap", List(action.payload));
     },
   },
   initialState

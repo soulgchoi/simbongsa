@@ -85,7 +85,6 @@ export default connect(
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
     PageActions: bindActionCreators(pageActions, dispatch)
-
   })
 )(TabExampleBasic);
 

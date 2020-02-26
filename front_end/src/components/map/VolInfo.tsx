@@ -19,6 +19,26 @@ interface State {
 
 class VolInfo extends Component<Props, State> {
   state = { volunteers: [] as any, volunteersForList: [] as any };
+  componentDidMount(){
+    const { volunteersForMap } = this.props;
+    if(volunteersForMap.size > 0){
+      let volunteers = volunteersForMap.toJS();
+      let volunteersForList: any[] = [];
+      let idx = 0;
+      volunteersForMap.toJS().forEach((vol: any) => {
+        if (idx >= 10) {
+          return;
+        }
+        volunteersForList.push(vol);
+        volunteers.shift();
+        idx = idx + 1;
+      });
+      this.setState({
+        volunteers: volunteers,
+        volunteersForList: volunteersForList
+      });
+    }
+  }
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForMap } = this.props;
     if (volunteersForMap !== nextProps.volunteersForMap) {
