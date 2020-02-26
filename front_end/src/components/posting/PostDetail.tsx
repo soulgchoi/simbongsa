@@ -12,6 +12,7 @@ import './PostDetail.css'
 import * as VolApi from 'lib/api/VolApi';
 import * as PostingApi from 'lib/api/PostingApi';
 import { Link } from 'react-router-dom';
+import Vol from 'components/vol/Vol';
 const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 
 
@@ -28,9 +29,11 @@ interface Props {
         files: []
     };
 }
+interface Istate{
+    volunteer: any
+}
 
-
-class PostDetail extends React.Component<Props & any, {}> {
+class PostDetail extends React.Component<Props & any, Istate> {
     state = { volunteer: {} }
     handleVote(id: number) {
         var { m_id } = this.props.user.toJS()
@@ -110,13 +113,14 @@ class PostDetail extends React.Component<Props & any, {}> {
                             </Label>)
                         }
                     </div>
-                    {/* <Vol volunteer={volunteer} v_id={this.props.post.v_id}></Vol> */}
-                    <Link to={{ pathname: `/vol/${this.props.post.v_id}/detail` }}>
+                    
+                    <Vol volunteer={volunteer} v_id={this.props.post.v_id} ></Vol>
+                    {/* <Link to={{ pathname: `/vol/${this.props.post.v_id}/detail` }}>
                         <p style={{ textAlign: "center", padding: "0.5rem", color: "rgb(100, 100, 100)" }}>
                             상세정보로 이동
                         </p>
                     </Link>
-                    <Divider />
+                    <Divider /> */}
                     <div className="comment">
                         <CommentList inP_id={this.props.post.p_id} />
                         <CommentForm inP_id={this.props.post.p_id} />
