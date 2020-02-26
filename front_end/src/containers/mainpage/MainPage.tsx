@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Tab from "containers/mainpage/TabForMainPage";
+import TabForMainPage from "containers/mainpage/TabForMainPage";
 import SearchBar from "components/search/SearchBar";
 import SearchContainer from "containers/usersetting/SearchContainer";
 import ModalForm from "./ModalForm";
@@ -76,7 +76,7 @@ class MainPage extends Component<Iprops> {
             <div>{result}</div><ModalForm />
           </div>
         </Container>
-        <Tab />
+        <TabForMainPage />
       </Fragment>
     );
   }

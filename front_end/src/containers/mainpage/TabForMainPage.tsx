@@ -76,12 +76,10 @@ class TabForMainPage extends Component<Props, State> {
     return (
       <div>
         <div id="tab">
-          <Container>
             <Tab
               panes={panes}
               activeIndex={activeIndex}
               onTabChange={this.handleTabChange}/>
-          </Container>
          </div>
       </div>
     )

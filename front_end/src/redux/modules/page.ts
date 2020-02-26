@@ -31,7 +31,6 @@ export default handleActions<any>(
         return state.set("currentTab", action.payload);
     },
     [SET_CURRENT_MAP_INFO] : (state, action) =>{
-        console.log("셋맵페이로드", action);
         const { y, x, level } = action.payload;
         const data = { location : { y : y, x : x}, level : level};
         return state.set("currentMapInfo", Map(data));
