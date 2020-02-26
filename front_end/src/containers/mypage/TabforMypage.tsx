@@ -69,8 +69,8 @@ class TabExampleBasic extends React.Component<Props, State> {
       <div id="tab">
         {/* 데스크탑용 */}
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <Container>
-        <Tab
+          <Container style={{width:"700px"}}>
+          <Tab
           panes={panes(userId)}
           activeIndex={activeIndex}
           onTabChange={this.handleTabChange}/>

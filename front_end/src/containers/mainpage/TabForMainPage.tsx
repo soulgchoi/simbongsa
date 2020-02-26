@@ -78,7 +78,7 @@ class TabForMainPage extends Component<Props, State> {
         <div id="tab">
           {/* 데스크탑용 */}
           <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-            <Container>
+            <Container style={{width:"740px"}}>
             <Tab
               panes={panes}
               activeIndex={activeIndex}
