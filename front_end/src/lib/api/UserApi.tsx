@@ -131,7 +131,6 @@ export const localPreferRegister: ({
 
 export const localPreferInfo = (userId: string) => {
   try {
-    console.log("userId는 이거입니다", userId);
     const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
     const userId2 = temp.iss;
@@ -163,7 +162,6 @@ export const getPreferFeedList = (mId: string, pgNum: number) => {
 
 export const getNormalFeedList = (mId: string, pgNum: number) => {
   try {
-    console.log("mId", mId);
     const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
     const mId2 = temp.aud;
@@ -188,12 +186,15 @@ export const changePassword = async (eMail: string, password: string) => {
   return response;
 };
 
-export const getUserInfo = async (userId: string) => {
+export const getUserInfo = (userId: string) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.get(restBaseApi + `/rest/Member/${userId}`, {
-    headers: { Authorization: token }
-  });
-  return response.data.data;
+  try{
+    return axios.get(`${restBaseApi}/rest/Member/${userId}`, {
+      headers: { Authorization: token }
+    });
+  }catch(error){
+    return error;
+  }
 };
 
 

@@ -37,7 +37,6 @@ class SearchBar extends React.Component<Iprops, Istate> {
     updateTerm = (event: any) => {
         const { SearchActions } = this.props
         const { target: { value } } = event
-        console.log(value)
         SearchActions.changeInput({ input: value, key: "" })
     }
     searchByTerm = async () => {
@@ -50,19 +49,15 @@ class SearchBar extends React.Component<Iprops, Istate> {
         console.log(locateSize)
         for (let i = 0; i < 3 - locateSize; i++) {
             preferLocate.push("null null")
-            console.log("for문")
         }
         for (let i = 0; i < 3 - categorySize; i++) {
             preferCategory.push(null)
         }
-        console.log("preferLocate", preferLocate)
-        console.log("preferCategory", preferCategory)
         const firstLocation = preferLocate[0].split(" ")
         const secondLocation = preferLocate[1].split(" ")
         const thirdLocation = preferLocate[2].split(" ")
 
         const firstCategory = preferCategory[0]
-        console.log(firstCategory)
         const secondCategory = preferCategory[1]
         const thirdCategory = preferCategory[2]
 
@@ -83,7 +78,6 @@ class SearchBar extends React.Component<Iprops, Istate> {
             bgnTm = "00:00:01";
             endTm = "23:59:58";
         }
-        console.log("hihihihihihihih", preferLocate)
         UserActions.changeLoading(true)
         try {
             VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
@@ -99,7 +93,6 @@ class SearchBar extends React.Component<Iprops, Istate> {
 
     render() {
         const { volunteers, input } = this.props
-        console.log("vol", volunteers)
         const { error } = this.state
         return (
             <Fragment>

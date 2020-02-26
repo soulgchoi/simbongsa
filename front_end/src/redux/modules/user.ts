@@ -17,6 +17,7 @@ const SET_USER_FOLLOWER_LIST = "user/SET_USER_FOLLOWER_LIST";
 const SET_USER_FOLLOW_TAG = "user/SET_USER_FOLLOW_TAG";
 const FOLLOW_USER = 'user/FOLLOW_USER';
 const UNFOLLOW_USER = 'user/UNFOLLOW_USER';
+const SET_USER_PROFILE_IMAGE = 'user/SET_USER_PROFILE_IMAGE';
 // const SET_USER_ID = "user/SET_USER_ID";
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
@@ -42,7 +43,7 @@ export const setUserFollowerList = createAction(SET_USER_FOLLOWER_LIST, UserAPI.
 export const setUserFollowTag = createAction(SET_USER_FOLLOW_TAG, UserAPI.checkFollow, (loginUserId,profileUserId)=>{return profileUserId}); // 세번째 파라미터의 인풋 loginUserId는 사용하지 않지만 인풋이 두개임을 나타내기 위하여 필요함.
 export const followUser = createAction(FOLLOW_USER, UserAPI.followUser, (loginUserId,profileUserId)=>{return profileUserId});
 export const unfollowUser = createAction(UNFOLLOW_USER, UserAPI.unfollowUser, (loginUserId,profileUserId)=>{return profileUserId});
-
+export const setUserProfileImage = createAction(SET_USER_PROFILE_IMAGE, UserAPI.getUserInfo, profileUserId=>profileUserId);
 // export const setUserId = createAction(SET_USER_ID);
 
 // interface initialStateParams{
@@ -72,7 +73,7 @@ const initialState = Map({
       age: "",
       preferRegion: [],
       preferCategory: []
-    })
+    }),
   }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
@@ -87,6 +88,7 @@ const initialState = Map({
     //  value : followerList: string[];
     //          followingList: string[];
     //          isProfileUserFollowedByLoginUser: boolean;
+    //          profileImage : string;
   })
 });
 
@@ -182,6 +184,14 @@ export default handleActions<any>(
         return state.setIn(["userProfileMap", profileUserId, "isProfileUserFollowedByLoginUser"], false);
       }
     }),
+    ...pender({
+      type : SET_USER_PROFILE_IMAGE,
+      onSuccess : (state, action)=>{
+        const { profile } = action.payload.data.data;
+        const profileUserId = action.meta;
+        return state.setIn(["userProfileMap", profileUserId, "profileImage"], `${process.env.REACT_APP_REST_BASE_API}/uploads/${profile}`);
+      }
+    })
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
 

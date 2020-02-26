@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
 import * as UserAPI from "lib/api/UserApi";
-
+import { Container, Image } from 'semantic-ui-react'
 import ActionButton from "components/button/ActionButton";
+import profile_default from 'assets/images/profile_default.png';
 
-import "./PostUser.css"
+import "./PostUser.scss"
 
 interface Props {
   UserActions: any;
@@ -38,6 +39,7 @@ class PostUser extends Component<Props, State> {
       await UserActions.setUserFollowerList(profileUserId);
       await UserActions.setUserFollowingList(profileUserId);
       await UserActions.setUserFollowTag(loginUserId, profileUserId);
+      await UserActions.setUserProfileImage(profileUserId);
     }
   }
   updateProfile = async () => {
@@ -66,20 +68,21 @@ class PostUser extends Component<Props, State> {
   shouldComponentUpdate(nextProps : any){
     const {profileUserId} = this.props;
     const {userProfileMap} = nextProps;
-    return typeof userProfileMap.get(profileUserId) !== 'undefined' && userProfileMap.get(profileUserId).size === 3;
+    return typeof userProfileMap.get(profileUserId) !== 'undefined' && userProfileMap.get(profileUserId).size === 4;
   }
 
   render() {
     const { loginUserId, profileUserId, userProfileMap } = this.props;
-    // console.log("유저프로필맵", userProfileMap.toJS());
-    // if(typeof userProfileMap.get(profileUserId) !== 'undefined')
-    // console.log("유저프로필맵", profileUserId, userProfileMap.get(profileUserId).get('followerList'));
+    
+    // 첫 렌더링때 아직 유저프로필 맵이 세팅 안된 상태에서 우선 빈화면 출력
     if(typeof userProfileMap.get(profileUserId) === 'undefined'){
       return(<div></div>);
     }
     const followerList = userProfileMap.get(profileUserId).get('followerList');
     const followingList = userProfileMap.get(profileUserId).get('followingList');
     const isProfileUserFollowedByLoginUser = userProfileMap.get(profileUserId).get('isProfileUserFollowedByLoginUser');
+    const profileImage = userProfileMap.get(profileUserId).get('profileImage');
+    const profileImageFlag = profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1];
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
     const {
       handleFollow,
@@ -91,6 +94,10 @@ class PostUser extends Component<Props, State> {
       <div className="user-profile">
         {/* {showPage === page.PROFILE && ( */}
           <div>
+            <div id="userId">
+            <Image src={profileImageFlag!=="null"?profileImage:profile_default} avatar/>
+              {profileUserId}
+            </div>
             <div>
             <div style={{ display:"inline"}} onClick={handleFollowerClick}>
               <span>팔로워 </span> <span style={{ fontWeight:"bold" }}>{followerList.length}</span>

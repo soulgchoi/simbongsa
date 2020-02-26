@@ -33,7 +33,6 @@ export default class PieGraph extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps: any) {
     const propsData = this.props.data;
-    console.log("should Update?", propsData);
     if (this.state.data.datasets[0].data.length === 0) {
       const { generateBackgroundColor } = this;
       const { data } = this.state;

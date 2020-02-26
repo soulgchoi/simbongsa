@@ -92,9 +92,7 @@ class CardComponent extends React.Component<Props, {}> {
       <Card>
         <Card.Content style={{ backgroundColor: color }}>
           <Card.Header>{color !== "white" &&
-            <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>
-          }
-            {this.props.post.userId}
+            <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>}
             <span style={{ float: 'right' }}>
               {m_id === this.props.post.m_id &&
                 <Icon name="x" onClick={this.show} />
