@@ -1,5 +1,5 @@
 import React from "react";
-import { Tab } from "semantic-ui-react";
+import { Tab, Responsive, Container } from "semantic-ui-react";
 import { list } from "react-immutable-proptypes";
 import Statistics from "containers/mypage/Statistics";
 import MyVol from "containers/mypage/MyVol";
@@ -67,10 +67,22 @@ class TabExampleBasic extends React.Component<Props, State> {
     const { activeIndex } = this.state;
     return (
       <div id="tab">
+        {/* 데스크탑용 */}
+        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+          <Container>
         <Tab
           panes={panes(userId)}
           activeIndex={activeIndex}
           onTabChange={this.handleTabChange}/>
+          </Container>
+        </Responsive>
+        {/* 모바일 용 */}
+        <Responsive {...Responsive.onlyMobile}>
+          <Tab
+          panes={panes(userId)}
+          activeIndex={activeIndex}
+          onTabChange={this.handleTabChange}/>
+          </Responsive>
       </div>
     );
   }

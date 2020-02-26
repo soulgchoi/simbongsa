@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tab, Container, Sticky } from "semantic-ui-react";
+import { Tab, Container, Responsive } from "semantic-ui-react";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Location from "containers/location/Location";
 import VolListPage from "containers/vollistpage/VolListPage";
@@ -76,10 +76,22 @@ class TabForMainPage extends Component<Props, State> {
     return (
       <div>
         <div id="tab">
+          {/* 데스크탑용 */}
+          <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+            <Container>
             <Tab
               panes={panes}
               activeIndex={activeIndex}
               onTabChange={this.handleTabChange}/>
+            </Container>
+          </Responsive>
+          {/* 모바일 용 */}
+          <Responsive {...Responsive.onlyMobile}>
+          <Tab
+              panes={panes}
+              activeIndex={activeIndex}
+              onTabChange={this.handleTabChange}/>
+          </Responsive>
          </div>
       </div>
     )

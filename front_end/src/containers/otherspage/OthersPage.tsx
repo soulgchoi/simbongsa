@@ -32,9 +32,7 @@ class Mypage extends Component<Props, State> {
         <Container textAlign="center">
           <UserProfile profileUserId={userId}/>
         </Container>
-        <Container text>
           <TabforMypage userId={userId} />
-        </Container>
       </div>
     );
   }
