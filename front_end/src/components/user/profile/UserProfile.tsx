@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
 import * as UserAPI from "lib/api/UserApi";
-import { Container, Image } from 'semantic-ui-react'
+import { Placeholder, Image } from 'semantic-ui-react'
 import ActionButton from "components/button/ActionButton";
 import profile_default from 'assets/images/profile_default.png';
-
-import "./UserProfile.scss"
+import "./UserProfile.scss";
 
 interface Props {
   UserActions: any;
@@ -104,9 +103,9 @@ class UserProfile extends Component<Props, State> {
           <div>
             <div id="userId" onClick={this.handleIdClick} >
             {profileSize==='mini' ?
-            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar/>
+            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar style={{fontSize:'20px'}} verticalAlign="bottom"/>
             :
-            <Image src={profileImageFlag!=="null"?profileImage:profile_default} resizeMode="contain" spaced="right" circular verticalAlign="bottom" size="tiny"/>
+            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar style={{fontSize:'60px'}} verticalAlign="middle"/>
             }
             {profileUserId}
             </div>

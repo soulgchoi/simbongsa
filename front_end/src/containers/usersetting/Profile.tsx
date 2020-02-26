@@ -5,8 +5,6 @@ import { bindActionCreators } from "redux";
 import { List } from "immutable";
 import * as PostingApi from "lib/api/PostingApi";
 import * as UsergApi from "lib/api/UserApi";
-// @ts-ignore
-import Resizer from 'react-image-file-resizer';
 interface Props {
   mId: string;
   userId: string;
@@ -34,17 +32,6 @@ class Profile extends Component<Props, State> {
     const { mId } = this.props;
     const file = new FormData();
     if (selectedFiles.length > 0) {
-      // 파일 크기 리사이징 100x100 으로 강제 정사각형 만들기.
-      Resizer.imageFileResizer(
-        selectedFiles[0],
-        106, // width
-        106, // height
-        'JPEG', // type
-        100, // quality
-        0, // rotation
-        null, // 파일의 새로운 uri 주소 
-        'base64'
-    );
       file.append("file", selectedFiles[0]);
     }
     let data = await PostingApi.uploadProfileImage(mId, file);
