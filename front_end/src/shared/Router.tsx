@@ -35,6 +35,7 @@ import FooterForMobile from "components/footer/FooterForMobile";
 import HeaderForDesktop from "components/header/HeaderForDesktop";
 import LoginChecker from "components/loginchecker/LoginChecker";
 import WithdrawComplete from "containers/usersetting/WithdrawComplete";
+import OthersPage from "containers/otherspage/OthersPage";
 class Router extends Component {
   render() {
     return (
@@ -78,6 +79,9 @@ class Router extends Component {
         <Route path="/feed" component={Feed} />
         <Route exact path="/:id/postinglist" component={PostingList} />
         <Route exact path="/vol/:id/write" component={PostingForm} />
+
+        {/* 다른회원 정보 ooo */}
+        <Route path="/user/:id" component={OthersPage}/>
 
         {/* 회원탈퇴 완료 */}
         <Route path="/withdrawcomplete" component={WithdrawComplete} />

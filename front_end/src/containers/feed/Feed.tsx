@@ -63,7 +63,6 @@ class Feed extends Component<Props, State> {
     // preferFeedList.map((feed: any, i: any) => {
     //   return <Card post={feed} key={i} />;
     // });
-    console.log(preferFeedList, normalFeedList);
     while (idxP < pLength || idxN < nLength) {
       for (let i = 0; i < 8; ++i) {
         // 8개 넣기, 그 전에 바닥나면 안넣음

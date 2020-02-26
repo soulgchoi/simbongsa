@@ -17,7 +17,7 @@ class Profile extends Component<Props, State> {
   state = { selectedFiles: [] };
   componentDidMount() {
     const { userId } = this.props;
-    let data = UsergApi.getUserInfo(userId);
+    // let data = UsergApi.getUserInfo(userId);
   }
   handleFileSelect = (e: any) => {
     var id = e.target.id;
