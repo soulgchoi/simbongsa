@@ -10,6 +10,7 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import * as VolApi from "lib/api/VolApi";
 import * as userActions from "redux/modules/user";
+import * as pageActions from "redux/modules/page";
 
 import "components/map/map.scss";
 
@@ -30,6 +31,8 @@ interface IProps {
   volunteersForMap: any;
   showVolInfo: boolean;
   UserActions: any;
+  PageActions : any;
+  currentMapInfo : any;
 }
 
 interface IState {
@@ -59,14 +62,19 @@ class Map extends Component<IProps, IState> {
       UserActions
     } = this.props;
     UserActions.changeLoading(true);
-    const currentLocation = this.props.currentLocation;
+    let currentLocation = this.props.currentLocation;
+    const { currentMapInfo } = this.props;
+    let level = currentMapInfo.get("level");
+    if(currentMapInfo.getIn(["location","y"]) !== 0){
+      currentLocation = currentMapInfo.get("location");
+    }
     const el = document.getElementById("map");
     const volMap = new window.kakao.maps.Map(el, {
       center: new window.kakao.maps.LatLng(
         currentLocation.y,
         currentLocation.x
       ), // 지도의 중심좌표.
-      level: 6, // 지도의 레벨(확대, 축소 정도)
+      level: level, // 지도의 레벨(확대, 축소 정도)
       scrollwheel: false // 마우스 휠 확대/축소 금지
     });
     window.kakao.maps.event.addListener(volMap, "click", () => {
@@ -76,6 +84,27 @@ class Map extends Component<IProps, IState> {
       this.resetSelectedMarker();
       VolActions.setShowVolInfo(false);
     });
+    // 맵의 위치가 바뀌었을때 현재 중심좌표를 저장하는 이벤트 리스너
+    const { PageActions } = this.props;
+    window.kakao.maps.event.addListener(volMap, 'dragend', function() {        
+      // 지도 중심좌표를 얻어옵니다 
+      let latlng = volMap.getCenter(); 
+      let y = latlng.getLat();
+      let x = latlng.getLng();
+      let level = volMap.getLevel();
+      PageActions.setCurrentMapInfo({y:y,x:x,level:level});
+    });
+    // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    window.kakao.maps.event.addListener(volMap, 'zoom_changed', function() {        
+      // 지도의 현재 레벨을 얻어옵니다 
+      let latlng = volMap.getCenter(); 
+      let y = latlng.getLat();
+      let x = latlng.getLng();
+      let level = volMap.getLevel();
+      PageActions.setCurrentMapInfo({y:y,x:x,level:level});
+    });
+
+
     VolActions.setVolMap(volMap);
     // getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
     let clusterer = makeMarker(
@@ -83,13 +112,13 @@ class Map extends Component<IProps, IState> {
       volMap,
       VolActions,
       selectedMarker,
-      volunteersForMap
+      volunteersForMap,
+      PageActions
     ); // 탭, 뒤로가기로 다시 돌아왔을때 이미 volunteers가 세팅 돼있는 경우
     this.setState({ clusterer: clusterer });
+    // PageActions.setVolListForMap(volunteersForMap.toJS());
     // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
     UserActions.changeLoading(false);
-    volMap.setLevel(14);
-
   }
 
   // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -131,7 +160,7 @@ class Map extends Component<IProps, IState> {
       VolActions,
       selectedMarker,
       volunteersForMap,
-      UserActions
+      UserActions,
     } = this.props;
     UserActions.changeLoading(true);
     const { volMap, isSearchSubmit, SearchActions } = this.props;
@@ -150,6 +179,8 @@ class Map extends Component<IProps, IState> {
       );
       volMap.setLevel(4);
       volMap.panTo(moveLatLon);
+      const { PageActions } = this.props;
+      PageActions.setCurrentMapInfo({y:myLocation.y, x:myLocation.x, level : 4})
       this.setState({ isMyLocationClicked: false });
     }
 
@@ -157,12 +188,14 @@ class Map extends Component<IProps, IState> {
     // ex : 검색을 다시 한 경우, 위치를 이동한 경우 등 이벤트 발생시 isMarkerRenderingNeed 를 true로 체크해 줌
     if (isMarkerRenderingNeed) {
       this.resetMarkers();
+      const { PageActions } = this.props;
       let clusterer = makeMarker(
         volunteers.toJS(),
         volMap,
         VolActions,
         selectedMarker,
-        volunteersForMap
+        volunteersForMap,
+        PageActions
       );
       this.setState({ clusterer: clusterer, isMarkerRenderingNeed: false });
     }
@@ -172,6 +205,8 @@ class Map extends Component<IProps, IState> {
       const moveLatLon = new window.kakao.maps.LatLng(35.888013, 127.791075);
       volMap.setLevel(14);
       volMap.panTo(moveLatLon);
+      const { PageActions } = this.props;
+      PageActions.setCurrentMapInfo({y:35.888013, x:127.791075, level : 14})
       SearchActions.searchSubmit(false);
     }
     UserActions.changeLoading(false);
@@ -207,6 +242,8 @@ class Map extends Component<IProps, IState> {
     const moveLatLon = new window.kakao.maps.LatLng(35.888013, 127.791075);
     volMap.setLevel(14);
     volMap.panTo(moveLatLon);
+    const { PageActions } = this.props;
+    PageActions.setCurrentMapInfo({y:35.888013, x:127.791075, level : 14})
     VolActions.resetSelectedVol();
     VolActions.setVolunteersForMap([]);
     this.resetSelectedMarker();
@@ -273,7 +310,8 @@ const makeMarker = (
   volMap: any,
   VolActions: any,
   selectedMarker: any,
-  volunteersForMap: any
+  volunteersForMap: any,
+  PageActions : any
 ) => {
   // console.log("Map.tsx의 makeMarker 봉사지역들 : ", volunteers);
   const { kakao } = window;
@@ -375,6 +413,7 @@ const makeMarker = (
       title: id
     });
     markers.push(marker);
+    // 클릭 이벤트 리스터 생성
     window.kakao.maps.event.addListener(
       marker,
       "click",
@@ -385,9 +424,11 @@ const makeMarker = (
         selectedMarker,
         selectedMarkerImage,
         VolActions,
-        id
+        id, 
+        PageActions
       )
     );
+    // 지도 움직일 경우 현재 위치 받아오는 이벤트 리스너
   }
   clusterer.addMarkers(markers);
   // 마커 클러스터러에 클릭이벤트를 등록합니다
@@ -412,6 +453,7 @@ const makeMarker = (
       VolActions.setShowVolInfo(true);
       let center = cluster.getCenter();
       volMap.panTo(center);
+      PageActions.setCurrentMapInfo({y:center.getLat(), x:center.getLng(), level : level})
       let clusterMarkers = cluster.getMarkers();
       let promise = getNewVolunteersForMap(clusterMarkers);
       promise.then(response => {
@@ -441,7 +483,8 @@ function makeClickListener(
   selectedMarker: any,
   selectedMarkerImage: any,
   VolActions: any,
-  id: string
+  id: string,
+  PageActions : any
 ) {
   return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
@@ -457,6 +500,7 @@ function makeClickListener(
     }
     let currentLocationLatLng = marker.getPosition();
     volMap.panTo(currentLocationLatLng);
+    PageActions.setCurrentMapInfo({y:currentLocationLatLng.getLat(), x:currentLocationLatLng.getLng(), level : volMap.getLevel()})
     // // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
     // VolActions.setSelectedMarker(marker);
     VolActions.setSelectedVolunteer(id);
@@ -479,7 +523,7 @@ function makeClickListener(
 // }
 
 export default connect(
-  ({ vol, search, user }: any) => {
+  ({ vol, search, user, page }: any) => {
     return {
       volunteers: vol.get("volunteers"), // store에 있는 state를 this.pros로 연결
       volunteersForMap: vol.get("volunteersForMap"),
@@ -488,12 +532,14 @@ export default connect(
       selectedMarker: vol.get("selectedMarker"),
       isSearchSubmit: search.get("isSearchSubmit"),
       showVolInfo: vol.get("showVolInfo"),
-      loading: user.get("loading")
+      loading: user.get("loading"),
+      currentMapInfo : page.get("currentMapInfo")
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
     SearchActions: bindActionCreators(searchActions, dispatch),
+    PageActions: bindActionCreators(pageActions, dispatch),
     UserActions: bindActionCreators(userActions, dispatch)
   })
 )(Map);

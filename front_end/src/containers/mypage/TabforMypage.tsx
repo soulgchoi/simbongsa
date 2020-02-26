@@ -8,6 +8,7 @@ import Feed from "containers/feed/Feed";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
+import * as pageActions from "redux/modules/page";
 
 const panes = (userId :string) =>{ return [
   {
@@ -42,21 +43,34 @@ const panes = (userId :string) =>{ return [
 
 interface Props {
   VolActions: any;
+  PageActions: any;
   userId: string;
+  currentTab : number;
 }
 interface State {
 
 }
 class TabExampleBasic extends React.Component<Props, State> {
+  state = { activeIndex : 0 }
   componentDidMount() {
-    const { VolActions, userId } = this.props;
+    const { VolActions, userId, currentTab} = this.props;
     VolActions.getVolListByUserId(userId);
+    this.setState({activeIndex : currentTab}) // store에 저장해 둔 탭을 불러옴
+  }
+  handleTabChange = (e :any , { activeIndex } : any) => {
+    const { PageActions } = this.props;
+    PageActions.setCurrentTab(activeIndex); // 클릭한 탭을 store에 저장해 둠
+    this.setState({activeIndex}); // 클릭한 탭으로 바꿔줌
   }
   public render() {
     const{ userId } = this.props;
+    const { activeIndex } = this.state;
     return (
       <div id="tab">
-        <Tab panes={panes(userId)} />
+        <Tab
+          panes={panes(userId)}
+          activeIndex={activeIndex}
+          onTabChange={this.handleTabChange}/>
       </div>
     );
   }
@@ -64,11 +78,13 @@ class TabExampleBasic extends React.Component<Props, State> {
 
 
 export default connect(
-  ({ user, vol }: any) => ({
-    volListByUserId: vol.get("volListByUserId")
+  ({ vol, page }: any) => ({
+    volListByUserId: vol.get("volListByUserId"),
+    currentTab : page.get("currentTab")
   }),
   dispatch => ({
-    VolActions: bindActionCreators(volActions, dispatch)
+    VolActions: bindActionCreators(volActions, dispatch),
+    PageActions: bindActionCreators(pageActions, dispatch)
   })
 )(TabExampleBasic);
 

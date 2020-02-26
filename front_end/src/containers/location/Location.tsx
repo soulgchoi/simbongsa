@@ -7,7 +7,6 @@ import VolInfo from "components/map/VolInfo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
-
 interface Props {
   VolActions: any;
 }
@@ -20,7 +19,7 @@ interface State {
 class Location extends Component<Props, State> {
   // state = { width: window.innerWidth, height: window.innerHeight - 345 };
   // componentDidMount() {
-  //   window.addEventListener("resize", this.updateDimensions);
+    // window.addEventListener("resize", this.updateDimensions);
   // }
   // updateDimensions = () => {
   //   this.setState({
@@ -46,6 +45,6 @@ export default connect(
     showVolInfo: vol.get('showVolInfo')
   }),
   dispatch => ({
-    VolActions: bindActionCreators(volActions, dispatch)
+    VolActions: bindActionCreators(volActions, dispatch),
   })
 )(Location);

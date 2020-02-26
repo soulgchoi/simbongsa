@@ -25,7 +25,6 @@ class VolListPage extends Component<Props, State> {
     // width: window.innerWidth,
     // height: window.innerHeight - 345
   };
-
   componentWillUnmount(){
     const { VolActions } = this.props;
     VolActions.resetVolunteerForList();
@@ -131,18 +130,18 @@ class VolListPage extends Component<Props, State> {
 }
 
 export default connect(
-  ({ vol, search, user }: any) => {
+  ({ vol, search, page }: any) => {
     return {
       volunteersForList: vol.get("volunteersForList"), // store에 있는 state를 this.pros로 연결
       input: search.get("input"),
       locations: search.get("locations"),
       categorys: search.get("categorys"),
-      times: search.get("times")
+      times: search.get("times"),
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
     SearchActions: bindActionCreators(searchActions, dispatch),
-    UserActions: bindActionCreators(userActions, dispatch)
+    UserActions: bindActionCreators(userActions, dispatch),
   })
 )(VolListPage);
