@@ -103,13 +103,6 @@ export default handleActions<any>(
       }
     }),
     ...pender({
-      type: GET_POSTING_BY_USER,
-      onSuccess: (state, action) => {
-        console.log("겟포스트 페이로드", action.payload);
-        return state;
-      }
-    }),
-    ...pender({
       type: POST_POSTING,
       onSuccess: (state, action) => state.set("result", action.payload.data)
     }),
