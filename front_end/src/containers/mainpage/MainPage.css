@@ -2,3 +2,8 @@ div.ui.segment, .ui.segments .segment {
     border: none;
     box-shadow: none;
 }
+.divText{
+    line-height: 30px;
+    height:30px;
+    margin-right: 5px 
+}

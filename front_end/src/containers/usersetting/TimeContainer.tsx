@@ -14,16 +14,12 @@ class TimeContainer extends Component<Props, State> {
 
     handleToggle = (timeName: string) => {
         const { SearchActions } = this.props;
-        console.log("timeName", timeName)
         SearchActions.toggle({ id: "times", value: timeName });
     };
     render() {
-        console.log("렌더되니??")
         const { handleToggle } = this;
         const { times } = this.props;
         const { morning, afternoon } = times.toJS();
-        console.log(morning, afternoon)
-        console.log("times", times.toJS())
         return (
             <Fragment>
                 <Checkbox

@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CertLabel from 'components/label/CertLabel'
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux";
 import * as volActions from "redux/modules/vol";
 import { bindActionCreators } from "redux";
-
 interface Props {
-    "v_id": number;
+    v_id: number;
     volunteer: any;
 }
 
 class Vol extends React.Component<Props & any, any> {
     render() {
         const { volunteer } = this.props;
+        // console.log('voluuuuuuuuuu', volunteer)
+        // console.log("이거면 된다", volunteer.v_Auth, volunteer.v_pStatus)
         return (
             <div className="list">
                 <CertLabel
                     v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
-                /> 
+                />
                 <div className="linktodetail">
                     <Link
                         to={{
@@ -31,7 +32,7 @@ class Vol extends React.Component<Props & any, any> {
                 <div className="listtitle">
                     {volunteer.v_title}
                 </div>
-                
+
             </div>
         )
     }

@@ -10,11 +10,9 @@ import {
   LocationContainer,
   TimeContainer
 } from "containers/usersetting";
-import { useRadioGroup } from "@material-ui/core";
 
-import { localPreferInfo } from "lib/api/UserApi";
-import { setPreferInfo } from "../../redux/modules/user";
-import { Container, Button, Grid } from "semantic-ui-react";
+import { Container, Grid } from "semantic-ui-react";
+import CurationModal from './CurationModal'
 interface Iprops {
   locations: any;
   categorys: any;
@@ -27,97 +25,9 @@ interface Iprops {
   userId: string
 }
 class SearchContainer extends Component<any, any> {
-  handleLocalRegister = async () => {
 
-    const {
-      locations,
-      categorys,
-      times,
-      ages,
-      UserActions,
-      SearchActions,
-      history,
-      userId,
-      isRegister
-    } = this.props;
-    if (isRegister) {
-      console.log("locations", locations.toJS());
-      console.log("categorys", categorys.toJS());
-      console.log("times", times.toJS());
-      console.log("ages", ages.toJS());
-      const preferRegion = locations.toJS().map((location: any) => location.key);
-      console.log("preferRegion", preferRegion);
-      const preferCategory = categorys
-        .toJS()
-        .map((category: any) => category.key);
-      console.log("preferCategory", preferCategory);
-      let age = "";
-      let bgnTm = "";
-      let endTm = "";
-      if (ages.toJS().adult === true) {
-        age = "1992-01-01";
-      } else if (ages.toJS().youth === true) {
-        age = "2005-01-01";
-      }
-      if (times.toJS().morning === true) {
-        bgnTm = "00:00:00";
-      } else if (times.toJS().morning === false) {
-        bgnTm = "12:00:01";
-      }
-      if (times.toJS().afternoon === true) {
-        endTm = "23:59:59";
-      } else if (times.toJS().afternoon === false) {
-        endTm = "12:00:00";
-      }
-      if (times.toJS().afternoon === false && times.toJS().morning === false) {
-        bgnTm = "00:00:01";
-        endTm = "23:59:58";
-      }
-      console.log("age", age);
-      console.log("시간", bgnTm, endTm);
-      // if (times.)
-      // if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
-
-      try {
-        await SearchActions.preferRegister({
-          age: age,
-          bgnTm: bgnTm,
-          endTm: endTm,
-          preferRegion: preferRegion,
-          preferCategory: preferCategory,
-          userId: userId
-        });
-        console.log("왓다");
-        // const loggedInfo = this.props.result.toJS();
-        // console.log("로그인", loggedInfo);
-        // // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
-        // storage.set("loggedInfo", loggedInfo);
-        // UserActions.setLoggedInfo(loggedInfo);
-        UserActions.setValidated(true);
-        history.push("/mainpage"); // 회원가입 성공시 홈페이지로 이동
-      }
-      catch (e) {
-        // TODO: 실패시 실패 ERROR 표현
-        // if (e.response.status === 409) {
-        //   const { key } = e.response.data;
-        //   return this.setError(message, key);
-      }
-    }
-    else {
-
-    }
-  };
   render() {
-    console.log("여기는 search");
-    const { handleLocalRegister } = this;
-    const { isRegister, locations,
-      categorys,
-      times,
-      ages, } = this.props
-    console.log("locations", locations.toJS());
-    console.log("categorys", categorys.toJS());
-    console.log("times", times.toJS());
-    console.log("ages", ages.toJS());
+    const { isRegister } = this.props
     return (
       <Fragment>
         <Container>
@@ -155,8 +65,7 @@ class SearchContainer extends Component<any, any> {
 
 
           <div style={{ justifyContent: 'center', display: 'flex' }}>
-            {isRegister && <Button onClick={handleLocalRegister} color='orange'>저장하기</Button>}
-            {/* {!isRegister && <Button onClick={handleLocalRegister} color='green'>설정하기</Button>} */}
+            {isRegister && <CurationModal />}
           </div>
 
 
@@ -165,6 +74,7 @@ class SearchContainer extends Component<any, any> {
     );
   }
 }
+
 
 export default connect(
   ({ search, user }: any) => ({

@@ -9,14 +9,19 @@ const CHANGE_STATUS = "posting/CHANGE_STATUS";
 const POST_POSTING = "posting/POST_POSTING";
 const GET_POSTING = "posting/GET_POSTING";
 const POST_REVIEW = "posting/POST_REVIEW";
-
+const GET_POSTING_BY_USER = "posting/GET_POSTING_BY_USER";
+const RESET_POST_BY_USER = "posting/RESET_POST_BY_USER"
 export const changeInput = createAction(CHANGE_INPUT);
 export const changeFileInput = createAction(CHANGE_FILE_INPUT);
 export const changeStatus = createAction(CHANGE_STATUS);
 export const initializeForm = createAction(INITIALIZE_FORM);
 export const postPosting = createAction(POST_POSTING, PostingApi.postPosting);
 export const getPostbyID = createAction(GET_POSTING, PostingApi.getPosts);
-
+export const getPostByUser = createAction(
+  GET_POSTING_BY_USER,
+  PostingApi.getPostByUser
+);
+export const resetPostByUser = createAction(RESET_POST_BY_USER);
 export interface PostingState {
   posting: {
     form: {
@@ -31,6 +36,7 @@ export interface PostingState {
   result: {};
   selectedfiles: List<any>;
   posts: object;
+  postsByUser: List<any>;
   // posts: {
   //     uris: List<any>,
   //     post: {
@@ -65,7 +71,8 @@ const initialState = Map({
   //         p_status: null,
   //     }
   // }
-  posts: {}
+  posts: {},
+  postsByUser: List([])
 });
 
 export default handleActions<any>(
@@ -76,15 +83,25 @@ export default handleActions<any>(
     },
     [CHANGE_INPUT]: (state, action) => {
       const { form, id, value } = action.payload;
-      console.log("action: ", value);
       return state.setIn(["posting", "form", id], value);
     },
     [CHANGE_FILE_INPUT]: (state, action) => {
       const files = state.get("selectedfiles");
-      console.log("선택된파일들", files);
-      console.log("파일들", action.payload);
       return state.set("selectedfiles", files.concat(action.payload));
     },
+    [RESET_POST_BY_USER]: (state) => {
+      return state.set("postsByUser", List([]));
+    },
+    ...pender({
+      type: GET_POSTING_BY_USER,
+      onSuccess: (state, action) => {
+        const postsByUser = state.get("postsByUser");
+        return state.set(
+          "postsByUser",
+          postsByUser.concat(action.payload.data.data)
+        );
+      }
+    }),
     ...pender({
       type: POST_POSTING,
       onSuccess: (state, action) => state.set("result", action.payload.data)
@@ -92,9 +109,7 @@ export default handleActions<any>(
     ...pender({
       type: GET_POSTING,
       onSuccess: (state, action) => {
-        state.set("posts", action.payload.data);
-        console.log(action.payload.data);
-        console.log("posts");
+        return state.set("posts", action.payload.data);
       }
     })
   },

@@ -7,16 +7,15 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
-import { Container } from "semantic-ui-react";
 interface Props {
   volunteersForList: List<any>;
-  input: string
-  SearchActions: typeof searchActions
-  VolActions: typeof volActions
-  UserActions: typeof userActions
-  locations: any
-  categorys: any
-  times: any
+  input: string;
+  SearchActions: any;
+  VolActions: any;
+  UserActions: any;
+  locations: any;
+  categorys: any;
+  times: any;
 }
 interface State { }
 
@@ -27,39 +26,44 @@ class VolListPage extends Component<Props, State> {
     // height: window.innerHeight - 345
   };
 
-  componentDidMount() {
-    // const { VolActions } = this.props;
-    // VolActions.getInitailList(this.state.pageNum);
-    // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+  componentWillUnmount(){
+    const { VolActions } = this.props;
+    VolActions.resetVolunteerForList();
   }
+
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForList } = nextProps;
     return volunteersForList.size > 0;
   }
   loadMoreData = async () => {
-    const { VolActions, input, locations, categorys, times, UserActions } = this.props
-    let preferLocate = locations.toJS().map((location: any) => location.text)
+    const {
+      VolActions,
+      input,
+      locations,
+      categorys,
+      times,
+      UserActions
+    } = this.props;
+    let preferLocate = locations.toJS().map((location: any) => location.text);
 
-    let preferCategory = categorys.toJS().map((category: any) => category.text)
-    const locateSize = preferLocate.length
-    const categorySize = preferCategory.length
+    let preferCategory = categorys.toJS().map((category: any) => category.text);
+    const locateSize = preferLocate.length;
+    const categorySize = preferCategory.length;
 
     for (let i = 0; i < 3 - locateSize; i++) {
-      preferLocate.push("null null")
-
+      preferLocate.push("null null");
     }
     for (let i = 0; i < 3 - categorySize; i++) {
-      preferCategory.push(null)
+      preferCategory.push(null);
     }
 
-    const firstLocation = preferLocate[0].split(" ")
-    const secondLocation = preferLocate[1].split(" ")
-    const thirdLocation = preferLocate[2].split(" ")
+    const firstLocation = preferLocate[0].split(" ");
+    const secondLocation = preferLocate[1].split(" ");
+    const thirdLocation = preferLocate[2].split(" ");
 
-    const firstCategory = preferCategory[0]
-    console.log(firstCategory)
-    const secondCategory = preferCategory[1]
-    const thirdCategory = preferCategory[2]
+    const firstCategory = preferCategory[0];
+    const secondCategory = preferCategory[1];
+    const thirdCategory = preferCategory[2];
 
     let bgnTm = "";
     let endTm = "";
@@ -78,18 +82,25 @@ class VolListPage extends Component<Props, State> {
       bgnTm = "00:00:01";
       endTm = "23:59:58";
     }
-    console.log("hihihihihihihih", preferLocate)
-    UserActions.changeLoading(true)
+    UserActions.changeLoading(true);
     this.setState({ pageNum: this.state.pageNum + 1 });
-    console.log("어펜드 되나???");
     try {
-      VolActions.appendList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: this.state.pageNum });
-    }
-    catch (e) {
-      console.log(e)
-    }
-    finally {
-      UserActions.changeLoading(false)
+      VolActions.appendList({
+        input: input,
+        firstLocation: firstLocation,
+        secondLocation: secondLocation,
+        thirdLocation: thirdLocation,
+        firstCategory: firstCategory,
+        secondCategory: secondCategory,
+        thirdCategory: thirdCategory,
+        bgnTm: bgnTm,
+        endTm: endTm,
+        pageNum: this.state.pageNum
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      UserActions.changeLoading(false);
     }
   };
 
@@ -108,7 +119,6 @@ class VolListPage extends Component<Props, State> {
   render() {
     const { volunteersForList } = this.props;
     const { loadMoreData } = this;
-    console.log("봉사자들", volunteersForList);
     return (
       <VolList
         loadingMessage="봉사활동 목록을 불러오는중"
@@ -127,12 +137,12 @@ export default connect(
       input: search.get("input"),
       locations: search.get("locations"),
       categorys: search.get("categorys"),
-      times: search.get("times"),
+      times: search.get("times")
     };
   },
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
     SearchActions: bindActionCreators(searchActions, dispatch),
-    UserActions: bindActionCreators(userActions, dispatch),
+    UserActions: bindActionCreators(userActions, dispatch)
   })
 )(VolListPage);

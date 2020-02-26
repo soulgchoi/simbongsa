@@ -10,6 +10,7 @@ const PREFER_REGISTER = "searchlocation/PREFER_REGISTER";
 const INITIAL_INSERT = "searchlocation/INTIALIZE_FORM";
 const SEARCH_SUBMIT = "searchlocation/SEARCH_SUBMIT";
 const SWITCH_SAVE_BUTTON = "seachloaction/SWITCH_SAVE_BUTTON";
+const LAST_INPUT = "search/LAST_INPUT"
 export const changeInput = createAction(CHANGE_INPUT);
 export const insert = createAction(INSERT);
 export const toggle = createAction(TOGGLE);
@@ -21,6 +22,7 @@ export const preferRegister = createAction(
 export const initialInsert = createAction(INITIAL_INSERT);
 export const searchSubmit = createAction(SEARCH_SUBMIT);
 export const switchSaveButton = createAction(SWITCH_SAVE_BUTTON);
+export const lastInput = createAction(LAST_INPUT)
 let idLocation = 0; // 아이템에 들어갈 고유 값 입니다
 let idCategory = 0; // 아이템에 들어갈 고유 값 입니다
 // Record 함수는 Record 형태 데이터를 만드는 함수를 반환합니다.
@@ -41,7 +43,8 @@ const initialState = Record({
   }),
   error: null,
   isSearchSubmit: false,
-  isRegister: true
+  isRegister: true,
+  lastInput: "선호정보 기반의 ",
 })();
 // Todo 아이템의 형식을 정합니다.
 const SearchLocationRecord = Record({
@@ -61,11 +64,9 @@ export default handleActions<any, any>(
     },
     [INITIAL_INSERT]: (state, action) => {
       const { form, key, value } = action.payload;
-      console.log("initail_insert", form, key, value);
       return state.setIn([form, key], value);
     },
     [CHANGE_INPUT]: (state, action) => {
-      console.log("change input", action.payload);
       const { input, key } = action.payload;
       return state.setIn(["input"], input).setIn(["key"], key);
       // .set("placeholder", "지역을 입력해주세요.");
@@ -73,9 +74,7 @@ export default handleActions<any, any>(
     [INSERT]: (state, action) => {
       // Record 를 사용해야 아이템도 Record 형식으로 조회 가능합니다.
       // 빠져있는 값은, 기본값을 사용하게 됩니다 (checked: false)
-      console.log("INSERT", state, action.payload);
       const { form, text, key } = action.payload;
-      console.log("form", form, "text", text, "key", key);
       if (form === "location") {
         const item = SearchLocationRecord({
           id: idLocation++,
@@ -99,10 +98,6 @@ export default handleActions<any, any>(
     },
     [TOGGLE]: (state, action) => {
       const { id, value, othervalue } = action.payload;
-      console.log(id, value, othervalue);
-      // console.log("timeName", timeName)
-      // console.log(state)
-      // console.log(state.times.get(timeName))
       if (typeof othervalue === "string") {
         return state
           .setIn([id, othervalue], state.get(id).get(value))
@@ -133,6 +128,9 @@ export default handleActions<any, any>(
     }),
     [SEARCH_SUBMIT]: (state, action) => {
       return state.set("isSearchSubmit", action.payload);
+    },
+    [LAST_INPUT]: (state, action) => {
+      return state.set("lastInput", action.payload);
     }
   },
   initialState

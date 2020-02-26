@@ -1,6 +1,9 @@
-import React, { ReactElement } from "react";
-import LinkButton from "components/button/LinkButton";
-import { Button, Sticky, Menu, Responsive } from "semantic-ui-react";
+import React from "react";
+import { Menu, Responsive } from "semantic-ui-react";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authActions from "redux/modules/auth";
 
 // import "assets/mycss";
 import './Footer.css'
@@ -24,25 +27,33 @@ class Footer extends React.Component<any, any>{
 
   render() {
     const { activeItem } = this.state
-    // const { activeItem } = this.state
+    const { loginCheck } = this.props;
     return (
       <div>
         {/* 작은 화면에서 보여줌 */}
-        <Responsive
-          {...Responsive.onlyMobile}
-        >
-          <Menu
-            borderless widths={3} fixed="bottom"
+        {loginCheck &&
+          <Responsive
+            {...Responsive.onlyMobile}
           >
-            <Menu.Item name="HOME" active={activeItem === 'HOME'} onClick={this.handleItemClick}>
-              HOME</Menu.Item>
-            <Menu.Item name="FEED" active={activeItem === 'FEED'} onClick={this.handleItemClick} >FEED</Menu.Item>
-            <Menu.Item name="MY" active={activeItem === 'MY'} onClick={this.handleItemClick} >MY</Menu.Item>
-          </Menu>
-        </Responsive>
+            <Menu
+              borderless widths={3} fixed="bottom"
+            >
+              <Menu.Item name="HOME" active={activeItem === 'HOME'} onClick={this.handleItemClick}>
+                HOME</Menu.Item>
+              <Menu.Item name="FEED" active={activeItem === 'FEED'} onClick={this.handleItemClick} >FEED</Menu.Item>
+              <Menu.Item name="MY" active={activeItem === 'MY'} onClick={this.handleItemClick} >MY</Menu.Item>
+            </Menu>
+          </Responsive>}
       </div>
     );
   }
 }
 
-export default Footer;
+export default connect(
+  (state: any) => ({
+    loginCheck: state.auth.get("loginCheck")
+  }),
+  dispatch => ({
+    AuthActions: bindActionCreators(authActions, dispatch)
+  })
+)(Footer);

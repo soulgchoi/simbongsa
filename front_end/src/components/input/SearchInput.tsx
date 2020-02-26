@@ -1,5 +1,5 @@
 import React, { ReactElement, Fragment } from "react";
-import { Form, Button, Input } from 'semantic-ui-react'
+import { Form, Input } from 'semantic-ui-react'
 // import "assets/mycss";
 
 interface Props {
@@ -41,7 +41,7 @@ export default function SearchInput({
             action={{
               icon: 'search',
               onClick: handleSubmit,
-              onkeyup: (event: any) => {
+              onKeyUp: (event: any) => {
                 if (event.key === "Enter" && onEnter !== undefined) {
                   onEnter(event);
                 }

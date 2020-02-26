@@ -9,7 +9,7 @@ interface Props {
   match: any;
   emailValidate: boolean;
 }
-interface State {}
+interface State { }
 
 // http://13.124.127.232:8080/A205/email/enter?m_email=pjh5929@naver.com&m_key=m7OSjPN0jpGOTlTCM0QR
 class EmailComplete extends Component<Props, State> {
@@ -17,13 +17,10 @@ class EmailComplete extends Component<Props, State> {
 
   componentDidMount() {
     const { email, key } = this.props.match.params;
-    console.log("email", email);
-    console.log("key", key);
     AuthApi.emailValidate(email, key);
   }
   componentDidUpdate() {
     const { emailValidate } = this.props;
-    console.log("메일 인증 여부 ", emailValidate);
   }
   render() {
     const { emailValidate } = this.props;

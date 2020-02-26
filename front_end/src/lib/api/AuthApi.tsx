@@ -34,24 +34,23 @@ export const localRegister: ({
   password,
   userid
 }: Iregister) => {
-  let data = {
-    m_email: email,
-    m_password: password,
-    m_userid: userid
+    let data = {
+      m_email: email,
+      m_password: password,
+      m_userid: userid
+    };
+    try {
+      return axios.post(restBaseApi + "/register", data);
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
   };
-  try {
-    console.log("체크 : ", data);
-    return axios.post(restBaseApi + "/register", data);
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
 
 export const sendSignupEmail = (email: string) => {
   try {
@@ -76,17 +75,16 @@ export const localLogin: ({
   email,
   password
 }: Ilogin) => {
-  let data = {
-    password: password,
-    username: email
+    let data = {
+      password: password,
+      username: email
+    };
+    try {
+      return axios.post(restBaseApi + "/authenticate", data);
+    } catch (error) {
+      return false;
+    }
   };
-  try {
-    console.log(restBaseApi, data);
-    return axios.post(restBaseApi + "/authenticate", data);
-  } catch (error) {
-    return false;
-  }
-};
 
 /*
 ★☆★☆ localLogin 과 호출하는 API가 똑같음. 무슨용도인지 확인 바람.

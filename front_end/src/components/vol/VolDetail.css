@@ -26,6 +26,7 @@ table.ui.table {
 div.buttons {
     margin-top: 10px;
     display: flex;
+    justify-content: center;
 }
 
 
@@ -36,7 +37,7 @@ div.buttons a {
 .buttons button.ui.button {
     margin: 0;
     background-color: rgba(255, 136, 0, 0.493);
-    padding: 1em;
+    padding: 1rem;
 
 }
 
@@ -47,16 +48,16 @@ a button:hover {
 
 a.ui.button {
     margin: auto;
-    padding: 1em;
+    padding: 1rem;
     background-color: #FD7317;
     color: white
 }
 
 div.title {
-    line-height: 1.5em;
+    line-height: 1.5rem;
     word-break: keep-all;
-    padding: 0.5em;
-    font-size: 1.3em;
+    padding: 0.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
 
 }

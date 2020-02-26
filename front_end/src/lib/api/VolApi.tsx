@@ -70,10 +70,8 @@ export const getVolListBySearch = ({ input, firstLocation, secondLocation, third
       url += '&'
     }
     url += `v_bgnTm=${bgnTm}&v_endTm=${endTm}`
-    console.log("url입니다...page.....", url)
 
 
-    console.log("getVolListBySearch", { input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm })
     return axios.get(
       url,
       //restBaseApi + `/vol/titles/4000/1/filtering/?r_sidoNm1=${firstLocation[0]}&r_sidoNm2=${secondLocation[0]}&r_sidoNm3=${thirdLocation[0]}&r_gugunNm1=${firstLocation[1]}&r_gugunNm2=${secondLocation[1]}&r_gugunNm3=${thirdLocation[1]}&ca_highNm1=${firstCategory}&ca_highNm2=${secondCategory}&ca_highNm3=${thirdCategory}&v_bgnTm=${bgnTm}&v_endTm=${endTm}&vol_title=${input}`,
@@ -81,12 +79,12 @@ export const getVolListBySearch = ({ input, firstLocation, secondLocation, third
       { headers: { Authorization: token } }
     ); // 1/1  (페이지당 한개)/(1페이지)
   } catch (error) {
-    console.log("에러남");
+    console.log(error);
     return true;
   }
 };
 
-export const getVolDetail = (id: number) => {
+export const getVolDetail = (id: number): any => {
   try {
 
     const token = "Bearer " + storage.get("token");
@@ -156,10 +154,8 @@ export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, t
       url += '&'
     }
     url += `v_bgnTm=${bgnTm}&v_endTm=${endTm}`
-    console.log("url입니다...page.....", url)
 
 
-    console.log("getVolListBySearch", { input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm })
     return axios.get(
       url,
       //restBaseApi + `/vol/titles/4000/1/filtering/?r_sidoNm1=${firstLocation[0]}&r_sidoNm2=${secondLocation[0]}&r_sidoNm3=${thirdLocation[0]}&r_gugunNm1=${firstLocation[1]}&r_gugunNm2=${secondLocation[1]}&r_gugunNm3=${thirdLocation[1]}&ca_highNm1=${firstCategory}&ca_highNm2=${secondCategory}&ca_highNm3=${thirdCategory}&v_bgnTm=${bgnTm}&v_endTm=${endTm}&vol_title=${input}`,
@@ -167,16 +163,15 @@ export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, t
       { headers: { Authorization: token } }
     ); // 1/1  (페이지당 한개)/(1페이지)
   } catch (error) {
-    console.log("volListAPI error:", error);
+    console.log(error);
     return true;
   }
 };
 
 
-export const getVolListByUserId = (userId: string) => {
+export const getVolListByUserId = (userId: string): any => {
   try {
     const token = "Bearer " + storage.get("token");
-    console.log("여기는 잘 되는가??");
     return axios.get(restBaseApi + "/rest/Member/" + userId + "/Vote", {
       headers: { Authorization: token }
     });
@@ -184,3 +179,15 @@ export const getVolListByUserId = (userId: string) => {
     return true;
   }
 };
+
+export const getVolFeed = (v_id : string, pageNum : number) : any => {
+  try{
+    const token = "Bearer " + storage.get('token');
+    return axios.get(`${restBaseApi}/rest/VolFeed/${v_id}/10/${pageNum}`,{
+      headers : { Authorization : token }
+    });
+  }catch(error){
+    return error;
+  }
+
+}

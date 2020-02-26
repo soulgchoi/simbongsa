@@ -21,7 +21,6 @@ const initialState: CalendarState = {
 export default handleActions<any>(
   {
     [DATE_CHANGE]: (state, action: any) => {
-      console.log("날짜 바꾸기", action.payload);
       return produce(state, (draft: any) => {
         draft.date = action.payload;
       });

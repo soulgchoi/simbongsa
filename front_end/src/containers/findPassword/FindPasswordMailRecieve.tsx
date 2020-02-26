@@ -59,7 +59,6 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
 
   handleChange = (e: any) => {
     const { id, value } = e.target;
-    console.log(e.target.id);
     if (id === "password") {
       this.setState({ password: value });
     } else {

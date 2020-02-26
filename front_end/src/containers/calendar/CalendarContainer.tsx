@@ -1,5 +1,5 @@
 import React from "react";
-import moment, { Moment as MomentTypes } from "moment";
+import { Moment as MomentTypes } from "moment";
 import { List } from "immutable";
 import { connect } from "react-redux";
 import { changeDate, changeToggle } from "redux/modules/calendar";
@@ -14,7 +14,7 @@ interface Props {
   changeToggle: typeof changeToggle;
   toggle: boolean;
   volunteers: List<any>;
-  VolActions: typeof volActions;
+  VolActions: any;
   volunteersForCal: any;
 }
 class CalendarContainer extends React.Component<Props, any> {
@@ -30,11 +30,9 @@ class CalendarContainer extends React.Component<Props, any> {
     this.setState({ pageNum: this.state.pageNum + 1 });
     const { VolActions } = this.props;
     VolActions.appendList(this.state.pageNum);
-    console.log(this.props.volunteers);
   };
   calActions = (date: any, toggle: any, vol?: any) => {
     const { changeDate, changeToggle, VolActions } = this.props;
-    console.log("calActions", date, toggle, vol);
     changeDate(date);
     changeToggle(toggle);
     VolActions.dayVolList(vol);
@@ -42,8 +40,6 @@ class CalendarContainer extends React.Component<Props, any> {
   render() {
     const { props, loadMoreData } = this;
 
-    console.log("container props", props.toggle);
-    console.log("volunteers입니다", props.volunteers.toJS());
     return (
       <div>
         <Calendar

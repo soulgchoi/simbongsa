@@ -23,11 +23,9 @@ class FindPasswordMailSend extends React.Component<
     email: null
   };
   componentWillReceiveProps() {
-    console.log(this.props.location);
     this.setState({ email: this.props.location.state.email });
   }
   componentDidMount() {
-    console.log(this.props.location);
     this.setState({ email: this.props.location.state.email });
   }
   render() {

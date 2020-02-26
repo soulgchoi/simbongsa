@@ -25,8 +25,6 @@ class CategorySelection extends Component<Props, State> {
     }
     handleChange = (e: any, data: any) => {
         const { SearchActions, categorys } = this.props;
-        console.log("data", data)
-        console.log(data.options)
         const splitValue = data.value.split('/')
         const check = categorys.filter((category: any) => category.text === splitValue[1]);
 
@@ -114,7 +112,7 @@ const LocationItem = ({ id, text, onRemove }: any) => (
         marginBottom: 15,
 
     }}>
-        <Button className="ulBtn" color='orange' size='mini'>{text}<Icon name="delete" onClick={() => onRemove(id)} /></Button>
+        <Button className="ulBtn" color='orange' size='mini'><div style={{ display: 'flex', justifyContent: 'space-around' }}>{text}<Icon size="big" name="delete" onClick={() => onRemove(id)} /></div></Button>
     </div >
 
 );

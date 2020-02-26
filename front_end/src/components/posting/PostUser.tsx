@@ -9,10 +9,10 @@ import ActionButton from "components/button/ActionButton";
 import "./PostUser.css"
 
 interface Props {
-  UserActions: typeof userActions;
+  UserActions: any;
   profileUserId: string; // 프로필을 표시할 유저 아이디
-  userProfile: any;
   loginUserId: string; // 현재 로그인한 유저의 아이디, 자동으로 세팅된다.
+  userProfileMap : any; // 현재 표시중인 모든 유저들의 프로필 정보를 저장한 맵. key : 유저아이디, value : 팔로워, 팔로잉, 현재팔로우중여부
 }
 enum page {
   PROFILE,
@@ -20,68 +20,67 @@ enum page {
   FOLLOWING
 }
 interface State {
-  followerList: string[];
-  followingList: string[];
-  isProfileUserFollowedByLoginUser: boolean;
   showPage: page;
 }
 
 class PostUser extends Component<Props, State> {
   state = {
-    followerList: [],
-    followingList: [],
-    isProfileUserFollowedByLoginUser: false,
     showPage: page.PROFILE
   };
-  componentDidMount() {
-    this.updateProfile();
+  constructor(props:any) {
+    super(props);
+    this.setProfile();
+  }
+
+  setProfile = async () => {
+    const { profileUserId, loginUserId, UserActions, userProfileMap } = this.props;
+    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
+      await UserActions.setUserFollowerList(profileUserId);
+      await UserActions.setUserFollowingList(profileUserId);
+      await UserActions.setUserFollowTag(loginUserId, profileUserId);
+    }
   }
   updateProfile = async () => {
-    const { profileUserId, loginUserId } = this.props;
-    this.setState({
-      followerList: await UserAPI.getUserFollower(profileUserId)
-    });
-    this.setState({
-      followingList: await UserAPI.getUserFollowing(profileUserId)
-    });
-    this.setState({
-      isProfileUserFollowedByLoginUser: await UserAPI.checkFollow(
-        loginUserId,
-        profileUserId
-      )
-    });
+    const { profileUserId, UserActions } = this.props;
+    await UserActions.setUserFollowerList(profileUserId);
+    await UserActions.setUserFollowingList(profileUserId);
   };
 
   handleFollow = async () => {
-    const { loginUserId, profileUserId } = this.props;
-    await UserAPI.followUser({
-      followee_userid: profileUserId,
-      follower_userid: loginUserId
-    });
+    const { loginUserId, profileUserId, UserActions} = this.props;
+    await UserActions.followUser(loginUserId, profileUserId);
     this.updateProfile();
   };
   handleUnfollow = async () => {
-    const { loginUserId, profileUserId } = this.props;
-    await UserAPI.unfollowUser({
-      follower_userid: loginUserId,
-      followee_userid: profileUserId
-    });
+    const { loginUserId, profileUserId, UserActions } = this.props;
+    await UserActions.unfollowUser(loginUserId, profileUserId);
     this.updateProfile();
   };
   handleFollowingClick = (e: any) => {
-    this.setState({ showPage: page.FOLLOWING });
+    // this.setState({ showPage: page.FOLLOWING });
   };
   handleFollowerClick = (e: any) => {
-    this.setState({ showPage: page.FOLLOWER });
+    // this.setState({ showPage: page.FOLLOWER });
   };
+
+  shouldComponentUpdate(nextProps : any){
+    const {profileUserId} = this.props;
+    const {userProfileMap} = nextProps;
+    return typeof userProfileMap.get(profileUserId) !== 'undefined' && userProfileMap.get(profileUserId).size === 3;
+  }
+
   render() {
-    const { loginUserId, profileUserId } = this.props;
-    const {
-      followerList,
-      followingList,
-      isProfileUserFollowedByLoginUser,
-      showPage
-    } = this.state;
+    const { loginUserId, profileUserId, userProfileMap } = this.props;
+    // console.log("유저프로필맵", userProfileMap.toJS());
+    // if(typeof userProfileMap.get(profileUserId) !== 'undefined')
+    // console.log("유저프로필맵", profileUserId, userProfileMap.get(profileUserId).get('followerList'));
+    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
+      return(<div></div>);
+    }
+    const followerList = userProfileMap.get(profileUserId).get('followerList');
+    const followingList = userProfileMap.get(profileUserId).get('followingList');
+    const isProfileUserFollowedByLoginUser = userProfileMap.get(profileUserId).get('isProfileUserFollowedByLoginUser');
+    // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
     const {
       handleFollow,
       handleUnfollow,
@@ -90,7 +89,7 @@ class PostUser extends Component<Props, State> {
     } = this;
     return (
       <div className="user-profile">
-        {showPage === page.PROFILE && (
+        {/* {showPage === page.PROFILE && ( */}
           <div>
             <div>
             <div style={{ display:"inline"}} onClick={handleFollowerClick}>
@@ -113,7 +112,7 @@ class PostUser extends Component<Props, State> {
               )}
         
           </div>
-        )}
+         {/* )} */}
       </div>
     );
   }
@@ -122,8 +121,8 @@ class PostUser extends Component<Props, State> {
 export default connect(
   ({ user }: any) => {
     return {
-      userProfile: user.get("userProfile"), // store에 있는 state를 this.pros로 연결
-      loginUserId: user.getIn(["loggedInfo", "userId"])
+      loginUserId: user.getIn(["loggedInfo", "userId"]),
+      userProfileMap : user.get("userProfileMap")
     };
   },
   dispatch => ({

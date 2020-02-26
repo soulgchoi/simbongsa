@@ -1,23 +1,18 @@
-import _ from 'lodash'
-import React, { Component, Fragment } from 'react'
-import { Search, Grid, Header, Segment, Placeholder } from 'semantic-ui-react'
+// import _ from 'lodash'
+import React, { Fragment } from 'react'
 import SearchPresenter from 'components/search/SearchPresenter';
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
-import storage from "lib/storage";
-import ActionButton from 'components/button/ActionButton'
 interface Iprops {
     input: string
-    SearchActions: typeof searchActions
-    VolActions: typeof volActions
+    SearchActions: any
+    VolActions: any
     loading: boolean
-    UserActions: typeof userActions
+    UserActions: any
     volunteers: any
     locations: any
     categorys: any
@@ -31,7 +26,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
         error: "",
     }
     handleSubmit = (event: any) => {
-        const { input, SearchActions } = this.props
+        const {  SearchActions } = this.props
         event.preventDefault()
 
         this.searchByTerm();
@@ -46,7 +41,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
         SearchActions.changeInput({ input: value, key: "" })
     }
     searchByTerm = async () => {
-        const { input, VolActions, locations, categorys, times, UserActions } = this.props
+        const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
         let preferLocate = locations.toJS().map((location: any) => location.text)
         console.log(preferLocate)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
@@ -97,11 +92,10 @@ class SearchBar extends React.Component<Iprops, Istate> {
             this.setState({ error: "Can't find result." })
         } finally {
             UserActions.changeLoading(false)
+            SearchActions.lastInput(input)
         }
 
     }
-
-
 
     render() {
         const { volunteers, input } = this.props

@@ -18,12 +18,10 @@ class Profile extends Component<Props, State> {
   componentDidMount() {
     const { userId } = this.props;
     let data = UsergApi.getUserInfo(userId);
-    console.log("유저 정보", data);
   }
   handleFileSelect = (e: any) => {
     var id = e.target.id;
     var value = e.target.files;
-    console.log(value[0]);
     this.setState({ selectedFiles: [value[0]] });
     // this.setState({ selectedFiles: newFileList });
   };
@@ -33,19 +31,14 @@ class Profile extends Component<Props, State> {
     const { selectedFiles } = this.state;
     const { mId } = this.props;
     const file = new FormData();
-    console.log("선택된 파일들", selectedFiles);
     if (selectedFiles.length > 0) {
       file.append("file", selectedFiles[0]);
     }
-    console.log("파일", file);
     let data = await PostingApi.uploadProfileImage(mId, file);
-    console.log("업로드 파일 결과", data);
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
   };
   render() {
-    const { selectedFiles } = this.state;
-    console.log("오오오오", selectedFiles);
     return (
       <div>
         <Container>

@@ -24,7 +24,6 @@ const requestVol = (
     .get(url)
     .then(response => {
       callback(response);
-      console.log(response);
     })
     .catch(error => {
       errorCallback(error);

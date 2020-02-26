@@ -38,7 +38,6 @@ class MailReSend extends React.Component<IProps, IState> {
   };
   componentDidMount() {
     const { email } = this.props;
-    console.log(this.props);
     this.setState({ email: email }, () => this.checkForm());
   }
   checkForm = () => {
@@ -87,9 +86,7 @@ class MailReSend extends React.Component<IProps, IState> {
   checkEmailExists = debounce(async (email: string) => {
     const { AuthActions } = this.props;
     try {
-      console.log("email 체크 함수:", email);
       await AuthActions.checkEmailExists(email);
-      console.log("이메일확인결과", this.props.exists.toJS());
       if (this.props.exists.get("email")) {
         this.setState({ error: { email: "" } });
       } else {
@@ -133,7 +130,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <button
             disabled={!this.state.isSubmit}
             className="btn btn--back btn--login"
-            // onClick={"#"}
+          // onClick={"#"}
           >
             메일 재전송
           </button>

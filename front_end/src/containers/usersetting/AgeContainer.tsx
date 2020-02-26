@@ -17,16 +17,12 @@ class AgeContainer extends Component<Props, State> {
     handleToggle = (first: string, second: string) => {
         const { SearchActions } = this.props;
 
-        console.log("ageName", first, second)
         SearchActions.toggle({ id: "ages", value: first, othervalue: second });
     };
     render() {
-        console.log("렌더되니??")
         const { handleToggle } = this;
         const { ages } = this.props;
         const { youth, adult } = ages.toJS();
-        console.log("youth, adult", youth, adult)
-        console.log("ages", ages.toJS())
         return (
             <Fragment>
                 <div id="age">
