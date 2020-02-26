@@ -1,24 +1,22 @@
 import React from "react";
-import CertLabel from "components/label/CertLabel";
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as postingActions from "redux/modules/posting";
 import { Link } from "react-router-dom";
 import * as VolApi from "lib/api/VolApi";
-import PostingList from "containers/posting/PostingList";
 import PostingButton from "components/button/PostingButton";
 import VolWeekday from "./VolWeekday";
 
-import { Responsive, Segment, Table, Button } from "semantic-ui-react";
+import { Responsive, Table, Button, Container } from "semantic-ui-react";
 import "./VolDetail.css";
 
-interface Props {}
+interface Props { match: any }
 interface State {
   volunteer: any;
 }
 
-class VolDetail extends React.Component<any, any> {
+class VolDetail extends React.Component<Props, State> {
   state = {
     volunteer: {
       v_id: "1",
@@ -50,7 +48,7 @@ class VolDetail extends React.Component<any, any> {
     let result = VolApi.getVolDetail(v_id);
     if (typeof result === "object") {
       // axios를 잘 리턴한 경우
-      result.then(response => {
+      result.then((response: any) => {
         this.setState({ volunteer: response.data.data });
         // console.log(response.data.data);
       });
@@ -62,7 +60,7 @@ class VolDetail extends React.Component<any, any> {
   render() {
     const { volunteer } = this.state;
     return (
-      <div>
+      <Container text>
         <div className="title">{volunteer.v_title}</div>
         <Responsive minWidth={320} maxWidth={2559}>
           <Table unstackable celled>
@@ -152,12 +150,12 @@ class VolDetail extends React.Component<any, any> {
           >
             <Button>게시글 목록</Button>
           </Link>
-        <Button as="a" href={volunteer.v_url}>
+          <Button as="a" href={volunteer.v_url}>
             신청하러 가기
         </Button>
 
         </div>
-      </div>
+      </Container>
     );
   }
 }

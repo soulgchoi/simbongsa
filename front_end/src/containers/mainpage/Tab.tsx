@@ -1,9 +1,10 @@
 import React from "react";
-import { Tab } from "semantic-ui-react";
+import { Tab, Container, Sticky } from "semantic-ui-react";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 import Location from "containers/location/Location";
 import VolListPage from "containers/vollistpage/VolListPage";
 import { list } from "react-immutable-proptypes";
+import VolInfo from "components/map/VolInfo";
 const panes = [
   {
     menuItem: {
@@ -12,8 +13,10 @@ const panes = [
       icon: "list alternate outline"
     },
     render: () => (
-      <Tab.Pane>
-        <VolListPage />
+      <Tab.Pane >
+        <Container text>
+          <VolListPage />
+        </Container>
       </Tab.Pane>
     )
   },
@@ -21,7 +24,10 @@ const panes = [
     menuItem: { key: "map", content: "지도", icon: "map outline" },
     render: () => (
       <Tab.Pane>
-        <Location />
+        <Container text>
+          <Location />
+          <VolInfo />
+        </Container>
       </Tab.Pane>
     )
   },
@@ -33,7 +39,9 @@ const panes = [
     },
     render: () => (
       <Tab.Pane>
-        <CalendarContainer />
+        <Container text>
+          <CalendarContainer />
+        </Container>
       </Tab.Pane>
     )
   }
@@ -41,7 +49,9 @@ const panes = [
 
 const TabExampleBasic = () => (
   <div id="tab">
-    <Tab panes={panes} />
+    <Container>
+      <Tab panes={panes} />
+    </Container>
   </div>
 );
 

@@ -9,10 +9,10 @@ import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 interface Iprops {
     input: string
-    SearchActions: typeof searchActions
-    VolActions: typeof volActions
+    SearchActions: any
+    VolActions: any
     loading: boolean
-    UserActions: typeof userActions
+    UserActions: any
     volunteers: any
     locations: any
     categorys: any
@@ -41,7 +41,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
         SearchActions.changeInput({ input: value, key: "" })
     }
     searchByTerm = async () => {
-        const { input, VolActions, locations, categorys, times, UserActions } = this.props
+        const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
         let preferLocate = locations.toJS().map((location: any) => location.text)
         console.log(preferLocate)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
@@ -92,6 +92,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
             this.setState({ error: "Can't find result." })
         } finally {
             UserActions.changeLoading(false)
+            SearchActions.lastInput(input)
         }
 
     }

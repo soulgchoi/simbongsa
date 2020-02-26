@@ -53,28 +53,22 @@ class ModalExampleDimmer extends Component<any, IState> {
         this.searchByTerm();
     }
     searchByTerm = async () => {
-        const { input, VolActions, locations, categorys, times, UserActions } = this.props
+        const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
         let preferLocate = locations.toJS().map((location: any) => location.text)
-        console.log(preferLocate)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
         const locateSize = preferLocate.length
         const categorySize = preferCategory.length
-        console.log(locateSize)
         for (let i = 0; i < 3 - locateSize; i++) {
             preferLocate.push("null null")
-            console.log("for문")
         }
         for (let i = 0; i < 3 - categorySize; i++) {
             preferCategory.push(null)
         }
-        console.log("preferLocate", preferLocate)
-        console.log("preferCategory", preferCategory)
         const firstLocation = preferLocate[0].split(" ")
         const secondLocation = preferLocate[1].split(" ")
         const thirdLocation = preferLocate[2].split(" ")
 
         const firstCategory = preferCategory[0]
-        console.log(firstCategory)
         const secondCategory = preferCategory[1]
         const thirdCategory = preferCategory[2]
 
@@ -95,21 +89,19 @@ class ModalExampleDimmer extends Component<any, IState> {
             bgnTm = "00:00:01";
             endTm = "23:59:58";
         }
-        console.log("hihihihihihihih", preferLocate)
         UserActions.changeLoading(true)
         try {
             VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
             VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
         } catch{
-            console.log("error")
         } finally {
             UserActions.changeLoading(false)
+            SearchActions.lastInput(input)
         }
 
     }
     render() {
         const { open, active } = this.state
-        console.log("액티브니??", active)
         return (
             <div>
                 <Button color={active ? "orange" : "grey"} id="filter-button" onClick={this.show()}>필터</Button>

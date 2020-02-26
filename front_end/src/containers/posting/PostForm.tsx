@@ -67,9 +67,8 @@ class PostingForm extends React.Component<any, any> {
     };
 
 
-    handleSubmit = (e: any) => {
+    handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(this.props.form.toJS())
         const { p_content, m_id } = this.props.form.toJS();
         const { selectedfiles } = this.props
         var v_id = this.props.match.params.id
@@ -77,7 +76,6 @@ class PostingForm extends React.Component<any, any> {
 
         const files = new FormData()
         for (let j = 0; j < selectedfiles.length; j++) {
-            console.log("file이 추가됩니다!!")
             files.append("files", selectedfiles[j])
         }
         const post = {
@@ -87,14 +85,14 @@ class PostingForm extends React.Component<any, any> {
             m_id,
         }
 
-        axios.post(restBaseApi + "/rest/Post", post,
+        await axios.post(restBaseApi + "/rest/Post", post,
             { headers: { Authorization: "Bearer " + token } })
             .then(res => {
                 console.log(res)
             })
             .catch(err => console.log(err))
 
-        axios.post(restBaseApi + "/rest/PostFile", files,
+        await axios.post(restBaseApi + "/rest/PostFile", files,
             {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -106,7 +104,6 @@ class PostingForm extends React.Component<any, any> {
             })
             .catch(err => console.log(err))
 
-        
         this.goListPage();
     }
 

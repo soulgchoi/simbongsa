@@ -24,6 +24,7 @@ const SET_SHOW_VOL_INFO = "vol/SET_SHOW_VOL_INFO";
 const SELECT_VOL = "volunteer/SELECT_VOL";
 const GET_VOL_LIST_BY_USER_ID = "vol/GET_VOL_LIST_BY_USER_ID";
 const DAY_VOL_LIST = "vol/DAY_VOL_LIST";
+const RESET_VOLUNTEER_FOR_LIST = "vol/RESET_VOLUNTEER_FOR_LIST";
 const APPEND_VOL_LIST_FORCAL = "vol/APPEND_VOL_LIST_FORCAL"
 export const dayVolList = createAction(DAY_VOL_LIST);
 export const setVolMap = createAction(SET_VOL_MAP);
@@ -41,6 +42,7 @@ export const appendList = createAction(
   APPEND_VOL_LIST,
   VolApi.getVolListBySearchPage
 );
+export const resetVolunteerForList = createAction(RESET_VOLUNTEER_FOR_LIST);
 export const appendListForCal = createAction(APPEND_VOL_LIST_FORCAL)
 export const getVolDetail = createAction(GET_VOL_DETAIL, VolApi.getVolDetail);
 export const setShowVolInfo = createAction(SET_SHOW_VOL_INFO);
@@ -73,14 +75,13 @@ const initialState = Map({
   volunteersForList: List([]),
   volunteersForMap: List([]), // 지도에서 검색결과로 사용할 봉사리스트
   volunteersForCal: List([]), // 달력에서 검색결과로 사용할 봉사리스트
-  currentLocation: { y: 37.5668260054857, x: 126.978656785931 },
+  currentLocation: { y: 35.888013, x: 127.791075 },
   selectedVolunteer: { v_id: null },
   volMap: null,
   selectedMarker: null,
   showVolInfo: false,
   volunteer: { v_id: null },
-  volListByUserId: [],
-
+  volListByUserId: List([]),
 });
 
 export default handleActions<any>(
@@ -92,7 +93,6 @@ export default handleActions<any>(
       return state.setIn(["volunteer", "v_id"], action.payload);
     },
     [SET_CURRENT_LOCATION]: (state, action) => {
-      console.log("현재 위치 갱신 ", action.payload);
       return state.set("currentLocation", action.payload);
     },
     [RESET_SELECTED_VOL]: state => {
@@ -110,6 +110,9 @@ export default handleActions<any>(
     [DAY_VOL_LIST]: (state, action) => {
       return state.set("volunteersForCal", List(action.payload));
     },
+    [RESET_VOLUNTEER_FOR_LIST] : (state) =>{
+      return state.set("volunteerForList", List([]));
+    },
     ...pender({
       type: SET_SELECTED_VOLUNTEER,
       onSuccess: (state, action) => {
@@ -121,7 +124,6 @@ export default handleActions<any>(
       type: GET_VOL_LIST_TO_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("페이로드드드드", data);
         return state.set("volunteersForList", List(data));
       },
       onFailure: (state, action) => {
@@ -132,7 +134,6 @@ export default handleActions<any>(
       type: GET_VOL_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("페이로드드드드", data);
         return state.set("volunteers", List(data));
       },
       onFailure: (state, action) => {
@@ -142,7 +143,6 @@ export default handleActions<any>(
     ...pender({
       type: APPEND_VOL_LIST,
       onSuccess: (state, action) => {
-        console.log("에펜드 리스트트트트", action.payload);
         const volunteersForList = state.get("volunteersForList");
         return state.set(
           "volunteersForList",
@@ -159,7 +159,6 @@ export default handleActions<any>(
       type: GET_VOL_LIST_BY_USER_ID,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("유저 선호 봉사 정보", data);
         return state.set("volListByUserId", List(data));
       }
     })

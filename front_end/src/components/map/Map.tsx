@@ -9,8 +9,6 @@ import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import * as VolApi from "lib/api/VolApi";
-import storage from "lib/storage";
-import { MdZoomIn } from "react-icons/md";
 import * as userActions from "redux/modules/user";
 
 import "components/map/map.scss";
@@ -23,7 +21,7 @@ declare global {
 
 interface IProps {
   volunteers: any;
-  VolActions: typeof volActions;
+  VolActions: any;
   currentLocation: any;
   volMap: any;
   selectedMarker: any;
@@ -31,7 +29,7 @@ interface IProps {
   SearchActions: any;
   volunteersForMap: any;
   showVolInfo: boolean;
-  UserActions: typeof userActions;
+  UserActions: any;
 }
 
 interface IState {
@@ -79,7 +77,7 @@ class Map extends Component<IProps, IState> {
       VolActions.setShowVolInfo(false);
     });
     VolActions.setVolMap(volMap);
-    getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
+    // getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
     let clusterer = makeMarker(
       volunteers.toJS(),
       volMap,
@@ -90,6 +88,8 @@ class Map extends Component<IProps, IState> {
     this.setState({ clusterer: clusterer });
     // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
     UserActions.changeLoading(false);
+    volMap.setLevel(14);
+
   }
 
   // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
@@ -105,7 +105,7 @@ class Map extends Component<IProps, IState> {
   // }
 
   shouldComponentUpdate(nextProps: any) {
-    const { volunteers, showVolInfo, volMap, currentLocation } = this.props;
+    const { volunteers, showVolInfo } = this.props;
     this.resetSelectedMarker();
     if (volunteers !== nextProps.volunteers) {
       this.setState({ isMarkerRenderingNeed: true });
@@ -125,7 +125,7 @@ class Map extends Component<IProps, IState> {
   }
 
   componentDidUpdate() {
-    console.log("componentDidUpdate");
+    console.log("맵 componentDidUpdate");
     const {
       volunteers,
       VolActions,
@@ -202,16 +202,16 @@ class Map extends Component<IProps, IState> {
   zoomOut = (map: any) => {
     map.setLevel(map.getLevel() + 1);
   };
-  setMyLocation = () => {
-    window.navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        myLocation: {
-          y: position.coords.latitude,
-          x: position.coords.longitude
-        },
-        isMyLocationClicked: true
-      });
-    });
+  setMyLocation = async () => {
+    const { volMap, VolActions } = this.props;
+    const moveLatLon = new window.kakao.maps.LatLng(35.888013, 127.791075);
+    volMap.setLevel(14);
+    volMap.panTo(moveLatLon);
+    VolActions.resetSelectedVol();
+    VolActions.setVolunteersForMap([]);
+    this.resetSelectedMarker();
+    VolActions.setShowVolInfo(false);
+
   };
   render() {
     console.log("render ");
@@ -222,7 +222,7 @@ class Map extends Component<IProps, IState> {
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
         <div id="map" style={{ width: "100%", height: "40vh" }} />
         {/* 내 위치는 HTTPS 를 사용해야합니다. */}
-        {/* <div className="custom_typecontrol radius_border">
+        <div className="custom_typecontrol radius_border">
           <span
             id="btnRoadmap"
             className="mylocation_btn"
@@ -230,9 +230,9 @@ class Map extends Component<IProps, IState> {
               setMyLocation();
             }}
           >
-            내위치
+            전체 보기
           </span>
-        </div> */}
+        </div>
         <div className="custom_zoomcontrol radius_border">
           <span
             onClickCapture={() => {
@@ -260,13 +260,13 @@ class Map extends Component<IProps, IState> {
   }
 }
 
-const getVols = (VolActions: any) => {
-  try {
-    VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
-  } catch (e) {
-    console.log(e);
-  }
-};
+// const getVols = (VolActions: any) => {
+//   try {
+//     VolActions.getVolList(); // 성공하면 store의 volunteers에 저장돼있음
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 const makeMarker = (
   volunteers: { v_id: string; v_x: number; v_y: number }[],
@@ -393,7 +393,7 @@ const makeMarker = (
   // 마커 클러스터러에 클릭이벤트를 등록합니다
   // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
   // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-  kakao.maps.event.addListener(clusterer, "clusterclick", function(
+  kakao.maps.event.addListener(clusterer, "clusterclick", function (
     cluster: any
   ) {
     // 기존에 선택한 봉사정보가 있으면 초기화
@@ -443,22 +443,22 @@ function makeClickListener(
   VolActions: any,
   id: string
 ) {
-  return function() {
+  return function () {
     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
     // 마커의 이미지를 클릭 이미지로 변경합니다
     if (!selectedMarker || selectedMarker !== marker) {
       // 클릭된 마커 객체가 null이 아니면
       // 클릭된 마커의 이미지를 기본 이미지로 변경하고
       // console.log("이미선태됨", selectedMarker);
-      !!selectedMarker && selectedMarker.setImage(markerImage);
+      // !!selectedMarker && selectedMarker.setImage(markerImage);
 
       // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-      marker.setImage(selectedMarkerImage);
+      // marker.setImage(selectedMarkerImage);
     }
     let currentLocationLatLng = marker.getPosition();
     volMap.panTo(currentLocationLatLng);
     // // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-    VolActions.setSelectedMarker(marker);
+    // VolActions.setSelectedMarker(marker);
     VolActions.setSelectedVolunteer(id);
     VolActions.setShowVolInfo(true);
   };
@@ -466,17 +466,17 @@ function makeClickListener(
 
 // 지도를 표시하는 div 크기를 변경하는 함수입니다
 // function resizeMap(volMap: any, height: number) {
-function resizeMap(volMap: any, height: string) {
-  let mapContainer = document.getElementById("map");
-  let mapWrap = document.getElementById("map_wrap");
-  // mapContainer!.style.width = '650px';
-  console.log("맵컨테이너", mapContainer);
-  let center = volMap.getCenter();
-  mapContainer!.style.height = height; //.toString() + "px";
-  mapWrap!.style.height = height; //.toString() + "px";
-  volMap.relayout();
-  volMap.panTo(center);
-}
+// function resizeMap(volMap: any, height: string) {
+//   let mapContainer = document.getElementById("map");
+//   let mapWrap = document.getElementById("map_wrap");
+//   // mapContainer!.style.width = '650px';
+//   console.log("맵컨테이너", mapContainer);
+//   let center = volMap.getCenter();
+//   mapContainer!.style.height = height; //.toString() + "px";
+//   mapWrap!.style.height = height; //.toString() + "px";
+//   volMap.relayout();
+//   volMap.panTo(center);
+// }
 
 export default connect(
   ({ vol, search, user }: any) => {

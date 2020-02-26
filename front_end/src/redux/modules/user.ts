@@ -11,10 +11,12 @@ const SET_PREFER_INFO = "user/SET_PREFER_INFO"; // 큐레이션 설정 불러오
 const CHANGE_LOADING = "user/CHANGE_LOADING"; // loading 설정
 const GET_NORMAL_FEED_LIST = "user/GET_NORMAL_FEED_LIST"; // 유저의 피드 리스트 가져오기
 const GET_PREFER_FEED_LIST = "user/GET_PREFER_FEED_LIST"; // 유저의 피드 리스트 가져오기
-const APPEND_FEED_LIST = "volunteer/APPEND_FEED_LIST";
-
-// const GET_USER_FOLLOWER = "user/GET_USER_FOLLOWER"; //
-// const GET_USER_FOLLOWEE = "user/GET_USER_FOLLOWEE";
+const RESET_FEED_LIST = "user/RESET_FEED_LIST";
+const SET_USER_FOLLOWING_LIST = "user/SET_USER_FOLLOWING_LIST";
+const SET_USER_FOLLOWER_LIST = "user/SET_USER_FOLLOWER_LIST";
+const SET_USER_FOLLOW_TAG = "user/SET_USER_FOLLOW_TAG";
+const FOLLOW_USER = 'user/FOLLOW_USER';
+const UNFOLLOW_USER = 'user/UNFOLLOW_USER';
 // const SET_USER_ID = "user/SET_USER_ID";
 
 export const setLoggedInfo = createAction(SET_LOGGED_INFO); // loggedInfo
@@ -33,31 +35,31 @@ export const getNormalFeedList = createAction(
   GET_NORMAL_FEED_LIST,
   UserAPI.getNormalFeedList
 );
-// export const setUserId = createAction(SET_USER_ID);
-// export const setUserFollower = createAction(
-//   GET_USER_FOLLOWER,
-//   UserAPI.getUserFollower
-// );
-// export const setUserFollowee = createAction(
-//   GET_USER_FOLLOWEE,
-//   UserAPI.getUserFollower
-// );
+export const resetFeedList = createAction(RESET_FEED_LIST);
 
-interface initialStateParams {
-  setIn: any;
-  set: any;
-  loggedInfo: {
-    // 현재 로그인중인 유저의 정보
-    thumbnail: string;
-    username: string;
-  };
-  logged: boolean; // 현재 로그인중인지 알려준다
-  validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
-  emailValidate: boolean;
-  loading: boolean;
-  normarlFeedList: List<any>;
-  preferFeedList: List<any>;
-}
+export const setUserFollowingList = createAction(SET_USER_FOLLOWING_LIST, UserAPI.getUserFollowing, profileUserId=>profileUserId); // 3번째 파라미터는 onSucess 부분에서 action.meta 입니다. 두번째 파라미터(action.payload)와 같은 인풋을 받습니다.
+export const setUserFollowerList = createAction(SET_USER_FOLLOWER_LIST, UserAPI.getUserFollower, (profileUserId)=>{return profileUserId});
+export const setUserFollowTag = createAction(SET_USER_FOLLOW_TAG, UserAPI.checkFollow, (loginUserId,profileUserId)=>{return profileUserId}); // 세번째 파라미터의 인풋 loginUserId는 사용하지 않지만 인풋이 두개임을 나타내기 위하여 필요함.
+export const followUser = createAction(FOLLOW_USER, UserAPI.followUser, (loginUserId,profileUserId)=>{return profileUserId});
+export const unfollowUser = createAction(UNFOLLOW_USER, UserAPI.unfollowUser, (loginUserId,profileUserId)=>{return profileUserId});
+
+// export const setUserId = createAction(SET_USER_ID);
+
+// interface initialStateParams{
+//   setIn: any;
+//   set: any;
+//   loggedInfo: {
+//     // 현재 로그인중인 유저의 정보
+//     thumbnail: string;
+//     username: string;
+//   };
+//   logged: boolean; // 현재 로그인중인지 알려준다
+//   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
+//   emailValidate: boolean;
+//   loading: boolean;
+//   normarlFeedList: List<any>;
+//   preferFeedList: List<any>;
+// }
 const initialState = Map({
   loggedInfo: Map({
     // 현재 로그인중인 유저의 정보
@@ -72,24 +74,26 @@ const initialState = Map({
       preferCategory: []
     })
   }),
-  // userProfile: Map({
-  //   userId: null,
-  //   followerList: List([]),
-  //   followingList: List([])
-  // }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
   emailValidate: false,
   loading: false,
+
   normalFeedList: List([]),
-  preferFeedList: List([])
+  preferFeedList: List([]),
+
+  userProfileMap: Map({
+    //  key : userId
+    //  value : followerList: string[];
+    //          followingList: string[];
+    //          isProfileUserFollowedByLoginUser: boolean;
+  })
 });
 
 export default handleActions<any>(
   {
     [SET_LOGGED_INFO]: (state, action) => {
       const { sub, aud, iss } = action.payload;
-      console.log("sub, iss", action.payload);
       // console.log("=================SET_LOGGED", sub, aud);
       return state
         .set("logged", true)
@@ -98,14 +102,14 @@ export default handleActions<any>(
 
     [SET_VALIDATED]: (state, action) => state.set("validated", action.payload),
     [CHANGE_LOADING]: (state, action) => {
-      console.log("loading 여기 들어오니", action.payload);
       return state.set("loading", action.payload);
+    },
+    [RESET_FEED_LIST] : (state) =>{
+      return state.set("preferFeedList", List([])).set("normalFeedList", List([]));
     },
     ...pender({
       type: SET_PREFER_INFO,
-
       onSuccess: (state, action) => {
-        console.log("SET_PREFER_INFO", action.payload.data.data);
         const {
           m_bgnTm,
           m_endTm,
@@ -121,41 +125,66 @@ export default handleActions<any>(
           preferCategory: m_prefer_category
         });
         return state.setIn(["loggedInfo", "preferInfo"], data);
-        // return state.setIn(["loggedInfo", "preferInfo", "bgnTm"], m_bgnTm).setIn(["loggedInfo", "preferInfo", "endTm"], m_endTm).setIn(["loggedInfo", "preferInfo", "age"], m_age).setIn(["loggedInfo", "preferInfo", "preferRegion"], m_prefer_region).setIn(["loggedInfo", "preferInfo", "preferCategory"], m_prefer_category)
       }
     }),
     ...pender({
       type: GET_NORMAL_FEED_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("피드리스트 액션 노말", data);
-        return state.set("normalFeedList", List(data));
+        return state.set("normalFeedList", state.get("normalFeedList").concat(data));
       }
     }),
     ...pender({
       type: GET_PREFER_FEED_LIST,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
-        console.log("피드리스트 액션", data);
-        return state.set("preferFeedList", List(data));
+        return state.set("preferFeedList", state.get("preferFeedList").concat(data));
       }
-    })
+    }),
 
+    ...pender({
+        type : SET_USER_FOLLOWING_LIST,
+        onSuccess : (state, action) =>{
+          const { data } = action.payload.data;
+          const profileUserId = action.meta;       
+          return state.setIn(["userProfileMap", profileUserId, "followingList"],data.map((item : any)=>item.m_userid));
+        }
+    }),
+    ...pender({
+        type : SET_USER_FOLLOWER_LIST,
+        onSuccess : (state, action) =>{
+          const { data } = action.payload.data;
+          const profileUserId = action.meta;          
+          return state.setIn(["userProfileMap", profileUserId, "followerList"], data.map((item : any)=>item.m_userid));
+        }
+    }),
+    ...pender({
+        type : SET_USER_FOLLOW_TAG,
+        onSuccess : (state, action) =>{
+          const { data } = action.payload.data;
+          const profileUserId = action.meta; 
+          return state.setIn(["userProfileMap", profileUserId, "isProfileUserFollowedByLoginUser"], data);
+        }
+    }),
+    ...pender({
+      type : FOLLOW_USER,
+      onSuccess : (state, action)=>{
+        // const { }
+        const profileUserId = action.meta; 
+        return state.setIn(["userProfileMap", profileUserId, "isProfileUserFollowedByLoginUser"], true);
+      }
+    }),
+    ...pender({
+      type : UNFOLLOW_USER,
+      onSuccess : (state, action)=>{
+        // const { }
+        const profileUserId = action.meta; 
+        return state.setIn(["userProfileMap", profileUserId, "isProfileUserFollowedByLoginUser"], false);
+      }
+    }),
     // [SET_USER_ID]: (state, action) =>
     //   state.setIn(["userPforile", "ueserId"], action.payload),
 
-    // ...pender({
-    //   type: GET_USER_FOLLOWER,
-    //   onSuccess: (state, action) => {
-    //     state.setIn(["userProfile", "followerList"], List(action.payload));
-    //   }
-    // }),
-    // ...pender({
-    //   type: GET_USER_FOLLOWEE,
-    //   onSuccess: (state, action) => {
-    //     state.setIn(["userProfile", "followeeList"], List(action.payload));
-    //   }
-    // })
   },
   initialState
 );

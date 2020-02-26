@@ -3,52 +3,64 @@ import * as postingAction from "redux/modules/posting";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Card from 'components/posting/Card';
 interface Props {
   userId: string;
   PostingAction: any;
+  postList: any;
 }
-interface State {}
+interface State { }
 
 class MyPost extends Component<Props, State> {
   state = {
-    pageNum: 1
+    pageNum: 1,
+    cardList: []
   };
 
   componentDidMount() {
     const { PostingAction, userId } = this.props;
-    PostingAction.getPostByUser(userId);
+    const { pageNum } = this.state;
+    PostingAction.resetPostByUser();
+    PostingAction.getPostByUser(userId, pageNum);
+    this.setState({ pageNum: pageNum + 1 });
   }
 
-  appendList = () => {
-    // const { postList } = this.props;
-    // let idx = 0;
-    // let newVolunteersForList: any[] = volunteersForList;
-    // let newVolunteers: any[] = volunteers;
-    // volunteers.forEach((volunteer: any) => {
-    //   if (idx >= 10) {
-    //     return;
-    //   }
-    //   newVolunteersForList.push(volunteer);
-    //   idx = idx + 1;
-    // });
-    // for (let i = 0; i < idx; ++i) {
-    //   newVolunteers.shift();
-    // }
-    // this.setState({
-    //   volunteers: newVolunteers,
-    //   volunteersForList: newVolunteersForList
-    // });
-  };
+  componentWillUnmount(){
+    const { PostingAction } = this.props;
+    PostingAction.resetPostByUser();
+  }
+
+  loadMoreData() {
+    const { userId, PostingAction } = this.props;
+    const { pageNum } = this.state;
+    PostingAction.getPostByUser(userId, pageNum);
+    this.setState({ pageNum: pageNum + 1 });
+  }
 
   render() {
-    return <div></div>;
+    const { postList } = this.props;
+    const PrintArray = postList.map((post: any, i: any) => {
+      return <Card color="white" post={post} key={i} />
+    });
+    return (
+      <InfiniteScroll
+        dataLength={postList.length}
+        next={this.loadMoreData.bind(this)}
+        hasMore={postList.length >= this.state.pageNum * 10}
+        loader={<h4>게시글 목록을 불러오는 중</h4>}
+        endMessage={<h4>모든 정보를 확인했습니다.</h4>}
+      >
+        {PrintArray}
+      </InfiniteScroll>
+    );
   }
 }
 
 export default connect(
   ({ user, posting, vol }: any) => ({
     userId: user.getIn(["loggedInfo", "userId"]),
-    postList: posting.get("postsByUser")
+    postList: posting.get("postsByUser").toJS()
   }),
   dispatch => ({
     PostingAction: bindActionCreators(postingAction, dispatch)

@@ -1,26 +1,24 @@
 div.listtitle {
     word-break: normal;
-    line-height: 1.5em;
-    margin-top: 0.3em;
-    margin-bottom: 0.2em;
-    font-size: 1.1em;   
+    line-height: 1.5rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.2rem;
+    font-size: 1rem;   
 }
 
 div.list{
-    /* padding: 0.4em; */
-    padding: 0.6em;
-    /* padding-bottom: 0.8em; */
+    /* padding: 0.4rem; */
+    padding: 0.6rem;
+    /* padding-bottom: 0.8rem; */
     border-bottom: solid .5px lightgray;
 }
 
 div.linktodetail {
     display: inline;
-    float: right;
-    
 }
 
 div.linktodetail a {
     text-decoration: none;
     color: orange;
-    font-size: 1em;
+    font-size: 1rem;
 }

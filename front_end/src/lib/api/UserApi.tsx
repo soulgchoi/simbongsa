@@ -6,73 +6,79 @@ import jwt from "jsonwebtoken";
 const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 
 /// 팔로우 관련 API 시작
-export const getUserFollower = async (userId: string) => {
+export const getUserFollower = (userId: string) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.get(
-    restBaseApi + "/follow/" + userId + "/followers",
-    { headers: { Authorization: token } }
-  );
-  console.log("get follower", response);
-  let list: string[] = [];
-  const data = response.data.data;
-  data.map((item: { m_userid: string }) => {
-    list.push(item.m_userid);
-  });
-  console.log("list", list);
-  return list;
+  try{
+    return axios.get(
+      restBaseApi + "/follow/" + userId + "/followers",
+      { headers: { Authorization: token } }
+    );
+  }catch(error){
+    return true;
+  }
 };
 
-export const getUserFollowing = async (userId: string) => {
+export const getUserFollowing = (userId: string) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.get(
-    restBaseApi + "/follow/" + userId + "/followees",
-    { headers: { Authorization: token } }
-  );
-  console.log("get follower", response);
-  let list: string[] = [];
-  const data = response.data.data;
-  data.map((item: { m_userid: string }) => {
-    list.push(item.m_userid);
-  });
-  console.log("list", list);
-  return list;
+  try{
+    return axios.get(
+      restBaseApi + "/follow/" + userId + "/followees",
+      { headers: { Authorization: token } }
+    );
+  }catch(error){
+    return error;
+  }
 };
 
-export const checkFollow = async (followerId: string, followeeId: string) => {
+export const checkFollow = (followerId: string, followeeId: string) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.get(
-    restBaseApi +
-      "/isfollowing?follower_userid=" +
-      followerId +
-      "&followee_userid=" +
-      followeeId,
-    { headers: { Authorization: token } }
-  );
-  console.log("팔로잉체크", response.data.data);
-  return response.data.data;
+  try{
+    return axios.get(
+      restBaseApi + "/isfollowing?follower_userid=" +
+    followerId +
+    "&followee_userid=" +
+    followeeId,
+      { headers: { Authorization: token } }
+    );
+  }catch(error){
+    return error;
+  }
 };
 
-export const followUser = async (data: {
-  follower_userid: string;
-  followee_userid: string;
-}) => {
+export const followUser =  (
+  follower_userid: string,
+  followee_userid: string
+) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "/insertfollow/", data, {
-    headers: { Authorization: token }
-  });
-
-  return response;
+  const data = { 
+    "followee_userid": followee_userid,
+  "follower_userid": follower_userid
+}
+  try{
+    return axios.post(restBaseApi + "/insertfollow/", data, {
+      headers: { Authorization: token }
+    });
+  }catch(error){
+    return error;
+  }
 };
 
-export const unfollowUser = async (data: {
-  follower_userid: string;
-  followee_userid: string;
-}) => {
+export const unfollowUser = (
+  follower_userid: string,
+  followee_userid: string
+) => {
   const token = "Bearer " + storage.get("token");
-  let response = await axios.post(restBaseApi + "/deletefollow/", data, {
-    headers: { Authorization: token }
-  });
-  return response;
+  const data = { 
+    "followee_userid": followee_userid,
+  "follower_userid": follower_userid
+}
+  try{
+    return axios.post(restBaseApi + "/deletefollow/", data, {
+      headers: { Authorization: token }
+    });
+  }catch(error){
+    return error;
+  }
 };
 /// 팔로우 관련 API 끝
 interface Iprefer {
@@ -99,30 +105,29 @@ export const localPreferRegister: ({
   preferRegion,
   userId
 }: Iprefer) => {
-  let data = {
-    m_age: age,
-    m_bgnTm: bgnTm,
-    m_endTm: endTm,
-    prefer_category: preferCategory,
-    prefer_region: preferRegion
-  };
+    let data = {
+      m_age: age,
+      m_bgnTm: bgnTm,
+      m_endTm: endTm,
+      prefer_category: preferCategory,
+      prefer_region: preferRegion
+    };
 
-  try {
-    const token = "Bearer " + storage.get("token");
-    console.log("사용자 선호 입력 API 체크 : ", data);
-    return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
-      headers: { Authorization: token }
-    });
-  } catch (error) {
-    return false;
-  }
-  // try {
-  //   return axios.post(restBaseApi + "Member", data);
-  // } catch (error) {
-  //   console.log(error);
-  //   return true;
-  // }
-};
+    try {
+      const token = "Bearer " + storage.get("token");
+      return axios.patch(restBaseApi + `/rest/Member/${userId}`, data, {
+        headers: { Authorization: token }
+      });
+    } catch (error) {
+      return false;
+    }
+    // try {
+    //   return axios.post(restBaseApi + "Member", data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return true;
+    // }
+  };
 
 export const localPreferInfo = (userId: string) => {
   try {
@@ -142,12 +147,10 @@ export const localPreferInfo = (userId: string) => {
 
 export const getPreferFeedList = (mId: string, pgNum: number) => {
   try {
-    console.log("mId", mId);
     const tokenTemp = storage.get("token");
     const temp: any = jwt.decode(tokenTemp);
     const mId2 = temp.aud;
     const token = "Bearer " + storage.get("token");
-    // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
     return axios.get(restBaseApi + `/rest/PostFeed/${mId2}/8/${pgNum}`, {
       headers: { Authorization: token }
@@ -165,7 +168,6 @@ export const getNormalFeedList = (mId: string, pgNum: number) => {
     const temp: any = jwt.decode(tokenTemp);
     const mId2 = temp.aud;
     const token = "Bearer " + storage.get("token");
-    // console.log("겟피드리스트", restBaseApi + `rest/PostFeed/3/10/${pgNum}`);
     // return axios.get(restBaseApi + `rest/PostFeed/3/10/${pgNum}`, {
     return axios.get(restBaseApi + `/rest/PostFeed2/${mId2}/2/${pgNum}`, {
       headers: { Authorization: token }
@@ -182,7 +184,6 @@ export const changePassword = async (eMail: string, password: string) => {
   let response = await axios.post(restBaseApi + "/rest/Member/Password", data, {
     headers: { Authorization: token }
   });
-  console.log("비밀번호 변경", response);
   // response 안에서 데이터 추출하기.
   return response;
 };
@@ -194,3 +195,19 @@ export const getUserInfo = async (userId: string) => {
   });
   return response.data.data;
 };
+
+
+// 회원 탈퇴
+export const deleteUser = async (
+  m_id: string
+) => {
+  try {
+    const token = "Bearer " + storage.get("token");
+    return axios.delete(restBaseApi + `/rest/Member/${m_id}`, {
+      headers: { Authorization: token }
+    });
+  } catch (error) {
+    console.log(error);
+    return true;
+  }
+}

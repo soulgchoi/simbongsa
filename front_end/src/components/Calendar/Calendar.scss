@@ -1,6 +1,10 @@
+@import './mixin';
 
 .Calendar{
   background-color: #fbfaff;
+  @include respond-to('large') {
+    height: 470px;
+  }
   .Head{
     display: flex;
     justify-content: space-between;
@@ -31,6 +35,27 @@
   .Body{
     .row{
       display: flex;
+      @include respond-to('large') {
+        position : absolute;
+        left: 50%;
+      transform: translate(-50%, 0);
+      &#id0{
+        top : 110px;
+      }
+      &#id1{
+        top : 180px;
+      }
+      &#id2{
+        top : 250px;
+      }
+      &#id3{
+        top : 320px;
+      }
+      &#id4{
+        top : 390px;
+      }
+    }
+      
       &:first-child{
         .box{
           span.text{
@@ -43,28 +68,52 @@
         }
       }
       .box{
-        
         position: relative;
-        text-align: center;
+        @include respond-to('large') {
+          font-size: 20px;
+          width: 84.7px;
+          padding-bottom: 70px;
+      }
+      @include respond-to('small') {
         font-size: 3vw;
-        display: inline-block;
         width: calc(100%/7);
+        padding-bottom: calc(100%/7);
+      }
+        display: inline-block;
+        
         
         height: 0;
-        padding-bottom: calc(100%/7);
+        // padding-bottom: calc(100%/7);
         .ui.mini.button.count {
           position: relative;
           top: 0%;
-          transform: translate(-0%, 150%);
+          @include respond-to('large') {
+            transform: translate(-0%, 150%);
+          }
+          @include respond-to('small') {
+            transform: translate(0.5vw, 4vw);
+          }
           background-color: rgba(#ffa263, 0.3);
           border: none;
           color:black;
           padding: 1vw 1vw;
           border-radius: 4vw;
           text-align: center;
+          left: 20%;
           text-decoration: none;
+          
+          @include respond-to('large') {
+            font-size: 13px;
+            padding: 6.7px;
+            border-radius: 10px;
+            height : 20.59px;
+            margin: 1vw;
+        }
+        @include respond-to('small') {
           font-size: 2vw;
-          margin: 1vw;
+          padding: 1vw 1vw;
+          border-radius: 4vw;
+        }
           cursor: pointer;
           &:hover{
             background-color: rgba(#ffa263, 0.2);
@@ -88,8 +137,15 @@
           display: inline-flex;
           justify-content: center;
           align-items: center;
+          @include respond-to('large') {
+            width: 33.88px;
+            height: 26px;
+        }
+        @include respond-to('small') {
+          height : 40%;
           width: 40%;
-          height: 40%;
+        }
+          
           position: absolute;
           top: 30%;
           left: 50%;

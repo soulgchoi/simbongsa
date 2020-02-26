@@ -5,8 +5,8 @@ div.tag {
       border-radius: 5px;
 }
 a.ui.tiny.label, .ui.tiny.labels .label {
-      font-size: 1em;
-      padding: 0.4em;
+      font-size: 1rem;
+      padding: 0.4rem;
 
 }
 a.ui.label.iscert {

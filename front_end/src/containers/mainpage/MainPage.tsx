@@ -6,23 +6,13 @@ import ModalForm from "./ModalForm";
 import "./MainPage.css";
 
 import {
-  Grid,
-  Segment,
-  Responsive,
+
   Container,
-  Header,
-  Icon,
-  Image,
-  Dimmer,
-  Loader,
-  GridColumn,
-  Button
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
 import jwt from "jsonwebtoken";
@@ -32,12 +22,12 @@ import { Search } from 'semantic-ui-react';
 interface Iprops {
   loading: boolean;
   isRegister: boolean;
-  SearchActions: typeof searchActions;
-  AuthActions: typeof authActions;
-  UserActions: typeof userActions;
+  SearchActions: any;
+  AuthActions: any;
+  UserActions: any;
   match: any;
   result: any;
-  input: string;
+  lastInput: string;
   isSearchSubmit: boolean
 }
 class MainPage extends Component<Iprops> {
@@ -50,7 +40,6 @@ class MainPage extends Component<Iprops> {
       if (splitedHash.length > 1) {
         const id_token = splitedHash[1].split("&")[0];
         await AuthActions.googleLogin(id_token);
-        console.log("메인페이지 마운트", id_token);
         const token = this.props.result.toJS().token;
         const userEmail = jwt.decode(token);
         UserActions.setLoggedInfo(userEmail);
@@ -64,12 +53,13 @@ class MainPage extends Component<Iprops> {
     SearchActions.switchSaveButton(true);
   }
   render() {
-    const { loading, input, isSearchSubmit } = this.props;
-    const result = input + ' 검색결과 입니다.'
+    const { lastInput } = this.props;
+    const result = lastInput + ' 검색결과 입니다.'
 
     return (
-      <Fragment>
-        <Container>
+      //@ts-ignore
+      <Fragment >
+        <Container text>
           <SearchBar />
           <div
             style={{
@@ -80,7 +70,7 @@ class MainPage extends Component<Iprops> {
             }}
             id="divText"
           >
-            <div>{isSearchSubmit && input.length > 0 && result}</div><ModalForm />
+            <div>{result}</div><ModalForm />
           </div>
         </Container>
         <Tab />
@@ -94,7 +84,7 @@ export default connect(
       loading: user.get("loading"), // user에 있는 loading
       isRegister: user.get("isRegister"),
       result: auth.get("result"),
-      input: search.get("input"),
+      lastInput: search.get("lastInput"),
       isSearchSubmit: search.get("isSearchSubmit"),
     };
   },

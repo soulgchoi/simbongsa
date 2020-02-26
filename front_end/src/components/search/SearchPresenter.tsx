@@ -1,17 +1,14 @@
 import React, { Fragment } from 'react';
-import styled from "styled-components"
-import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import SearchInput from 'components/input/SearchInput'
-import ActionButton from 'components/button/ActionButton'
-const Container = styled.div`
-  padding: 0px 20px;
-`;
+// const Container = styled.div`
+//   padding: 0px 20px;
+// `;
 
-const Form = styled.form`
-  margin-bottom: 50px;
-  width: 100%;
-`;
+// const Form = styled.form`
+//   margin-bottom: 50px;
+//   width: 100%;
+// `;
 // const Input = styled.input`
 
 //     all: unset;

@@ -116,7 +116,7 @@ const initialState = Map({
     })
   }),
   result: Map({}),
-  loginCheck: true
+  loginCheck: false
 });
 
 export default handleActions<any>(
@@ -147,7 +147,6 @@ export default handleActions<any>(
     ...pender({
       type: EMAIL_VALIDATE,
       onSuccess: (state, action) => {
-        console.log(action);
         return state.set("emailValidate", action.payload.data);
       }
     }),
@@ -174,13 +173,12 @@ export default handleActions<any>(
         if (data === "EmailAthenticateNeed") {
           return state.set("result", "EmailAuthenticateNeed");
         }
-        return state.set("result", Map(data));
+        return state.set("result", Map(data)).set("loginCheck", true);
       }
     }),
     ...pender({
       type: GOOGLE_LOGIN,
       onSuccess: (state, action) => {
-        console.log("구글 로그인 result", action.payload.data);
         return state.set("result", Map(action.payload.data));
       }
     }),

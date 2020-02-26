@@ -24,14 +24,16 @@ a.ui.button.loginbutton {
 }
 
 div.loginbutton {
+    position: relative;
     align-items: center;
+    top : -30px;
 }
 
 div {
     word-break: keep-all;
-    line-height: 2em;
+    line-height: 2rem;
 }
 
 div.main-list-details p {
-    line-height: 1.1em;
+    line-height: 1.1rem;
 }

@@ -68,20 +68,27 @@ class Login extends React.Component<any, any> {
       return true;
     }
   };
-
+  isLogedIn = (): boolean => {
+    const token = storage.get('token');
+    if (token !== 'undefined' && token !== null) {
+      return true;
+    }
+    return false;
+  }
   async componentDidMount() {
+    if (this.isLogedIn()) {
+      this.props.history.push('/mainpage')
+    }
     const { SearchActions, AuthActions, UserActions } = this.props;
     // const { id_token } = this.props.match.params;
+    // 구글 로그인을 하고 성공했을 경우 url로 구글 id_token이 같이 넘어옴. 이를 사용하여 로그인 처리를 함
     const hash = window.location.hash;
     if (hash.length > 0) {
       const splitedHash = hash.split("id_token=");
       if (splitedHash.length > 1) {
         const id_token = splitedHash[1].split("&")[0];
         await AuthActions.googleLogin(id_token);
-        console.log("로그인페이지 마운트", id_token);
-        console.log("리저트", this.props.result.toJS());
         const token = this.props.result.toJS().token;
-        console.log("톡ㅋ토", token);
         const userEmail = jwt.decode(token);
         await UserActions.setLoggedInfo(userEmail);
         storage.set("token", token);
@@ -90,6 +97,12 @@ class Login extends React.Component<any, any> {
       if (token !== null && token !== "undefined") {
         this.props.history.push("/mainpage");
       }
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.isLogedIn()) {
+      this.props.history.push('/mainpage')
     }
   }
 
@@ -130,27 +143,20 @@ class Login extends React.Component<any, any> {
     const { form, AuthActions, UserActions, history } = this.props;
     const { email, password } = form.toJS();
     // 로그인을 시도
-    // console.log("메일 비번", email, password);
     try {
       await AuthActions.localLogin({ email, password });
       if (this.props.result === "EmailAuthenticateNeed") {
         history.push("/mailresend");
         return;
       }
-      console.log("최초확인용", this.props.result.toJS());
       const token = this.props.result.toJS().token;
       const loggedInfo = jwt.decode(token);
-      console.log("유저이메일", loggedInfo);
       UserActions.setLoggedInfo(loggedInfo);
-      // UserActions.setLoggedFlag(true);
       storage.set("token", token);
       const { userId } = this.props;
-      console.log("userId", userId);
       await UserActions.setPreferInfo(userId);
       const { preferInfo } = this.props;
-      console.log("preferInfo", preferInfo);
       this.initializePreferInfo(preferInfo);
-
       await this.initialSearch();
       history.push("/mainpage");
     } catch (e) {
@@ -159,29 +165,23 @@ class Login extends React.Component<any, any> {
       this.setError("잘못된 계정정보입니다.", "email");
     }
   };
-  initialSearch = () => {
+  initialSearch = async () => {
     const { input, VolActions, locations, categorys, times } = this.props;
     let preferLocate = locations.toJS().map((location: any) => location.text);
-    console.log(preferLocate);
     let preferCategory = categorys.toJS().map((category: any) => category.text);
     const locateSize = preferLocate.length;
     const categorySize = preferCategory.length;
-    console.log(locateSize);
     for (let i = 0; i < 3 - locateSize; i++) {
       preferLocate.push("null null");
-      console.log("for문");
     }
     for (let i = 0; i < 3 - categorySize; i++) {
       preferCategory.push(null);
     }
-    console.log("preferLocate", preferLocate);
-    console.log("preferCategory", preferCategory);
     const firstLocation = preferLocate[0].split(" ");
     const secondLocation = preferLocate[1].split(" ");
     const thirdLocation = preferLocate[2].split(" ");
 
     const firstCategory = preferCategory[0];
-    console.log(firstCategory);
     const secondCategory = preferCategory[1];
     const thirdCategory = preferCategory[2];
 
@@ -229,7 +229,6 @@ class Login extends React.Component<any, any> {
   initializePreferInfo = (preferInfo: any) => {
     const { SearchActions } = this.props;
     if (preferInfo) {
-      console.log("preferInfo APP에서", preferInfo.toJS());
       const info = preferInfo.toJS();
 
       // 시간 관련
@@ -276,7 +275,6 @@ class Login extends React.Component<any, any> {
       } else {
         const age = Number(info.age.split("-")[0]);
         const result = Math.abs(age - year);
-        console.log("초기 year, age", year, age);
         if (result > 18) {
           SearchActions.initialInsert({
             form: "ages",
@@ -315,11 +313,9 @@ class Login extends React.Component<any, any> {
 
       for (let j = 0; j < info.preferRegion.length; j++) {
         //지역 관련
-        console.log("for문 도는중");
         const splitValue = locationAllList[
           info.preferRegion[j] - 1
         ].value.split("/");
-        console.log(splitValue[1], splitValue[0]);
         SearchActions.insert({
           form: "location",
           text: splitValue[1],
@@ -338,6 +334,12 @@ class Login extends React.Component<any, any> {
       }
     }
   };
+
+
+  /* ☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★
+     handleGoogleLogin 함수는 구글 로그인 버튼에서 uxMode가 popup 일때만 작동함.
+     redirect 모드일때는 아래 함수는 작동하지 않고 redirect 지정 주소로 바로 이동하므로 사용시 주의
+     ☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★*/
   handleGoogleLogin = async (response: any) => {
     const { AuthActions, UserActions, history } = this.props;
     // 구글로그인 성공할 경우 response로 로그인 정보가 담긴 객체 하나를 준다.
@@ -349,10 +351,8 @@ class Login extends React.Component<any, any> {
     UserActions.setLoggedInfo(userEmail);
     storage.set("token", token);
     const { userId } = this.props;
-    console.log("userId", userId);
     await UserActions.setPreferInfo(userId);
     const { preferInfo } = this.props;
-    console.log("preferInfo", preferInfo);
     this.initializePreferInfo(preferInfo);
 
     await this.initialSearch();
@@ -360,7 +360,6 @@ class Login extends React.Component<any, any> {
   };
 
   render() {
-    console.log(this.props.loggedInfo.toJS());
     const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
     const { handleChange, handleLocalLogin, handleGoogleLogin } = this;
     const error = this.props.error.toJS();
@@ -441,107 +440,8 @@ class Login extends React.Component<any, any> {
                 </Link>
               </div>
             </div>
-            {/* <Message>
-              <Grid>
-                <Grid.Row columns={2}>
-                  <Grid.Column>
-                    <LinkButton
-                      link="/findpassword"
-                      inverted={true}
-                      placeholder="비밀번호 찾기"
-                    />
-                  </Grid.Column>
-                  <Grid.Column>
-                    <LinkButton placeholder="회원가입" link="/join" />
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Message> */}
           </Grid.Column>
         </Grid>
-        {/* <Grid columns={2} centered>
-          <Grid.Row>
-            <h1 className="title">로그인</h1>
-          </Grid.Row>
-          <Grid.Row>
-            <Input
-              id="email"
-              nametag="ID"
-              placeholder="아이디를 입력하세요."
-              type="text"
-              value={email}
-              onChange={handleChange}
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Input
-              id="password"
-              nametag="password"
-              placeholder="비밀번호를 입력하세요."
-              type="password"
-              value={password}
-              onChange={handleChange}
-            />
-            <AuthError error={error2.email}></AuthError>
-          </Grid.Row>
-          <Grid.Row>
-            <ActionButton
-              placeholder="로그인"
-              action={handleLocalLogin}
-            ></ActionButton>
-          </Grid.Row>
-          <Grid.Row>
-            <div>
-              <div className="text">
-                <p>SNS 간편 로그인</p>
-                <div className="bar"></div>
-              </div>
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENT_ID!}
-                onSuccess={handleGoogleLogin}
-                onFailure={result => console.log(result)}
-                cookiePolicy={"single_host_origin"}
-                redirectUri={process.env.REACT_APP_FRONT_URI}
-              />
-            </div>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column centered>
-              <LinkButton link="/findpassword" placeholder="비밀번호 찾기" />
-            </Grid.Column>
-            <Grid.Column centered>
-              <LinkButton placeholder="회원가입" link="/join" />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid> */}
-
-        {/* <div id="page">
-          <div id="content">
-            <ReactCountUp
-              start={this.props.initialNumber}
-              end={12546}
-              duration={2}
-              separator=","
-              prefix="등록 된 봉사활동 수 : "
-              suffix=" 개"
-              redraw={true}
-            ></ReactCountUp>
-          </div>
-        </div>
-        <div id="page">
-          <div id="content">
-            <ReactCountUp
-              start={this.props.initialNumber}
-              end={12546}
-              duration={2}
-              separator=","
-              redraw={true}
-              prefix="게시글  "
-              suffix=" 개"
-            />
-          </div>
-        </div> */}
-        {/* </ReactPageScroller> */}
       </div>
     );
   }

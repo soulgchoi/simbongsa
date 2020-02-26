@@ -19,7 +19,6 @@ export default handleActions(
     [SET_HEADER_VISIBILITY]: (state, action) =>
       state.setIn(["header", "visible"], action.payload),
     [SET_INITIAL_NUMBER]: (state, action) => {
-      console.log(action.payload);
       return state.setIn(["initialNumber"], action.payload);
     }
   },

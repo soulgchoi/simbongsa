@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import ListUp from "components/intro/ListUp";
 import { Container, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 import './Intro.css'
-import * as authActions from "redux/modules/auth";
-import AuthError from "components/error/AuthError";
 interface Props {
   loginCheck: boolean;
 }
-interface State {}
+interface State { }
 class Intro extends Component<Props & any, State> {
   scrollBottom() {
     window.scrollTo(0, window.innerHeight)
@@ -18,20 +16,13 @@ class Intro extends Component<Props & any, State> {
     const { loginCheck } = this.props;
     return (
       <div>
-        {!loginCheck ?
-         (<Container gref>
-            <ListUp />
-            <div className="loginbutton" >
-              {this.scrollBottom()}
-            <AuthError error="로그인 후 이용해주세요!" />
-            <Button className="loginbutton" as="a" href="/login">로그인</Button>
-            </div>
-            </Container>)
-        : (<Container>
+        <Container>
           <ListUp />
-          </Container>)
-          }
-
+          {!loginCheck &&
+            <div className="loginbutton" >
+              <Link to="/login" ><Button as="a" className="loginbutton">로그인</Button></Link>
+            </div>}
+        </Container>
       </div>
     );
   }
@@ -42,6 +33,5 @@ export default connect(
     loginCheck: auth.get("loginCheck")
   }),
   dispatch => ({
-    AuthActions: bindActionCreators(authActions, dispatch)
   })
 )(Intro);

@@ -23,7 +23,6 @@ class Locationcontainer extends Component<Props, State> {
     if (check.size === 0 && locations.size < 3) {
       SearchActions.changeInput({ input: splitValue[1], key: splitValue[0] });
       if (e.key !== "ArrowDown" && e.key !== "ArrowUp") {
-        console.log("data.value", data.value)
         if (data.value !== []) {
           SearchActions.insert({ form: "location", text: splitValue[1], key: splitValue[0] });
           SearchActions.changeInput({ input: "", key: '' });
@@ -106,7 +105,7 @@ const LocationItem = ({ id, text, onRemove }: any) => (
     display: 'flex',
     justifyContent: 'space-between'
   }}>
-    <Button className="ulBtn" color='orange' size='mini'>{text}   <Icon name="delete" onClick={() => onRemove(id)} /></Button>
+    <Button className="ulBtn" color='orange' size='mini'><div style={{ display: 'flex', justifyContent: 'space-between' }}>{text}<Icon size="big" name="delete" onClick={() => onRemove(id)} /></div></Button>
   </div >
 );
 export default connect(

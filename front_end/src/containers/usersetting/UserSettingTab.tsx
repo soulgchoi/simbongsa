@@ -7,23 +7,23 @@ import { Tab } from "semantic-ui-react";
 
 const panes = [
   {
-    menuItem: "프로필",
+    menuItem: "프 로 필",
     render: () => (
-      <Tab.Pane>
+      <Tab.Pane attached={false}>
         <Profile />
       </Tab.Pane>
     )
   },
   {
-    menuItem: "선호 봉사",
+    menuItem: "선 호 봉 사",
     render: () => (
-      <Tab.Pane>
+      <Tab.Pane attached={false}>
         <SearchContainer />
       </Tab.Pane>
     )
   },
   {
-    menuItem: "비밀번호",
+    menuItem: "비 밀 번 호",
     render: () => (
       <Tab.Pane>
         <ChangePassword />
@@ -31,9 +31,9 @@ const panes = [
     )
   },
   {
-    menuItem: "회원탈퇴",
+    menuItem: "회 원 탈 퇴",
     render: () => (
-      <Tab.Pane>
+      <Tab.Pane attached={false}>
         <Withdraw />
       </Tab.Pane>
     )
@@ -43,7 +43,7 @@ const panes = [
 const UserSettingTab = () => (
   <Tab
     menu={{ fluid: true, vertical: true, tabular: true }}
-    grid={{ paneWidth: 13, tabWidth: 3 }}
+    grid={{ paneWidth: 14, tabWidth: 2 }}
     panes={panes}
   />
 );

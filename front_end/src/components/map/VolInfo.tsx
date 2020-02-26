@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 // import "assets/mycss";
-import iconSrc from "assets/images/location_marker.svg";
-
+import iconSrc from "assets/images/location_marker.png";
+import './map.scss';
 //직접 만든 컴포넌트
-import LinkButton from "components/button/LinkButton";
 import VolList from "components/vol/VolList";
 //redux 관련
 import { connect } from "react-redux";
@@ -68,19 +67,19 @@ class VolInfo extends Component<Props, State> {
     console.log("선택된 친구", selectedVolunteer);
     // if(selectedVolunteer !=)
     return (
-      <div className="main--text">
+      <div className="main--text" style={{}}>
         {!selectedVolunteer.v_id && volunteersForList.length === 0 && (
           <div id="text">
-            지도에서
+            지도에서 
             <b id="bold">
-              위치
+              위치 
               <span id="image">
-                <img src={iconSrc} alt="마커아이콘" width="64" height="69" />
+                <img id="marker-icon" src={iconSrc} alt="마커아이콘" width="20px" height="30px" />
               </span>
             </b>
-            또는
+            또는 
             <b id="bold">
-              숫자
+              숫자 
               <span className="circle">1365</span>
             </b>
             를 클릭하면 봉사정보가 나와요
@@ -113,7 +112,7 @@ class VolInfo extends Component<Props, State> {
             loadingMessage="봉사 활동 정보 불러오는 중"
           />
         )}
-        {volunteersForList.length > 0 && (
+        {!selectedVolunteer.v_id && volunteersForList.length > 0 && (
           <VolList
             volunteers={volunteersForList}
             appendList={appendList}

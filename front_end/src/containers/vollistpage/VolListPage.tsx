@@ -10,9 +10,9 @@ import { bindActionCreators } from "redux";
 interface Props {
   volunteersForList: List<any>;
   input: string;
-  SearchActions: typeof searchActions;
-  VolActions: typeof volActions;
-  UserActions: typeof userActions;
+  SearchActions: any;
+  VolActions: any;
+  UserActions: any;
   locations: any;
   categorys: any;
   times: any;
@@ -26,11 +26,11 @@ class VolListPage extends Component<Props, State> {
     // height: window.innerHeight - 345
   };
 
-  componentDidMount() {
-    // const { VolActions } = this.props;
-    // VolActions.getInitailList(this.state.pageNum);
-    // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
+  componentWillUnmount(){
+    const { VolActions } = this.props;
+    VolActions.resetVolunteerForList();
   }
+
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForList } = nextProps;
     return volunteersForList.size > 0;
@@ -62,7 +62,6 @@ class VolListPage extends Component<Props, State> {
     const thirdLocation = preferLocate[2].split(" ");
 
     const firstCategory = preferCategory[0];
-    console.log(firstCategory);
     const secondCategory = preferCategory[1];
     const thirdCategory = preferCategory[2];
 
@@ -83,7 +82,6 @@ class VolListPage extends Component<Props, State> {
       bgnTm = "00:00:01";
       endTm = "23:59:58";
     }
-    console.log("hihihihihihihih", preferLocate);
     UserActions.changeLoading(true);
     this.setState({ pageNum: this.state.pageNum + 1 });
     try {
@@ -121,7 +119,6 @@ class VolListPage extends Component<Props, State> {
   render() {
     const { volunteersForList } = this.props;
     const { loadMoreData } = this;
-    console.log("봉사자들", volunteersForList);
     return (
       <VolList
         loadingMessage="봉사활동 목록을 불러오는중"

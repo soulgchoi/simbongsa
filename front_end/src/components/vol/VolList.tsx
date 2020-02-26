@@ -1,7 +1,7 @@
 import React from "react";
 import Vol from "components/vol/Vol";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "./VolList.css"
+// import "./VolList.css"
 interface Props {
   volunteers: any[];
   width?: number;
@@ -20,7 +20,7 @@ export default class VolList extends React.Component<Props, State> {
     this.props.appendList();
   };
   render() {
-    const { volunteers, height } = this.props;
+    const { volunteers } = this.props;
     const { loadMoreData } = this;
     const PrintArray = volunteers.map((vol: any, i: any) => {
       return <Vol volunteer={vol} v_id={vol.v_id} key={i} />;
@@ -29,7 +29,7 @@ export default class VolList extends React.Component<Props, State> {
     return (
       <InfiniteScroll
         dataLength={volunteers.length}
-        height={height}
+        // height={height}
         next={loadMoreData}
         hasMore={volunteers.length >= this.state.pageNum * 10}
         loader={<h4>봉사활동 목록을 불러오는중</h4>}

@@ -3,7 +3,6 @@ import { Button } from 'semantic-ui-react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import moment, { Moment as MomentTypes } from "moment";
 import './Calendar.scss';
-import * as volActions from 'redux/modules/vol';
 
 
 interface Props {
@@ -39,9 +38,10 @@ function Body(props: Props) {
         const startWeek = props.date.clone().startOf('month').week();
         const endWeek = props.date.clone().endOf('month').week() === 1 ? 53 : props.date.clone().endOf('month').week();
         let calendar = [] as any;
-        for (let week = startWeek; week <= endWeek; week++) {
+        let idx = 0;
+        for (let week = startWeek; week <= endWeek; week++ , idx++) {
             calendar.push(
-                <div className="row" key={week}>
+                <div className="row" key={week} id={'id' + idx.toString()}>
                     {
                         Array(7).fill(0).map((n, i) => {
                             let current = props.date.clone().week(week).startOf('week').add(n + i, 'day')
