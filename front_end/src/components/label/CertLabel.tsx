@@ -39,7 +39,12 @@ export default class CertLabel extends Component<IProps & any, any> {
   componentDidMount() {
     this.printFunc();
   }
+  componentDidUpdate(prevProps: any) {
+    if (prevProps.v_Auth !== this.props.v_Auth) {
+        this.printFunc();
 
+    }
+}
   render() {
 
     return (

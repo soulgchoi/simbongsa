@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Icon, Confirm } from "semantic-ui-react";
 import PostDetail from "components/posting/PostDetail";
+import "./PostCard.scss";
 import UserProfile from "components/user/profile/UserProfile"
-import "./Card.scss";
 import { connect } from "react-redux";
 import * as PostingApi from 'lib/api/PostingApi'
 
@@ -20,7 +20,7 @@ interface Props {
   user : any;
 }
 
-class CardComponent extends React.Component<Props, {}> {
+class PostCard extends React.Component<Props, {}> {
   state = {
     post: {
       p_content: "",
@@ -124,4 +124,4 @@ class CardComponent extends React.Component<Props, {}> {
 
 export default connect((state: any) => ({
   user: state.user.get("loggedInfo")
-}))(CardComponent);
+}))(PostCard);

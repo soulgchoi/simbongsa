@@ -4,7 +4,7 @@ import * as postingAction from "redux/modules/posting";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Card from 'components/posting/Card';
+import PostCard from 'components/posting/PostCard';
 interface Props {
   userId: string;
   PostingAction: any;
@@ -41,15 +41,16 @@ class MyPost extends Component<Props, State> {
   render() {
     const { postList } = this.props;
     const PrintArray = postList.map((post: any, i: any) => {
-      return <Card color="white" post={post} key={i} />
+      return <PostCard color="white" post={post} key={i} />
     });
     return (
       <InfiniteScroll
+        style={{ overflow: "none"}}
         dataLength={postList.length}
         next={this.loadMoreData.bind(this)}
         hasMore={postList.length >= this.state.pageNum * 10}
-        loader={<h4>게시글 목록을 불러오는 중</h4>}
-        endMessage={<h4>모든 정보를 확인했습니다.</h4>}
+        loader={<p>게시글 목록을 불러오는 중</p>}
+        endMessage={<p>모든 정보를 확인했습니다.</p>}
       >
         {PrintArray}
       </InfiniteScroll>
