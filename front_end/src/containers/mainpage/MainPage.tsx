@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Tab from "containers/mainpage/Tab";
+import Tab from "containers/mainpage/TabForMainPage";
 import SearchBar from "components/search/SearchBar";
 import SearchContainer from "containers/usersetting/SearchContainer";
 import ModalForm from "./ModalForm";
@@ -19,12 +19,14 @@ import jwt from "jsonwebtoken";
 import storage from "lib/storage";
 import { Search } from 'semantic-ui-react';
 
+
 interface Iprops {
   loading: boolean;
   isRegister: boolean;
   SearchActions: any;
   AuthActions: any;
   UserActions: any;
+  PageActions: any;
   match: any;
   result: any;
   lastInput: string;
@@ -32,6 +34,7 @@ interface Iprops {
 }
 class MainPage extends Component<Iprops> {
   async componentDidMount() {
+
     const { SearchActions, AuthActions, UserActions } = this.props;
     // const { id_token } = this.props.match.params;
     const hash = window.location.hash;
@@ -92,6 +95,6 @@ export default connect(
     VolActions: bindActionCreators(volActions, dispatch),
     SearchActions: bindActionCreators(searchActions, dispatch),
     UserActions: bindActionCreators(userActions, dispatch),
-    AuthActions: bindActionCreators(authActions, dispatch)
+    AuthActions: bindActionCreators(authActions, dispatch),
   })
 )(MainPage);

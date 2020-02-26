@@ -5,6 +5,7 @@ import vol from "./vol";
 import posting from "./posting"
 import search from './search'
 import base from './base'
+import page from './page';
 // import temp from "./temp";
 
 import calendar from "./calendar";
@@ -17,7 +18,7 @@ export default combineReducers({
   vol,
   search,
   pender: penderReducer,
-
+  page,
   // temp,
   posting,
   base,

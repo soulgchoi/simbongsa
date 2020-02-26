@@ -20,7 +20,8 @@ interface State {
 class Mypage extends Component<Props, State> {
   componentDidMount() {
     window.scrollTo(0, 0);
-    const { VolActions, userId } = this.props;
+    const { VolActions } = this.props;
+    const userId = this.props.match.params.id;
     VolActions.getVolListByUserId(userId);
   }
 
