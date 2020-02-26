@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import Card from 'components/posting/Card'
+import PostCard from 'components/posting/PostCard'
 import './PostingList.css'
 import * as VolApi from 'lib/api/VolApi'
 
@@ -42,15 +42,15 @@ class PostingList extends Component<any, any> {
   render() {
     const { posts } = this.state;
     const postingList = posts.map((post: any, i: any) => {
-      return <Card color="white" post={post} key={i} />;
+      return <PostCard color="white" post={post} key={i} />;
     });
     return (
       <InfiniteScroll
         dataLength={posts.length}
         next={this.loadMoreData.bind(this)}
         hasMore={posts.lehgth >= this.state.pgNum * 10}
-        loader={<h4>게시글 목록을 불러오는 중</h4>}
-        endMessage={<h4>모든 정보를 확인했습니다.</h4>}
+        loader={<p>게시글 목록을 불러오는 중</p>}
+        endMessage={<p>모든 정보를 확인했습니다.</p>}
       >
         {postingList}
       </InfiniteScroll>

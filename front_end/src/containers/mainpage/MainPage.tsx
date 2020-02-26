@@ -54,7 +54,7 @@ class MainPage extends Component<Iprops> {
   }
   render() {
     const { lastInput } = this.props;
-    const result = lastInput + ' 검색결과 입니다.'
+    const result = '"' + lastInput + '"' + ' 검색결과 입니다.'
 
     return (
       //@ts-ignore

@@ -6,11 +6,13 @@ td.head {
     font-weight: 600;
     border-left: none;
     border-right: none;
+    font-size: 1.05rem;
     /* width: 77px; */
 }
 
 td.content {
     word-break: keep-all;
+    font-size: 1.05rem;
 }
 
 td.content.detail {
@@ -54,9 +56,9 @@ a.ui.button {
 }
 
 div.title {
-    line-height: 1.5rem;
+    line-height: 1.8rem;
     word-break: keep-all;
-    padding: 0.5rem;
+    padding: 0.7rem;
     font-size: 1.3rem;
     font-weight: bold;
 

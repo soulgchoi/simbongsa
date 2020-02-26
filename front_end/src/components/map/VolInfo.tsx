@@ -70,19 +70,19 @@ class VolInfo extends Component<Props, State> {
       <div className="main--text" style={{}}>
         {!selectedVolunteer.v_id && volunteersForList.length === 0 && (
           <div id="text">
-            지도에서 
+            지도에서<span> </span>
             <b id="bold">
-              위치 
+              위치<span> </span>
               <span id="image">
                 <img id="marker-icon" src={iconSrc} alt="마커아이콘" width="20px" height="30px" />
               </span>
             </b>
-            또는 
+            또는<span> </span>
             <b id="bold">
-              숫자 
+              숫자<span> </span>
               <span className="circle">1365</span>
             </b>
-            를 클릭하면 봉사정보가 나와요
+            를 눌러<br/> 자세한 정보를 알아보세요.
           </div>
         )}
         {/* {selectedVolunteer.v_id && (
