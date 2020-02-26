@@ -44,7 +44,7 @@ const initialState = Record({
   error: null,
   isSearchSubmit: false,
   isRegister: true,
-  lastInput: "선호정보 기반의 ",
+  lastInput: "선호정보 기반 ",
 })();
 // Todo 아이템의 형식을 정합니다.
 const SearchLocationRecord = Record({

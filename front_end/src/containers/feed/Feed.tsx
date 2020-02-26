@@ -6,7 +6,7 @@ import * as volActions from "redux/modules/vol";
 import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Card from "components/posting/Card";
+import PostCard from "components/posting/PostCard";
 // import "containers/posting/PostingList.css";
 interface Props {
   UserActions: any;
@@ -70,7 +70,7 @@ class Feed extends Component<Props, State> {
         if (idxP === pLength) {
           break;
         }
-        postingList.push(<Card color="white" post={preferFeedList[idxP]} key={idx} />);
+        postingList.push(<PostCard color="white" post={preferFeedList[idxP]} key={idx} />);
         idx += 1;
         idxP += 1;
       }
@@ -79,7 +79,7 @@ class Feed extends Component<Props, State> {
           break;
         }
         postingList.push(
-          <Card color="#ffc164" post={normalFeedList[idxN]} key={idx} />
+          <PostCard color="#ffc164" post={normalFeedList[idxN]} key={idx} />
         );
         idx += 1;
         idxN += 1;
@@ -90,8 +90,8 @@ class Feed extends Component<Props, State> {
         dataLength={postingList.length}
         next={this.loadMoreData.bind(this)}
         hasMore={pLength >= (pageNum - 1) * 8 || nLength >= (pageNum - 1) * 2}
-        loader={<h4>게시글 목록을 불러오는 중</h4>}
-        endMessage={<h4>모든 정보를 확인했습니다.</h4>}
+        loader={<p>게시글 목록을 불러오는 중</p>}
+        endMessage={<p>모든 정보를 확인했습니다.</p>}
       >
         {postingList}
       </InfiniteScroll>

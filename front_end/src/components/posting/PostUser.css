@@ -6,12 +6,12 @@
 
 div.user-profile {
     display: block;
-    font-size: 0.75rem;
-    color: rgb(156, 156, 156)
+    font-size: 1rem;
+    color: rgb(129, 129, 129)
 
 }
 
 div.user-profile div div {
     display: inline;
-    margin-right: 1rem;
+    margin-right: 0.8rem;
 }

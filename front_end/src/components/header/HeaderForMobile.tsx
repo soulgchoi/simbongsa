@@ -59,8 +59,7 @@ class HeaderForMobile extends React.Component<
                 {window.location.href.includes("postinglist") && ("모집 & 후기")}
               </Menu.Item>
               <Menu.Item className="icons">
-                <Icon name="arrow left" size="large" onClick={this.props.history.goBack} style={{ marginRight: "1em" }} />
-                <Dropdown compact icon="user" style={{ marginRight: "4rem" }}>
+                <Dropdown compact icon="user" style={{ marginRight: "2.5rem" }}>
                   <Dropdown.Menu>
                     {!loginCheck ? (
                       <Dropdown.Item >
@@ -69,9 +68,10 @@ class HeaderForMobile extends React.Component<
                           </Link>
                       </Dropdown.Item>
                     ) : (
-                        <div>                 <Dropdown.Item onClick={this.handleLogout}>
+                        <div>                 
+                          <Dropdown.Item onClick={this.handleLogout}>
                           로그아웃
-                      </Dropdown.Item>
+                        </Dropdown.Item>
                           <Dropdown.Divider />
                           <Dropdown.Item>
                             <Link to="/usersetting">
@@ -82,6 +82,8 @@ class HeaderForMobile extends React.Component<
 
                   </Dropdown.Menu>
                 </Dropdown>
+                <Icon name="arrow left" size="large" onClick={this.props.history.goBack} style={{ marginRight: "1.5em" }} />
+
               </Menu.Item>
             </Menu>
           </div>
