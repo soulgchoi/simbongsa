@@ -12,7 +12,7 @@ import UserProfile from "components/user/profile/UserProfile";
 interface Props {
   VolActions: any;
   userId: string;
-  match : any;
+  match: any;
 }
 interface State {
 }
@@ -29,11 +29,11 @@ class Mypage extends Component<Props, State> {
     const userId = this.props.match.params.id;
     return (
       <div>
-        <Container textAlign="center">
-          <UserProfile profileUserId={userId}/>
+        <Container>
+          <UserProfile profileUserId={userId} />
         </Container>
-          <TabforMypage userId={userId} />
-      </div>
+        <TabforMypage userId={userId} />
+      </div >
     );
   }
 }

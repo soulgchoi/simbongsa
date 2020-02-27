@@ -13,9 +13,9 @@ interface Props {
   UserActions: any;
   profileUserId: string; // 프로필을 표시할 유저 아이디
   loginUserId: string; // 현재 로그인한 유저의 아이디, 자동으로 세팅된다.
-  userProfileMap : any; // 현재 표시중인 모든 유저들의 프로필 정보를 저장한 맵. key : 유저아이디, value : 팔로워, 팔로잉, 현재팔로우중여부
-  history : any;
-  profileSize : string;
+  userProfileMap: any; // 현재 표시중인 모든 유저들의 프로필 정보를 저장한 맵. key : 유저아이디, value : 팔로워, 팔로잉, 현재팔로우중여부
+  history: any;
+  profileSize: string;
 }
 enum page {
   PROFILE,
@@ -30,14 +30,14 @@ class UserProfile extends Component<Props, State> {
   state = {
     showPage: page.PROFILE
   };
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.setProfile();
   }
 
   setProfile = async () => {
     const { profileUserId, loginUserId, UserActions, userProfileMap } = this.props;
-    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
+    if (typeof userProfileMap.get(profileUserId) === 'undefined') {
       await UserActions.setUserFollowerList(profileUserId);
       await UserActions.setUserFollowingList(profileUserId);
       await UserActions.setUserFollowTag(loginUserId, profileUserId);
@@ -51,7 +51,7 @@ class UserProfile extends Component<Props, State> {
   };
 
   handleFollow = async () => {
-    const { loginUserId, profileUserId, UserActions} = this.props;
+    const { loginUserId, profileUserId, UserActions } = this.props;
     await UserActions.followUser(loginUserId, profileUserId);
     this.updateProfile();
   };
@@ -67,29 +67,29 @@ class UserProfile extends Component<Props, State> {
     // this.setState({ showPage: page.FOLLOWER });
   };
 
-  shouldComponentUpdate(nextProps : any){
-    const {profileUserId} = this.props;
-    const {userProfileMap} = nextProps;
+  shouldComponentUpdate(nextProps: any) {
+    const { profileUserId } = this.props;
+    const { userProfileMap } = nextProps;
     return typeof userProfileMap.get(profileUserId) !== 'undefined' && userProfileMap.get(profileUserId).size === 4;
   }
 
-  handleIdClick = (e : any) =>{
+  handleIdClick = (e: any) => {
     const { history, profileUserId } = this.props;
     history.push(`/user/${profileUserId}`);
   }
 
   render() {
     const { loginUserId, profileUserId, userProfileMap, profileSize } = this.props;
-    
+
     // 첫 렌더링때 아직 유저프로필 맵이 세팅 안된 상태에서 우선 빈화면 출력
-    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
-      return(<div></div>);
+    if (typeof userProfileMap.get(profileUserId) === 'undefined') {
+      return (<div></div>);
     }
     const followerList = userProfileMap.get(profileUserId).get('followerList');
     const followingList = userProfileMap.get(profileUserId).get('followingList');
     const isProfileUserFollowedByLoginUser = userProfileMap.get(profileUserId).get('isProfileUserFollowedByLoginUser');
     const profileImage = userProfileMap.get(profileUserId).get('profileImage');
-    const profileImageFlag = profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1];
+    const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
     const {
       handleFollow,
@@ -100,22 +100,23 @@ class UserProfile extends Component<Props, State> {
     return (
       <div className="user-profile">
         {/* {showPage === page.PROFILE && ( */}
-          <div>
-            <div id="userId" onClick={this.handleIdClick} >
-            {profileSize==='mini' ?
-            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar style={{fontSize:'20px'}} verticalAlign="bottom"/>
-            :
-            <Image  src={profileImageFlag!=="null"?profileImage:profile_default} avatar style={{fontSize:'60px'}} verticalAlign="middle"/>
+        <div id={profileSize === 'mini' ? "userpage-mini" : "userpage"}>
+          <div id="profileImage" onClick={this.handleIdClick} >
+            {profileSize === 'mini' ?
+              <Image src={profileImageFlag !== "null" ? profileImage : profile_default} avatar style={{ fontSize: '20px' }} verticalAlign="bottom" />
+              :
+              <Image src={profileImageFlag !== "null" ? profileImage : profile_default} avatar style={{ fontSize: '60px', marginBottom : '10px' }} verticalAlign="middle" />
             }
+          </div>
+          <div id={profileSize === 'mini' ? "userId-mini" : "userId"}>
             {profileUserId}
-            </div>
-            <div>
-            <div style={{ display:"inline"}} onClick={handleFollowerClick}>
-              <span>팔로워 </span> <span style={{ fontWeight:"bold" }}>{followerList.length}</span>
-            </div>
-            <div style={{ display:"inline"}} onClick={handleFollowingClick}>
-            <span>팔로잉</span> <span style={{ fontWeight:"bold" }}>{followingList.length}</span>
-            </div>
+            <div id="follow">
+              <div onClick={handleFollowerClick}>
+                <span>팔로워 </span> <span style={{ fontWeight: "bold" }}>{followerList.length}</span>
+              </div>
+              <div onClick={handleFollowingClick}>
+                <span style={{ marginLeft: "1rem" }}>팔로잉</span> <span style={{ fontWeight: "bold" }}>{followingList.length}</span>
+              </div>
             </div>
             {loginUserId !== profileUserId &&
               !isProfileUserFollowedByLoginUser && (
@@ -128,19 +129,19 @@ class UserProfile extends Component<Props, State> {
                   placeholder="팔로우 취소"
                 />
               )}
-        
           </div>
-         {/* )} */}
+        </div>
+        {/* )} */}
       </div>
     );
   }
 }
 
 export default withRouter(connect(
-  ({ user }: any, ownProps : any) => {
+  ({ user }: any, ownProps: any) => {
     return {
       loginUserId: user.getIn(["loggedInfo", "userId"]),
-      userProfileMap : user.get("userProfileMap"),
+      userProfileMap: user.get("userProfileMap"),
     };
   },
   dispatch => ({

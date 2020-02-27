@@ -3,33 +3,69 @@
     font-size: 1rem;
     position : absolute;
     left: 50%;
-    transform: translateX(6.5rem);
+    top: 1.5rem;
+    transform: translateX(5.5rem);
 
 }
-
-div.user-profile {
-    display: block;
+#userpage{
+    position:relative;
+    left:50%;
+    margin-left : -110px;
+}
+div.user-profile{
     font-size: 0.75rem;
     color: rgb(156, 156, 156);
     position : relative;
-}
-
-div.user-profile div{ 
-    #userId{
-        font-weight: 700;
-        font-size: 1.28571429rem;
-        margin-top: -.21425rem;
-        line-height: 1.28571429rem;
-        color: rgba(0,0,0,.85);
-        display : block;
+    
+    #profileImage{
+        // position: relative;
+        display : inline;
         cursor: pointer;
     }
-    div{
-        display: inline;
-        margin-right: 1rem;
-        span{
+    #userId{
+        position: absolute;
+        display: block;
+        font-weight: 700;
+        top: 3rem;
+        left : 10rem;
+        font-size: 1.28571429rem;
+        // margin-top: -.21425rem;
+        line-height: 1.28571429rem;
+        color: rgba(0,0,0,.85);
+        #follow{
+            div{
+                display: inline;
+            }
+            font-size: 0.75rem;
+            color: rgb(156, 156, 156);
             position: relative;
-            left : 40px;
         }
     }
+    #userId-mini{
+        position: absolute;
+        display: block;
+        font-weight: 700;
+        top: 0.1rem;
+        left : 4rem;
+        font-size: 1.28571429rem;
+        // margin-top: -.21425rem;
+        line-height: 1.28571429rem;
+        color: rgba(0,0,0,.85);
+        #follow{
+            div{
+                display: inline;
+            }
+            font-size: 0.75rem;
+            color: rgb(156, 156, 156);
+            position: relative;
+        }
+    }
+    // div{
+    //     display: inline;
+    //     margin-right: 1rem;
+    //     // span{
+    //     //     position: relative;
+    //     //     left : 40px;
+    //     // }
+    // }
 }
