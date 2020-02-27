@@ -21,13 +21,16 @@ class Footer extends React.Component<any, any>{
     PageActions.setCurrentTab(0);
     if (name === 'HOME') {
       UserActions.resetFeedList();
+      window.scrollTo(0, 0);
       history.push('/mainpage')
     } else if (name === 'FEED') {
       VolActions.resetVolunteerForList();
+      window.scrollTo(0, 0);
       history.push('/feed');
     } else if (name === 'MY') {
       UserActions.resetFeedList();
       VolActions.resetVolunteerForList();
+      window.scrollTo(0, 0);
       history.push('/mypage')
     }
   }
