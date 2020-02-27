@@ -50,6 +50,7 @@ class Profile extends Component<Props, State> {
       <div>
         <Container>
           프로필 사진 선택<br></br>
+          가급적 정사각형 이미지를 사용해주세요!<br/>
           <Form>
             <input
               type="file"
@@ -57,6 +58,7 @@ class Profile extends Component<Props, State> {
               multiple
               accept="image/*"
               onChange={this.handleFileSelect}
+              style={{marginBottom : '10px'}}
             />
             <Button onClick={this.handleSubmit}>프로필 사진 등록하기</Button>
             {isSubmit && <FloatingMessage/>}

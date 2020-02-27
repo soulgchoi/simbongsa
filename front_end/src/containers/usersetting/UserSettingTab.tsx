@@ -25,7 +25,7 @@ const panes = [
   {
     menuItem: "비 밀 번 호",
     render: () => (
-      <Tab.Pane>
+      <Tab.Pane attached={false}>
         <ChangePassword />
       </Tab.Pane>
     )

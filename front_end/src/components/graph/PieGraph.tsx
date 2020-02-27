@@ -9,8 +9,13 @@ interface Props {
   width: any;
   height: any;
   title: string;
+  setUpdateFlag? : (flag : boolean) => void
+  setSelectedElementIndex? : (index : number) => void
 }
-interface State {}
+interface State {
+  updateFlag : boolean
+  data : any;
+}
 
 export default class PieGraph extends Component<Props, State> {
   state = {
@@ -28,29 +33,34 @@ export default class PieGraph extends Component<Props, State> {
     options: {
       maintainAspectRatio: false,
       responsive: false
-    }
+    },
+    updateFlag : false
   };
 
   shouldComponentUpdate(nextProps: any) {
-    const propsData = this.props.data;
-    if (this.state.data.datasets[0].data.length === 0) {
-      const { generateBackgroundColor } = this;
-      const { data } = this.state;
-      const { labels } = this.props;
-      const len = propsData.length;
-      this.setState({
-        data: {
-          ...data,
-          labels: labels,
-          datasets: [
-            {
-              ...data.datasets[0],
-              data: propsData,
-              backgroundColor: generateBackgroundColor(len)
+    const { updateFlag } = this.state;
+    if (updateFlag || this.state.data.datasets[0].data.length === 0) {
+      this.setState({updateFlag: false},
+        ()=>{
+          const propsData = this.props.data;
+          const { generateBackgroundColor } = this;
+          const { data } = this.state;
+          const { labels } = this.props;
+          const len = propsData.length;
+          this.setState({
+            data: {
+              ...data,
+              labels: labels,
+              datasets: [
+                {
+                  ...data.datasets[0],
+                  data: propsData,
+                  backgroundColor: generateBackgroundColor(len)
+                }
+              ]
             }
-          ]
-        }
-      });
+          });
+        })
     }
     return this.state.data.datasets[0].data.length > 0;
   }
@@ -66,7 +76,17 @@ export default class PieGraph extends Component<Props, State> {
     );
     return list;
   };
-
+  handleItemClick = (elems : any) => {
+    const { setUpdateFlag , setSelectedElementIndex } = this.props;
+    if(typeof setUpdateFlag !== 'undefined'){
+      // this.setState({updateFlag:true},()=>{setUpdateFlag(true);})
+      this.setState({updateFlag:true});
+      setUpdateFlag(true);
+      if(typeof setSelectedElementIndex !== 'undefined'){
+        setSelectedElementIndex(elems[0]._index);
+      }
+    }
+  }
   render() {
     const { data, options } = this.state;
     const { width, height, title } = this.props;
@@ -82,6 +102,7 @@ export default class PieGraph extends Component<Props, State> {
             width={width}
             height={height}
             options={options} // width, height 커스텀 사이즈로 하기 위해선 옵션에서 maintainAspectRatio: false 설정
+            getElementAtEvent={this.handleItemClick}
           />
         )}
       </div>
