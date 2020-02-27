@@ -37,10 +37,8 @@ const panes = [
     menuItem: { key: "map", content: "지도", icon: "map outline" },
     render: () => (
       <Tab.Pane>
-        <Container text>
           <Location />
           <VolInfo />
-        </Container>
       </Tab.Pane>
     )
   },

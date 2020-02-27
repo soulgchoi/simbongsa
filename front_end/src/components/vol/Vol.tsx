@@ -12,6 +12,7 @@ interface Props {
 
 class Vol extends React.Component<Props & any, any> {
     render() {
+        const url = window.location.href;
         const { volunteer } = this.props;
         // console.log("이거면 된다", volunteer.v_Auth, volunteer.v_pStatus)
         return (
@@ -20,6 +21,7 @@ class Vol extends React.Component<Props & any, any> {
                     v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
                 />
+                {!url.match(`postinglist`) &&
                 <div className="linktodetail">
                     <Link
                         to={{
@@ -29,6 +31,7 @@ class Vol extends React.Component<Props & any, any> {
                     >
                         상세보기</Link>
                 </div>
+                }
                 <div className="listtitle">
                     {volunteer.v_title}
                 </div>
