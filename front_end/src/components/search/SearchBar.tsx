@@ -42,11 +42,9 @@ class SearchBar extends React.Component<Iprops, Istate> {
     searchByTerm = async () => {
         const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
         let preferLocate = locations.toJS().map((location: any) => location.text)
-        console.log(preferLocate)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
         const locateSize = preferLocate.length
         const categorySize = preferCategory.length
-        console.log(locateSize)
         for (let i = 0; i < 3 - locateSize; i++) {
             preferLocate.push("null null")
         }

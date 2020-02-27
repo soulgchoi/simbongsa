@@ -39,7 +39,6 @@ class TemporaryDrawer extends React.Component<Iprops, Istate> {
   handleDrawerToggle = () => this.setState({ toggle: !this.state.toggle });
   sideList = () => {
     const { classes } = this.props;
-    console.log("루트: ", classes.root);
     return (
       <div className={classes.root} onClick={this.handleDrawerToggle}>
         <List>

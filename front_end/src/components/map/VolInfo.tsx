@@ -84,7 +84,6 @@ class VolInfo extends Component<Props, State> {
     const { selectedVolunteer } = this.props;
     const { volunteersForList } = this.state;
     const { appendList } = this;
-    console.log("선택된 친구", selectedVolunteer);
     // if(selectedVolunteer !=)
     return (
       <div className="main--text" style={{}}>

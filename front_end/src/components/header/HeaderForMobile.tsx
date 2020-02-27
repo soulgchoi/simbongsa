@@ -26,10 +26,8 @@ class HeaderForMobile extends React.Component<
   state = { activeItem: "" };
   handleLogout = async () => {
     const { AuthActions, history } = this.props;
-    console.log("핸들 로그아웃")
     storage.remove("token");
     AuthActions.loginCheck(false);
-    console.log("로그아웃완료");
     history.push("/");
   };
   render() {

@@ -90,11 +90,6 @@ class UserProfile extends Component<Props, State> {
       handleFollowingClick,
       handleFollowerClick
     } = this;
-    console.log("로그인한 아이디", loginUserId);
-    console.log("아이디", profileUserId);
-    console.log("팔로워", followerList.length);
-    console.log("팔로잉", followingList.length);
-    console.log("팔로우중?", isProfileUserFollowedByLoginUser);
     return (
       <div className="user-profile">
         {showPage === page.PROFILE && (

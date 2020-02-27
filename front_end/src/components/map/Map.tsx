@@ -141,11 +141,9 @@ class Map extends Component<IProps, IState> {
     }
     if (showVolInfo !== nextProps.showVolInfo) {
       if (nextProps.showVolInfo) {
-        console.log("축소");
         // resizeMap(volMap, window.innerHeight - 735); // 지도 크기 재조정
         // resizeMap(volMap, "60vh"); // 지도 크기 재조정
       } else {
-        console.log("확대");
         // resizeMap(volMap, window.innerHeight - 435); // 지도 크기 재조정
         // resizeMap(volMap, "60vh"); // 지도 크기 재조정
       }
@@ -154,7 +152,6 @@ class Map extends Component<IProps, IState> {
   }
 
   componentDidUpdate() {
-    console.log("맵 componentDidUpdate");
     const {
       volunteers,
       VolActions,
@@ -169,7 +166,6 @@ class Map extends Component<IProps, IState> {
       isMyLocationClicked,
       isMarkerRenderingNeed
     } = this.state;
-    console.log("선택", selectedMarker);
 
     // 내 위치를 클릭했을 때
     if (isMyLocationClicked) {
@@ -251,7 +247,6 @@ class Map extends Component<IProps, IState> {
 
   };
   render() {
-    console.log("render ");
     const { zoomIn, zoomOut, setMyLocation } = this;
     // const { height } = this.state;
     const { volMap } = this.props;

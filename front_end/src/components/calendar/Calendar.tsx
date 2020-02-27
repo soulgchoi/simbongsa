@@ -15,7 +15,6 @@ interface Props {
     calActions: any
 }
 function Calendar(props: Props) {
-    console.log("여기", props);
     return (
         <div className="Calendar">
             <Head date={props.date} changeDate={props.changeDate} toggle={props.toggle} volunteers={props.volunteers} changeToggle={props.changeToggle} dayVolList={props.dayVolList} calActions={props.calActions} />
@@ -50,7 +49,6 @@ function Body(props: Props) {
                             let isGrayed = current.format('MM') === props.date.format('MM') ? '' : 'grayed';
                             let isVol = props.volunteers.filter((volunteer: any) => volunteer.v_pBgnD == current.format('YYYY-MM-DD'));
                             if (isSelected === 'selected') {
-                                console.log(current.format('YYYY-MM-DD'), isVol)
                             }
                             let isCounted = isVol.size
                             let Expressed = true
