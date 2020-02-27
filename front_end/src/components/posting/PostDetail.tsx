@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { Image, Label, Icon, Divider } from 'semantic-ui-react'
 import Carousel from 'nuka-carousel'
 
-import CommentList from 'containers/posting/CommentList'
-import CommentForm from 'containers/posting/CommentForm'
+import CommentList from 'components/posting/CommentList'
+import CommentForm from 'components/posting/CommentForm'
 
 import './Carousel.css'
 import './PostDetail.css'
@@ -31,10 +31,11 @@ interface Props {
 }
 interface Istate{
     volunteer: any
+    updateFlag : boolean;
 }
 
 class PostDetail extends React.Component<Props & any, Istate> {
-    state = { volunteer: {} }
+    state = { volunteer: {}, updateFlag : false }
     handleVote(id: number) {
         var { m_id } = this.props.user.toJS()
         var post_vote = {
@@ -61,8 +62,14 @@ class PostDetail extends React.Component<Props & any, Istate> {
         if (prevProps.post.v_id !== this.props.post.v_id) {
             var { v_id } = this.props.post
             this.voldetail(v_id)
-
         }
+        const { updateFlag } = this.state;
+        if(updateFlag){
+            this.setState({updateFlag : false});
+        }
+    }
+    handleUpdateFlag = (flag : boolean) => {
+        this.setState({updateFlag : flag});
     }
     render() {
         var { m_id, userId } = this.props.user.toJS()
@@ -123,7 +130,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                     <Divider /> */}
                     <div className="comment">
                         <CommentList inP_id={this.props.post.p_id} />
-                        <CommentForm inP_id={this.props.post.p_id} />
+                        <CommentForm inP_id={this.props.post.p_id} handleUpdateFlag={this.handleUpdateFlag} />
                     </div>
                 </div>
             </div>

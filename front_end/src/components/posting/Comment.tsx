@@ -1,12 +1,9 @@
 import React from 'react'
 import * as PostingApi from 'lib/api/PostingApi';
-import storage from 'lib/storage'
 import { Icon, Confirm } from 'semantic-ui-react'
 import { connect } from "react-redux";
 import './Comment.css'
 
-const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
-let token = storage.get("token");
 
 interface IProps {
     comment: {
@@ -36,7 +33,7 @@ class Comment extends React.Component<IProps & any, {}>{
             .then((res: any) => {
                 console.log(res)
             });
-        window.location.reload(true);
+        // window.location.reload(true);
     }
 
 
@@ -50,11 +47,11 @@ class Comment extends React.Component<IProps & any, {}>{
         return (
             <div>
                 <span className="name">{this.props.comment.userId}</span>
-                < br />
-                <span className="content">{this.props.comment.c_content}</span>
                 {m_id == this.props.comment.m_id &&
                     <Icon style={{ float: 'right' }} name="delete" onClick={this.show} />
                 }
+                < br />
+                <span className="content">{this.props.comment.c_content}</span>
                 <Confirm
                     content='댓글을 삭제하시겠습니까?'
                     cancelButton='아니오'

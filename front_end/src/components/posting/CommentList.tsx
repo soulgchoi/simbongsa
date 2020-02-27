@@ -15,11 +15,8 @@ interface States {
 
 
 class CommentList extends React.Component<Props, States> {
-    constructor(props: Props) {
-        super(props)
-        this.state = {
-            comments: []
-        }
+    state = { comments : [] }
+    componentDidMount(){
         PostingApi.getComment(this.props.inP_id)
             .then((res: any) => {
                 if (res.data.data.length > 0) {
@@ -31,11 +28,24 @@ class CommentList extends React.Component<Props, States> {
                     })
                 }
             })
-
+    }
+    shouldComponentUpdate(nextProps: any){
+        PostingApi.getComment(this.props.inP_id)
+            .then((res: any) => {
+                if (res.data.data.length > 0) {
+                    const data = res.data.data.map((d: any) => {
+                        return { c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.userId }
+                    })
+                    this.setState({
+                        comments: data
+                    })
+                }
+            })
+        return true;
     }
 
     render() {
-        const prints = this.state.comments.map((comment, i) => {
+        const prints = this.state.comments.map((comment : any, i) => {
             return (
                 <Comment
                     comment={comment}

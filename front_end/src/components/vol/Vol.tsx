@@ -13,7 +13,6 @@ interface Props {
 class Vol extends React.Component<Props & any, any> {
     render() {
         const { volunteer } = this.props;
-        console.log('voluuuuuuuuuu', volunteer)
         // console.log("이거면 된다", volunteer.v_Auth, volunteer.v_pStatus)
         return (
             <div className="list">

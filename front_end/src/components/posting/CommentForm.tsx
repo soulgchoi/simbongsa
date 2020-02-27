@@ -13,6 +13,7 @@ let token = storage.get("token")
 
 interface Props {
     "inP_id": number;
+    handleUpdateFlag : Function;
 }
 
 class CommentForm extends React.Component<Props & any, {}> {
@@ -40,7 +41,8 @@ class CommentForm extends React.Component<Props & any, {}> {
                     "c_content": ""
                 })
             });
-        window.location.reload(true);
+        // window.location.reload(true);
+        this.props.handleUpdateFlag(true);
     }
 
     render() {
