@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as UserApi from 'lib/api/UserApi'
 import * as userActions from "redux/modules/user";
 import UserProfile from 'components/user/profile/UserProfile';
-import { List } from 'semantic-ui-react';
+import { List,  Responsive, Container  } from 'semantic-ui-react';
 interface Props {
     match : any;
     loginUserId : any;
@@ -43,11 +43,21 @@ class FollowingList extends Component<Props, State> {
     return (
         <div>
         <UserProfile profileUserId={userId} />
-          <span style={{ marginLeft: "1rem" }}>{userId} 님의 팔로잉</span> <span style={{ fontWeight: "bold" }}>
+          
+          <Responsive {...Responsive.onlyMobile}>
+                {userId} 님의 팔로잉
               <List celled relaxed>
                 {getProfileList(followingList)}
               </List>
-              </span>
+            </Responsive>
+            <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+              <Container style={{width:"700px"}}>
+                {userId} 님의 팔로잉
+              <List celled relaxed>
+                {getProfileList(followingList)}
+              </List>
+              </Container>
+            </Responsive>
         </div>
     );
     }

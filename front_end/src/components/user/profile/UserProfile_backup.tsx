@@ -4,7 +4,6 @@ import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
 import * as UserAPI from "lib/api/UserApi";
 
-import FollowList from "components/user/profile/FollowList";
 import ActionButton from "components/button/ActionButton";
 
 // import "assets/mycss";
@@ -123,7 +122,6 @@ class UserProfile extends Component<Props, State> {
               }}
             />{" "}
             팔로워 리스트
-            <FollowList list={followerList} />
           </div>
         )}
         {showPage === page.FOLLOWING && (
@@ -135,7 +133,6 @@ class UserProfile extends Component<Props, State> {
               }}
             />
             팔로잉 리스트
-            <FollowList list={followingList} />
           </div>
         )}
       </div>
