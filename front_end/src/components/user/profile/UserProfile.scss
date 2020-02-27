@@ -1,16 +1,21 @@
 .user-profile button.ui.orange.button {
     padding: 0.2rem;
     font-size: 1rem;
-    position : absolute;
-    left: 50%;
-    top: 1.5rem;
-    transform: translateX(5.5rem);
-
+    position : relative;
+    // left: 50%;
+    // top: 1.5rem;
+    // transform: translateX(5.5rem);
+}
+#follow-button-mini{
+    position: relative;
+    top : -2.5rem;
+    left : 10rem;
 }
 #userpage{
     position:relative;
     left:50%;
     margin-left : -110px;
+    width: 280px;
 }
 div.user-profile{
     font-size: 0.75rem;

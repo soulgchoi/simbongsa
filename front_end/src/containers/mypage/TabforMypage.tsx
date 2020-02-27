@@ -1,10 +1,8 @@
 import React from "react";
 import { Tab, Responsive, Container } from "semantic-ui-react";
-import { list } from "react-immutable-proptypes";
 import Statistics from "containers/mypage/Statistics";
 import MyVol from "containers/mypage/MyVol";
 import MyPost from "containers/mypage/MyPost";
-import Feed from "containers/feed/Feed";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as volActions from "redux/modules/vol";
@@ -50,7 +48,7 @@ interface Props {
 interface State {
 
 }
-class TabExampleBasic extends React.Component<Props, State> {
+class TabForMypage extends React.Component<Props, State> {
   state = { activeIndex : 0 }
   componentDidMount() {
     const { VolActions, userId, currentTab} = this.props;
@@ -98,5 +96,5 @@ export default connect(
     VolActions: bindActionCreators(volActions, dispatch),
     PageActions: bindActionCreators(pageActions, dispatch)
   })
-)(TabExampleBasic);
+)(TabForMypage);
 

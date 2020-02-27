@@ -14,7 +14,7 @@ export const getUserFollower = (userId: string) => {
       { headers: { Authorization: token } }
     );
   }catch(error){
-    return true;
+    return error;
   }
 };
 
