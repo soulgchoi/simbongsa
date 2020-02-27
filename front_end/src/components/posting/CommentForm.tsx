@@ -7,10 +7,6 @@ import './CommentForm.css'
 import * as PostingApi from 'lib/api/PostingApi'
 import { Input, Button } from 'semantic-ui-react'
 
-const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
-let token = storage.get("token")
-
-
 interface Props {
     "inP_id": number;
     handleUpdateFlag : Function;
@@ -40,9 +36,9 @@ class CommentForm extends React.Component<Props & any, {}> {
                 this.setState({
                     "c_content": ""
                 })
+                this.props.handleUpdateFlag(true);
             });
         // window.location.reload(true);
-        this.props.handleUpdateFlag(true);
     }
 
     render() {

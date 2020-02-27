@@ -2,20 +2,19 @@ import React from 'react';
 import Comment from './Comment';
 import storage from 'lib/storage'
 import * as PostingApi from 'lib/api/PostingApi'
-const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
-let token = storage.get("token")
-
 interface Props {
     inP_id: number;
+    updateFlag : boolean;
 }
 
 interface States {
     comments: Array<any>
+    updateFlagByComment : boolean
 }
 
 
 class CommentList extends React.Component<Props, States> {
-    state = { comments : [] }
+    state = { comments : [], updateFlagByComment : false }
     componentDidMount(){
         PostingApi.getComment(this.props.inP_id)
             .then((res: any) => {
@@ -29,9 +28,29 @@ class CommentList extends React.Component<Props, States> {
                 }
             })
     }
-    shouldComponentUpdate(nextProps: any){
-        PostingApi.getComment(this.props.inP_id)
+    setUpdateFlag = (flag : boolean) =>{
+        this.setState({updateFlagByComment : flag});
+    }
+    componentDidUpdate(){
+        const { updateFlag } = this.props;
+        const { updateFlagByComment } = this.state;
+        if(updateFlag){
+            PostingApi.getComment(this.props.inP_id)
             .then((res: any) => {
+            if (res.data.data.length > 0) {
+                const data = res.data.data.map((d: any) => {
+                    return { c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.userId }
+                })
+                this.setState({
+                    comments: data
+                })
+            }
+        })
+        }
+        if(updateFlagByComment){
+            this.setState({updateFlagByComment: false},()=>{
+                PostingApi.getComment(this.props.inP_id)
+                .then((res: any) => {
                 if (res.data.data.length > 0) {
                     const data = res.data.data.map((d: any) => {
                         return { c_id: d.c_id, p_id: d.p_id, c_content: d.c_content, m_id: d.m_id, userId: d.userId }
@@ -40,10 +59,10 @@ class CommentList extends React.Component<Props, States> {
                         comments: data
                     })
                 }
+                })
             })
-        return true;
+        }
     }
-
     render() {
         const prints = this.state.comments.map((comment : any, i) => {
             return (
@@ -51,6 +70,7 @@ class CommentList extends React.Component<Props, States> {
                     comment={comment}
                     inP_id={comment.p_id}
                     key={i}
+                    setUpdateFlag={this.setUpdateFlag}
                 />
             )
         })

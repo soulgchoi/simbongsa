@@ -73,7 +73,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
     }
     render() {
         var { m_id, userId } = this.props.user.toJS()
-        const { volunteer } = this.state
+        const { volunteer, updateFlag } = this.state
         const images = this.props.post.files.map((file: any, i: number) => {
             return (
                 <img key={i} src={restBaseApi + "/uploads/" + file} />
@@ -129,7 +129,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                     </Link>
                     <Divider /> */}
                     <div className="comment">
-                        <CommentList inP_id={this.props.post.p_id} />
+                        <CommentList inP_id={this.props.post.p_id} updateFlag={updateFlag}/>
                         <CommentForm inP_id={this.props.post.p_id} handleUpdateFlag={this.handleUpdateFlag} />
                     </div>
                 </div>

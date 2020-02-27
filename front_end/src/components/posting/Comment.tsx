@@ -14,6 +14,7 @@ interface IProps {
         userId: string,
     },
     inP_id: number;
+    setUpdateFlag : (flag : boolean) => void
 }
 
 class Comment extends React.Component<IProps & any, {}>{
@@ -31,7 +32,7 @@ class Comment extends React.Component<IProps & any, {}>{
     deleteComment(c_id: number) {
         PostingApi.deleteComment(c_id)
             .then((res: any) => {
-                console.log(res)
+                this.props.setUpdateFlag(true);
             });
         // window.location.reload(true);
     }
