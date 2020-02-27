@@ -36,6 +36,8 @@ import HeaderForDesktop from "components/header/HeaderForDesktop";
 import LoginChecker from "components/loginchecker/LoginChecker";
 import WithdrawComplete from "containers/usersetting/WithdrawComplete";
 import OthersPage from "containers/otherspage/OthersPage";
+import FollowingPage from "containers/followpage/FollowingPage"
+import FollowerPage from "containers/followpage/FollowerPage"
 class Router extends Component {
   render() {
     return (
@@ -82,6 +84,8 @@ class Router extends Component {
 
         {/* 다른회원 정보 ooo */}
         <Route path="/user/:id" component={OthersPage}/>
+        <Route path="/follower/:id" component={FollowerPage}/>
+        <Route path="/following/:id" component={FollowingPage}/>
 
         {/* 회원탈퇴 완료 */}
         <Route path="/withdrawcomplete" component={WithdrawComplete} />

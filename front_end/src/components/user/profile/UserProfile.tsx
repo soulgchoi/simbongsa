@@ -3,8 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
-import * as UserAPI from "lib/api/UserApi";
-import { Placeholder, Image } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react'
 import ActionButton from "components/button/ActionButton";
 import profile_default from 'assets/images/profile_default.png';
 import "./UserProfile.scss";
@@ -61,10 +60,12 @@ class UserProfile extends Component<Props, State> {
     this.updateProfile();
   };
   handleFollowingClick = (e: any) => {
-    // this.setState({ showPage: page.FOLLOWING });
+    const { history, profileUserId } = this.props;
+    history.push(`/following/${profileUserId}`);
   };
   handleFollowerClick = (e: any) => {
-    // this.setState({ showPage: page.FOLLOWER });
+    const { history, profileUserId } = this.props;
+    history.push(`/follower/${profileUserId}`);
   };
 
   shouldComponentUpdate(nextProps: any) {
@@ -109,7 +110,9 @@ class UserProfile extends Component<Props, State> {
             }
           </div>
           <div id={profileSize === 'mini' ? "userId-mini" : "userId"}>
-            {profileUserId}
+            <div onClick={this.handleIdClick}>
+              {profileUserId}
+            </div>
             <div id="follow">
               <div onClick={handleFollowerClick}>
                 <span>팔로워 </span> <span style={{ fontWeight: "bold" }}>{followerList.length}</span>
@@ -118,9 +121,12 @@ class UserProfile extends Component<Props, State> {
                 <span style={{ marginLeft: "1rem" }}>팔로잉</span> <span style={{ fontWeight: "bold" }}>{followingList.length}</span>
               </div>
             </div>
+            <div id={profileSize === 'mini'?"follow-button-mini":"follow-button"}>
             {loginUserId !== profileUserId &&
               !isProfileUserFollowedByLoginUser && (
-                <ActionButton action={handleFollow} placeholder="팔로우" />
+                
+                <ActionButton  action={handleFollow} placeholder="팔로우" />
+                
               )}
             {loginUserId !== profileUserId &&
               isProfileUserFollowedByLoginUser && (
@@ -129,6 +135,7 @@ class UserProfile extends Component<Props, State> {
                   placeholder="팔로우 취소"
                 />
               )}
+              </div>
           </div>
         </div>
         {/* )} */}
