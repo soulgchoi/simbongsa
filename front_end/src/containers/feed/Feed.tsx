@@ -34,11 +34,6 @@ class Feed extends Component<Props, State> {
     await UserActions.getNormalFeedList(mId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
   }
-  
-  componentWillUnmount(){
-    const { UserActions } = this.props;
-    UserActions.resetFeedList();
-  }
 
   async loadMoreData() {
     const { UserActions, mId } = this.props;

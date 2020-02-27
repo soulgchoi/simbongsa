@@ -25,10 +25,6 @@ class VolListPage extends Component<Props, State> {
     // width: window.innerWidth,
     // height: window.innerHeight - 345
   };
-  componentWillUnmount(){
-    const { VolActions } = this.props;
-    VolActions.resetVolunteerForList();
-  }
 
   shouldComponentUpdate(nextProps: any) {
     const { volunteersForList } = nextProps;
