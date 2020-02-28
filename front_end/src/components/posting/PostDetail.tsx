@@ -50,6 +50,17 @@ class PostDetail extends React.Component<Props & any, Istate> {
             })
             .catch((err: any) => console.log(err))
     }
+
+    cancelVote(p_id: number){
+        let { m_id } = this.props.user.toJS()
+        const { setUpdateFlag } = this.props;
+        PostingApi.deletePostVote(m_id, p_id)
+            .then((res: any) => {
+                setUpdateFlag(true);
+            })
+            .catch((err: any) => console.log(err))
+    }
+
     voldetail(v_id: number) {
         VolApi.getVolDetail(v_id)
             .then((res: any) => {
@@ -113,6 +124,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                                 as='a'
                                 color='grey'
                                 size="large"
+                                onClick={(id: any) => this.cancelVote(this.props.post.p_id)}
                             >
                                 <Icon name="hand paper" /> {this.props.post.post_vote_members.length} <span style={{ marginLeft: "10px", marginRight: "10px" }}>함께 해요</span>
 
