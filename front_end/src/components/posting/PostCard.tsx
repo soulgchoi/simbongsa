@@ -24,7 +24,7 @@ class PostCard extends React.Component<Props, {}> {
   state = {
     post: {
       p_content: "",
-      v_id: 0,
+      v_id: -1,
       m_id: 0,
       p_id: this.props.post.p_id,
       post_vote_members: [],
@@ -45,11 +45,11 @@ class PostCard extends React.Component<Props, {}> {
 
 
   componentDidMount() {
-    var id = this.props.post.p_id;
+    let id = this.props.post.p_id;
     PostingApi.getPosts(id)
       .then((res: any) => {
         const resData = res.data.data;
-        var temp = []
+        let temp = []
         if (resData.post_vote_members.length > 0) {
           for (let i = 0; i < resData.post_vote_members.length; i++) {
             temp.push(resData.post_vote_members[i].m_id.toString())
@@ -81,6 +81,10 @@ class PostCard extends React.Component<Props, {}> {
   }
 
   render() {
+    const { post } = this.state;
+    if(post.v_id===-1){
+      return(<div>로딩중</div>)
+    }
     const { m_id } = this.props.user.toJS()
     const { color } = this.props;
     if (this.state.result === true) {

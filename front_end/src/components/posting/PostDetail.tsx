@@ -35,7 +35,7 @@ interface Istate{
 }
 
 class PostDetail extends React.Component<Props & any, Istate> {
-    state = { volunteer: {}, updateFlag : false }
+    state = { volunteer: null , updateFlag : false }
     handleVote(id: number) {
         var { m_id } = this.props.user.toJS()
         var post_vote = {
@@ -58,11 +58,11 @@ class PostDetail extends React.Component<Props & any, Istate> {
             })
             .catch((err: any) => console.log(err));
     }
+    componentDidMount(){
+        var { v_id } = this.props.post
+        this.voldetail(v_id)
+    }
     componentDidUpdate(prevProps: any) {
-        if (prevProps.post.v_id !== this.props.post.v_id) {
-            var { v_id } = this.props.post
-            this.voldetail(v_id)
-        }
         const { updateFlag } = this.state;
         if(updateFlag){
             this.setState({updateFlag : false});
@@ -74,12 +74,15 @@ class PostDetail extends React.Component<Props & any, Istate> {
     render() {
         var { m_id, userId } = this.props.user.toJS()
         const { volunteer, updateFlag } = this.state
+        if(volunteer===null){
+            return(<div>로딩중</div>)
+        }
         const images = this.props.post.files.map((file: any, i: number) => {
             return (
                 <img key={i} src={restBaseApi + "/uploads/" + file} />
             )
         })
-        // console.log(this.props.post.post_vote_members)
+
         return (
             <div>
                 <div>

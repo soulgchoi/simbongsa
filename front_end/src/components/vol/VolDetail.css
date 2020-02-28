@@ -36,6 +36,7 @@ div.buttons a {
     margin: auto;
 }
 
+
 .buttons button.ui.button {
     margin: 0;
     background-color: rgba(255, 136, 0, 0.493);
@@ -53,6 +54,10 @@ a.ui.button {
     padding: 1rem;
     background-color: #FD7317;
     color: white
+}
+
+a.ui.button.false {
+    font-size: 0.9rem;
 }
 
 div.title {

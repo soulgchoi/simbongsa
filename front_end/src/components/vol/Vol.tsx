@@ -14,12 +14,13 @@ class Vol extends React.Component<Props & any, any> {
     render() {
         const url = window.location.href;
         const { volunteer } = this.props;
-        // console.log("이거면 된다", volunteer.v_Auth, volunteer.v_pStatus)
         return (
             <div className="list">
                 <CertLabel
-                    v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
+                    v_mBgnD={volunteer.v_mBgnD}
+                    v_mEndD={volunteer.v_mEndD}
+                    volunteer={volunteer}
                 />
                 {!url.match(`postinglist`) &&
                 <div className="linktodetail">
