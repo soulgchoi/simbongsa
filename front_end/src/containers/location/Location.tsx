@@ -41,8 +41,8 @@ class Location extends Component<Props, State> {
 }
 
 export default connect(
-  ({ vol }: any) => ({
-    showVolInfo: vol.get('showVolInfo')
+  ({ vol, user }: any) => ({
+    showVolInfo: vol.get('showVolInfo'),
   }),
   dispatch => ({
     VolActions: bindActionCreators(volActions, dispatch),
