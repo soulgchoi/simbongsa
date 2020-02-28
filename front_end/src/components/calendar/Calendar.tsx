@@ -56,11 +56,10 @@ function Body(props: Props) {
                                 Expressed = false
                             }
                             return (
-                                <Fragment>
-                                    <div className={`box`} key={i} onClick={() => props.calActions(current, true, isVol)}>
-                                        {Expressed && <Button className={`count`} key={i} size='mini' onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</Button>}
+                                <Fragment key={i}>
+                                    <div className={`box`} onClick={() => props.calActions(current, true, isVol)}>
+                                        {Expressed && <Button className={`count`} size='mini' onClick={() => props.calActions(current, true, isVol)}>{isCounted}개</Button>}
                                         <span className={`text ${isSelected} ${isGrayed} ${isToday}`}>{current.format('D')}</span>
-
                                     </div>
                                 </Fragment>
                             )

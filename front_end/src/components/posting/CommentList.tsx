@@ -58,6 +58,8 @@ class CommentList extends React.Component<Props, States> {
                     this.setState({
                         comments: data
                     })
+                }else{
+                    this.setState({comments : []})
                 }
                 })
             })
