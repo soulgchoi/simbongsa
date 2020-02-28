@@ -18,6 +18,7 @@ interface Props {
   };
   color: string;
   user : any;
+  setFlag: (flag : boolean) => void
 }
 
 class PostCard extends React.Component<Props, {}> {
@@ -75,9 +76,9 @@ class PostCard extends React.Component<Props, {}> {
     PostingApi.deletePost(id)
       .then((res: any) => {
         // console.log(res)
+        this.props.setFlag(true);
       })
       .catch((err: any) => console.log(err))
-    window.location.reload(true);
   }
 
   render() {

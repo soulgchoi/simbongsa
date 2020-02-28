@@ -3,13 +3,15 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import PostCard from 'components/posting/PostCard'
 import './PostingList.css'
 import * as VolApi from 'lib/api/VolApi'
+import { Flag } from 'semantic-ui-react'
 
 class PostingList extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       posts: [],
-      pgNum: 1
+      pgNum: 1,
+      flag: false
     };
   }
 
@@ -19,7 +21,6 @@ class PostingList extends Component<any, any> {
     VolApi.getVolFeed(this.v_id, this.state.pgNum)
       .then((res: any) => {
         const data = res.data.data;
-
         this.setState({
           posts: data,
           pgNum: this.state.pgNum + 1
@@ -27,6 +28,7 @@ class PostingList extends Component<any, any> {
       })
       .catch((err : any) => console.log(err));
   }
+
   loadMoreData() {
     VolApi.getVolFeed(this.v_id, this.state.pgNum)
       .then((res : any) => {
@@ -39,10 +41,41 @@ class PostingList extends Component<any, any> {
       .catch((err : any) => console.log(err));
   }
 
+  setFlag = (flag : boolean) =>{
+    this.setState({ flag : flag });
+  }
+
+  componentDidUpdate() {
+    if (this.state.flag) {
+      this.setState({
+        posts: [],
+        pgNum: 1,
+        flag: false},
+        ()=>{
+          VolApi.getVolFeed(this.v_id, this.state.pgNum)
+          .then((res: any) => {
+            const data = res.data.data;
+            if (res.data.data.length > 0) {
+            this.setState({
+              posts: data,
+              pgNum: this.state.pgNum + 1,
+            });
+          } else {
+            this.setState({
+              posts: [],
+              pgNum: 1
+            })
+          }
+          })
+          .catch((err : any) => console.log(err));
+      })
+    }
+  }
+
   render() {
     const { posts } = this.state;
-    const postingList = posts.map((post: any, i: any) => {
-      return <PostCard color="white" post={post} key={i} />;
+    var postingList = posts.map((post: any, i: any) => {
+      return <PostCard color="white" post={post} key={i} setFlag={this.setFlag} />;
     });
     return (
       <InfiniteScroll

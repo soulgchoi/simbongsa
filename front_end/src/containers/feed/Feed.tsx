@@ -20,9 +20,10 @@ interface State { }
 
 class Feed extends Component<Props, State> {
   state = {
-    pageNum: 1
+    pageNum: 1,
     // width: window.innerWidth,
     // height: window.innerHeight - 345
+    flag: false
   };
   // v_id & 팔로우 여부로
   v_id = this.props.match.params.id;
@@ -41,6 +42,25 @@ class Feed extends Component<Props, State> {
     await UserActions.getPreferFeedList(mId, pageNum);
     await UserActions.getNormalFeedList(mId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
+  }
+
+  setFlag = (flag : boolean) =>{
+    this.setState({ flag : flag });
+  }
+
+  componentDidUpdate() {
+    if (this.state.flag) {
+      this.setState({
+        pgNum: 1,
+        flag: false},
+        ()=>{
+          const { UserActions, mId } = this.props;
+          const { pageNum } = this.state;
+          UserActions.getPreferFeedList(mId, pageNum);
+          UserActions.getNormalFeedList(mId, pageNum);
+          this.setState({ pageNum: pageNum + 1 });
+      })
+    }
   }
 
   render() {
@@ -64,7 +84,7 @@ class Feed extends Component<Props, State> {
         if (idxP === pLength) {
           break;
         }
-        postingList.push(<PostCard color="white" post={preferFeedList[idxP]} key={idx} />);
+        postingList.push(<PostCard color="white" post={preferFeedList[idxP]} key={idx} setFlag={this.setFlag} />);
         idx += 1;
         idxP += 1;
       }
@@ -73,7 +93,7 @@ class Feed extends Component<Props, State> {
           break;
         }
         postingList.push(
-          <PostCard color="#ffc164" post={normalFeedList[idxN]} key={idx} />
+          <PostCard color="#ffc164" post={normalFeedList[idxN]} key={idx} setFlag={this.setFlag}/>
         );
         idx += 1;
         idxN += 1;
