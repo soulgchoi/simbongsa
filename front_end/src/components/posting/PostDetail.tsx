@@ -78,7 +78,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
         const { volunteer, updateFlag } = this.state
         if(volunteer===null){
             return(
-                <Loader>로딩중</Loader>
+                <div/>
              )
         }
         const images = this.props.post.files.map((file: any, i: number) => {

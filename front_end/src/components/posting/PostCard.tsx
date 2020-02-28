@@ -100,7 +100,7 @@ class PostCard extends React.Component<Props, {}> {
   render() {
     const { post } = this.state;
     if(post.v_id===-1){
-      return(<Loader>로딩중</Loader>)
+      return(<div/>)
     }
     const { m_id } = this.props.user.toJS()
     const { color } = this.props;

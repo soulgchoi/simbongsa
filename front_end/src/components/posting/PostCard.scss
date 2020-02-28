@@ -47,13 +47,12 @@ div.ui.card {
         height: 15px;
         position: relative;
         top : -5px;
-        width : 200px;
+        width : 170px;
         @include respond-to('large') {
             left: 400px;
         }
         @include respond-to('small') {
-            left: 80%;
-             transform : translateX(-50%)
+            transform : translateX(60%)
         }
         }
     }

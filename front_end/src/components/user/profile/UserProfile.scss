@@ -7,9 +7,13 @@
     // transform: translateX(5.5rem);
 }
 #follow-button-mini{
+    width : 50px;
     position: relative;
     top : -2.5rem;
     left : 10rem;
+    div{
+        width:50px;
+    }
 }
 #userpage{
     position:relative;
