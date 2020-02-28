@@ -11,6 +11,7 @@ import * as searchActions from "redux/modules/search";
 import * as VolApi from "lib/api/VolApi";
 import * as userActions from "redux/modules/user";
 import * as pageActions from "redux/modules/page";
+import { Dimmer, Loader } from 'semantic-ui-react'
 
 import "components/map/map.scss";
 
@@ -46,22 +47,18 @@ interface IState {
 
 class Map extends Component<IProps, IState> {
   state = {
-    clusterer: window.kakao.maps.MarkerClusterer,
+    clusterer: {clear : ()=>{}},
     myLocation: { y: 0, x: 0 },
     isMyLocationClicked: false,
-    isMarkerRenderingNeed: true
+    isMarkerRenderingNeed: true,
     // height: window.innerHeight - 435,
     // width: window.innerWidth
   };
   componentDidMount() {
     const {
       VolActions,
-      volunteers,
-      selectedMarker,
-      volunteersForMap,
       UserActions
     } = this.props;
-    UserActions.changeLoading(true);
     let currentLocation = this.props.currentLocation;
     const { currentMapInfo } = this.props;
     let level = currentMapInfo.get("level");
@@ -107,31 +104,10 @@ class Map extends Component<IProps, IState> {
 
     VolActions.setVolMap(volMap);
     // getVols(VolActions); // volunteers 업데이트 하면서 업데이트 완료시점에 componentDidUpdate() 한번 호출함.
-    let clusterer = makeMarker(
-      volunteers.toJS(),
-      volMap,
-      VolActions,
-      selectedMarker,
-      volunteersForMap,
-      PageActions
-    ); // 탭, 뒤로가기로 다시 돌아왔을때 이미 volunteers가 세팅 돼있는 경우
-    this.setState({ clusterer: clusterer });
+    
     // PageActions.setVolListForMap(volunteersForMap.toJS());
     // window.addEventListener("resize", this.updateDimensions); // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
-    UserActions.changeLoading(false);
   }
-
-  // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
-  // updateDimensions = () => {
-  //   this.setState({
-  //     width: window.innerWidth,
-  //     height: window.innerHeight - 435
-  //   });
-  // };
-  // // 화면 크기를 바꿀 때 높이 동적 반영에 필요한 코드
-  // componentWillUnmount() {
-  //   window.removeEventListener("resize", this.updateDimensions);
-  // }
 
   shouldComponentUpdate(nextProps: any) {
     const { volunteers, showVolInfo } = this.props;
@@ -159,7 +135,6 @@ class Map extends Component<IProps, IState> {
       volunteersForMap,
       UserActions,
     } = this.props;
-    UserActions.changeLoading(true);
     const { volMap, isSearchSubmit, SearchActions } = this.props;
     const {
       myLocation,
@@ -185,15 +160,17 @@ class Map extends Component<IProps, IState> {
     if (isMarkerRenderingNeed) {
       this.resetMarkers();
       const { PageActions } = this.props;
-      let clusterer = makeMarker(
-        volunteers.toJS(),
-        volMap,
-        VolActions,
-        selectedMarker,
-        volunteersForMap,
-        PageActions
-      );
-      this.setState({ clusterer: clusterer, isMarkerRenderingNeed: false });
+      window.setTimeout(()=>{
+        let clusterer = makeMarker(
+          volunteers.toJS(),
+          volMap,
+          VolActions,
+          selectedMarker,
+          volunteersForMap,
+          PageActions
+        );
+        this.setState({ clusterer: clusterer, isMarkerRenderingNeed: false });
+      }, 100);
     }
 
     // 검색 버튼을 눌렀을 때 화면을 대한민국을 다 보이게 바꿈
@@ -205,7 +182,6 @@ class Map extends Component<IProps, IState> {
       PageActions.setCurrentMapInfo({y:35.888013, x:127.791075, level : 14})
       SearchActions.searchSubmit(false);
     }
-    UserActions.changeLoading(false);
   }
 
   resetSelectedMarker = () => {
@@ -223,7 +199,7 @@ class Map extends Component<IProps, IState> {
   };
   resetMarkers = () => {
     const { clusterer } = this.state;
-    clusterer.clear();
+    clusterer!.clear();
   };
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomIn = (map: any) => {
@@ -248,10 +224,14 @@ class Map extends Component<IProps, IState> {
   };
   render() {
     const { zoomIn, zoomOut, setMyLocation } = this;
+    const { isMarkerRenderingNeed } = this.state;
     // const { height } = this.state;
     const { volMap } = this.props;
     return (
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
+        <Dimmer active={isMarkerRenderingNeed} inverted>
+          <Loader content='Loading' />
+        </Dimmer>
         <div id="map" style={{ width: "100%", height: "40vh" }} />
         {/* 내 위치는 HTTPS 를 사용해야합니다. */}
         <div className="custom_typecontrol radius_border">
@@ -503,20 +483,6 @@ function makeClickListener(
   };
 }
 
-// 지도를 표시하는 div 크기를 변경하는 함수입니다
-// function resizeMap(volMap: any, height: number) {
-// function resizeMap(volMap: any, height: string) {
-//   let mapContainer = document.getElementById("map");
-//   let mapWrap = document.getElementById("map_wrap");
-//   // mapContainer!.style.width = '650px';
-//   console.log("맵컨테이너", mapContainer);
-//   let center = volMap.getCenter();
-//   mapContainer!.style.height = height; //.toString() + "px";
-//   mapWrap!.style.height = height; //.toString() + "px";
-//   volMap.relayout();
-//   volMap.panTo(center);
-// }
-
 export default connect(
   ({ vol, search, user, page }: any) => {
     return {
@@ -527,7 +493,6 @@ export default connect(
       selectedMarker: vol.get("selectedMarker"),
       isSearchSubmit: search.get("isSearchSubmit"),
       showVolInfo: vol.get("showVolInfo"),
-      loading: user.get("loading"),
       currentMapInfo : page.get("currentMapInfo")
     };
   },
