@@ -5,7 +5,8 @@ import * as searchActions from "redux/modules/search";
 import "./TimeContainer.css"
 import { withStyles, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 const iOSBoxShadow =
   '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 const IOSSlider = withStyles({
@@ -57,32 +58,8 @@ const IOSSlider = withStyles({
     backgroundColor: 'currentColor',
   },
 })(Slider);
-const marks = [
-    {
-      value: 0,
-      label: '0시',
-    },
-    {
-      value: 12,
-      label: '12시',
-    },
-    {
-      value: 24,
-      label: '24시',
-    },
-  ];
-class TimeContainer extends Component<any, any> {
+class TimeContainer2 extends Component<any, any> {
   state = {value: [0, 24]};
-    componentDidMount(){
-      const { times } =  this.props
-      console.log("시간모음", times.toJS())
-      const { bgnTm, endTm } = times.toJS()
-      console.log("시간입니다!!", bgnTm, endTm)
-      var bgnTmInit = bgnTm.split(":")
-      var endTmInit = endTm.split(":")
-      this.setState({value:[Number(bgnTmInit[0]),Number(endTmInit[0])]})
-    }
-  
   
   handleChange = async (event: any, newValue: number | number[]) => {
     await this.setState({value: newValue as number[]});
@@ -118,28 +95,23 @@ class TimeContainer extends Component<any, any> {
     const { handleChange } = this
   return (
     <Fragment>
-    <div style={{ marginTop: 25}}>
       <IOSSlider value={value}
         min={0}
         max={24}
         onChange={handleChange}
         defaultValue={[0, 24]}
-        marks={marks}
         aria-labelledby="non-linear-slider"
         valueLabelDisplay="on"
         getAriaValueText={this.valuetext}
         valueLabelFormat={this.valuetext} />
-     </div>
     </Fragment>
   );
 }
 }
 export default connect(
     ({ search }: any) => ({
-      times:search.get('times')
     }),
     dispatch => ({
         SearchActions: bindActionCreators(searchActions, dispatch)
     })
-)(TimeContainer);
-
+)(TimeContainer2);

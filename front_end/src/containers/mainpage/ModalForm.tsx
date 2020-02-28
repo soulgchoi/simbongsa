@@ -96,7 +96,7 @@ class ModalExampleDimmer extends Component<any, IState> {
         } catch{
         } finally {
             UserActions.changeLoading(false)
-            SearchActions.lastInput(input)
+            SearchActions.lastInput(input+" 선호정보 기반")
         }
 
     }
@@ -117,7 +117,7 @@ class ModalExampleDimmer extends Component<any, IState> {
                             positive
                             icon='checkmark'
                             labelPosition='right'
-                            content="저장하기"
+                            content="검색하기"
                             onClick={this.handleSubmit}
                         />
                     </Modal.Actions>

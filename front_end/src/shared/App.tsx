@@ -93,33 +93,43 @@ class App extends Component<IProps> {
     if (preferInfo) {
       const info = preferInfo.toJS();
 
-      // 시간 관련
-      if (info.bgnTm === "00:00:00") {
+      if(info.bgnTm === null){
         SearchActions.initialInsert({
           form: "times",
-          key: "morning",
-          value: true
-        });
-      } else {
-        SearchActions.initialInsert({
-          form: "times",
-          key: "morning",
-          value: false
+          key: "bgnTm",
+          value: "00:00:00"
         });
       }
-      if (info.endTm === "23:59:59") {
+      else{
         SearchActions.initialInsert({
           form: "times",
-          key: "afternoon",
-          value: true
-        });
-      } else {
-        SearchActions.initialInsert({
-          form: "times",
-          key: "afternoon",
-          value: false
+          key: "bgnTm",
+          value: info.bgnTm
         });
       }
+      if(info.endTm === null){
+        SearchActions.initialInsert({
+          form: "times",
+          key: "endTm",
+          value: "24:00:00" 
+        });
+    }
+    else{
+      if(info.endTm === "23:59:59"){
+        SearchActions.initialInsert({
+          form: "times",
+          key: "endTm",
+          value: "24:00:00" 
+        });
+      }
+      else{
+      SearchActions.initialInsert({
+        form: "times",
+        key: "endTm",
+        value: info.endTm 
+      });
+    }
+    }
       // 나이 관련
       const today = new Date();
       const year = today.getFullYear();

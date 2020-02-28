@@ -48,35 +48,17 @@ class CurationModal extends Component<IProps, IState> {
         .toJS()
         .map((category: any) => category.key);
       let age = "";
-      let bgnTm = "";
-      let endTm = "";
       if (ages.toJS().adult === true) {
         age = "1992-01-01";
       } else if (ages.toJS().youth === true) {
         age = "2005-01-01";
       }
-      if (times.toJS().morning === true) {
-        bgnTm = "00:00:00";
-      } else if (times.toJS().morning === false) {
-        bgnTm = "12:00:01";
-      }
-      if (times.toJS().afternoon === true) {
-        endTm = "23:59:59";
-      } else if (times.toJS().afternoon === false) {
-        endTm = "12:00:00";
-      }
-      if (times.toJS().afternoon === false && times.toJS().morning === false) {
-        bgnTm = "00:00:01";
-        endTm = "23:59:58";
-      }
-      // if (times.)
-      // if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
 
       try {
         await SearchActions.preferRegister({
           age: age,
-          bgnTm: bgnTm,
-          endTm: endTm,
+          bgnTm: times.bgnTm,
+          endTm: times.endTm,
           preferRegion: preferRegion,
           preferCategory: preferCategory,
           userId: userId
