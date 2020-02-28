@@ -14,7 +14,6 @@ class Vol extends React.Component<Props & any, any> {
     render() {
         const url = window.location.href;
         const { volunteer } = this.props;
-        console.log(volunteer.v_mBgnD, volunteer.v_mEndD)
         return (
             <div className="list">
                 <CertLabel
