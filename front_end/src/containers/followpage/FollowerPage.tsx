@@ -12,10 +12,11 @@ interface Props {
 }
 interface State {
     followerList : string[];
+    userId : string;
 }
 
 class FollowerList extends Component<Props, State> {
-    state = { followerList : []}
+    state = { followerList : [], userId : ""}
     componentDidMount(){
         const userId = this.props.match.params.id;
         let returnAxios = UserApi.getUserFollower(userId);
@@ -28,11 +29,27 @@ class FollowerList extends Component<Props, State> {
         )
     }
     getProfileList(list : string[]){
-        return list.map((userId:string)=>{
-            return <List.Item style={{height: "70px"}}>
+        return list.map((userId:string, i)=>{
+            return <List.Item style={{height: "70px"}} key={i}>
                 <UserProfile profileSize="mini" profileUserId={userId} />
             </List.Item>
         })
+    }
+
+    componentDidUpdate(){
+      const userId = this.props.match.params.id;
+      if(this.state.userId !== userId){
+        this.setState({userId : this.props.match.params.id})
+        let returnAxios = UserApi.getUserFollower(userId);
+        let followerList = [];
+        returnAxios.then(
+            (response : any)=>{
+                followerList = response.data.data.map((item:any)=>item.m_userid);
+                console.log(followerList);
+                this.setState({followerList : followerList, userId : userId})
+            }
+        )
+      }
     }
     render() {
         const { followerList } = this.state;

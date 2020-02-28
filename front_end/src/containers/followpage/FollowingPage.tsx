@@ -12,10 +12,11 @@ interface Props {
 }
 interface State {
     followingList : string[];
+    userId : string;
 }
 
 class FollowingList extends Component<Props, State> {
-    state = { followingList : []}
+    state = { followingList : [] , userId : ""}
     componentDidMount(){
         const userId = this.props.match.params.id;
         let returnAxios = UserApi.getUserFollowing(userId);
@@ -23,23 +24,37 @@ class FollowingList extends Component<Props, State> {
         returnAxios.then(
             (response : any)=>{
                 followingList = response.data.data.map((item:any)=>item.m_userid)
-                this.setState({followingList : followingList})
+                this.setState({followingList : followingList, userId : userId})
             }
         )
     }
     getProfileList(list : string[]){
-        return list.map((userId:string)=>{
-            return <List.Item style={{height: "70px"}}>
+        return list.map((userId:string, i)=>{
+            return <List.Item style={{height: "70px"}} key={i}>
                 <UserProfile profileSize="mini" profileUserId={userId} />
             </List.Item>
         })
     }
+    componentDidUpdate(){
+      const userId = this.props.match.params.id;
+      if(this.state.userId !== userId){
+        this.setState({userId : this.props.match.params.id})
+        let returnAxios = UserApi.getUserFollowing(userId);
+        let followingList = [];
+        returnAxios.then(
+            (response : any)=>{
+                followingList = response.data.data.map((item:any)=>item.m_userid)
+                this.setState({followingList : followingList, userId : userId})
+            }
+        )
+      }
+    }
     render() {
-        const { followingList } = this.state;
+        const { followingList} = this.state;
         const { getProfileList } = this;
-        const userId = this.props.match.params.id;
     // const followingList = userProfileMap.get(profileUserId).get('followingList');
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
+        const userId = this.props.match.params.id;
     return (
         <div>
         <UserProfile profileUserId={userId} />
