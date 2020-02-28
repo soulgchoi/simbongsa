@@ -28,6 +28,7 @@ interface Props {
         userId: string,
         files: []
     };
+    setUpdateFlag : (flag : boolean) => void;
 }
 interface Istate{
     volunteer: any
@@ -38,15 +39,16 @@ class PostDetail extends React.Component<Props & any, Istate> {
     state = { volunteer: null , updateFlag : false }
     handleVote(id: number) {
         var { m_id } = this.props.user.toJS()
+        const { setUpdateFlag } = this.props;
         var post_vote = {
             p_id: id,
             m_id: m_id
         }
         PostingApi.insertPostVote(post_vote)
             .then((res: any) => {
+                setUpdateFlag(true);
             })
             .catch((err: any) => console.log(err))
-        window.location.reload(true);
     }
     voldetail(v_id: number) {
         VolApi.getVolDetail(v_id)
