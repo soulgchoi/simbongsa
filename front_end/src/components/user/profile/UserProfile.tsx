@@ -88,6 +88,9 @@ class UserProfile extends Component<Props, State> {
     }
     const followerList = userProfileMap.get(profileUserId).get('followerList');
     const followingList = userProfileMap.get(profileUserId).get('followingList');
+    if (typeof followerList === 'undefined' || typeof followingList === 'undefined') {
+      return (<div></div>);
+    }
     const isProfileUserFollowedByLoginUser = userProfileMap.get(profileUserId).get('isProfileUserFollowedByLoginUser');
     const profileImage = userProfileMap.get(profileUserId).get('profileImage');
     const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
