@@ -40,6 +40,7 @@ interface IState {
   myLocation: { y: number; x: number };
   isMyLocationClicked: boolean;
   isMarkerRenderingNeed: boolean;
+  isViewAllClicked : boolean;
   clusterer: any;
   height?: number;
   width?: number;
@@ -51,6 +52,7 @@ class Map extends Component<IProps, IState> {
     myLocation: { y: 0, x: 0 },
     isMyLocationClicked: false,
     isMarkerRenderingNeed: true,
+    isViewAllClicked : false,
     // height: window.innerHeight - 435,
     // width: window.innerWidth
   };
@@ -203,33 +205,40 @@ class Map extends Component<IProps, IState> {
   };
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomIn = (map: any) => {
-    map.setLevel(map.getLevel() - 1);
+    map.setLevel(map.getLevel() - 1, {animate : true});
   };
   // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomOut = (map: any) => {
-    map.setLevel(map.getLevel() + 1);
+    map.setLevel(map.getLevel() + 1, {animate : true});
   };
-  setMyLocation = async () => {
+  setMyLocation = () => {
     const { volMap, VolActions } = this.props;
-    const moveLatLon = new window.kakao.maps.LatLng(35.888013, 127.791075);
-    volMap.setLevel(14);
-    volMap.panTo(moveLatLon);
-    const { PageActions } = this.props;
-    PageActions.setCurrentMapInfo({y:35.888013, x:127.791075, level : 14})
-    VolActions.resetSelectedVol();
-    VolActions.setVolunteersForMap([]);
-    this.resetSelectedMarker();
-    VolActions.setShowVolInfo(false);
+    this.setState({isViewAllClicked : true},()=>{
+      window.setTimeout(()=>{
+        const moveLatLon = new window.kakao.maps.LatLng(35.888013, 127.791075);
+      volMap.setLevel(14);
+      volMap.panTo(moveLatLon);
+      const { PageActions } = this.props;
 
+      // 상세정보 보고 되돌아 왔을 경우를 대비한 정보 저장.
+      PageActions.setCurrentMapInfo({y:35.888013, x:127.791075, level : 14})
+      VolActions.resetSelectedVol();
+      VolActions.setVolunteersForMap([]);
+    
+      this.resetSelectedMarker();
+      VolActions.setShowVolInfo(false);
+      this.setState({isViewAllClicked : false});
+      },100)
+    })
   };
   render() {
     const { zoomIn, zoomOut, setMyLocation } = this;
-    const { isMarkerRenderingNeed } = this.state;
+    const { isMarkerRenderingNeed , isViewAllClicked} = this.state;
     // const { height } = this.state;
     const { volMap } = this.props;
     return (
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
-        <Dimmer active={isMarkerRenderingNeed} inverted>
+        <Dimmer active={isMarkerRenderingNeed || isViewAllClicked} inverted>
           <Loader content='봉사 지도 불러오는 중' />
         </Dimmer>
         <div id="map" style={{ width: "100%", height: "40vh" }} />
@@ -419,10 +428,13 @@ const makeMarker = (
     let level = volMap.getLevel();
     if (level > 9) {
       level = 9;
-      volMap.setLevel(level, { anchor: cluster.getCenter() });
-    } else if (level > 6) {
-      level = 6;
-      volMap.setLevel(level, { anchor: cluster.getCenter() });
+      volMap.setLevel(level, { animate : true,  anchor: cluster.getCenter() });
+    } else if (level > 7) {
+      level = 7;
+      volMap.setLevel(level, { animate : true, anchor: cluster.getCenter() });
+    } else if (level > 5) {
+      level = 5;
+      volMap.setLevel(level, { animate : true, anchor: cluster.getCenter() });
     } else {
       // 리스트 보여주기
       VolActions.setShowVolInfo(true);
