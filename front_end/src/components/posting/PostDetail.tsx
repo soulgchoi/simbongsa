@@ -52,6 +52,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
         VolApi.getVolDetail(v_id)
             .then((res: any) => {
                 const data = res.data.data;
+                console.log(data)
                 this.setState({
                     volunteer: data,
                 });

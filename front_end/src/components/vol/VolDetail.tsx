@@ -16,7 +16,7 @@ interface State {
   volunteer: any;
 }
 
-class VolDetail extends React.Component<Props, State> {
+class VolDetail extends React.Component<Props & any, State & any> {
   state = {
     volunteer: {
       v_id: "1",
@@ -39,12 +39,26 @@ class VolDetail extends React.Component<Props, State> {
       v_url: null,
       v_appnow: 0,
       v_detail: null
-    }
+    },
+    mBgnD: this.props.location.state.volunteer.v_mBgnD.replace(/-/g,''),
+    mEndD: this.props.location.state.volunteer.v_mEndD.replace(/-/g,'')
   };
+
+  dateFunc() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month: string | number = (1 + date.getMonth())
+    month = month >= 10 ? month : '0' + month;
+    var day: string | number = date.getDate();
+    day = day >= 10 ? day : '0' + day;
+    return  year + '' + month + '' + day;
+  }
 
   componentDidMount() {
     const { volunteer } = this.state;
     const v_id = this.props.match.params.id;
+    console.log(this.props)
+
     let result = VolApi.getVolDetail(v_id);
     if (typeof result === "object") {
       // axios를 잘 리턴한 경우
@@ -57,8 +71,23 @@ class VolDetail extends React.Component<Props, State> {
     return volunteer.v_title !== null;
   }
 
+
   render() {
     const { volunteer } = this.state;
+
+    // 날짜 & pStatus 로 마감 여부 확인
+    const fullDate = this.dateFunc();
+    let button;
+    if ( fullDate < this.state.mBgnD ) {
+      button = <Button as="a" disabled>모집대기중</Button>
+    } else if ( fullDate > this.state.mEndD ) {
+      button = <Button as="a" disabled>마감</Button>
+    } else if ( this.state.volunteer.v_pStatus == 3 ){
+      button = <Button as="a" disabled>마감</Button>
+    } else {
+      button = <Button as="a" href={volunteer.v_url}>신청하러 가기</Button>
+    }
+
     return (
       <Container text>
         <div className="title">{volunteer.v_title}</div>
@@ -150,10 +179,7 @@ class VolDetail extends React.Component<Props, State> {
           >
             <Button>게시글 목록</Button>
           </Link>
-          <Button as="a" href={volunteer.v_url}>
-            신청하러 가기
-        </Button>
-
+          {button}
         </div>
       </Container>
     );

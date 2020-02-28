@@ -21,6 +21,7 @@ export default class VolList extends React.Component<Props, State> {
   };
   render() {
     const { volunteers } = this.props;
+    console.log(volunteers)
     const { loadMoreData } = this;
     const PrintArray = volunteers.map((vol: any, i: any) => {
       return <Vol volunteer={vol} v_id={vol.v_id} key={i} />;

@@ -11,7 +11,7 @@ a.ui.tiny.label, .ui.tiny.labels .label {
 }
 a.ui.label.iscert {
       /* background-color: rgba(255, 42, 70, 0.356); */
-      background-color: rgba(255, 136, 0, 0.493);
+      background-color: rgba(255, 147, 45, 0.61);
     }
 a.ui.label.full {
       background-color: rgba(189, 189, 189, 0.596);
@@ -20,7 +20,7 @@ a.ui.label.n-full {
       background-color: rgba(0, 172, 224, 0.479);
     }
 a.ui.label.w-full {
-      background-color: lightgray;
+      background-color: rgba(177, 230, 142, 0.945);
     }
 a.ui.label#true {
       visibility: visible;
