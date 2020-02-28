@@ -15,7 +15,8 @@ interface State { }
 class MyPost extends Component<Props, State> {
   state = {
     pageNum: 1,
-    cardList: []
+    cardList: [],
+    flag: false
   };
 
   componentDidMount() {
@@ -38,10 +39,29 @@ class MyPost extends Component<Props, State> {
     this.setState({ pageNum: pageNum + 1 });
   }
 
+  setFlag = (flag : boolean) =>{
+    this.setState({ flag : flag });
+  }
+
+  componentDidUpdate() {
+    if (this.state.flag) {
+      this.setState({
+        pgNum: 1,
+        flag: false},
+        ()=>{
+          const { PostingAction, userId } = this.props;
+          const { pageNum } = this.state;
+          PostingAction.resetPostByUser();
+          PostingAction.getPostByUser(userId, pageNum);
+          this.setState({ pageNum: pageNum + 1 });
+      })
+    }
+  }
+
   render() {
     const { postList } = this.props;
     const PrintArray = postList.map((post: any, i: any) => {
-      return <PostCard color="white" post={post} key={i} />
+      return <PostCard color="white" post={post} key={i} setFlag={this.setFlag} />
     });
     return (
       <InfiniteScroll
