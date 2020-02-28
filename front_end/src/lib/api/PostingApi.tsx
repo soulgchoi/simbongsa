@@ -95,6 +95,19 @@ export const insertPostVote = (postVote: { p_id: number, m_id: string }): any =>
   }
 }
 
+// DELETE API 완성되면 구현하기
+// export const deletePostVote = (postVote: { p_id: number, m_id: string }): any => {
+//   const token = "Bearer " + storage.get("token");
+//   try {
+//     return axios.delete(restBaseApi + "/rest/PostVote/",
+//       postVote,
+//       { headers: { Authorization: token } });
+//   } catch (err) {
+//     console.log(err)
+//     return false;
+//   }
+// }
+
 export const getComment = (inP_id: number): any => {
   const token = "Bearer " + storage.get("token");
   try {

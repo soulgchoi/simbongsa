@@ -18,7 +18,7 @@ interface Props {
   };
   color: string;
   user : any;
-  setFlag: (flag : boolean) => void
+  setFlag: (flag : boolean) => void;
 }
 
 class PostCard extends React.Component<Props, {}> {
@@ -35,7 +35,8 @@ class PostCard extends React.Component<Props, {}> {
       files: []
     },
     open: false,
-    result: false
+    result: false,
+    updateFlag : false
   };
 
   show = () => this.setState({ open: true })
@@ -44,8 +45,7 @@ class PostCard extends React.Component<Props, {}> {
 
   handleCancle = () => this.setState({ result: false, open: false })
 
-
-  componentDidMount() {
+  loadPost = () =>{
     let id = this.props.post.p_id;
     PostingApi.getPosts(id)
       .then((res: any) => {
@@ -70,6 +70,22 @@ class PostCard extends React.Component<Props, {}> {
         });
       })
       .catch((err: any) => console.log(err));
+  }
+
+  componentDidMount() {
+    this.loadPost();
+  }
+
+  componentDidUpdate(){
+    const { updateFlag } = this.state;
+    if(updateFlag){
+      this.setState({updateFlag : false});
+      this.loadPost();
+    }
+  }
+
+  setUpdateFlag = (flag : boolean) => {
+    this.setState({updateFlag: flag});
   }
 
   handleDelete(id: number) {
@@ -120,6 +136,7 @@ class PostCard extends React.Component<Props, {}> {
         <Card.Content extra>
           <PostDetail
             post={this.state.post}
+            setUpdateFlag={this.setUpdateFlag}
           />
         </Card.Content>
       </Card>

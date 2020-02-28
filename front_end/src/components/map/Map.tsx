@@ -230,7 +230,7 @@ class Map extends Component<IProps, IState> {
     return (
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
         <Dimmer active={isMarkerRenderingNeed} inverted>
-          <Loader content='Loading' />
+          <Loader content='봉사 지도 불러오는 중' />
         </Dimmer>
         <div id="map" style={{ width: "100%", height: "40vh" }} />
         {/* 내 위치는 HTTPS 를 사용해야합니다. */}
