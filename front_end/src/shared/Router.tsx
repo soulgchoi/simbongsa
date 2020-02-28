@@ -21,7 +21,6 @@ import ChangePassword from "containers/findPassword/FindPasswordMailRecieve";
 import Intro from "containers/intro/Intro";
 import MainPage from "containers/mainpage/MainPage";
 import UserSettingPage from "containers/usersetting/UserSettingPage";
-import TimeContainer2 from "containers/usersetting/TimeContainer2";
 import CalendarContainer from "containers/calendar/CalendarContainer";
 
 import VolDetail from "components/vol/VolDetail";
@@ -94,7 +93,6 @@ class Router extends Component {
         {/* footer */}
         <Route path="/" component={FooterForDesktop} />
         <Route path="/" component={FooterForMobile} />
-        <Route path="/test" component={TimeContainer2} />
 
       </BrowserRouter>
     );
