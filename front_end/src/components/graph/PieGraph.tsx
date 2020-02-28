@@ -78,13 +78,12 @@ export default class PieGraph extends Component<Props, State> {
   };
   handleItemClick = (elems : any) => {
     const { setUpdateFlag , setSelectedElementIndex } = this.props;
-    if(typeof setUpdateFlag !== 'undefined'){
-      // this.setState({updateFlag:true},()=>{setUpdateFlag(true);})
+    if(typeof elems[0] !=='undefined' 
+    && typeof setUpdateFlag !== 'undefined' 
+    && typeof setSelectedElementIndex !== 'undefined'){
       this.setState({updateFlag:true});
       setUpdateFlag(true);
-      if(typeof setSelectedElementIndex !== 'undefined'){
-        setSelectedElementIndex(elems[0]._index);
-      }
+      setSelectedElementIndex(elems[0]._index);
     }
   }
   render() {
