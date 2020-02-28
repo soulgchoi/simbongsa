@@ -94,14 +94,17 @@ class PostCard extends React.Component<Props, {}> {
     return (
 
       <Card>
-        <Card.Content style={{ backgroundColor: color }}>
+        <Card.Content style={{ backgroundColor: color}}>
           <Card.Header>{color !== "white" &&
             <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>}
-            <span style={{ float: 'right' }}>
-              {m_id === this.props.post.m_id &&
-                <Icon name="x" onClick={this.show} />
-              }
-
+            {m_id === this.props.post.m_id &&
+            <span style={{ float: 'right', position:'relative', zIndex: 10}}>
+                <Icon name="x" onClick={this.show}/>
+                {/* <span>글 삭제</span> */}
+            </span>}
+            <UserProfile profileSize="mini" profileUserId={this.props.post.userId} />
+          </Card.Header>
+          
               <Confirm
                 content='작성한 글을 삭제하시겠습니까?'
                 cancelButton='아니오'
@@ -111,9 +114,6 @@ class PostCard extends React.Component<Props, {}> {
                 onConfirm={this.handleConfirm}
                 size='tiny'
               />
-            </span>
-            <UserProfile profileSize="mini" profileUserId={this.props.post.userId} />
-          </Card.Header>
 
         </Card.Content>
         <Card.Content extra>
