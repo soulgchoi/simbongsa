@@ -17,7 +17,6 @@ class Vol extends React.Component<Props & any, any> {
         return (
             <div className="list">
                 <CertLabel
-                    // v_Auth={volunteer.v_Auth}
                     v_pStatus={volunteer.v_pStatus}
                     v_mBgnD={volunteer.v_mBgnD}
                     v_mEndD={volunteer.v_mEndD}

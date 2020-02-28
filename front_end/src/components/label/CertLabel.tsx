@@ -17,18 +17,13 @@ export default class CertLabel extends Component<IProps & any, any> {
     isCertClass: "",
     isFull: "",
     isFullClass: "",
-    // mBgnD: "",
-    // mEndD: ""
   };
 
   printFunc(): void {
     var fullDate = this.dateFunc();
     var mBgnD= this.props.volunteer.v_mBgnD.replace(/-/g,'');
     var mEndD= this.props.volunteer.v_mEndD.replace(/-/g,'');
-    // this.setState({ 
-    //   mBgnD: this.props.v_mBgnD.replace(/-/g,''),
-    //   mEndD: this.props.v_mEndD.replace(/-/g,'')
-    // })
+
     if (this.props.volunteer.v_Auth > 0) {
       this.setState({ isCert: "시간인증" });
       this.setState({ isCertClass: "iscert" });
@@ -66,16 +61,12 @@ export default class CertLabel extends Component<IProps & any, any> {
   }
 
   componentDidMount() {
-    
-    // console.log(this.state.mBgnD)
     this.printFunc();
-    // console.log(this.props)
   }
 
   componentDidUpdate(prevProps: any) {
     if (prevProps.volunteer !== this.props.volunteer) {
-        this.printFunc();
-
+      this.printFunc();
     }
 }
   render() {

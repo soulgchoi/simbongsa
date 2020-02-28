@@ -82,7 +82,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                 <img key={i} src={restBaseApi + "/uploads/" + file} />
             )
         })
-        // console.log(this.props.post.post_vote_members)
+
         return (
             <div>
                 <div>

@@ -57,8 +57,6 @@ class VolDetail extends React.Component<Props & any, State & any> {
   componentDidMount() {
     const { volunteer } = this.state;
     const v_id = this.props.match.params.id;
-    console.log(this.props)
-
     let result = VolApi.getVolDetail(v_id);
     if (typeof result === "object") {
       // axios를 잘 리턴한 경우
