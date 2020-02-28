@@ -23,7 +23,6 @@ export default class CertLabel extends Component<IProps & any, any> {
 
   printFunc(): void {
     var fullDate = this.dateFunc();
-    console.log(this.props)
     var mBgnD= this.props.volunteer.v_mBgnD.replace(/-/g,'');
     var mEndD= this.props.volunteer.v_mEndD.replace(/-/g,'');
     // this.setState({ 
