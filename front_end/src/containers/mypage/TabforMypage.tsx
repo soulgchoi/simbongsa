@@ -13,14 +13,16 @@ const panes = (userId :string) =>{ return [
     menuItem: {
       key: "vollist",
       content: "봉사활동",
-      icon: "group"
+      icon: "group",
+      style: {fontSize : "12px"}
     },
     render: () => <Tab.Pane><MyVol userId={userId}/></Tab.Pane>
   },
   {
     menuItem: {
       key: "posting", content: "게시글",
-      icon: "write"
+      icon: "write",
+      style: {fontSize : "12px"}
     },
     render: () => <Tab.Pane><MyPost userId={userId}/></Tab.Pane>
   },
@@ -28,7 +30,8 @@ const panes = (userId :string) =>{ return [
     menuItem: {
       key: "calendar",
       content: "봉사통계",
-      icon: "pie graph"
+      icon: "pie graph",
+      style: {fontSize : "12px"}
     },
     render: () => (
       <Tab.Pane>
