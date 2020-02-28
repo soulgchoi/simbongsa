@@ -75,9 +75,7 @@ class TimeContainer extends Component<any, any> {
   state = {value: [0, 24]};
     componentDidMount(){
       const { times } =  this.props
-      console.log("시간모음", times.toJS())
       const { bgnTm, endTm } = times.toJS()
-      console.log("시간입니다!!", bgnTm, endTm)
       let bgnTmInit = Number(bgnTm.split(":")[0])
       let endTmInit= 24
       if (endTm === "23:59:59"){

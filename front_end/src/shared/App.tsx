@@ -68,23 +68,9 @@ class App extends Component<IProps> {
     const secondCategory = preferCategory[1]
     const thirdCategory = preferCategory[2]
 
-    let bgnTm = "";
-    let endTm = "";
+    const { bgnTm, endTm } = times.toJS()
 
-    if (times.toJS().morning === true) {
-      bgnTm = "00:00:00";
-    } else if (times.toJS().morning === false) {
-      bgnTm = "12:00:01";
-    }
-    if (times.toJS().afternoon === true) {
-      endTm = "23:59:59";
-    } else if (times.toJS().afternoon === false) {
-      endTm = "12:00:00";
-    }
-    if (times.toJS().afternoon === false && times.toJS().morning === false) {
-      bgnTm = "00:00:01";
-      endTm = "23:59:58";
-    }
+    
     VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
     VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
   }

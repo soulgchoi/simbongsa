@@ -53,12 +53,11 @@ class CurationModal extends Component<IProps, IState> {
       } else if (ages.toJS().youth === true) {
         age = "2005-01-01";
       }
-
       try {
         await SearchActions.preferRegister({
           age: age,
-          bgnTm: times.bgnTm,
-          endTm: times.endTm,
+          bgnTm: times.toJS().bgnTm,
+          endTm: times.toJS().endTm,
           preferRegion: preferRegion,
           preferCategory: preferCategory,
           userId: userId
