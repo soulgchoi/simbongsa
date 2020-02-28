@@ -11,6 +11,10 @@ const INITIAL_INSERT = "searchlocation/INTIALIZE_FORM";
 const SEARCH_SUBMIT = "searchlocation/SEARCH_SUBMIT";
 const SWITCH_SAVE_BUTTON = "seachloaction/SWITCH_SAVE_BUTTON";
 const LAST_INPUT = "search/LAST_INPUT"
+const CHANGE_TIME = "search/CHANGE_TIME"
+const INIT_TIME = "search/INIT_TIME"
+export const initTime = createAction(INIT_TIME)
+export const changeTime = createAction(CHANGE_TIME);
 export const changeInput = createAction(CHANGE_INPUT);
 export const insert = createAction(INSERT);
 export const toggle = createAction(TOGGLE);
@@ -34,8 +38,8 @@ const initialState = Record({
   categorys: List(),
   placeholder: "지역을 입력해주세요.",
   times: Map({
-    morning: false,
-    afternoon: false
+    bgnTm: "00:00:00",
+    endTm: "23:59:59",
   }),
   ages: Map({
     youth: false,
@@ -61,6 +65,10 @@ export default handleActions<any, any>(
   {
     [SWITCH_SAVE_BUTTON]: (state, action) => {
       return state.set("isRegister", action.payload);
+    },
+    [CHANGE_TIME]: (state, action) => {
+      const { time, value } = action.payload
+      return state.setIn(["times", time], value);
     },
     [INITIAL_INSERT]: (state, action) => {
       const { form, key, value } = action.payload;

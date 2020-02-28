@@ -93,6 +93,7 @@ class Router extends Component {
         {/* footer */}
         <Route path="/" component={FooterForDesktop} />
         <Route path="/" component={FooterForMobile} />
+
       </BrowserRouter>
     );
   }
