@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from "react-redux";
 
-import { Image, Label, Icon, Divider,  Container, Dimmer, Loader } from 'semantic-ui-react'
+import { Image, Label, Icon, Divider, Loader } from 'semantic-ui-react'
 import Carousel from 'nuka-carousel'
 
 import CommentList from 'components/posting/CommentList'
@@ -77,9 +77,9 @@ class PostDetail extends React.Component<Props & any, Istate> {
         var { m_id, userId } = this.props.user.toJS()
         const { volunteer, updateFlag } = this.state
         if(volunteer===null){
-            return(<Container><Dimmer active inverted>
+            return(
                 <Loader>로딩중</Loader>
-              </Dimmer></Container>)
+             )
         }
         const images = this.props.post.files.map((file: any, i: number) => {
             return (

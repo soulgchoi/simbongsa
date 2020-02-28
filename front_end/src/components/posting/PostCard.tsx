@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Icon, Confirm, Container, Dimmer, Loader } from "semantic-ui-react";
+import { Card, Icon, Confirm, Loader } from "semantic-ui-react";
 import PostDetail from "components/posting/PostDetail";
 import "./PostCard.scss";
 import UserProfile from "components/user/profile/UserProfile"
@@ -100,9 +100,7 @@ class PostCard extends React.Component<Props, {}> {
   render() {
     const { post } = this.state;
     if(post.v_id===-1){
-      return(<Container><Dimmer active inverted>
-        <Loader>로딩중</Loader>
-      </Dimmer></Container>)
+      return(<Loader>로딩중</Loader>)
     }
     const { m_id } = this.props.user.toJS()
     const { color } = this.props;
