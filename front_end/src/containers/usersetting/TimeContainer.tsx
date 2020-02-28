@@ -78,9 +78,15 @@ class TimeContainer extends Component<any, any> {
       console.log("시간모음", times.toJS())
       const { bgnTm, endTm } = times.toJS()
       console.log("시간입니다!!", bgnTm, endTm)
-      var bgnTmInit = bgnTm.split(":")
-      var endTmInit = endTm.split(":")
-      this.setState({value:[Number(bgnTmInit[0]),Number(endTmInit[0])]})
+      let bgnTmInit = Number(bgnTm.split(":")[0])
+      let endTmInit= 24
+      if (endTm === "23:59:59"){
+        endTmInit = Number(endTm.split(":")[0]) + 1
+      }
+      else{
+        endTmInit = Number(endTm.split(":")[0]) 
+      }
+      this.setState({value:[bgnTmInit,endTmInit]})
     }
   
   
