@@ -101,17 +101,12 @@ class PostDetail extends React.Component<Props & any, Istate> {
         return (
             <div>
                 <div>
-                    <div className="postedImage">
-                        {this.props.post.files.length > 0 ?
-                            (<Carousel>
-                                {images}
-                            </Carousel>)
-                            : (<Image>
-                                <Label content='No Image' icon='warning' />
-                            </Image>)
-                        }
-                    </div>
-                    <Divider />
+                    {this.props.post.files.length > 0 &&
+                        <div className="postedImage">
+                            <Carousel>{images}</Carousel>
+                            <Divider />
+                        </div>
+                    }
                     <div className="postContent">
                         {this.props.post.p_content.length > 0 ?
                             (<div>{this.props.post.p_content}</div>)
