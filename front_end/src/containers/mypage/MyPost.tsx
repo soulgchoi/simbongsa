@@ -19,23 +19,23 @@ class MyPost extends Component<Props, State> {
     flag: false
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { PostingAction, userId } = this.props;
     const { pageNum } = this.state;
-    PostingAction.resetPostByUser();
-    PostingAction.getPostByUser(userId, pageNum);
+    await PostingAction.resetPostByUser();
+    await PostingAction.getPostByUser(userId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
   }
 
-  componentWillUnmount(){
+  async componentWillUnmount(){
     const { PostingAction } = this.props;
-    PostingAction.resetPostByUser();
+    await PostingAction.resetPostByUser();
   }
 
-  loadMoreData() {
+  async loadMoreData() {
     const { userId, PostingAction } = this.props;
     const { pageNum } = this.state;
-    PostingAction.getPostByUser(userId, pageNum);
+    await PostingAction.getPostByUser(userId, pageNum);
     this.setState({ pageNum: pageNum + 1 });
   }
 
@@ -43,16 +43,17 @@ class MyPost extends Component<Props, State> {
     this.setState({ flag : flag });
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (this.state.flag) {
       this.setState({
-        pgNum: 1,
+        pageNum: 1,
         flag: false},
-        ()=>{
+        async ()=>{
+          console.log("여기오나?");
           const { PostingAction, userId } = this.props;
           const { pageNum } = this.state;
-          PostingAction.resetPostByUser();
-          PostingAction.getPostByUser(userId, pageNum);
+          await PostingAction.resetPostByUser();
+          await PostingAction.getPostByUser(userId, pageNum);
           this.setState({ pageNum: pageNum + 1 });
       })
     }
@@ -60,6 +61,7 @@ class MyPost extends Component<Props, State> {
 
   render() {
     const { postList } = this.props;
+    console.log("포스트리스트", postList);
     const PrintArray = postList.map((post: any, i: any) => {
       return <PostCard color="white" post={post} key={i} setFlag={this.setFlag} />
     });
