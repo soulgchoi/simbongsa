@@ -16,7 +16,7 @@ class FooterForDesktop extends React.Component<any, any> {
 
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
         
-    <Segment vertical style={{ padding: '5em 0em', backgroundColor: "rgba(255, 147, 45, 0.61)", marginTop:"30px"}}>
+    <Segment vertical style={{ padding: '2em 0em', backgroundColor: "rgba(255, 147, 45, 0.61)", marginTop:"30px"}}>
       <Container>
         <Grid divided stackable>
           <Grid.Row>
