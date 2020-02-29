@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
 
-import { Icon } from 'semantic-ui-react'
+import { Icon, Container } from 'semantic-ui-react'
 
 interface Iprops {
   location: {
@@ -22,7 +22,7 @@ class JoinComplete extends React.Component<Iprops, any> {
   render() {
     const { email } = this.props.form.toJS();
     return (
-      <div className="user" id="login">
+      <Container>
         <div className="wrapC">
           <div className="input-with-label">
             <h1 style={{ marginBottom: "2rem", marginTop: "1em", color: "rgb(78, 78, 78)" }}>환영합니다!</h1>
@@ -47,7 +47,7 @@ class JoinComplete extends React.Component<Iprops, any> {
             </Link>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

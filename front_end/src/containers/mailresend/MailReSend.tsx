@@ -8,7 +8,8 @@ import { Map } from "immutable";
 import * as AuthApi from "lib/api/AuthApi";
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
-
+import {Container, Button, Form, Segment, Dimmer, Loader} from 'semantic-ui-react'
+import AuthError from 'components/error/AuthError'
 interface IProps {
   AuthActions: any;
   location: {
@@ -18,6 +19,7 @@ interface IProps {
   };
   exists: Map<any, any>;
   email: string;
+  history : any;
 }
 interface IState {
   email: string;
@@ -26,6 +28,7 @@ interface IState {
   };
   isSubmit: boolean;
   component: MailReSend;
+  isMailSending : boolean;
 }
 class MailReSend extends React.Component<IProps, IState> {
   state = {
@@ -34,7 +37,8 @@ class MailReSend extends React.Component<IProps, IState> {
       email: ""
     },
     isSubmit: false,
-    component: this
+    component: this,
+    isMailSending : false,
   };
   componentDidMount() {
     const { email } = this.props;
@@ -72,8 +76,14 @@ class MailReSend extends React.Component<IProps, IState> {
   // 중복 체크
 
   handleSend = async () => {
+    const { isMailSending , email} = this.state;
+    const { history } = this.props;
     try {
-      await AuthApi.sendSignupEmail(this.state.email);
+      this.setState({isMailSending : true }, async ()=>{
+        await AuthApi.sendSignupEmail(email);
+        this.setState({isMailSending : false},)
+        history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      })
     } catch (e) {
       if (e.response.status === 409) {
         const { key } = e.response.data;
@@ -104,38 +114,46 @@ class MailReSend extends React.Component<IProps, IState> {
     });
   };
   render() {
+    const { email, error, isMailSending} = this.state;
     return (
-      <div className="user" id="login">
+      <Container>
+        <Dimmer active={isMailSending} inverted>
+          <Loader content='회원 가입 인증 메일 발송중...' />
+        </Dimmer>
         <div className="wrapC">
           <h1 className="title">메일 재전송</h1>
-          <div className="input-with-label">
-            <input
-              value={this.state.email}
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  this.handleSend();
-                }
-              }}
-              onChange={this.handleInput}
-              id="email"
-              placeholder="이메일을 입력하세요."
-              type="text"
-            />
-            <label htmlFor="email">이메일</label>
-            <div className="error-text" v-if="error.email">
-              {this.state.error.email}
+          <Form size="large">
+              <Segment stacked>
+                <AuthError error={error.email} />
+                <Form.Input
+                  fluid
+                  icon="user"
+                  id="email"
+                  value={email}
+                  iconPosition="left"
+                  placeholder="이메일을 입력하세요."
+                  onChange={this.handleInput}
+                  onKeyDown={(event:any) => {
+                    if (event.key === "Enter") {
+                      this.handleSend();
+                    }
+                  }}
+                />
+                <Button
+                  className="login"
+                  inverted
+                  valuex="true"
+                  fluid
+                  size="large"
+                  onClick={this.handleSend}
+                  disabled={!this.state.isSubmit}
+                >
+                메일 재전송
+                </Button>
+              </Segment>
+            </Form>
             </div>
-          </div>
-
-          <button
-            disabled={!this.state.isSubmit}
-            className="btn btn--back btn--login"
-          // onClick={"#"}
-          >
-            메일 재전송
-          </button>
-        </div>
-      </div>
+      </Container>
     );
   }
 }

@@ -13,7 +13,7 @@ import * as AuthApi from "lib/api/AuthApi";
 // 직접 제작한 Components
 import AuthError from "components/error/AuthError";
 
-import { Button, Grid, Image, Form, Segment } from 'semantic-ui-react'
+import { Button, Grid, Image, Form, Segment, Container, Dimmer, Loader } from 'semantic-ui-react'
 
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
@@ -23,6 +23,7 @@ interface validate {
 }
 
 class Join extends React.Component<any, any> {
+  state = { isMailSending : false}
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("join");
@@ -146,14 +147,17 @@ class Join extends React.Component<any, any> {
         userid,
         password
       });
-      await AuthApi.sendSignupEmail(email);
+      this.setState({isMailSending : true }, async ()=>{
+        await AuthApi.sendSignupEmail(email);
+        UserActions.setValidated(true);
+        this.setState({isMailSending : false},)
+        history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      })
       // const loggedInfo = this.props.result.toJS();
       // console.log("로그인", loggedInfo);
       // // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
       // storage.set("loggedInfo", loggedInfo);
       // UserActions.setLoggedInfo(loggedInfo);
-      UserActions.setValidated(true);
-      history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
     } catch (e) {
       // TODO: 실패시 실패 ERROR 표현
       if (e.response.status === 409) {
@@ -167,15 +171,19 @@ class Join extends React.Component<any, any> {
     }
   };
   render() {
+    const { isMailSending } = this.state;
     const { error } = this.props;
     const error2 = error.toJS();
     const { email, userid, password, passwordConfirm } = this.props.form.toJS();
     const { handleChange, handleLocalRegister } = this;
     return (
-      <div>
+      <Container>
+        <Dimmer active={isMailSending} inverted>
+          <Loader content='회원 가입 인증 메일 발송중...' />
+        </Dimmer>
         <Grid
           textAlign="center"
-          style={{ height: "100vh" }}
+          style={{ height: "70vh" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
@@ -256,7 +264,7 @@ class Join extends React.Component<any, any> {
 
           </Grid.Column>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

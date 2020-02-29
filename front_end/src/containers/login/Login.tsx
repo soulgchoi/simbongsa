@@ -365,10 +365,10 @@ class Login extends React.Component<any, any> {
     const error = this.props.error.toJS();
     // const pagesNumbers = this.getPagesNumbers();
     return (
-      <div>
+      <Container>
         <Grid
           textAlign="center"
-          style={{ height: "100vh" }}
+          style={{ height: "70vh" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
@@ -442,7 +442,7 @@ class Login extends React.Component<any, any> {
             </div>
           </Grid.Column>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }
