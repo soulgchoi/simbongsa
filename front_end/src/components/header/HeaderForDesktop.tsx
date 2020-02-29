@@ -74,28 +74,28 @@ class HeaderForDesktop extends React.Component<
               <Menu.Item name="HOME" className="goHome">
                 <Link to="/"><Image src="/images/logo2.png" style={{ width: "6rem", padding: "0.3rem", marginLeft: "0.2rem" }} /></Link>
               </Menu.Item>
-              <Menu.Item
+              {loginCheck && <Menu.Item
                 name="HOME"
                 active={activeItem === "HOME"}
                 onClick={this.handleItemClick}
               >
                 HOME
-              </Menu.Item>
-              <Menu.Item
+              </Menu.Item>}
+              {loginCheck && <Menu.Item
                 name="FEED"
                 active={activeItem === "FEED"}
                 onClick={this.handleItemClick}
               >
                 FEED
-              </Menu.Item>
-              <Menu.Item
+              </Menu.Item>}
+              {loginCheck && <Menu.Item
                 name="MY"
                 active={activeItem === "MY"}
                 onClick={this.handleItemClick}
               >
                 MY
-              </Menu.Item>
-                <Menu.Item className="located" style={{fontWeight:600, fontSize:"17px", width:"250px"}}>
+              </Menu.Item>}
+              {loginCheck &&   <Menu.Item className="located" style={{fontWeight:600, fontSize:"17px", width:"250px"}}>
                 {url === "mainpage" && ("봉사활동 맞춤검색")}
                 {url === "feed" && ("피드")}
                 {(url === "mypage" || url === "usersetting") && ("마이페이지")}
@@ -105,7 +105,10 @@ class HeaderForDesktop extends React.Component<
                 {window.location.href.includes("detail") && ("봉사활동 상세정보")}
                 {window.location.href.includes("write") && ("글 작성하기")}
                 {window.location.href.includes("postinglist") && ("모집 & 후기")}
-              </Menu.Item>
+              </Menu.Item>}
+              {!loginCheck &&
+              <Menu.Item style={{width:"445.23px"}}></Menu.Item>
+              }
               <Menu.Item className="icons" >
                 <Dropdown compact icon="user" style={{ marginRight: "2.5rem" }}>
                   <Dropdown.Menu>

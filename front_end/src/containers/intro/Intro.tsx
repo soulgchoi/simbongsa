@@ -15,7 +15,6 @@ class Intro extends Component<Props & any, State> {
   render() {
     const { loginCheck } = this.props;
     return (
-      <div>
         <Container>
           <ListUp />
           {!loginCheck &&
@@ -23,7 +22,6 @@ class Intro extends Component<Props & any, State> {
               <Link to="/login" ><Button as="a" className="loginbutton">로그인</Button></Link>
             </div>}
         </Container>
-      </div>
     );
   }
 }
