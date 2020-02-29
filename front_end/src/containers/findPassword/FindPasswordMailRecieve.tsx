@@ -4,6 +4,7 @@ import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
 import validator from "validator";
 import ActionButton from "components/button/ActionButton";
+import { Container, Dimmer, Loader, Form, Segment, Button } from "semantic-ui-react";
 
 interface Props {
   match: any;
@@ -81,8 +82,9 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
     const { password, passwordConfirm, error } = this.state;
     const { handleChange, clickConfirmButton } = this;
     return (
-      <div>
+      <Container>
         <div>비밀번호 변경 페이지</div>
+        <AuthError error={error.password} />
         <Input
           value={password}
           onChange={handleChange}
@@ -91,7 +93,7 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
           type="password"
           nametag="비밀번호"
         />
-        <AuthError error={error.password} />
+        <AuthError error={error.passwordConfirm} />
         <Input
           value={passwordConfirm}
           onChange={handleChange}
@@ -100,9 +102,9 @@ export default class FindPasswordMailRecieve extends Component<Props, State> {
           type="password"
           nametag="비밀번호 확인"
         />
-        <AuthError error={error.passwordConfirm} />
+        <br/>
         <ActionButton action={clickConfirmButton} placeholder="비밀번호 변경" />
-      </div>
+      </Container>
     );
   }
 }

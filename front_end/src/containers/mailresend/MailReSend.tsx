@@ -121,7 +121,7 @@ class MailReSend extends React.Component<IProps, IState> {
           <Loader content='회원 가입 인증 메일 발송중...' />
         </Dimmer>
         <div className="wrapC">
-          <h1 className="title">메일 재전송</h1>
+          <h1 className="title">회원 가입 메일 인증을 완료해주세요!</h1>
           <Form size="large">
               <Segment stacked>
                 <AuthError error={error.email} />

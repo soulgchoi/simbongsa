@@ -9,6 +9,7 @@ import AuthError from "components/error/AuthError";
 import * as AuthApi from 'lib/api/AuthApi';
 import ActionButton from 'components/button/ActionButton'
 import { nothing } from "immer";
+
 interface Props {
   email: string;
 }

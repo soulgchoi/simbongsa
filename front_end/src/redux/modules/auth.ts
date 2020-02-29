@@ -14,6 +14,7 @@ const CHECK_USERNAME_EXISTS = "auth/CHECK_USERNAME_EXISTS"; // 아이디 중복 
 const CHECK_STATUS = "auth/CHECK_STATUS"; // 현재 로그인상태 확인
 const LOCAL_REGISTER = "auth/LOCAL_REGISTER"; // 이메일 가입
 const LOCAL_LOGIN = "auth/LOCAL_LOGIN"; // 이메일 로그인
+const LOCAL_LOGIN_BY_ID = "auth/LOCAL_LOGIN_BY_ID"; // ID 로그인
 const LOGOUT = "auth/LOGOUT"; // 로그아웃
 const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
 const LOGIN_CHECK = "auth/LOGIN_CHECK";
@@ -52,6 +53,7 @@ export const localRegister = createAction(
   AuthAPI.localRegister
 ); // { email, userid, password }
 export const localLogin = createAction(LOCAL_LOGIN, AuthAPI.localLogin); // { email, password }
+export const localLoginById = createAction(LOCAL_LOGIN, AuthAPI.localLoginById); // { Id, password }
 export const googleLogin = createAction(GOOGLE_LOGIN, AuthAPI.googleLogin); //
 export const logout = createAction(LOGOUT);
 
@@ -88,7 +90,6 @@ export interface AuthState {
   };
   result: {};
   loginCheck: boolean;
-  findPassWordEmail : string;
 }
 
 const initialState = Map({
@@ -122,7 +123,6 @@ const initialState = Map({
   }),
   result: Map({}),
   loginCheck: false,
-  findPassWordEmail : ""
 });
 
 export default handleActions<any>(
@@ -154,12 +154,6 @@ export default handleActions<any>(
       onFailure: (state, action) => initialState
     }),
     ...pender({
-      type: EMAIL_VALIDATE,
-      onSuccess: (state, action) => {
-        return state.set("emailValidate", action.payload.data);
-      }
-    }),
-    ...pender({
       type: CHECK_EMAIL_EXISTS,
       onSuccess: (state, action) => {
         const { data } = action.payload.data;
@@ -179,8 +173,8 @@ export default handleActions<any>(
       type: LOCAL_LOGIN,
       onSuccess: (state, action) => {
         const { data } = action.payload;
-        if (data === "EmailAthenticateNeed") {
-          return state.set("result", "EmailAuthenticateNeed");
+        if (data === "EmailAuthenticateNeed") {
+          return state.set("result", data);
         }
         return state.set("result", Map(data)).set("loginCheck", true);
       }

@@ -15,7 +15,7 @@ import FindPasswordMailSend from "containers/findPassword/FindPasswordMailSend";
 
 // user
 import Mypage from "containers/mypage/Mypage";
-import ChangePassword from "containers/findPassword/FindPasswordMailRecieve";
+import FindPasswordMailRecieve from "containers/findPassword/FindPasswordMailRecieve";
 
 // curation
 import Intro from "containers/intro/Intro";
@@ -70,7 +70,7 @@ class Router extends Component {
 
         {/* 회원 정보 ooo */}
         <Route path="/mypage" component={Mypage} />
-        <Route path="/changepassword/:token" component={ChangePassword} />
+        <Route path="/changepassword/:token" component={FindPasswordMailRecieve} />
         <Route exact path="/usersetting" component={UserSettingPage} />
         <Route path="/withdraw" component={Withdraw} />
 

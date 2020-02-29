@@ -86,6 +86,27 @@ export const localLogin: ({
     }
   };
 
+// 변수명은 email 이지만 실제로는 id가 들어가 있음
+export const localLoginById: ({
+  email,
+  password
+}: Ilogin) => false | Promise<AxiosResponse<any>> = ({
+  email,
+  password
+}: Ilogin) => {
+    let data = {
+      password: password,
+      username: email
+    };
+    try {
+      return axios.post(restBaseApi + "/authenticateById", data);
+    } catch (error) {
+      return false;
+    }
+  };
+
+
+
 /*
 ★☆★☆ localLogin 과 호출하는 API가 똑같음. 무슨용도인지 확인 바람.
 */
@@ -127,7 +148,7 @@ export const emailValidate = (email: string, key: string) => {
       restBaseApi + "/email/enter?m_email=" + email + "&m_key=" + key
     );
   } catch (error) {
-    return true;
+    return error;
   }
 };
 

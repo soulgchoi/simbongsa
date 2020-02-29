@@ -58,7 +58,6 @@ export const setOthersID = createAction(SET_OTHERS_ID);
 //   };
 //   logged: boolean; // 현재 로그인중인지 알려준다
 //   validated: boolean; // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
-//   emailValidate: boolean;
 //   loading: boolean;
 //   normarlFeedList: List<any>;
 //   preferFeedList: List<any>;
@@ -79,7 +78,6 @@ const initialState = Map({
   }),
   logged: false, // 현재 로그인중인지 알려준다
   validated: false, // 이 값은 현재 로그인중인지 아닌지 한번 서버측에 검증했음을 의미
-  emailValidate: false,
   loading: false,
 
   normalFeedList: List([]),

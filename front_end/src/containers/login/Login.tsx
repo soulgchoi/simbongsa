@@ -141,10 +141,18 @@ class Login extends React.Component<any, any> {
 
   handleLocalLogin = async () => {
     const { form, AuthActions, UserActions, history } = this.props;
+    const error = this.props.error.toJS();
     const { email, password } = form.toJS();
     // 로그인을 시도
     try {
-      await AuthActions.localLogin({ email, password });
+      // id 로그인인경우
+      if(error.email){
+        await AuthActions.localLoginById({ email, password });
+      }else{
+      // email 로그인인경우
+        await AuthActions.localLogin({ email, password });
+      }
+      console.log(this.props.result);
       if (this.props.result === "EmailAuthenticateNeed") {
         history.push("/mailresend");
         return;
@@ -377,14 +385,14 @@ class Login extends React.Component<any, any> {
             {/* </Header> */}
             <Form size="large">
               <Segment stacked>
-                <AuthError error={error.email} />
+                {/* <AuthError error={error.email} /> */}
                 <Form.Input
                   fluid
                   icon="user"
                   id="email"
                   value={email}
                   iconPosition="left"
-                  placeholder="이메일을 입력하세요."
+                  placeholder="이메일또는 아이디를 입력하세요."
                   onChange={handleChange}
                 />
                 <AuthError error={error.password} />
