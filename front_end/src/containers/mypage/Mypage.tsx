@@ -28,8 +28,8 @@ class Mypage extends Component<Props, State> {
     return (
         <Container>
           <UserProfile profileUserId={userId} />
+          <TabforMypage userId={userId} />
         </Container>
-        <TabforMypage userId={userId} />
     );
   }
 }
