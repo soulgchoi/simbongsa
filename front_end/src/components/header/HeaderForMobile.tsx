@@ -36,8 +36,8 @@ class HeaderForMobile extends React.Component<
       `${process.env.REACT_APP_FRONT_URI!}/`
     )[1];
     return (
-      <Container style={{ marginTop: "10px" }}>
-        <Responsive {...Responsive.onlyMobile}>
+      <Responsive {...Responsive.onlyMobile}>
+        <Container style={{ marginTop: "10px" }}>
           <div className="header">
             <Menu
               borderless widths={3} fixed="top" icon
@@ -85,8 +85,8 @@ class HeaderForMobile extends React.Component<
               </Menu.Item>
             </Menu>
           </div>
-        </Responsive>
       </Container>
+        </Responsive>
     );
   }
 }

@@ -226,15 +226,15 @@ class App extends Component<IProps> {
   render() {
     const { loading } = this.props;
     return (
-      <div style={{ marginTop: "2.85714286rem" }}>
-        <Segment style={{ marginBottom: "3rem" }}>
+      <div className="main--body">
+        <Segment style={{  }}>
           {loading && (
             <Dimmer active inverted>
               <Loader>로딩중</Loader>
             </Dimmer>
           )}
-          <Router />
         </Segment>
+          <Router />
       </div>
     );
   }

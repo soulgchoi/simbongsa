@@ -19,6 +19,6 @@ export default class UserSettingPage extends Component<Props, State> {
 
   render() {
     const { image, activeItem } = this.state;
-    return <UserSettingTab />;
+    return <Container><UserSettingTab /></Container>;
   }
 }
