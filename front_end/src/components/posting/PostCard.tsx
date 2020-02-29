@@ -119,7 +119,7 @@ class PostCard extends React.Component<Props, {}> {
             {color !== "white" &&
             <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>}
             {m_id === this.props.post.m_id &&
-            <span style={{ float: 'right', position:'relative', zIndex: 10}}>
+            <span style={{ float: 'right', right : "50px", position:'relative', zIndex: 10}}>
                 <Icon name="x" onClick={this.show}/>
                 {/* <span>글 삭제</span> */}
             </span>}
