@@ -208,16 +208,24 @@ class Map extends Component<IProps, IState> {
   };
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomIn = (map: any) => {
+    let level = map.getLevel();
+    if(level <= 8){
+      map.setLevel(map.getLevel() - 1, {animate : true});
+    }else{
     this.promiseSetIsZoomClicked(true).then(()=>{
       window.setTimeout(()=>{
         map.setLevel(map.getLevel() - 1);
-      this.setState({isZoomClicked : false});
+        this.setState({isZoomClicked : false});
       },
       10)
     })
+    }
   };
   // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomOut = (map: any) => {
+    if(level <= 7){
+      map.setLevel(map.getLevel() + 1, {animate : true});
+    }else{
     this.promiseSetIsZoomClicked(true).then(()=>{
       window.setTimeout(()=>{
         map.setLevel(map.getLevel() + 1);
@@ -225,6 +233,7 @@ class Map extends Component<IProps, IState> {
       },
       10)
     })
+    }
   };
 
   promiseSetIsZoomClicked = (flag : boolean) =>{
@@ -453,33 +462,36 @@ const makeMarker = (
 
     // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
     let level = volMap.getLevel();
-    promiseSetIsZoomClicked(true).
-    then(()=>{
+
+    if (level > 9) {
+      level = 9;
+      promiseSetIsZoomClicked(true).
+      then(()=>{
       window.setTimeout(()=>{
-        if (level > 9) {
-          level = 9;
-          volMap.setLevel(level, {   anchor: cluster.getCenter() });
-        } else if (level > 7) {
-          level = 7;
-          volMap.setLevel(level, {  anchor: cluster.getCenter() });
-        } else if (level > 5) {
-          level = 5;
-          volMap.setLevel(level, { anchor: cluster.getCenter() });
-        } else {
-          // 리스트 보여주기
-          VolActions.setShowVolInfo(true);
-          let center = cluster.getCenter();
-          volMap.panTo(center);
-          PageActions.setCurrentMapInfo({y:center.getLat(), x:center.getLng(), level : level})
-          let clusterMarkers = cluster.getMarkers();
-          let promise = getNewVolunteersForMap(clusterMarkers);
-          promise.then(response => {
-            VolActions.setVolunteersForMap(response);
-          });
-        }
+        volMap.setLevel(level, {   anchor: cluster.getCenter() });
         promiseSetIsZoomClicked(false);
       },10)
     });
+    } else if (level > 7) {
+      level = 7;
+      volMap.setLevel(level, {  anchor: cluster.getCenter(), animate: true});
+    } else if (level > 5) {
+      level = 5;
+      volMap.setLevel(level, { anchor: cluster.getCenter(), animate : true });
+    } else {
+      // 리스트 보여주기
+      VolActions.setShowVolInfo(true);
+      let center = cluster.getCenter();
+      volMap.panTo(center);
+      PageActions.setCurrentMapInfo({y:center.getLat(), x:center.getLng(), level : level})
+      let clusterMarkers = cluster.getMarkers();
+      let promise = getNewVolunteersForMap(clusterMarkers);
+      promise.then(response => {
+        VolActions.setVolunteersForMap(response);
+      });
+    }
+
+    
   });
   return clusterer;
 };
