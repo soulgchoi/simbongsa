@@ -19,7 +19,7 @@ class Intro extends Component<Props & any, State> {
           <ListUp />
           {!loginCheck &&
             <div className="loginbutton" >
-              <Link to="/login" ><Button as="a" className="loginbutton">로그인</Button></Link>
+              <Link to="/login" ><Button as="a" className="loginbutton">시작하기</Button></Link>
             </div>}
         </Container>
     );
