@@ -4,12 +4,9 @@ import { connect } from "react-redux";
 import * as postingActions from "redux/modules/posting";
 import * as userActions from "redux/modules/user"
 import { bindActionCreators } from "redux";
-import LinkButton from "components/button/LinkButton";
 import GoBackButton from "components/button/GoBackButton";
-import { Form, TextArea } from "semantic-ui-react";
-import { Checkbox, Button } from "semantic-ui-react";
+import { Form, TextArea , Container, Button } from "semantic-ui-react";
 import storage from "lib/storage";
-import { Link } from "react-router-dom";
 
 import './PostForm.css'
 
@@ -119,7 +116,7 @@ class PostingForm extends React.Component<any, any> {
         var v_id = this.props.match.params.id
 
         return (
-
+            <Container>
             <Form>
                 <label>
                     <input type="radio" value="1" checked={this.state.p_status === "1"}
@@ -158,6 +155,7 @@ class PostingForm extends React.Component<any, any> {
                     />
                 </div>
             </Form>
+            </Container>
         );
     }
 }

@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { List } from "immutable";
 import storage from "lib/storage";
 import jwt from "jsonwebtoken";
 
@@ -119,7 +118,8 @@ export const localPreferRegister: ({
         headers: { Authorization: token }
       });
     } catch (error) {
-      return false;
+      console.log(error);
+      return error;
     }
     // try {
     //   return axios.post(restBaseApi + "Member", data);

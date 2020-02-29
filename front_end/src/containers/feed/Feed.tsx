@@ -7,6 +7,7 @@ import * as userActions from "redux/modules/user";
 import { bindActionCreators } from "redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "components/posting/PostCard";
+import {Container} from 'semantic-ui-react'
 // import "containers/posting/PostingList.css";
 interface Props {
   UserActions: any;
@@ -100,6 +101,7 @@ class Feed extends Component<Props, State> {
       }
     }
     return (
+      <Container>
       <InfiniteScroll
         dataLength={postingList.length}
         next={this.loadMoreData.bind(this)}
@@ -109,6 +111,7 @@ class Feed extends Component<Props, State> {
       >
         {postingList}
       </InfiniteScroll>
+      </Container>
     );
   }
 }

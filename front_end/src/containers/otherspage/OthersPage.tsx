@@ -28,7 +28,7 @@ class Mypage extends Component<Props, State> {
   render() {
     const userId = this.props.match.params.id;
     return (
-      <div>
+      <div id='tab'>
         <Container>
           <UserProfile profileUserId={userId} />
         </Container>

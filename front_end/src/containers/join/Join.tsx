@@ -56,7 +56,6 @@ class Join extends React.Component<any, any> {
         );
         return false;
       }
-      this.setError(null, "userid");
       return true;
     },
     password: (value: string) => {
@@ -84,6 +83,7 @@ class Join extends React.Component<any, any> {
     try {
       await AuthActions.checkEmailExists(email);
       if (this.props.exists.get("email")) {
+        this.setError("이미 존재하는 이메일입니다.", "email");
       } else {
         this.setError(null, "email");
       }
@@ -214,7 +214,7 @@ class Join extends React.Component<any, any> {
                   id="userid"
                   icon="user outline"
                   iconPosition="left"
-                  placeholder="닉네임을 입력하세요"
+                  placeholder="아이디를 입력하세요"
                   type="text"
                   nametag="아이디"
                 />
