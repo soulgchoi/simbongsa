@@ -41,6 +41,7 @@ interface IState {
   isMyLocationClicked: boolean;
   isMarkerRenderingNeed: boolean;
   isViewAllClicked : boolean;
+  isZoomClicked : boolean;
   clusterer: any;
   height?: number;
   width?: number;
@@ -53,6 +54,7 @@ class Map extends Component<IProps, IState> {
     isMyLocationClicked: false,
     isMarkerRenderingNeed: true,
     isViewAllClicked : false,
+    isZoomClicked : false,
     // height: window.innerHeight - 435,
     // width: window.innerWidth
   };
@@ -141,7 +143,7 @@ class Map extends Component<IProps, IState> {
     const {
       myLocation,
       isMyLocationClicked,
-      isMarkerRenderingNeed
+      isMarkerRenderingNeed,
     } = this.state;
 
     // 내 위치를 클릭했을 때
@@ -169,7 +171,8 @@ class Map extends Component<IProps, IState> {
           VolActions,
           selectedMarker,
           volunteersForMap,
-          PageActions
+          PageActions,
+          this.promiseSetIsZoomClicked
         );
         this.setState({ clusterer: clusterer, isMarkerRenderingNeed: false });
       }, 100);
@@ -205,12 +208,33 @@ class Map extends Component<IProps, IState> {
   };
   // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomIn = (map: any) => {
-    map.setLevel(map.getLevel() - 1, {animate : true});
+    this.promiseSetIsZoomClicked(true).then(()=>{
+      window.setTimeout(()=>{
+        map.setLevel(map.getLevel() - 1);
+      this.setState({isZoomClicked : false});
+      },
+      10)
+    })
   };
   // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
   zoomOut = (map: any) => {
-    map.setLevel(map.getLevel() + 1, {animate : true});
+    this.promiseSetIsZoomClicked(true).then(()=>{
+      window.setTimeout(()=>{
+        map.setLevel(map.getLevel() + 1);
+      this.setState({isZoomClicked : false});
+      },
+      10)
+    })
   };
+
+  promiseSetIsZoomClicked = (flag : boolean) =>{
+    return new Promise((resolve : any, reject : any)=>{
+      this.setState({isZoomClicked : flag}, ()=>{
+        resolve();
+      });
+    })
+  }
+
   setMyLocation = () => {
     const { volMap, VolActions } = this.props;
     this.setState({isViewAllClicked : true},()=>{
@@ -233,12 +257,13 @@ class Map extends Component<IProps, IState> {
   };
   render() {
     const { zoomIn, zoomOut, setMyLocation } = this;
-    const { isMarkerRenderingNeed , isViewAllClicked} = this.state;
+    const { isMarkerRenderingNeed , isViewAllClicked, isZoomClicked} = this.state;
     // const { height } = this.state;
     const { volMap } = this.props;
+    console.log("리렌더링", isZoomClicked)
     return (
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
-        <Dimmer active={isMarkerRenderingNeed || isViewAllClicked} inverted>
+        <Dimmer active={isMarkerRenderingNeed || isViewAllClicked || isZoomClicked} inverted>
           <Loader content='봉사 지도 불러오는 중' />
         </Dimmer>
         <div id="map" style={{ width: "100%", height: "40vh" }} />
@@ -289,13 +314,15 @@ class Map extends Component<IProps, IState> {
 //   }
 // };
 
+
 const makeMarker = (
   volunteers: { v_id: string; v_x: number; v_y: number }[],
   volMap: any,
   VolActions: any,
   selectedMarker: any,
   volunteersForMap: any,
-  PageActions : any
+  PageActions : any,
+  promiseSetIsZoomClicked : any
 ) => {
   // console.log("Map.tsx의 makeMarker 봉사지역들 : ", volunteers);
   const { kakao } = window;
@@ -426,27 +453,33 @@ const makeMarker = (
 
     // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
     let level = volMap.getLevel();
-    if (level > 9) {
-      level = 9;
-      volMap.setLevel(level, { animate : true,  anchor: cluster.getCenter() });
-    } else if (level > 7) {
-      level = 7;
-      volMap.setLevel(level, { animate : true, anchor: cluster.getCenter() });
-    } else if (level > 5) {
-      level = 5;
-      volMap.setLevel(level, { animate : true, anchor: cluster.getCenter() });
-    } else {
-      // 리스트 보여주기
-      VolActions.setShowVolInfo(true);
-      let center = cluster.getCenter();
-      volMap.panTo(center);
-      PageActions.setCurrentMapInfo({y:center.getLat(), x:center.getLng(), level : level})
-      let clusterMarkers = cluster.getMarkers();
-      let promise = getNewVolunteersForMap(clusterMarkers);
-      promise.then(response => {
-        VolActions.setVolunteersForMap(response);
-      });
-    }
+    promiseSetIsZoomClicked(true).
+    then(()=>{
+      window.setTimeout(()=>{
+        if (level > 9) {
+          level = 9;
+          volMap.setLevel(level, {   anchor: cluster.getCenter() });
+        } else if (level > 7) {
+          level = 7;
+          volMap.setLevel(level, {  anchor: cluster.getCenter() });
+        } else if (level > 5) {
+          level = 5;
+          volMap.setLevel(level, { anchor: cluster.getCenter() });
+        } else {
+          // 리스트 보여주기
+          VolActions.setShowVolInfo(true);
+          let center = cluster.getCenter();
+          volMap.panTo(center);
+          PageActions.setCurrentMapInfo({y:center.getLat(), x:center.getLng(), level : level})
+          let clusterMarkers = cluster.getMarkers();
+          let promise = getNewVolunteersForMap(clusterMarkers);
+          promise.then(response => {
+            VolActions.setVolunteersForMap(response);
+          });
+        }
+        promiseSetIsZoomClicked(false);
+      },10)
+    });
   });
   return clusterer;
 };
