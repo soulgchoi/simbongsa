@@ -465,7 +465,7 @@ const makeMarker = (
     let level = volMap.getLevel();
 
     if (level > 9) {
-      level = 9;
+      level -=2 ;
       promiseSetIsZoomClicked(true).
       then(()=>{
       window.setTimeout(()=>{
