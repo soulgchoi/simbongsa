@@ -117,6 +117,7 @@ const initialState = Map({
       password: ""
     }),
     error: Map({
+      auth : "",
       email: "",
       password: ""
     })

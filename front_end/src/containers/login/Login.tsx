@@ -170,7 +170,7 @@ class Login extends React.Component<any, any> {
     } catch (e) {
       // error 발생시
       console.log(e);
-      this.setError("잘못된 계정정보입니다.", "email");
+      this.setError("잘못된 계정정보입니다.", "auth");
     }
   };
   initialSearch = async () => {
@@ -385,6 +385,7 @@ class Login extends React.Component<any, any> {
             {/* </Header> */}
             <Form size="large">
               <Segment stacked>
+                <AuthError error={error.auth} />
                 {/* <AuthError error={error.email} /> */}
                 <Form.Input
                   fluid
