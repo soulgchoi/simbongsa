@@ -5,20 +5,27 @@ import { bindActionCreators } from "redux";
 import { List } from "immutable";
 import * as PostingApi from "lib/api/PostingApi";
 import * as UsergApi from "lib/api/UserApi";
+import * as userActions from 'redux/modules/user';
 import FloatingMessage from "components/message/FloatingMessage"
+import profile_default from 'assets/images/profile_default.png';
+
 interface Props {
   mId: string;
   userId: string;
+  userProfileMap : any;
+  UserActions : any;
 }
 interface State {
   selectedFiles: any[];
-  isSubmit: boolean
+  isSubmit: boolean;
+  preview : any;
 }
 
 class Profile extends Component<Props, State> {
-  state = { selectedFiles: [], isSubmit: false };
+  state = { selectedFiles: [], isSubmit: false, preview: null };
   componentDidMount() {
-    const { userId } = this.props;
+    const { userId, UserActions} = this.props;
+    UserActions.setUserProfileImage(userId);
     // let data = UsergApi.getUserInfo(userId);
   }
   componentWillUnmount(){
@@ -26,8 +33,10 @@ class Profile extends Component<Props, State> {
   }
   handleFileSelect = (e: any) => {
     var id = e.target.id;
-    var value = e.target.files;
-    this.setState({ selectedFiles: [value[0]] });
+    var value = e.target.files[0];
+    if(value){
+      this.setState({ selectedFiles: [value], preview : URL.createObjectURL(value)});
+    }
     // this.setState({ selectedFiles: newFileList });
   };
 
@@ -45,12 +54,20 @@ class Profile extends Component<Props, State> {
     // this.goListPage();
   };
   render() {
-    let { isSubmit } = this.state
+    // 첫 렌더링때 아직 유저프로필 맵이 세팅 안된 상태에서 우선 빈화면 출력
+    const { userProfileMap, userId } = this.props;
+    if (typeof userProfileMap.get(userId) === 'undefined') {
+      return (<div></div>);
+    }
+    const { isSubmit, preview } = this.state;
+    console.log(userProfileMap);
+    const profileImage = userProfileMap.get(userId).get('profileImage');
+    const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
     return (
       <div>
         <Container>
-          프로필 사진 선택<br></br>
-          가급적 정사각형 이미지를 사용해주세요!<br/>
+          <Image src={profileImageFlag !== "null" ?(preview === null ? profileImage : preview ): profile_default} avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
+          <div>프로필 사진 선택</div>
           <Form>
             <input
               type="file"
@@ -72,7 +89,10 @@ class Profile extends Component<Props, State> {
 export default connect(
   ({ user }: any) => ({
     mId: user.get("loggedInfo").get("m_id"),
-    userId: user.getIn(["loggedInfo", "userId"])
+    userId: user.getIn(["loggedInfo", "userId"]),
+    userProfileMap: user.get("userProfileMap"),
   }),
-  dispatch => ({})
+  dispatch => ({
+    UserActions: bindActionCreators(userActions, dispatch)
+  })
 )(Profile);

@@ -5,6 +5,7 @@ import "./PostCard.scss";
 import UserProfile from "components/user/profile/UserProfile"
 import { connect } from "react-redux";
 import * as PostingApi from 'lib/api/PostingApi'
+import PostLabel from 'components/label/PostLabel'
 
 interface Props {
   post: {
@@ -12,7 +13,7 @@ interface Props {
     p_content: "";
     v_id: 0;
     m_id: 0;
-    p_status: 0;
+    p_stats: string;
     userId: "";
     files: [];
   };
@@ -30,7 +31,7 @@ class PostCard extends React.Component<Props, {}> {
       p_id: this.props.post.p_id,
       post_vote_members: [],
       vote_cnt: 0,
-      p_status: 0,
+      p_stats: "",
       userId: "",
       files: []
     },
@@ -108,11 +109,14 @@ class PostCard extends React.Component<Props, {}> {
       this.handleDelete(this.props.post.p_id)
       this.setState({ result: false })
     }
+    console.log("post", post.p_stats);
     return (
 
       <Card>
         <Card.Content style={{ backgroundColor: color}}>
-          <Card.Header>{color !== "white" &&
+          <Card.Header>
+            <PostLabel pStats={post.p_stats}/>
+            {color !== "white" &&
             <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>}
             {m_id === this.props.post.m_id &&
             <span style={{ float: 'right', position:'relative', zIndex: 10}}>
