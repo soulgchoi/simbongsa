@@ -7,6 +7,7 @@ import * as EmailValidator from "email-validator";
 import * as AuthApi from "lib/api/AuthApi";
 import ActionButton from "components/button/ActionButton";
 // import UserApi from "apis/UserApi";
+import { Container } from "semantic-ui-react";
 
 interface Props {
   history: any;
@@ -43,32 +44,6 @@ class FindPassword extends React.Component<Props> {
       });
     });
   };
-  // login() {
-  //   if (this.state.isSubmit) {
-  //     let { email, password } = this.state;
-  //     let data = {
-  //       email,
-  //       password
-  //     };
-
-  //     //요청 후에는 버튼 비활성화
-  //     this.isSubmit = false;
-
-  //     UserApi.requestLogin(
-  //       data,
-  //       res => {
-  //         //통신을 통해 전달받은 값 콘솔에 출력
-
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       },
-  //       error => {
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       }
-  //     );
-  //   }
-  // }
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: e.currentTarget.value }, () => {
       this.checkForm();
@@ -84,7 +59,7 @@ class FindPassword extends React.Component<Props> {
   render() {
     const { sendEmail } = this;
     return (
-      <div className="user" id="login">
+      <Container>
         <div className="wrapC">
           <h1 className="title">비밀번호 찾기</h1>
           <div className="input-with-label">
@@ -124,7 +99,7 @@ class FindPassword extends React.Component<Props> {
             </button> */}
           </Link>
         </div>
-      </div>
+      </Container>
     );
   }
 }
