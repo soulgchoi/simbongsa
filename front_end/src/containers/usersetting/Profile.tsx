@@ -34,6 +34,7 @@ class Profile extends Component<Props, State> {
   handleFileSelect = (e: any) => {
     var id = e.target.id;
     var value = e.target.files[0];
+    console.log("선택된 파일", value);
     if(value){
       this.setState({ selectedFiles: [value], preview : URL.createObjectURL(value)});
     }
@@ -66,7 +67,7 @@ class Profile extends Component<Props, State> {
     return (
       <div>
         <Container>
-          <Image src={profileImageFlag !== "null" ?(preview === null ? profileImage : preview ): profile_default} avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
+          <Image src={preview === null? (profileImageFlag === "null" ? profile_default : profileImage ): preview } avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
           <div>프로필 사진 선택</div>
           <Form>
             <input

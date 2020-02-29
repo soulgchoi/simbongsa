@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import PostCard from 'components/posting/PostCard'
 import './PostingList.css'
 import * as VolApi from 'lib/api/VolApi'
-import { Flag } from 'semantic-ui-react'
+import { Flag, Container } from 'semantic-ui-react'
 
 class PostingList extends Component<any, any> {
   constructor(props: any) {
@@ -78,6 +78,7 @@ class PostingList extends Component<any, any> {
       return <PostCard color="white" post={post} key={i} setFlag={this.setFlag} />;
     });
     return (
+      <Container>
       <InfiniteScroll
         dataLength={posts.length}
         next={this.loadMoreData.bind(this)}
@@ -87,6 +88,7 @@ class PostingList extends Component<any, any> {
       >
         {postingList}
       </InfiniteScroll>
+      </Container>
     );
   }
 }
