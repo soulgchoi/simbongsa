@@ -72,7 +72,6 @@ class TabForMainPage extends Component<Props, State> {
   render() {
     const { activeIndex } = this.state;
     return (
-      <div>
         <div id="tab">
           {/* 데스크탑용 */}
           <Responsive minWidth={Responsive.onlyTablet.minWidth}>
@@ -91,7 +90,6 @@ class TabForMainPage extends Component<Props, State> {
               onTabChange={this.handleTabChange}/>
           </Responsive>
          </div>
-      </div>
     )
   }
 }

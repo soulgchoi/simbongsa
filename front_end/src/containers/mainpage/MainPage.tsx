@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import TabForMainPage from "containers/mainpage/TabForMainPage";
 import SearchBar from "components/search/SearchBar";
 import SearchContainer from "containers/usersetting/SearchContainer";
@@ -61,7 +61,7 @@ class MainPage extends Component<Iprops> {
 
     return (
       //@ts-ignore
-      <Fragment >
+      <div id='tab'>
         <Container text>
           <SearchBar />
           <div
@@ -77,7 +77,7 @@ class MainPage extends Component<Iprops> {
           </div>
         </Container>
         <TabForMainPage />
-      </Fragment>
+      </div>
     );
   }
 }

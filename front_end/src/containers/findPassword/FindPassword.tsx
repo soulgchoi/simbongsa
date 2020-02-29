@@ -7,10 +7,12 @@ import * as EmailValidator from "email-validator";
 import * as AuthApi from "lib/api/AuthApi";
 import ActionButton from "components/button/ActionButton";
 // import UserApi from "apis/UserApi";
-import { Container } from "semantic-ui-react";
+import { Container, Dimmer, Loader, Form, Segment, Button } from "semantic-ui-react";
+import AuthError from 'components/error/AuthError'
 
 interface Props {
   history: any;
+  AuthActions : any;
 }
 
 class FindPassword extends React.Component<Props> {
@@ -20,7 +22,8 @@ class FindPassword extends React.Component<Props> {
       email: ""
     },
     isSubmit: false,
-    component: this
+    component: this,
+    isMailSending : false,
   };
   componentDidMount() { }
   checkForm = () => {
@@ -50,54 +53,55 @@ class FindPassword extends React.Component<Props> {
     });
   };
 
-  sendEmail = () => {
-    const { email } = this.state;
-    const { history } = this.props;
-    AuthApi.changePasswordEmailSend(email);
-    history.push("/findpasswordmailsend");
+  sendEmail = async () => {
+    const { email} = this.state;
+    const { history, AuthActions } = this.props;
+    this.setState({isMailSending : true }, async ()=>{
+      await AuthApi.changePasswordEmailSend(email);
+      this.setState({isMailSending : false},)
+      history.push("/findpasswordmailsend"); 
+    })
   };
   render() {
     const { sendEmail } = this;
+    const { email , isMailSending, error} = this.state;
     return (
       <Container>
+      <Dimmer active={isMailSending} inverted>
+        <Loader content='비밀번호 찾기 메일 발송중...' />
+      </Dimmer>
         <div className="wrapC">
           <h1 className="title">비밀번호 찾기</h1>
-          <div className="input-with-label">
-            <input
-              value={this.state.email}
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  // this.login();
-                }
-              }}
-              onChange={this.handleInput}
-              id="email"
-              placeholder="이메일을 입력하세요."
-              type="text"
-            />
-            <label htmlFor="email">이메일</label>
-            <div className="error-text" v-if="error.email">
-              {this.state.error.email}
-            </div>
-          </div>
-          <Link
-            to={{
-              pathname: "/findpasswordmailsend",
-              state: { email: this.state.email }
-            }}
-            className="btn--back"
-          >
-            <ActionButton
-              placeholder="비밀번호 찾기 메일 전송"
-              action={sendEmail}
-            ></ActionButton>
-            {/* <button
-              className="btn btn--back btn--join"
-              disabled={!this.state.isSubmit}
-            >
+          <Form size="large">
+            <Segment stacked>
+              <AuthError error={error.email} />
+              <Form.Input
+                fluid
+                icon="user"
+                id="email"
+                value={email}
+                iconPosition="left"
+                placeholder="이메일을 입력하세요."
+                onChange={this.handleInput}
+                onKeyDown={(event:any) => {
+                  if (event.key === "Enter") {
+                    this.sendEmail();
+                  }
+                }}
+              />
+              <Button
+                className="login"
+                inverted
+                valuex="true"
+                fluid
+                size="large"
+                onClick={this.sendEmail}
+                disabled={!this.state.isSubmit}
+              >
               비밀번호 찾기 메일 전송
-            </button> */}
-          </Link>
+              </Button>
+            </Segment>
+          </Form>
         </div>
       </Container>
     );

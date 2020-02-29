@@ -26,10 +26,12 @@ class Mypage extends Component<Props, State> {
   render() {
     const { userId } = this.props;
     return (
+      <div id="tab">
         <Container>
           <UserProfile profileUserId={userId} />
-          <TabforMypage userId={userId} />
         </Container>
+          <TabforMypage userId={userId} />
+      </div>
     );
   }
 }

@@ -18,6 +18,8 @@ const LOGOUT = "auth/LOGOUT"; // 로그아웃
 const GOOGLE_LOGIN = "auth/GOOGLE_LOGIN";
 const LOGIN_CHECK = "auth/LOGIN_CHECK";
 const EMAIL_VALIDATE = "user/EMAIL_VALIDATE";
+//비밀번호찾기 관련
+const SET_FIND_PASSWORD_EMAIL = 'user/SET_FIND_PASSWORD_EMAIL';
 
 // error 관련
 const SET_ERROR = "auth/SET_ERROR";
@@ -42,7 +44,9 @@ export const checkUsernameExists = createAction(
   CHECK_USERNAME_EXISTS,
   AuthAPI.checkUsernameExists
 ); // userid
-
+export const setFindPasswordEmail = createAction(
+  SET_FIND_PASSWORD_EMAIL
+)
 export const localRegister = createAction(
   LOCAL_REGISTER,
   AuthAPI.localRegister
@@ -84,6 +88,7 @@ export interface AuthState {
   };
   result: {};
   loginCheck: boolean;
+  findPassWordEmail : string;
 }
 
 const initialState = Map({
@@ -116,7 +121,8 @@ const initialState = Map({
     })
   }),
   result: Map({}),
-  loginCheck: false
+  loginCheck: false,
+  findPassWordEmail : ""
 });
 
 export default handleActions<any>(
@@ -135,6 +141,9 @@ export default handleActions<any>(
     },
     [LOGIN_CHECK]: (state, action) => {
       return state.set("loginCheck", action.payload);
+    },
+    [SET_FIND_PASSWORD_EMAIL] : (state, action)=>{
+      return state.set('findPassWordEmail', action.payload);
     },
     ...pender({
       type: CHECK_STATUS,
