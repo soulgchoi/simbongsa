@@ -60,44 +60,48 @@ class Router extends Component {
 
       {/* 헤더 */}
       <Route path="/" component={HeaderForDesktop} />
-      <Route path="/" component={HeaderForMobile} />
+      <Route path="/" component={HeaderForMobile} /> 
       
+
+      {/* 시작페이지 */}
+      <Route exact path="/" component={Intro} />
+
+      {/* 로그인 */}
+      <Route exact path="/login" component={Login} />
+
+      {/* 회원가입 */}
+      <Route exact path="/join" component={Join} />
+      <Route exact path="/join/complete" component={JoinComplete} />
+
+      {/* 이메일 인증 */}
+      <Route path="/email/:email/:key" component={EmailComplete} />
+      <Route path="/mailresend" component={MailReSend} />
+
+      {/* 비밀번호찾기 */}
+      <Route exact path="/findpassword" component={FindPassword} />
+      <Route exact path="/findpasswordmailsend" component={FindPasswordMailSend} />
+
+      {/* 회원 정보 ooo */}
+      <Route exact path="/changepassword/:token" component={FindPasswordMailRecieve} />
+      <Route exact path="/usersetting" component={UserSettingPage} />
+      <Route exact path="/withdraw" component={Withdraw} /> 
+
+      {/* 회원탈퇴 완료 */}
+      <Route exact path="/withdrawcomplete" component={WithdrawComplete} />
+
       {/* 동적으로 화면 전환이 일어나는 페이지 */}
       <Route render={({location, history})=>{
         const currentLocation = window.location.href;
         return(
-        <TransitionGroup>
+        <TransitionGroup id="transition-group">
         {/* classNames 에 들아가는 값에 따라 Router.scss 에서 클래스에 적용한 css가 동작합니다 */}
         <CSSTransition key={location.pathname} classNames={this.direction(history)} timeout={300}>
           <Switch location={location}>
           {/* 이 안에 <Route />를 넣으면 됩니다. */}
-          
-          {/* 시작페이지 */}
-          <Route exact path="/" component={Intro} />
-
-          {/* 로그인 */}
-          <Route exact path="/login" component={Login} />
-
-          {/* 회원가입 */}
-          <Route exact path="/join" component={Join} />
-          <Route path="/join/complete" component={JoinComplete} />
-
-          {/* 이메일 인증 */}
-          <Route path="/email/:email/:key" component={EmailComplete} />
-          <Route path="/mailresend" component={MailReSend} />
-
-          {/* 비밀번호찾기 */}
-          <Route path="/findpassword" component={FindPassword} />
-          <Route path="/findpasswordmailsend" component={FindPasswordMailSend} />
-
-          {/* 회원 정보 ooo */}
-          <Route path="/changepassword/:token" component={FindPasswordMailRecieve} />
-          <Route exact path="/usersetting" component={UserSettingPage} />
-          <Route path="/withdraw" component={Withdraw} />
 
           {/* 메인페이지 ooo */}
           <Route exact path="/mainpage" component={MainPage} />
-          <Route path="/calendar" component={CalendarContainer} />
+          <Route exact path="/calendar" component={CalendarContainer} />
           <Route exact path="/:id/postinglist" component={PostingList} />
           <Route exact path="/vol/:id/write" component={PostingForm} />
 
@@ -111,12 +115,9 @@ class Router extends Component {
           <Route exact path="/mypage" component={Mypage} />
 
           {/* 다른회원 정보 ooo */}
-          <Route path="/user/:id" component={OthersPage}/>
-          <Route path="/follower/:id" component={FollowerPage}/>
-          <Route path="/following/:id" component={FollowingPage}/>
-
-          {/* 회원탈퇴 완료 */}
-          <Route path="/withdrawcomplete" component={WithdrawComplete} />
+          <Route exact path="/user/:id" component={OthersPage}/>
+          <Route exact path="/follower/:id" component={FollowerPage}/>
+          <Route exact path="/following/:id" component={FollowingPage}/>
 
           </Switch>
           </CSSTransition>

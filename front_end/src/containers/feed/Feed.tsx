@@ -105,7 +105,7 @@ class Feed extends Component<Props, State> {
     return (
       <Container>
       <InfiniteScroll
-        style={{width:"100vw"}}
+        style={{width:"95vw"}}
         dataLength={postingList.length}
         next={this.loadMoreData.bind(this)}
         hasMore={pLength >= (pageNum - 1) * 8 || nLength >= (pageNum - 1) * 2}
