@@ -46,7 +46,7 @@ class Footer extends React.Component<any, any>{
             {...Responsive.onlyMobile}
           >
             <Menu
-              borderless widths={3} fixed="bottom"
+              borderless widths={3} fixed="bottom" style={{width:"100vw"}}
             >
               <Menu.Item name="HOME" active={activeItem === 'HOME'} onClick={this.handleItemClick}>
                 HOME</Menu.Item>

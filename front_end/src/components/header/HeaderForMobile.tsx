@@ -37,10 +37,11 @@ class HeaderForMobile extends React.Component<
     )[1];
     return (
       <Responsive {...Responsive.onlyMobile}>
-        <Container style={{ marginTop: "10px" }}>
+        <Container style={{ marginTop: "10px"}}>
           <div className="header">
             <Menu
               borderless widths={3} fixed="top" icon
+              style={{width: "100vw" }}
             >
               <Menu.Item name="HOME" className="goHome">
                 <Link to="/"><Image src="/images/logo2.png" style={{ width: "6rem", padding: "0.3rem", marginLeft: "0.2rem" }} /></Link>
