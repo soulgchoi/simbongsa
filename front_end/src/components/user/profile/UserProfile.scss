@@ -22,7 +22,7 @@ $breakpoints: (
     padding: 0.2rem;
     font-size: 1rem;
     position : relative;
-    width: 100vw;
+    // width: 100vw;
     // left: 50%;
     // top: 1.5rem;
     // transform: translateX(5.5rem);
@@ -94,6 +94,7 @@ div.user-profile{
         top: -3rem;
         left : 4rem;
         font-size: 1.28571429rem;
+        width : 60vw;
         // margin-top: -.21425rem;
         line-height: 1.28571429rem;
         color: rgba(0,0,0,.85);
