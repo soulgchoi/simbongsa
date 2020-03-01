@@ -25,7 +25,7 @@ class ChangePassword extends Component<Props, State> {
   sendEmail = () => {
     const { email } = this.props;
     AuthApi.changePasswordEmailSend(email);
-    this.setState({ message: `메일 발송 완료.\n메일을 확인해주세요!` });
+    this.setState({ message: `${email}로 메일 발송 완료.\n메일을 확인해주세요!` });
   }
 
   render() {
