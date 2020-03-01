@@ -18,13 +18,19 @@ $breakpoints: (
     }
 }
 
-.user-profile button.ui.orange.button {
+.user-profile  {
     padding: 0.2rem;
     font-size: 1rem;
     position : relative;
+    width: 100vw;
     // left: 50%;
     // top: 1.5rem;
     // transform: translateX(5.5rem);
+}
+button.ui.orange.button{
+    padding: 0.2rem;
+    font-size: 1rem;
+    position : relative;
 }
 #follow-button-mini{
     width : 90px;
@@ -39,9 +45,9 @@ $breakpoints: (
 }
 #userpage{
     position:relative;
-    left:50%; 
-    margin-left : -110px;
     width: 270px;
+    margin : 0 auto;
+    // margin-left : -110px;
 }
 #userpage-mini{
     @include respond-to('small') {
