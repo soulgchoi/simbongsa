@@ -61,8 +61,8 @@ class MainPage extends Component<Iprops> {
 
     return (
       //@ts-ignore
-      <div id='tab'>
-        <Container text>
+      <div id='tab' style={{width:"100vw"}}>
+        <Container text >
           <SearchBar />
           <div
             style={{

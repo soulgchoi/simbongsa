@@ -30,11 +30,13 @@ class Feed extends Component<Props, State> {
   v_id = this.props.match.params.id;
   restAPI = process.env.REACT_APP_REST_BASE_API + "/rest/VolFeed/";
   async componentDidMount() {
-    const { UserActions, mId } = this.props;
-    const { pageNum } = this.state;
-    await UserActions.getPreferFeedList(mId, pageNum);
-    await UserActions.getNormalFeedList(mId, pageNum);
-    this.setState({ pageNum: pageNum + 1 });
+    setTimeout(async ()=>{
+      const { UserActions, mId } = this.props;
+      const { pageNum } = this.state;
+      await UserActions.getPreferFeedList(mId, pageNum);
+      await UserActions.getNormalFeedList(mId, pageNum);
+      this.setState({ pageNum: pageNum + 1 });
+    },300);
   }
 
   async loadMoreData() {
@@ -103,6 +105,7 @@ class Feed extends Component<Props, State> {
     return (
       <Container>
       <InfiniteScroll
+        style={{width:"100vw"}}
         dataLength={postingList.length}
         next={this.loadMoreData.bind(this)}
         hasMore={pLength >= (pageNum - 1) * 8 || nLength >= (pageNum - 1) * 2}

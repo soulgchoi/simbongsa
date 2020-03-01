@@ -72,7 +72,6 @@ class VolDetail extends React.Component<Props & any, State & any> {
 
   render() {
     const { volunteer } = this.state;
-
     // 날짜 & pStatus 로 마감 여부 확인
     const fullDate = this.dateFunc();
     let button;
@@ -87,10 +86,10 @@ class VolDetail extends React.Component<Props & any, State & any> {
     }
 
     return (
-      <Container text>
+      <Container text >
         <div className="title">{volunteer.v_title}</div>
         <Responsive minWidth={320} maxWidth={2559}>
-          <Table unstackable celled>
+          <Table unstackable celled style={{width:"100vw"}}>
             <Table.Body>
               <Table.Row>
                 <Table.Cell width="5" className="head">

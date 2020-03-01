@@ -109,7 +109,6 @@ class PostCard extends React.Component<Props, {}> {
       this.handleDelete(this.props.post.p_id)
       this.setState({ result: false })
     }
-    console.log("post", post.p_stats);
     return (
 
       <Card>

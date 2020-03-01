@@ -20,7 +20,6 @@ export default class CertLabel extends Component<IProps, any> {
 
   render() {
       const { pStats } = this.props;
-      console.log(pStats);
     return (
       <div style={{ display: "inline" }}>
         <Label className={pStats==="1"?"recruit":"review"} size='tiny' as='a'>{this.state.message}</Label>
