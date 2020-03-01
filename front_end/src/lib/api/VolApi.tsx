@@ -12,7 +12,7 @@ const restBaseApi = process.env.REACT_APP_REST_BASE_API!;
 // };
 
 
-export const getVolListBySearch = ({ input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm }: any) => {
+export const getVolListBySearch = ({ input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm, age }: any) => {
   try {
     const token = "Bearer " + storage.get("token");
     let url = restBaseApi + '/vol/titles/4000/1/filtering/?'
@@ -66,6 +66,13 @@ export const getVolListBySearch = ({ input, firstLocation, secondLocation, third
       url += `vol_title=${input}`
       isAmpersand = true
     }
+    if (age !== '') {
+      if (isAmpersand) {
+        url += '&'
+      }
+      url += `m_age=${age}`
+      isAmpersand = true
+    }
     if (isAmpersand) {
       url += '&'
     }
@@ -96,7 +103,7 @@ export const getVolDetail = (id: number): any => {
     return true;
   }
 };
-export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm, pageNum }: any) => {
+export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, thirdLocation, firstCategory, secondCategory, thirdCategory, bgnTm, endTm, pageNum, age }: any) => {
   try {
     const token = "Bearer " + storage.get("token");
     let url = restBaseApi + `/vol/titles/10/${pageNum}/filtering/?`
@@ -148,6 +155,13 @@ export const getVolListBySearchPage = ({ input, firstLocation, secondLocation, t
         url += '&'
       }
       url += `vol_title=${input}`
+      isAmpersand = true
+    }
+    if (age !== '') {
+      if (isAmpersand) {
+        url += '&'
+      }
+      url += `m_age=${age}`
       isAmpersand = true
     }
     if (isAmpersand) {
