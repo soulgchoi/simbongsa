@@ -89,12 +89,13 @@ class CategorySelection extends Component<Props, State> {
                     <Dropdown
                         // placeholder={placeholder}
                         value={input}
-                        placeholder="봉사 종류를 입력해주세요."
+                        placeholder="봉사종류를 입력해주세요."
                         search
                         selection
                         onChange={handleChange}
                         options={temp2}
                         onKeyDown={handleKeyDown}
+                        style={{width:210}}
                     // disabled={todos.size === 3}
                     ></Dropdown>
                 </div>
@@ -105,7 +106,7 @@ class CategorySelection extends Component<Props, State> {
 }
 const LocationItem = ({ id, text, onRemove }: any) => (
     <div style={{
-        width: 250,
+        width: 200,
         textDecoration: 'none',
         padding: 0,
         marginTop: 15,

@@ -77,7 +77,7 @@ class Locationcontainer extends Component<Props, State> {
     return (
 
       <Fragment>
-        <div style={{ "margin": 1 }} >
+        <div style={{ "margin": 1}} >
           <Dropdown
             // placeholder={placeholder}
             value={input}
@@ -87,6 +87,7 @@ class Locationcontainer extends Component<Props, State> {
             onChange={handleChange}
             options={temp}
             onKeyDown={handleKeyDown}
+            style={{width:180}}
           // disabled={todos.size === 3}
           ></Dropdown>
         </div>
@@ -97,7 +98,7 @@ class Locationcontainer extends Component<Props, State> {
 }
 const LocationItem = ({ id, text, onRemove }: any) => (
   <div style={{
-    width: 250,
+    width: 180,
     textDecoration: 'none',
     padding: 0,
     marginTop: 15,

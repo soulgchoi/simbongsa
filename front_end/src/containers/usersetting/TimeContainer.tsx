@@ -15,8 +15,8 @@ const IOSSlider = withStyles({
     padding: '15px 0',
   },
   thumb: {
-    height: 28,
-    width: 28,
+    height: 27,
+    width: 27,
     backgroundColor: '#fff',
     boxShadow: iOSBoxShadow,
     marginTop: -14,

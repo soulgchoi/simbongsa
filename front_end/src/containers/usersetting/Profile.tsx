@@ -66,7 +66,7 @@ class Profile extends Component<Props, State> {
     const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
     return (
       <div>
-        <Container>
+        <Container style={{width:"700px"}}>
           <Image src={preview === null? (profileImageFlag === "null" ? profile_default : profileImage ): preview } avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
           <div>프로필 사진 선택</div>
           <Form>

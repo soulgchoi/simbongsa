@@ -27,11 +27,7 @@ $breakpoints: (
     // top: 1.5rem;
     // transform: translateX(5.5rem);
 }
-button.ui.orange.button{
-    padding: 0.2rem;
-    font-size: 1rem;
-    position : relative;
-}
+
 #follow-button-mini{
     width : 90px;
     position: relative;
@@ -41,6 +37,11 @@ button.ui.orange.button{
     @include respond-to('small') {
         top : -2.5rem;
         left : 9.4rem;
+    }
+    button.ui.orange.button{
+        padding: 0.2rem;
+        font-size: 1rem;
+        position : relative;
     }
 }
 #userpage{
