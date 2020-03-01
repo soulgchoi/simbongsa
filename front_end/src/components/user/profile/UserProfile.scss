@@ -1,3 +1,23 @@
+$breakpoints: (
+        'very-small': (max-width: 270px),
+        'small': (min-width: 271px),
+) !default;
+
+@mixin respond-to($breakpoint) {
+    // If the key exists in the map
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Prints a media query based on the value
+        @media #{inspect(map-get($breakpoints, $breakpoint))} {
+            @content;
+        }
+    }
+    // If the key doesn't exist in the map
+    @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+    }
+}
+
 .user-profile button.ui.orange.button {
     padding: 0.2rem;
     font-size: 1rem;
@@ -9,14 +29,27 @@
 #follow-button-mini{
     width : 90px;
     position: relative;
-    top : -2.5rem;
-    left : 9.4rem;
+    @include respond-to('very-small') {
+        top : -0.2rem;
+    }
+    @include respond-to('small') {
+        top : -2.5rem;
+        left : 9.4rem;
+    }
 }
 #userpage{
     position:relative;
     left:50%; 
     margin-left : -110px;
     width: 270px;
+}
+#userpage-mini{
+    @include respond-to('small') {
+        height : 50px;
+    }
+    @include respond-to('very-small') {
+        height : 70px;
+    }
 }
 div.user-profile{
     font-size: 0.75rem;
@@ -49,10 +82,10 @@ div.user-profile{
         cursor: pointer;
     }
     #userId-mini{
-        position: absolute;
+        position: relative;
         display: block;
         font-weight: 700;
-        top: 0.1rem;
+        top: -3rem;
         left : 4rem;
         font-size: 1.28571429rem;
         // margin-top: -.21425rem;

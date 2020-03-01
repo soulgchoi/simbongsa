@@ -69,7 +69,7 @@ class MainPage extends Component<Iprops> {
               justifyContent: "space-between",
               display: "flex",
               marginTop: 10,
-              marginBottom: 10,
+              marginBottom: 30,
             }}
             id="divText"
           >

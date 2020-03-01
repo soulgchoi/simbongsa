@@ -27,9 +27,7 @@ const panes = [
     },
     render: () => (
       <Tab.Pane >
-        <Container text>
           <VolListPage />
-        </Container>
       </Tab.Pane>
     )
   },
