@@ -17,6 +17,7 @@ interface Iprops {
     locations: any
     categorys: any
     times: any
+    ages: any
 }
 interface Istate {
     error: string
@@ -40,7 +41,7 @@ class SearchBar extends React.Component<Iprops, Istate> {
         SearchActions.changeInput({ input: value, key: "" })
     }
     searchByTerm = async () => {
-        const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
+        const { input, VolActions, locations, categorys, times, ages, UserActions, SearchActions } = this.props
         let preferLocate = locations.toJS().map((location: any) => location.text)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
         const locateSize = preferLocate.length
@@ -58,28 +59,16 @@ class SearchBar extends React.Component<Iprops, Istate> {
         const firstCategory = preferCategory[0]
         const secondCategory = preferCategory[1]
         const thirdCategory = preferCategory[2]
-
-        let bgnTm = "";
-        let endTm = "";
-
-        if (times.toJS().morning === true) {
-            bgnTm = "00:00:00";
-        } else if (times.toJS().morning === false) {
-            bgnTm = "12:00:01";
-        }
-        if (times.toJS().afternoon === true) {
-            endTm = "23:59:59";
-        } else if (times.toJS().afternoon === false) {
-            endTm = "12:00:00";
-        }
-        if (times.toJS().afternoon === false && times.toJS().morning === false) {
-            bgnTm = "00:00:01";
-            endTm = "23:59:58";
+        let age = "";
+        if (ages.toJS().adult === true) {
+            age = "1992-01-01";
+        } else if (ages.toJS().youth === true) {
+        age = "2005-01-01";
         }
         UserActions.changeLoading(true)
         try {
-            VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
-            VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
+            VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: times.toJS().bgnTm, endTm: times.toJS().endTm, age:age })
+            VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: times.toJS().bgnTm, endTm: times.toJS().endTm, age:age, pageNum: 1 })
         } catch{
             this.setState({ error: "Can't find result." })
         } finally {
@@ -117,6 +106,7 @@ export default connect(
             locations: search.get("locations"),
             categorys: search.get("categorys"),
             times: search.get("times"),
+            ages: search.get("ages")
         };
     },
     dispatch => ({
