@@ -71,7 +71,17 @@ class UserProfile extends Component<Props, State> {
   shouldComponentUpdate(nextProps: any) {
     const { profileUserId } = this.props;
     const { userProfileMap } = nextProps;
-    return typeof userProfileMap.get(profileUserId) !== 'undefined' && userProfileMap.get(profileUserId).size === 4;
+    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
+      return false;
+    }
+    if(userProfileMap.get(profileUserId).size !== 4){
+      return false;
+    }
+    if (typeof userProfileMap.get(profileUserId).get('followerList') === 'undefined'
+    || typeof userProfileMap.get(profileUserId).get('followingList') === 'undefined') {
+      return false;
+    }
+    return true;
   }
 
   handleIdClick = (e: any) => {
@@ -92,8 +102,9 @@ class UserProfile extends Component<Props, State> {
       return (<div></div>);
     }
     const isProfileUserFollowedByLoginUser = userProfileMap.get(profileUserId).get('isProfileUserFollowedByLoginUser');
-    const profileImage = userProfileMap.get(profileUserId).get('profileImage');
+    let profileImage = userProfileMap.get(profileUserId).get('profileImage');
     const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
+    profileImage = profileImageFlag !== "null" ? profileImage : profile_default;
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
     const {
       handleFollow,
@@ -107,9 +118,9 @@ class UserProfile extends Component<Props, State> {
         <div id={profileSize === 'mini' ? "userpage-mini" : "userpage"}>
           <div id="profileImage" onClick={this.handleIdClick} >
             {profileSize === 'mini' ?
-              <Image src={profileImageFlag !== "null" ? profileImage : profile_default} avatar style={{ fontSize: '20px' }} verticalAlign="bottom" />
+              <Image src={profileImage} avatar style={{ fontSize: '20px' }} verticalAlign="bottom" />
               :
-              <Image src={profileImageFlag !== "null" ? profileImage : profile_default} avatar style={{ fontSize: '60px', marginBottom : '10px' }} verticalAlign="middle" />
+              <Image src={profileImage} avatar style={{ fontSize: '60px', marginBottom : '10px' }} verticalAlign="middle" />
             }
           </div>
           <div id={profileSize === 'mini' ? "userId-mini" : "userId"}>
