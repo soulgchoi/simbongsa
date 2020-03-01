@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "redux/modules/user";
+import * as pageActions from 'redux/modules/page';
 import { Image } from 'semantic-ui-react'
 import ActionButton from "components/button/ActionButton";
 import profile_default from 'assets/images/profile_default.png';
@@ -15,6 +16,7 @@ interface Props {
   userProfileMap: any; // 현재 표시중인 모든 유저들의 프로필 정보를 저장한 맵. key : 유저아이디, value : 팔로워, 팔로잉, 현재팔로우중여부
   history: any;
   profileSize: string;
+  PageActions : any;
 }
 enum page {
   PROFILE,
@@ -84,8 +86,9 @@ class UserProfile extends Component<Props, State> {
     return true;
   }
 
-  handleIdClick = (e: any) => {
-    const { history, profileUserId } = this.props;
+  handleIdClick = async (e: any) => {
+    const { history, profileUserId, PageActions} = this.props;
+    await PageActions.setCurrentTab(0);
     history.push(`/user/${profileUserId}`);
   }
 
@@ -166,6 +169,7 @@ export default withRouter(connect(
     };
   },
   dispatch => ({
-    UserActions: bindActionCreators(userActions, dispatch)
+    UserActions: bindActionCreators(userActions, dispatch),
+    PageActions: bindActionCreators(pageActions, dispatch)
   })
 )(UserProfile));
