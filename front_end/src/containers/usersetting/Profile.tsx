@@ -18,18 +18,19 @@ interface Props {
 interface State {
   selectedFiles: any[];
   isSubmit: boolean;
+  isDelete : boolean;
   preview : any;
 }
 
 class Profile extends Component<Props, State> {
-  state = { selectedFiles: [], isSubmit: false, preview: null };
+  state = { selectedFiles: [], isSubmit: false, isDelete : false,  preview: null };
   componentDidMount() {
     const { userId, UserActions} = this.props;
     UserActions.setUserProfileImage(userId);
     // let data = UsergApi.getUserInfo(userId);
   }
   componentWillUnmount(){
-    this.setState({isSubmit:false})
+    this.setState({isSubmit:false, isDelete: false})
   }
   handleFileSelect = (e: any) => {
     var id = e.target.id;
@@ -50,7 +51,17 @@ class Profile extends Component<Props, State> {
       file.append("file", selectedFiles[0]);
     }
     let data = await PostingApi.uploadProfileImage(mId, file);
-    this.setState({isSubmit: true})
+    this.setState({isSubmit: true, isDelete: false})
+    // this.props.history.push(`/${v_id}/postinglist`);
+    // this.goListPage();
+  };
+
+  handleDelete = async (e: any) => {
+    e.preventDefault();
+    const { mId } = this.props;
+    const file = new FormData();
+    let data = await PostingApi.uploadProfileImage(mId, file);
+    this.setState({isDelete: true});
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
   };
@@ -60,14 +71,14 @@ class Profile extends Component<Props, State> {
     if (typeof userProfileMap.get(userId) === 'undefined') {
       return (<div></div>);
     }
-    const { isSubmit, preview } = this.state;
+    const { isSubmit,isDelete, preview } = this.state;
     console.log(userProfileMap);
     const profileImage = userProfileMap.get(userId).get('profileImage');
     const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
     return (
       <div>
         <Container style={{width:"700px"}}>
-          <Image src={preview === null? (profileImageFlag === "null" ? profile_default : profileImage ): preview } avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
+          <Image src={isDelete? profile_default : (preview === null? (profileImageFlag === "null" ? profile_default : profileImage ): preview )} avatar style={{ fontSize: '60px', marginBottom : '10px' }}/>
           <div>프로필 사진 선택</div>
           <Form>
             <input
@@ -78,8 +89,10 @@ class Profile extends Component<Props, State> {
               onChange={this.handleFileSelect}
               style={{marginBottom : '10px'}}
             />
-            <Button onClick={this.handleSubmit}>프로필 사진 등록하기</Button>
-            {isSubmit && <FloatingMessage/>}
+            <Button onClick={this.handleSubmit} style={{margin:"10px", backgroundColor:"orange"}} disabled={!preview}>프로필 사진 등록하기</Button>
+            {isSubmit && <FloatingMessage message="저장되었습니다!"/>}
+            <Button onClick={this.handleDelete} style={{margin:"10px"}}>프로필 사진 삭제하기</Button>
+            {isDelete && <FloatingMessage message="삭제되었습니다!"/>}
           </Form>
         </Container>
       </div>

@@ -35,8 +35,8 @@ class ChangePassword extends Component<Props, State> {
       <div >
         <ActionButton action={sendEmail} placeholder="비밀번호 변경 메일 발송" />
         {
-          message.split('\n').map( line => {
-            return (<span>{line}<br/></span>)
+          message.split('\n').map( (line, i) => {
+            return (<span key={i}>{line}<br/></span>)
           })
         }
       </div>

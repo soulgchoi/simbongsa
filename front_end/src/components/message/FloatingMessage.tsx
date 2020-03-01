@@ -1,6 +1,9 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
 
-const FloatingMessage = () => <Message floating>저장되었습니다!</Message>
+interface Props{
+    message : string
+}
+const FloatingMessage = ({message} : Props) => <Message floating>{message}</Message>
 
 export default FloatingMessage
