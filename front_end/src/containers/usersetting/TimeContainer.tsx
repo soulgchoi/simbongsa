@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as searchActions from "redux/modules/search";
-import "./TimeContainer.css"
+import "./TimeContainer.scss"
 import { withStyles, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 
@@ -121,8 +121,8 @@ class TimeContainer extends Component<any, any> {
     const { value } = this.state
     const { handleChange } = this
   return (
-    <Fragment>
-    <div style={{ marginTop: 25}}>
+    <Fragment >
+    <div id="time-bar" style={{ marginTop: 25 }}>
       <IOSSlider value={value}
         min={0}
         max={24}

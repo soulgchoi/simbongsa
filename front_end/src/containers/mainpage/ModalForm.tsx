@@ -8,7 +8,7 @@ import * as userActions from "redux/modules/user";
 import * as baseActions from "redux/modules/base";
 import * as volActions from "redux/modules/vol";
 import * as searchActions from "redux/modules/search";
-import './ModalForm.css'
+import './ModalForm.scss'
 interface IState {
     open: boolean
     active: boolean
