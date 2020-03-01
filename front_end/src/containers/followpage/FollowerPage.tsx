@@ -60,7 +60,7 @@ class FollowerList extends Component<Props, State> {
         <UserProfile profileUserId={userId} />
             <Responsive {...Responsive.onlyMobile}>
                 {userId} 님의 팔로워 
-              <List celled >
+              <List celled style={{width:"92vw"}}>
                 {getProfileList(followerList)}
               </List>
             </Responsive>

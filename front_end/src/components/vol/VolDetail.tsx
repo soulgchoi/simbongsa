@@ -89,7 +89,7 @@ class VolDetail extends React.Component<Props & any, State & any> {
       <Container text >
         <div className="title">{volunteer.v_title}</div>
         <Responsive minWidth={320} maxWidth={2559}>
-          <Table unstackable celled style={{width:"100vw"}}>
+          <Table unstackable celled >
             <Table.Body>
               <Table.Row>
                 <Table.Cell width="5" className="head">
