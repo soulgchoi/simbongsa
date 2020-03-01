@@ -20,6 +20,22 @@
 		select v_id, v_title, v_pStatus, v_pBgnD, v_pEndD, v_mBgnD, v_mEndD,
 		r_id, ca_id, v_Auth, v_x, v_y from `vol` where (v_pStatus between 1 and
 		3)
+		
+		<choose>
+			<when test="m_age == null">
+				and v_id is not null
+			</when>
+			<when test="m_age == '1992-01-01'">
+				and ( v_adult = 'Y')	
+			</when>
+			<otherwise>
+				 and (v_young = 'Y')
+			</otherwise>
+		</choose>
+		
+		
+		
+		
 		<choose>
 			<when test="v_pBgnD != null and v_pEndD != null">
 				and <![CDATA[v_pBgnD >= #{v_pBgnD} and v_pEndD <= #{v_pEndD}]]>
@@ -38,19 +54,19 @@
 			(
 			<choose>
 				<when test="r_sidoNm3 != null and r_gugunNm3 != null">
-					  (select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
-					 ,(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
- 					 ,(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
+					(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+					,(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+ 					,(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
 				</when>
 				<when test="r_sidoNm2 != null and r_gugunNm2 != null">
 				
-					 (select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
- 					 ,(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
+					(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+ 					,(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
 					 
 				</when>
 			
 				<when test="r_sidoNm1 != null and r_gugunNm1 != null">
-					 ,(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
+					 (select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})					 
 				</when>
 				<otherwise>
 					select r_id from region
@@ -83,24 +99,38 @@
 		</choose>
 		and
 		(
-		ca_id
-		<choose>
-			<when test="ca_highNm3 !=null">
-			(select ca_id from category where ca_highNm = #{ca_highNm1}),
-			(select ca_id from category where ca_highNm = #{ca_highNm2}),
-			(select ca_id from category where ca_highNm = #{ca_highNm3})
-			</when>
-			<when test="ca_highNm2 !=null">
-			(select ca_id from category where ca_highNm = #{ca_highNm1}),
-			(select ca_id from category where ca_highNm = #{ca_highNm2})
-			</when>
-			<when test="ca_highNm1 !=null">
-			 (select ca_id from category where ca_highNm = #{ca_highNm1})
-			</when>
-			<otherwise>
-				select ca_id from category
-			</otherwise>
-		</choose>
+		ca_id in
+			(
+			<choose>
+				<when test="ca_highNm3 !=null">
+				(
+				select ca_id from category 
+				where 
+				ca_highNm = #{ca_highNm1}
+				or
+			 	ca_highNm = #{ca_highNm2}
+				or
+				ca_highNm = #{ca_highNm3} 
+				)
+				
+				</when>
+				<when test="ca_highNm2 !=null">
+				(
+				select ca_id from category 
+				where 
+				ca_highNm = #{ca_highNm1}
+				or
+			 	ca_highNm = #{ca_highNm2}
+				)
+				</when>
+				<when test="ca_highNm1 !=null">
+				 (select ca_id from category where ca_highNm = #{ca_highNm1})
+				</when>
+				<otherwise>
+					select ca_id from category
+				</otherwise>
+			</choose>
+			)
 		)
 		order by
 		v_pBgnD DESC

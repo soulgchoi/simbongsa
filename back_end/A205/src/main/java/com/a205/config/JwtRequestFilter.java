@@ -49,9 +49,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 				Member m = memberDao.searchByEmail(username); 
-				if(!m.getM_key().equals("Y")) {
+	
+				if(m.getM_key() != null && !m.getM_key().equals("Y")) {
 					logger.warn("Member didn't enter Email");
-				};
+					}
+			
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {

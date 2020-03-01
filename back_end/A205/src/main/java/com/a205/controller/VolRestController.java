@@ -60,6 +60,7 @@ public class VolRestController {
 	@ApiOperation("titles / 한페이지 개수 / 페이지 번호 / 검색 필터 값들...")
 	public ResponseEntity<Map<String, Object>> getVolListByFilter(@PathVariable int no1, @PathVariable int no2, 
 			@RequestParam(value="v_pBgnD", required=false, defaultValue="") String v_pBgnD, 
+			@RequestParam(value="m_age", required=false, defaultValue="") String m_age, 
 			@RequestParam(value="v_pEndD", required=false, defaultValue="") String v_pEndD,
 			@RequestParam(value="v_pstatus", required=false, defaultValue="0") int v_pstatus, // 1= 모집예정, 2=모집중, 3=모집완료
 			@RequestParam(value="ca_highNm1", required=false, defaultValue="") String ca_highNm1,
@@ -77,6 +78,7 @@ public class VolRestController {
 			Model model) {
 		try {
 			MyFilter mf = new MyFilter();
+			mf.setM_age(m_age);
 			mf.setV_pBgnD(v_pBgnD);
 			mf.setV_pEndD(v_pEndD);
 			mf.setV_pstatus(v_pstatus);

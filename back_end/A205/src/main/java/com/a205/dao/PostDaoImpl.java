@@ -99,7 +99,7 @@ public class PostDaoImpl implements PostDao {
 		my.setListSize(listSize);
 		my.setStartList((startList-1)*listSize);
 		my.setM_id(m_id);
-		
+		System.out.println("----my from dao" + my);
 		return session.selectList(statement, my);
 	}
 	

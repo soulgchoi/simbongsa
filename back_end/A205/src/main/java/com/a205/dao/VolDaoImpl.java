@@ -48,7 +48,11 @@ public class VolDaoImpl implements VolDao {
 		String statement1 = ns + "selectByFilter"; 	//봉사명
 		
 		MyFilter m = new MyFilter();
-		
+		if(my.getM_age().equals("")) {
+			m.setM_age(null);
+		}else {
+			m.setM_age(my.getM_age());
+		}
 		if(my.getV_pBgnD().equals("")) {
 			m.setV_pBgnD(null);
 		}else {

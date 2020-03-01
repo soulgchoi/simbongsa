@@ -147,10 +147,28 @@ public class PostRestController {
 		}
 	}
 
-	@DeleteMapping("/PostVote")
+//	@DeleteMapping("/PostVote/{m_id}/{p_id}")
+//	@ApiOperation("전달받은 포스트 투표 정보를 삭제한다.")
+//	public ResponseEntity<Map<String, Object>> removePostVote(@RequestBody Post_vote post_vote) {
+//		try {
+//			
+//			boolean result = service.removePostVote(post_vote);
+//			// service.add(Post);
+//			return response(result, true, HttpStatus.CREATED);
+//			// return response(fileResponse, true, HttpStatus.CREATED);
+//		} catch (RuntimeException e) {
+//			logger.error("포스트 등록 실패", e);
+//			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+//		}
+//	}
+	
+	@DeleteMapping("/PostVote/{m_id}/{p_id}")
 	@ApiOperation("전달받은 포스트 투표 정보를 삭제한다.")
-	public ResponseEntity<Map<String, Object>> removePostVote(@RequestBody Post_vote post_vote) {
+	public ResponseEntity<Map<String, Object>> removePostVote(@PathVariable String m_id, @PathVariable String p_id) {
 		try {
+			Post_vote post_vote = new Post_vote();
+			post_vote.setM_id(Integer.parseInt(m_id));
+			post_vote.setP_id(Integer.parseInt(p_id));
 			boolean result = service.removePostVote(post_vote);
 			// service.add(Post);
 			return response(result, true, HttpStatus.CREATED);
@@ -160,7 +178,6 @@ public class PostRestController {
 			return response(e.getMessage(), false, HttpStatus.CONFLICT);
 		}
 	}
-
 	
 	@GetMapping("/Post/{p_id}")
 	@ApiOperation("p_id의 포스트 및 첨부파일 경로 리스트를 반환한다.")
@@ -186,6 +203,8 @@ public class PostRestController {
 			List<Member> post_vote_members = new ArrayList<Member>();
 			for(Integer m_idd:m_ids) {
 				Member member = memberService.selectByM_id(m_idd);
+				member.setM_password(null);
+
 				post_vote_members.add(member);
 				
 			}
@@ -223,6 +242,7 @@ public class PostRestController {
 				List<Member> post_vote_members = new ArrayList<Member>();
 				for(Integer m_idd:m_ids) {
 					Member member = memberService.selectByM_id(m_idd);
+					member.setM_password(null);
 					post_vote_members.add(member);
 					
 				}
@@ -326,11 +346,11 @@ public class PostRestController {
 				List<Member> post_vote_members = new ArrayList<Member>();
 				for(Integer m_idd:m_ids) {
 					Member member = memberService.selectByM_id(m_idd);
-					post_vote_members.add(member);
-					
-					
-					view.setPost_vote_members(post_vote_members);
+					member.setM_password(null);
+					post_vote_members.add(member);					
 				}
+				view.setPost_vote_members(post_vote_members);
+
 				String userId2 = memberService.selectByM_id(Integer.parseInt(post.getM_id())).getM_userid();
 				view.setUserId(userId2);
 
@@ -372,6 +392,7 @@ public class PostRestController {
 				List<Member> post_vote_members = new ArrayList<Member>();
 				for(Integer m_idd:m_ids) {
 					Member member = memberService.selectByM_id(m_idd);
+					member.setM_password(null);
 					post_vote_members.add(member);
 					
 				}

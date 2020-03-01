@@ -23,6 +23,7 @@ import com.a205.dto.Member;
 import com.a205.model.JwtRequest;
 import com.a205.model.JwtResponse;
 import com.a205.service.JwtUserDetailsService;
+import com.a205.service.UserMailSendService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -59,7 +60,23 @@ public class JwtAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
 		Member member = memberDao.searchByEmail(email);
 		
-		if(member.getM_key().equals("Y") || member.getM_key().equals(null))
+		if(member.getM_key().equals("Y"))
+			return ResponseEntity.ok(new JwtResponse(token));
+		else 
+			return ResponseEntity.ok("EmailAuthenticateNeed");
+	}
+	
+	@RequestMapping(value = "/authenticateById", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationTokenById(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+		final String userId = authenticationRequest.getUsername();
+		final String email = userDetailsService.loadEmailByUserNick(userId);
+		authenticate(email, authenticationRequest.getPassword());
+		final int id = userDetailsService.loadUserIdByUsername(email);
+		final String token = jwtTokenUtil.generateToken(email, userId, id);
+		Member member = memberDao.searchByEmail(email);
+		
+		if(member.getM_key().equals("Y"))
 			return ResponseEntity.ok(new JwtResponse(token));
 		else 
 			return ResponseEntity.ok("EmailAuthenticateNeed");
@@ -90,7 +107,8 @@ public class JwtAuthenticationController {
 
 				// Print user identifier
 				String email = payload.getEmail();
-				String userid = email.substring(0, email.lastIndexOf("@"));
+				//String userid = email.substring(0, email.lastIndexOf("@"));
+				String userid = email.substring(0, email.lastIndexOf("@") + 1); //일단 유저아이디에도 이메일 또는 특수문자가 들어가게 함.
 				member.setM_email(email);
 				member.setM_userid(userid);
 				Member mem = memberDao.searchByEmail(email);

@@ -62,6 +62,11 @@
 		  values(#{m_password}, #{m_userid}, #{m_email})
 	</insert>
 	
+	<insert id="insert2" parameterType="member">
+		insert into `member`(m_password,m_userid,m_email, m_key ) 
+		  values(#{m_password}, #{m_userid}, #{m_email}, #{m_key})
+	</insert>
+	
 	<insert id="insertNoPass" parameterType="member">
 		insert into `member`(m_userid,m_email ) 
 		  values( #{m_userid}, #{m_email})

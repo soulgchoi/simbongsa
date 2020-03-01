@@ -260,7 +260,7 @@ public class MemberRestController {
 	// 삭제/업데이트 될경우 더미데이터로 aws에 남는데 그거 처리하는 과정은 일단 안만듬
 	@PostMapping("/Member/PostProfile/{m_id}")
 	@ApiOperation("회원의 프로필사진 게시버튼클릭(첨부사진은 1개로 정하였다, 만약에 첨부사진이 있다면 업데이트 없다면 프로필사진이 삭제된다.) - 파일은 기존방식대로, m_id는 url로 받는다.")
-	public ResponseEntity<Map<String, Object>> insertProfile(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<Map<String, Object>> insertProfile(@RequestParam(value = "file", required = false) MultipartFile file,
 			@PathVariable int m_id) {// , @RequestParam("m_id") int m_id) {
 		try {
 			Map<String, Object> resultMap = new HashMap<String, Object>();

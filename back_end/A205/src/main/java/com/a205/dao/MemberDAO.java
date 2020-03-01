@@ -20,6 +20,8 @@ public interface MemberDAO {
 	public List<Vol> searchVote(int m_id);
 
 	public boolean add(Member member);
+	
+	public boolean add2(Member member);
 
 	public boolean addNoPassword(Member member);
 	

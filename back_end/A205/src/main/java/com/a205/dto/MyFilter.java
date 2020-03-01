@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyFilter {
+	private String m_age;
 	private String v_pBgnD;
 	private String v_pEndD;
 	private int v_pstatus;

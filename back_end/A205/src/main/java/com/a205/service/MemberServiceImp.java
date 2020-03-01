@@ -103,8 +103,22 @@ public class MemberServiceImp implements MemberService {
 			Member member = dao.search(userId);
 			int m_id = member.getM_id();
 			String m_age = memberPatch.getM_age();
+			System.out.println(m_age);
 			String m_bgnTm = memberPatch.getM_bgnTm();
 			String m_endTm = memberPatch.getM_endTm();
+			if (m_age.equals("")) {
+				m_age = null;
+			}
+			if (m_bgnTm.equals("")) {
+				m_bgnTm = null;
+			}
+			if (m_endTm.equals("")) {
+				m_endTm = null;
+			}
+			member.setM_age(m_age);
+			member.setM_bgnTm(m_bgnTm);
+			member.setM_endTm(m_endTm);
+
 			// 선호 지역 설정
 			List<String> prefer_region = memberPatch.getPrefer_region();
 			
@@ -180,10 +194,6 @@ public class MemberServiceImp implements MemberService {
 					member_has_category_dao.add(member_has_category);
 				}
 			}
-
-			member.setM_age(m_age);
-			member.setM_bgnTm(m_bgnTm);
-			member.setM_endTm(m_endTm);
 
 			boolean MemberChangedOk = dao.update(member);
 

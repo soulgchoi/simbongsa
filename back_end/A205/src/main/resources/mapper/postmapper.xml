@@ -11,7 +11,7 @@
 		f_followee_id
 		from follow
 		where f_follower_id = #{m_id})
-		order by p_date
+		order by p_date 
 		desc
 		limit #{listSize} offset #{startList};
 	</select>
@@ -60,71 +60,84 @@
 	</select>
 
 
-
 	<select id="selectP_idByFilterWithoutFollerings" resultType="java.lang.Integer" parameterType="myfilter">
-		select p_id from post where
+		select p_id from post 
+		where
 		m_id not in (#{m_id})
-		
 		and
-		( m_id not in (select f_follower_id
-		from follow
-		where f_followee_id = #{m_id})
-		)
+		m_id not in (
+					select f_followee_id
+					from follow
+					where f_follower_id = #{m_id}
+					)
 		and
-		
-		v_id 
-		in (select v_id from vol where (v_pStatus between 1 and 3)
-		or
-		(
-		r_id in	
+		v_id in (
+				select v_id from vol where v_pStatus between 1 and 3
+				)
+		and
+		v_id in 
 			(
-	    	<choose>
-				<when test="r_sidoNm3 != null and r_gugunNm3 != null">
-					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
-					(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
-					(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
-	    		</when>
-				<when test="r_sidoNm2 != null and r_gugunNm2 != null">
-					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
-					(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
-	    		</when>
-	    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
-					(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
-	    		</when>
-				<otherwise>
-	      			 r_id from region
-	    		</otherwise>
-	    	</choose>
-    		)
-    	)
-		or
-		(
-		ca_id
-			(
-			<choose>
-				<when test="ca_highNm3 !=null">
-					(select ca_id from category where ca_highNm = #{ca_highNm3}),
-					(select ca_id from category where ca_highNm = #{ca_highNm2}),
-				 	(select ca_id from category where ca_highNm = #{ca_highNm1})
+			select
+			v_id
+			from vol
+			where 
+			r_id in	
+				(
+		    	<choose>
+					<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+		    		</when>
+					<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+		    		</when>
+		    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
+		    		</when>
+					<otherwise>
+		      			 select r_id from region
+		    		</otherwise>
+		    	</choose>
+	    		)
+	    		or
+	    		ca_id in
+				(
+				<choose>
+					<when test="ca_highNm3 !=null">
+						(
+						select ca_id from category 
+						where 
+						ca_highNm = #{ca_highNm3}
+						or
+						ca_highNm = #{ca_highNm2}
+						or
+						ca_highNm = #{ca_highNm1}
+						)
+						
+					</when>
+					<when test="ca_highNm2 !=null">
+						(
+						select ca_id from category 
+						where 
+						ca_highNm = #{ca_highNm2}
+						or
+						ca_highNm = #{ca_highNm1}
+						)						
+					</when>
+					<when test="ca_highNm1 !=null">
+						 (select ca_id from category where ca_highNm = #{ca_highNm1})
+					</when>
 					
-				</when>
-				<when test="ca_highNm2 !=null">
-					(select ca_id from category where ca_highNm = #{ca_highNm2}),
-				 	(select ca_id from category where ca_highNm = #{ca_highNm1})
-					
-				</when>
-				<when test="ca_highNm1 !=null">
-					 (select ca_id from category where ca_highNm = #{ca_highNm1})
-				</when>
-				
-				<otherwise>
-	      		  ca_id from category
-	    		</otherwise>
-			</choose>
-			)
-		)
-		)
-		order by p_id desc
+					<otherwise>
+		      		  select ca_id from category
+		    		</otherwise>
+				</choose>
+				)
+	    	)
+			
+		order by p_date desc
 		limit #{listSize} offset #{startList}
 
 	</select>
