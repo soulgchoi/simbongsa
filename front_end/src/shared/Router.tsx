@@ -62,7 +62,6 @@ class Router extends Component {
       <Route path="/" component={HeaderForDesktop} />
       <Route path="/" component={HeaderForMobile} /> 
       
-
       {/* 시작페이지 */}
       <Route exact path="/" component={Intro} />
 
@@ -80,18 +79,14 @@ class Router extends Component {
       {/* 비밀번호찾기 */}
       <Route exact path="/findpassword" component={FindPassword} />
       <Route exact path="/findpasswordmailsend" component={FindPasswordMailSend} />
-
-      {/* 회원 정보 ooo */}
       <Route exact path="/changepassword/:token" component={FindPasswordMailRecieve} />
-      <Route exact path="/usersetting" component={UserSettingPage} />
-      <Route exact path="/withdraw" component={Withdraw} /> 
 
-      {/* 회원탈퇴 완료 */}
+      {/* 회원탈퇴 */}
+      <Route exact path="/withdraw" component={Withdraw} /> 
       <Route exact path="/withdrawcomplete" component={WithdrawComplete} />
 
       {/* 동적으로 화면 전환이 일어나는 페이지 */}
       <Route render={({location, history})=>{
-        const currentLocation = window.location.href;
         return(
         <TransitionGroup id="transition-group">
         {/* classNames 에 들아가는 값에 따라 Router.scss 에서 클래스에 적용한 css가 동작합니다 */}
@@ -108,16 +103,19 @@ class Router extends Component {
           {/* 피드페이지 ooo */}
           <Route exact path="/feed" component={Feed} />
 
-          {/* 봉사 상세정보 페이지 */}
+          {/* 봉사 상세정보 페이지 ooo */}
           <Route exact path="/vol/:id/detail" component={VolDetail} /> 
 
-          {/* 마이페이지 */}
+          {/* 마이페이지 ooo */}
           <Route exact path="/mypage" component={Mypage} />
 
           {/* 다른회원 정보 ooo */}
           <Route exact path="/user/:id" component={OthersPage}/>
           <Route exact path="/follower/:id" component={FollowerPage}/>
           <Route exact path="/following/:id" component={FollowingPage}/>
+
+          {/* 세팅 페이지 ooo */}
+          <Route exact path="/usersetting" component={UserSettingPage} />
 
           </Switch>
           </CSSTransition>

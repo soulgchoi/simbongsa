@@ -56,11 +56,11 @@ class FollowerList extends Component<Props, State> {
         const { getProfileList } = this;
         const userId = this.props.match.params.id;
     return (
-        <Container style={{width:"100vw"}}>
+        <Container  style={{width:"100vw"}} >
         <UserProfile profileUserId={userId} />
             <Responsive {...Responsive.onlyMobile}>
                 {userId} 님의 팔로워 
-              <List celled relaxed>
+              <List celled >
                 {getProfileList(followerList)}
               </List>
             </Responsive>
