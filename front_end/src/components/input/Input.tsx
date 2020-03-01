@@ -29,6 +29,7 @@ export default function Input({
           id={id}
           placeholder={placeholder}
           type={type}
+          autoCapitalize="none"
           onKeyDown={event => {
             if (event.key === "Enter" && onEnter !== undefined) {
               onEnter(event);
