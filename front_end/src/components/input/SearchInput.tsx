@@ -32,6 +32,7 @@ export default function SearchInput({
             id={id}
             placeholder={placeholder}
             type={type}
+            autoCapitalize="none"
             onKeyDown={(event: any) => {
               if (event.key === "Enter" && onEnter !== undefined) {
                 onEnter(event);
