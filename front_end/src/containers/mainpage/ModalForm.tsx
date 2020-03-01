@@ -39,10 +39,6 @@ class ModalExampleDimmer extends Component<any, IState> {
             this.setState({ active: true })
             return
         }
-        if (times.morning === true || times.afternoon === true) {
-            this.setState({ active: true })
-            return
-        }
         this.setState({ active: false })
         return
     }
@@ -53,7 +49,7 @@ class ModalExampleDimmer extends Component<any, IState> {
         this.searchByTerm();
     }
     searchByTerm = async () => {
-        const { input, VolActions, locations, categorys, times, UserActions, SearchActions } = this.props
+        const { input, VolActions, locations, categorys, times, ages, UserActions, SearchActions } = this.props
         const { bgnTm, endTm } = times.toJS()
         let preferLocate = locations.toJS().map((location: any) => location.text)
         let preferCategory = categorys.toJS().map((category: any) => category.text)
@@ -72,12 +68,17 @@ class ModalExampleDimmer extends Component<any, IState> {
         const firstCategory = preferCategory[0]
         const secondCategory = preferCategory[1]
         const thirdCategory = preferCategory[2]
-
+        let age = "";
+        if (ages.toJS().adult === true) {
+            age = "1992-01-01";
+        } else if (ages.toJS().youth === true) {
+        age = "2005-01-01";
+        }
         
         UserActions.changeLoading(true)
         try {
-            VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm })
-            VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1 })
+            VolActions.getVolList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, age: age })
+            VolActions.getInitailList({ input: input, firstLocation: firstLocation, secondLocation: secondLocation, thirdLocation: thirdLocation, firstCategory: firstCategory, secondCategory: secondCategory, thirdCategory: thirdCategory, bgnTm: bgnTm, endTm: endTm, pageNum: 1, age:age })
         } catch{
         } finally {
             UserActions.changeLoading(false)
@@ -121,6 +122,7 @@ export default connect(
             locations: search.get("locations"),
             categorys: search.get("categorys"),
             times: search.get("times"),
+            ages: search.get("ages")
         };
     },
     dispatch => ({
