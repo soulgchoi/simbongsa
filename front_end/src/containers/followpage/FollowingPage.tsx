@@ -56,7 +56,7 @@ class FollowingList extends Component<Props, State> {
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
         const userId = this.props.match.params.id;
     return (
-        <Container>
+        <Container style={{width:"100vw"}}>
         <UserProfile profileUserId={userId} />
           
           <Responsive {...Responsive.onlyMobile}>
