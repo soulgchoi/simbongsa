@@ -193,23 +193,6 @@ class Login extends React.Component<any, any> {
     const secondCategory = preferCategory[1];
     const thirdCategory = preferCategory[2];
 
-    let bgnTm = "";
-    let endTm = "";
-
-    if (times.toJS().morning === true) {
-      bgnTm = "00:00:00";
-    } else if (times.toJS().morning === false) {
-      bgnTm = "12:00:01";
-    }
-    if (times.toJS().afternoon === true) {
-      endTm = "23:59:59";
-    } else if (times.toJS().afternoon === false) {
-      endTm = "12:00:00";
-    }
-    if (times.toJS().afternoon === false && times.toJS().morning === false) {
-      bgnTm = "00:00:01";
-      endTm = "23:59:58";
-    }
     VolActions.getVolList({
       input: input,
       firstLocation: firstLocation,
@@ -218,8 +201,8 @@ class Login extends React.Component<any, any> {
       firstCategory: firstCategory,
       secondCategory: secondCategory,
       thirdCategory: thirdCategory,
-      bgnTm: bgnTm,
-      endTm: endTm
+      bgnTm: times.toJS().bgnTm,
+      endTm: times.toJS().endTm
     });
     VolActions.getInitailList({
       input: input,
@@ -229,8 +212,8 @@ class Login extends React.Component<any, any> {
       firstCategory: firstCategory,
       secondCategory: secondCategory,
       thirdCategory: thirdCategory,
-      bgnTm: bgnTm,
-      endTm: endTm,
+      bgnTm: times.toJS().bgnTm,
+      endTm: times.toJS().endTm,
       pageNum: 1
     });
   };
@@ -240,32 +223,43 @@ class Login extends React.Component<any, any> {
       const info = preferInfo.toJS();
 
       // 시간 관련
-      if (info.bgnTm === "00:00:00") {
+      if(info.bgnTm === null){
         SearchActions.initialInsert({
           form: "times",
-          key: "morning",
-          value: true
-        });
-      } else {
-        SearchActions.initialInsert({
-          form: "times",
-          key: "morning",
-          value: false
+          key: "bgnTm",
+          value: "00:00:00"
         });
       }
-      if (info.endTm === "23:59:59") {
+      else{
         SearchActions.initialInsert({
           form: "times",
-          key: "afternoon",
-          value: true
-        });
-      } else {
-        SearchActions.initialInsert({
-          form: "times",
-          key: "afternoon",
-          value: false
+          key: "bgnTm",
+          value: info.bgnTm
         });
       }
+      if(info.endTm === null){
+        SearchActions.initialInsert({
+          form: "times",
+          key: "endTm",
+          value: "24:00:00" 
+        });
+    }
+    else{
+      if(info.endTm === "23:59:59"){
+        SearchActions.initialInsert({
+          form: "times",
+          key: "endTm",
+          value: "24:00:00" 
+        });
+      }
+      else{
+      SearchActions.initialInsert({
+        form: "times",
+        key: "endTm",
+        value: info.endTm 
+      });
+      }
+    }
       // 나이 관련
       const today = new Date();
       const year = today.getFullYear();
@@ -395,6 +389,7 @@ class Login extends React.Component<any, any> {
                   iconPosition="left"
                   placeholder="이메일또는 아이디를 입력하세요."
                   onChange={handleChange}
+                  autoCapitalize="none"
                 />
                 <AuthError error={error.password} />
                 <Form.Input

@@ -205,6 +205,7 @@ class Join extends React.Component<any, any> {
                   placeholder="이메일을 입력하세요"
                   type="text"
                   nametag="이메일"
+                  autoCapitalize="none"
                 />
                 <AuthError error={error2.userid} />
                 <Form.Input
@@ -217,6 +218,7 @@ class Join extends React.Component<any, any> {
                   placeholder="아이디를 입력하세요"
                   type="text"
                   nametag="아이디"
+                  autoCapitalize="none"
                 />
                 <AuthError error={error2.password} />
                 <Form.Input
@@ -229,6 +231,7 @@ class Join extends React.Component<any, any> {
                   placeholder="비밀번호를 입력하세요"
                   type="password"
                   nametag="비밀번호"
+                  autoCapitalize="none"
                 />
                 <AuthError error={error2.passwordConfirm} />
                 <Form.Input
@@ -241,6 +244,7 @@ class Join extends React.Component<any, any> {
                   placeholder="비밀번호를 다시한번 입력하세요"
                   type="password"
                   nametag="비밀번호 확인"
+                  autoCapitalize="none"
                 />
 
                 {/* <div className="policy">
