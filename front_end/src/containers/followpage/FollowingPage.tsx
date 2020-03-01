@@ -56,7 +56,7 @@ class FollowingList extends Component<Props, State> {
     // let followerList = [], followingList = [],  isProfileUserFollowedByLoginUser = false;
         const userId = this.props.match.params.id;
     return (
-        <div>
+        <Container>
         <UserProfile profileUserId={userId} />
           
           <Responsive {...Responsive.onlyMobile}>
@@ -73,7 +73,7 @@ class FollowingList extends Component<Props, State> {
               </List>
               </Container>
             </Responsive>
-        </div>
+        </Container>
     );
     }
 }

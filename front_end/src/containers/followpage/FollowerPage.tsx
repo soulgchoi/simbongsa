@@ -56,7 +56,7 @@ class FollowerList extends Component<Props, State> {
         const { getProfileList } = this;
         const userId = this.props.match.params.id;
     return (
-        <div>
+        <Container>
         <UserProfile profileUserId={userId} />
             <Responsive {...Responsive.onlyMobile}>
                 {userId} 님의 팔로워 
@@ -72,7 +72,7 @@ class FollowerList extends Component<Props, State> {
               </List>
               </Container>
             </Responsive>
-        </div>
+        </Container>
     );
     }
 }
