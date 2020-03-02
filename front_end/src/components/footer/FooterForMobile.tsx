@@ -38,7 +38,6 @@ class Footer extends React.Component<any, any>{
   render() {
     const { activeItem } = this.state
     const { loginCheck } = this.props;
-    console.log("모바일크기", Responsive.onlyMobile.minWidth, Responsive.onlyMobile.maxWidth)
     return (
       <div>
         {/* 작은 화면에서 보여줌 */}
