@@ -88,9 +88,10 @@ class Router extends Component {
       {/* 동적으로 화면 전환이 일어나는 페이지 */}
       <Route render={({location, history})=>{
         return(
-        <TransitionGroup id="transition-group">
+        <TransitionGroup id="transition-group" >
         {/* classNames 에 들아가는 값에 따라 Router.scss 에서 클래스에 적용한 css가 동작합니다 */}
-        <CSSTransition key={location.pathname} classNames={this.direction(history)} timeout={300}>
+        <CSSTransition key={location.pathname} transitionEnter={true}
+        classNames={this.direction(history)} timeout={300}>
           <Switch location={location}>
           {/* 이 안에 <Route />를 넣으면 됩니다. */}
 
@@ -124,8 +125,9 @@ class Router extends Component {
       }}/>
 
       {/* footer */}
-      <Route path="/" component={FooterForDesktop} />
       <Route path="/" component={FooterForMobile} />
+      <Route path="/" component={FooterForDesktop} />
+      
       
       </BrowserRouter>
     );
