@@ -1,5 +1,5 @@
 import React, {createRef} from "react";
-import { Responsive, Container, Segment, Grid, Header, List } from "semantic-ui-react";
+import { Responsive, Container, Segment, Grid, Header, Image } from "semantic-ui-react";
 
 // import "assets/mycss";
 import './Footer.css'
@@ -19,31 +19,13 @@ class FooterForDesktop extends React.Component<any, any> {
       <Container>
         <Grid divided stackable>
           <Grid.Row>
-            <Grid.Column width={3}>
-              <Header  as='h4' content='About' />
-              <List link >
-                <List.Item as='a'>Sitemap</List.Item>
-                <List.Item as='a'>Contact Us</List.Item>
-                <List.Item as='a'>Religious Ceremonies</List.Item>
-                <List.Item as='a'>Gazebo Plans</List.Item>
-              </List>
-            </Grid.Column>
-            <Grid.Column width={3}>
-              <Header  as='h4' content='Services' />
-              <List link >
-                <List.Item as='a'>Banana Pre-Order</List.Item>
-                <List.Item as='a'>DNA FAQ</List.Item>
-                <List.Item as='a'>How To Access</List.Item>
-                <List.Item as='a'>Favorite X-Men</List.Item>
-              </List>
-            </Grid.Column>
-            <Grid.Column width={7}>
-              <Header as='h4' >
-                Footer Header
-              </Header>
-              <p>
-                Extra space for a call to action inside the footer that could help re-engage users.
-              </p>
+            <Grid.Column textAlign="center">
+              <Header  as='h4' content='About Us' />
+              <Container styk>
+                프론트엔드 : 윤성민, 임학수, 최솔지<br/>
+                　　백엔드 : 김동주, 박정환, 이신호<br/>
+                <Image src="/images/logo2.png" style={{ width: "6rem", padding: "0.3rem", margin:"auto"}} />
+              </Container>
             </Grid.Column>
           </Grid.Row>
         </Grid>

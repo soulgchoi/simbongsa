@@ -237,7 +237,7 @@ class Statistics extends Component<Props, State> {
       preferCategoryLabelList
     } = this.state;
     return (
-      <div>
+      <Container textAlign='center'>
           <PieGraph
             title={"봉사 선호 지역 통계"}
             data={preferlocationDataList}
@@ -256,7 +256,7 @@ class Statistics extends Component<Props, State> {
           setUpdateFlag={this.setCategoryUpdateFlag}
           setSelectedElementIndex={this.setSelectedElementIndex}
           />
-      </div>
+      </Container>
     );
   }
 }

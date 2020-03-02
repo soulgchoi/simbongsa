@@ -14,10 +14,12 @@ class Withdraw extends Component<Props, State> {
   state = { isButtonDisabled: true, errorMessage: "", inputEmail: "" };
   handleWithdraw = () => {
     const { AuthActions, mId } = this.props;
-    UserApi.deleteUser(mId);
-    storage.remove("token");
-    AuthActions.loginCheck(false);
-    window.location.href = process.env.REACT_APP_FRONT_URI + "/withdrawcomplete";
+    UserApi.deleteUser(mId)
+    .then((res:any)=>{
+      storage.remove("token");
+      AuthActions.loginCheck(false);
+      window.location.href = process.env.REACT_APP_FRONT_URI + "/withdrawcomplete";
+    });
   };
   handleChange = (e: any) => {
     this.setState({ inputEmail: e.target.value }, () => {
