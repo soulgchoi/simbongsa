@@ -44,23 +44,27 @@ class Profile extends Component<Props, State> {
   handleSubmit = async (e: any) => {
     e.preventDefault();
     const { selectedFiles } = this.state;
-    const { mId } = this.props;
+    const { mId,userId, UserActions } = this.props;
     const file = new FormData();
     if (selectedFiles.length > 0) {
       file.append("file", selectedFiles[0]);
     }
     let data = await PostingApi.uploadProfileImage(mId, file);
-    this.setState({isSubmit: true, isDelete: false})
+    this.setState({isSubmit: true, isDelete: false}, ()=>{
+      UserActions.setUserProfileImage(userId);
+    })
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
   };
 
   handleDelete = async (e: any) => {
     e.preventDefault();
-    const { mId } = this.props;
+    const { mId , userId, UserActions} = this.props;
     const file = new FormData();
     let data = await PostingApi.uploadProfileImage(mId, file);
-    this.setState({isDelete: true});
+    this.setState({isDelete: true},()=>{
+      UserActions.setUserProfileImage(userId);
+    });
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
   };

@@ -31,11 +31,9 @@ class UserProfile extends Component<Props, State> {
   state = {
     showPage: page.PROFILE
   };
-  constructor(props: any) {
-    super(props);
-    this.setProfile();
+  async componentDidMount(){
+    await this.setProfile();
   }
-
   setProfile = async () => {
     const { profileUserId, loginUserId, UserActions, userProfileMap } = this.props;
     if (typeof userProfileMap.get(profileUserId) === 'undefined') {
