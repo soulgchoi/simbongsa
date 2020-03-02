@@ -69,7 +69,7 @@ class TabForMypage extends React.Component<Props, State> {
     return (
       <div id="tab">
         {/* 데스크탑용 */}
-        <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+        <Responsive minWidth={Responsive.onlyTablet.minWidth} maxWidth={Responsive.onlyTablet.maxWidth}>
           <Container style={{width:"700px"}}>
           <Tab
           panes={panes(userId)}
@@ -78,7 +78,7 @@ class TabForMypage extends React.Component<Props, State> {
           </Container>
         </Responsive>
         {/* 모바일 용 */}
-        <Responsive {...Responsive.onlyMobile.maxWidth}>
+        <Responsive minWidth={Responsive.onlyMobile.minWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
           <Tab
           panes={panes(userId)}
           activeIndex={activeIndex}

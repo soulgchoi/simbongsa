@@ -58,13 +58,13 @@ class FollowerList extends Component<Props, State> {
     return (
         <Container  style={{width:"100vw"}} >
         <UserProfile profileUserId={userId} />
-            <Responsive {...Responsive.onlyMobile.maxWidth}>
+            <Responsive minWidth={Responsive.onlyMobile.minWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
                 {userId} 님의 팔로워 
               <List celled style={{width:"92vw"}}>
                 {getProfileList(followerList)}
               </List>
             </Responsive>
-            <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+            <Responsive minWidth={Responsive.onlyTablet.minWidth} maxWidth={Responsive.onlyTablet.maxWidth}>
               <Container style={{width:"700px"}}>
                 {userId} 님의 팔로워
               <List celled relaxed>
