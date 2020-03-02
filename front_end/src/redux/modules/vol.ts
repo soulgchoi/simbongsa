@@ -127,7 +127,6 @@ export default handleActions<any>(
         return state.set("volunteersForList", List(data));
       },
       onFailure: (state, action) => {
-        console.log("실패:", action.payload);
       }
     }),
     ...pender({
@@ -137,7 +136,6 @@ export default handleActions<any>(
         return state.set("volunteers", List(data));
       },
       onFailure: (state, action) => {
-        console.log("실패:", action.payload);
       }
     }),
     ...pender({

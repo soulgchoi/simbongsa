@@ -270,7 +270,6 @@ class Map extends Component<IProps, IState> {
     const { isMarkerRenderingNeed , isViewAllClicked, isZoomClicked} = this.state;
     // const { height } = this.state;
     const { volMap } = this.props;
-    console.log("리렌더링", isZoomClicked)
     return (
       <div className="map_wrap" id="map_wrap" style={{ height: "40vh" }}>
         <Dimmer active={isMarkerRenderingNeed || isViewAllClicked || isZoomClicked} inverted>

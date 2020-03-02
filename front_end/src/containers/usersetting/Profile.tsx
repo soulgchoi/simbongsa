@@ -35,7 +35,6 @@ class Profile extends Component<Props, State> {
   handleFileSelect = (e: any) => {
     var id = e.target.id;
     var value = e.target.files[0];
-    console.log("선택된 파일", value);
     if(value){
       this.setState({ selectedFiles: [value], preview : URL.createObjectURL(value)});
     }
@@ -72,7 +71,6 @@ class Profile extends Component<Props, State> {
       return (<div></div>);
     }
     const { isSubmit,isDelete, preview } = this.state;
-    console.log(userProfileMap);
     const profileImage = userProfileMap.get(userId).get('profileImage');
     const profileImageFlag = profileImage ? profileImage.split(`${process.env.REACT_APP_REST_BASE_API}/uploads/`)[1] : "null";
     return (

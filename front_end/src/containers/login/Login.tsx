@@ -89,9 +89,14 @@ class Login extends React.Component<any, any> {
         const id_token = splitedHash[1].split("&")[0];
         await AuthActions.googleLogin(id_token);
         const token = this.props.result.toJS().token;
-        const userEmail = jwt.decode(token);
-        await UserActions.setLoggedInfo(userEmail);
+        const loggedIinfo = jwt.decode(token);
         storage.set("token", token);
+        await UserActions.setLoggedInfo(loggedIinfo);
+        const { userId } = this.props;
+        await UserActions.setPreferInfo(userId);
+        const { preferInfo } = this.props;
+        this.initializePreferInfo(preferInfo);
+        await this.initialSearch();
       }
       const token = storage.get("token");
       if (token !== null && token !== "undefined") {
@@ -152,7 +157,6 @@ class Login extends React.Component<any, any> {
       // email 로그인인경우
         await AuthActions.localLogin({ email, password });
       }
-      console.log(this.props.result);
       if (this.props.result === "EmailAuthenticateNeed") {
         history.push("/mailresend");
         return;

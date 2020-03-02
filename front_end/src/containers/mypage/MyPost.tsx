@@ -49,7 +49,6 @@ class MyPost extends Component<Props, State> {
         pageNum: 1,
         flag: false},
         async ()=>{
-          console.log("여기오나?");
           const { PostingAction, userId } = this.props;
           const { pageNum } = this.state;
           await PostingAction.resetPostByUser();
@@ -61,7 +60,6 @@ class MyPost extends Component<Props, State> {
 
   render() {
     const { postList } = this.props;
-    console.log("포스트리스트", postList);
     const PrintArray = postList.map((post: any, i: any) => {
       return <PostCard color="white" post={post} key={i} setFlag={this.setFlag} />
     });

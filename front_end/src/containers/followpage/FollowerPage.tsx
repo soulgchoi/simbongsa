@@ -45,7 +45,6 @@ class FollowerList extends Component<Props, State> {
         returnAxios.then(
             (response : any)=>{
                 followerList = response.data.data.map((item:any)=>item.m_userid);
-                console.log(followerList);
                 this.setState({followerList : followerList, userId : userId})
             }
         )

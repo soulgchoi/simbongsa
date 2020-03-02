@@ -24,7 +24,6 @@ class EmailComplete extends Component<Props, State> {
     let returnedAxios = AuthApi.emailValidate(email, key);
     returnedAxios.then((res:any)=>{
       let emailValidate = res.data.data;
-      console.log("emailValidate", emailValidate);
       this.setState({emailValidate : emailValidate})
       if(emailValidate){
         window.setTimeout(()=>{
