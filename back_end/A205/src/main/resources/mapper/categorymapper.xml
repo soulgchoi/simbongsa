@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.a205.model.categorymapper">
+	<select id="selectOne" resultType="category" parameterType="java.util.Map">
+		select * from category
+		where ca_highCd = #{ca_highCd} and ca_lowCd = #{ca_lowCd}
+	</select>
+	
+	<select id="selectList" resultType="category" parameterType="java.lang.String">
+		select * from `category`
+		where ca_highNm = #{ca_highNm}
+	</select>
+	<select id="selectListByHighCd" resultType="category" parameterType="java.lang.String">
+		select * from `category`
+		where ca_highCd = #{ca_highCd}
+	</select>
+
+</mapper>

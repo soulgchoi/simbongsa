@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.a205.model.followmapper">
+	<select id="searchFollowers" resultType="member"
+		parameterType="int">
+		select * from member
+		where m_id in(select f_follower_id
+		from follow
+		where f_followee_id = #{userId_pk})
+	</select>
+	
+	
+	<select id="searchFollowees" resultType="member"
+		parameterType="int">
+		select * from member
+
+		where m_id in(select f_followee_id from follow
+			where f_follower_id = #{userId_pk})
+	 </select>
+	 
+	 <select id="selectOne" resultType="int" parameterType="java.util.Map">
+	 	select count(*) from follow where f_follower_id = #{userId_pk} and f_followee_id = #{followee_pk}
+	 </select>
+	 
+	<insert id="insert" parameterType="java.util.Map">
+		insert into `follow`(f_follower_id, f_followee_id ) 
+		  values(#{userId_pk}, #{followee_pk} )
+	</insert>
+
+	<delete id="delete" parameterType="java.util.Map">
+		delete from `follow`
+		where f_follower_id=#{userId_pk} and f_followee_id=#{followee_pk}
+	</delete>
+
+</mapper>

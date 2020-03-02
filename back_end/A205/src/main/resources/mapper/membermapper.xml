@@ -3,18 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.membermapper">
+ 	
+ 	<select id="selectBym_id" resultType="member" parameterType="java.lang.Integer">
+		select * from `member` 
+		<if test ="value!=null">
+			where m_id = #{m_id}
+		</if>
+	</select>
+ 	
+ 	
  	<select id="select" resultType="member" parameterType="string">
 		select * from `member` 
 		<if test ="value!=null">
 			where m_userid = #{userId}
 		</if>
 	</select>
+ 
+ 	<select id="selectListVote" resultType="vol" parameterType="int">			
+		select 
+		* 
+		from 
+		vol
+		where 
+		v_id in (select 
+				distinct (v_id) 
+				from 
+				`post` 
+				where p_id in (select 
+							p_id 
+							from 
+							`post_vote` 
+							where m_id = #{m_id}
+							)
+				) 
+	</select>
 
+ 
+ 	<select id="selectListPost" resultType="post" parameterType="int">
+		select * from post 
+			where m_id = #{m_id}
+	</select>
+		
  	<select id="selectByEmail" resultType="member" parameterType="string">
-		select * from `member` 
-		<if test ="value!=null">
-			where m_email = #{email}
-		</if>
+		select * from `member` where m_email = #{email}
 	</select>
 	
 	<update id="update" parameterType="member">
@@ -30,4 +61,24 @@
 		insert into `member`(m_password,m_userid,m_email ) 
 		  values(#{m_password}, #{m_userid}, #{m_email})
 	</insert>
+	
+	<insert id="insert2" parameterType="member">
+		insert into `member`(m_password,m_userid,m_email, m_key ) 
+		  values(#{m_password}, #{m_userid}, #{m_email}, #{m_key})
+	</insert>
+	
+	<insert id="insertNoPass" parameterType="member">
+		insert into `member`(m_userid,m_email ) 
+		  values( #{m_userid}, #{m_email})
+	</insert>
+	
+	<update id="GetKey" parameterType="Map">
+		update member set m_key = #{param2} where m_email = #{param1}
+	</update>
+	<update id="alter_userKey" parameterType="Map">
+		update member set m_key = "Y" where m_email = #{param1} and m_key = #{param2}
+	</update>
+	<update id="alter_password" parameterType="Map">
+		update member set m_password = #{param2} where m_email = #{param1}
+	</update>
 </mapper>

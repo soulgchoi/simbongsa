@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.a205.model.regionmapper">
+	<select id="selectOne" resultType="region" parameterType="java.util.Map">
+		select * from region
+		where r_sidoCd = #{r_sidoCd} and r_gugunCd = #{r_gugunCd}
+	</select>
+	
+	<select id="selectByR_id" resultType="region" parameterType="java.lang.Integer">
+		select * from region
+		where r_id = #{r_id}
+	</select>
+
+</mapper>

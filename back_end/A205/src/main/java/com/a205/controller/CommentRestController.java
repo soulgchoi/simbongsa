@@ -1,17 +1,17 @@
 package com.a205.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,77 +20,126 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.a205.config.JwtTokenUtil;
+import com.a205.dao.MemberDAO;
+import com.a205.dto.Comment;
+import com.a205.dto.Comment_mini;
+import com.a205.dto.Comment_update;
+import com.a205.dto.Member;
+import com.a205.service.CommentService;
+import com.a205.service.JwtUserDetailsService;
 
 import io.swagger.annotations.ApiOperation;
 
-import com.google.common.net.HttpHeaders;
-import com.a205.dto.Comment;
-import com.a205.dto.Post;
-import com.a205.service.CommentService;
-
-@RestController
+@CrossOrigin("*")
 @RequestMapping("/rest")
-@CrossOrigin(origins = "*")
+@RestController
 public class CommentRestController {
-    private static final Logger logger = LoggerFactory.getLogger(CommentRestController.class);
 
-    @Autowired
-    CommentService service;
+	private static final Logger Logger = LoggerFactory.getLogger(CommentRestController.class);
 
-    private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("status", status);
-        resultMap.put("data", data);
-        return new ResponseEntity<>(resultMap, hstatus);
-    }
+	@Autowired
+	CommentService service;
 
-    @GetMapping("/Comment/{no}")
-    @ApiOperation("No에 해당하는 하나의 답변 정보를 반환한다.")
-    public ResponseEntity<Map<String, Object>> getComment(@PathVariable int no) {
-        try {
-            List<Comment> comment = service.search(no);
-            return response(comment, true, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("답변조회실패", e);
-            return response(e.getMessage(), false, HttpStatus.CONFLICT);
-        }
-    }
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
 
-    @PostMapping("/Comment")
-    @ApiOperation("전달받은 답변 정보를 등록한다.")
-    public ResponseEntity<Map<String, Object>> insertComment(@RequestBody Comment comment) {
-        try {
-            boolean result = service.add(comment);
-            return response(result, true, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            logger.error("답변 등록 실패", e);
-            return response(e.getMessage(), false, HttpStatus.CONFLICT);
-        }
-    }
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private MemberDAO memberDao;
 
-    @PutMapping("/Comment")
-    @ApiOperation("전달받은 답변 정보를 업데이트한다.")
-    public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment) {
-        try {
-            boolean result = service.update(comment);
-            return response(result, true, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("답변 정보 수정 실패", e);
-            return response(e.getMessage(), false, HttpStatus.CONFLICT);
-        }
-    }
+	private ResponseEntity<Map<String, Object>> response(Object data, boolean status, HttpStatus hstatus) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", status);
+		resultMap.put("data", data);
+		return new ResponseEntity<>(resultMap, hstatus);
+	}
 
-    @DeleteMapping("/Comment/{no}")
-    @ApiOperation("전달받은 답변 정보를 삭제한다.")
-    public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int no, HttpSession session) {
-        try {
-            boolean result = service.remove(no);
-            return response(result, true, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("답변 삭제 실패", e);
-            return response(e.getMessage(), false, HttpStatus.CONFLICT);
-        }
-    }
+	@GetMapping("/Comment/{p_id}")
+	@ApiOperation("해당하는 포스트에 달린 모든 댓글을 가져온다 .")
+	public ResponseEntity<Map<String, Object>> getComments(@PathVariable int p_id) {
+		try {
+			
+			List<Comment> comments = service.searchListComments(p_id);
+			for(Comment comment:comments) {
+				int m_id = comment.getM_id();
+				String userId =  memberDao.selectByM_id(m_id).getM_userid();
+				System.out.println(userId);
+				comment.setUserId(userId);
+			}
+			return response(comments, true, HttpStatus.OK);
+		} catch (Exception e) {
+			Logger.error("댓글 불러오기 실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	@PostMapping("/Comment")
+	@ApiOperation("No에 해당하는 하나의 포스트에 댓글을 남긴다.")
+	public ResponseEntity<Map<String, Object>> postComment(@RequestBody Comment_mini comment) {
+		try {
+			boolean result = service.add(comment.getP_id(), comment.getM_id(), comment.getC_content());
+			return response(result, true, HttpStatus.OK);
+		} catch (Exception e) {
+			Logger.error("댓글생성실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	@DeleteMapping("/Comment/{c_id}")
+	@ApiOperation("No에 해당하는 하나의 포스트에 해당 댓글을 지운다.")
+	public ResponseEntity<Map<String, Object>> removeComment(@PathVariable int c_id, HttpServletRequest request) {
+		try {
+			final String requestTokenHeader = request.getHeader("Authorization");
+			String username = null;
+			String jwtToken = null;
+			// JWT Token is in the form "Bearer token". Remove Bearer word and get
+			// only the Token
+			
+			jwtToken = requestTokenHeader.substring(7);
+			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+			Member m = memberDao.searchByEmail(username);
+			Comment comment = service.searchOne(c_id);
+			
+//			int comment_m_id = service.searchOne(c_id).getM_id();
+			System.out.println(m);
+			System.out.println(comment);
+			if (comment.getM_id() == m.getM_id()) {
+			boolean result = service.remove(c_id);
+			return response(result, true, HttpStatus.OK);
+			}
+			throw new IllegalArgumentException("당신은 이 댓글을 단 사람이 아닙니다.");
+		} catch (Exception e) {
+			Logger.error("댓글삭제실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
+	@PutMapping("/Comment")
+	@ApiOperation("No에 해당하는 하나의 포스트에 해당 댓글을 수정한다.")
+	public ResponseEntity<Map<String, Object>> postComment(@RequestBody Comment_update comment) {
+
+		try {
+//			Comment comment_obj = service.searchOne(c_id);
+//			int comment_m_id = comment_obj.getM_id();
+//
+//			if (comment_m_id == m_id) {
+//				comment_obj.setC_content(new_comment.getC_content());
+			boolean result = service.update(comment);
+			return response(result, true, HttpStatus.OK);
+//			return response(null, true, HttpStatus.OK);
+//			} else {
+//
+//				return response(false, true, HttpStatus.BAD_REQUEST);
+//			}
+		} catch (Exception e) {
+			Logger.error("댓글삭제실패", e);
+			return response(e.getMessage(), false, HttpStatus.CONFLICT);
+		}
+	}
+
 }

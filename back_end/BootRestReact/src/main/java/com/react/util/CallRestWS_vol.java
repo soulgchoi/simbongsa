@@ -22,7 +22,7 @@ public class CallRestWS_vol {
 		serviceKey = URLEncoder.encode(serviceKey, "UTF-8");
 		
 		//parameter setting
-		parameter = parameter + "&" + "region=10";
+		//parameter = parameter + "&" + "region=10";
 		//parameter = parameter + "&" + "_type=json";
 		parameter = parameter + "&" + "pageNo=" + i; //
 		

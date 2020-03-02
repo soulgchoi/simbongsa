@@ -3,80 +3,204 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.model.postmapper">
-	<select id="select" resultType="post" parameterType="int">
-		select * from post
-		<if test="value!=null">
-			where no = #{id}
-		</if>
-		order by no desc;
+
+	<select id="searchMyFeed" resultType="int"
+		parameterType="java.util.Map">
+		select p_id from `post`
+		where m_id in (select
+		f_followee_id
+		from follow
+		where f_follower_id = #{m_id})
+		order by p_date 
+		desc
+		limit #{listSize} offset #{startList};
 	</select>
+
+	<select id="searchVolFeed" resultType="int"
+		parameterType="java.util.Map">
+		select p_id from `post`
+		where v_id = #{v_id}
+		and p_status
+		!= 0
+		order by p_date desc
+		limit #{listSize} offset #{startList};
+	</select>
+
+	<select id="searchMyPosts" resultType="int"
+		parameterType="java.util.Map">
+		select p_id from `post`
+		where m_id = #{m_id}
+		order by p_date desc
+		limit #{listSize} offset #{startList};
+	</select>
+
+	<select id="nextPostId" resultType="int">
+		select max(p_id) from
+		`post`;
+	</select>
+
+
+	<select id="selectOne" resultType="post" parameterType="int">
+		select *
+		from post
+		where p_id = #{p_id}
+	</select>
+
+	<select id="postnameList" resultType="java.lang.String"
+		parameterType="int">
+		select p_id
+		from post
+		where m_id = #{m_id}
+	</select>
+	<select id="countM_id" resultType="java.lang.Integer"
+		parameterType="int">
+		select distinct m_id
+		from post_vote
+		where p_id = #{p_id}
+	</select>
+
+
+	<select id="selectP_idByFilterWithoutFollerings" resultType="java.lang.Integer" parameterType="myfilter">
+		select p_id from post 
+		where
+		m_id not in (#{m_id})
+		and
+		m_id not in (
+					select f_followee_id
+					from follow
+					where f_follower_id = #{m_id}
+					)
+		and
+		v_id in (
+				select v_id from vol where v_pStatus between 1 and 3
+				)
+		and
+		v_id in 
+			(
+			select
+			v_id
+			from vol
+			where 
+			r_id in	
+				(
+		    	<choose>
+					<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+		    		</when>
+					<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+		    		</when>
+		    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
+		    		</when>
+					<otherwise>
+		      			 select r_id from region
+		    		</otherwise>
+		    	</choose>
+	    		)
+	    		or
+	    		ca_id in
+				(
+				<choose>
+					<when test="ca_highNm3 !=null">
+						(
+						select ca_id from category 
+						where 
+						ca_highNm = #{ca_highNm3}
+						or
+						ca_highNm = #{ca_highNm2}
+						or
+						ca_highNm = #{ca_highNm1}
+						)
+						
+					</when>
+					<when test="ca_highNm2 !=null">
+						(
+						select ca_id from category 
+						where 
+						ca_highNm = #{ca_highNm2}
+						or
+						ca_highNm = #{ca_highNm1}
+						)						
+					</when>
+					<when test="ca_highNm1 !=null">
+						 (select ca_id from category where ca_highNm = #{ca_highNm1})
+					</when>
+					
+					<otherwise>
+		      		  select ca_id from category
+		    		</otherwise>
+				</choose>
+				)
+	    	)
+			
+		order by p_date desc
+		limit #{listSize} offset #{startList}
+
+	</select>
+
+	<!-- 포스트 검색?? -->
 	<select id="searchByCondition" resultType="post"
-		parameterType="hashmap">
+		parameterType="java.util.Map">
 		select * from post
 		<where>
 			<choose>
 				<when test="condition=='title'">
 					title like #{key}
 				</when>
-				<when test="condition== 'content'">
+				<when test="condition=='content'">
 					content like #{key}
 				</when>
-
 				<otherwise>
-					
-				</otherwise>
 
+				</otherwise>
 			</choose>
 		</where>
 	</select>
 
 
+	<insert id="insertPostVote" parameterType="post_vote">
+		insert into
+		post_vote(p_id, m_id)
+		values(#{p_id}, #{m_id})
+	</insert>
+
+
 
 	<update id="update" parameterType="post">
 		update post set
-		title =#{title},
-		content=#{content}
-		where no=#{no}
+		v_id = #{v_id},
+		p_content = #{p_content},
+		p_status = #{p_status}
+		where p_id = #{p_id}
 	</update>
 
 	<delete id="delete" parameterType="int">
-		delete from post where
-		no=#{id}
+		delete from post
+		where p_id =
+		#{p_id}
+	</delete>
+
+	<delete id="deletePostVote" parameterType="post_vote">
+		delete from post_vote
+		where p_id = #{p_id} and m_id = #{m_id}
 	</delete>
 
 	<insert id="insert" parameterType="post">
 		insert into
-		post(id,title,content)
-		values(#{id}, #{title},#{content} )
+		post(v_id,
+		p_content, m_id, p_status)
+		values(#{v_id}, #{p_content}, #{m_id},
+		#{p_status})
 	</insert>
 
-
-	<select id="getViewCnt" parameterType="int">
-		select viewcnt from post
-		where no = #{id}
-	</select>
-
-
-	<update id="addViewCnt" parameterType="int">
-		update post
-		set
-		viewcnt=viewcnt+1
-		where no = #{id}
-	</update>
-
-
-	<select id="getBoardList" resultType="post">
-		SELECT * FROM post
-		ORDER BY no DESC
-		LIMIT #{startList}, #{listSize}
-	</select>
-	
-	<select id="getBoardListCnt" resultType="int">
-
-		SELECT
-			count(*) as listCnt
-		FROM
-			post
-
-	</select>
+	<!-- <select id="getViewCnt" parameterType="int"> select viewcnt from post 
+		where no = #{id} </select> <update id="addViewCnt" parameterType="int"> update 
+		post set viewcnt=viewcnt+1 where no = #{id} </update> <select id="getBoardList" 
+		resultType="post"> SELECT * FROM post ORDER BY no DESC LIMIT #{startList}, 
+		#{listSize} </select> <select id="getBoardListCnt" resultType="int"> SELECT 
+		count(*) as listCnt FROM post </select> -->
 </mapper>
