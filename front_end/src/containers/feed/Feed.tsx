@@ -16,15 +16,21 @@ interface Props {
   match: any;
   preferFeedList: any;
   normalFeedList: any;
+
 }
-interface State { }
+interface State { 
+  isGetFeedListComplete : boolean;
+   pageNum : number;
+   flag : boolean;
+}
 
 class Feed extends Component<Props, State> {
   state = {
     pageNum: 1,
     // width: window.innerWidth,
     // height: window.innerHeight - 345
-    flag: false
+    flag: false,
+    isGetFeedListComplete : false
   };
   // v_id & 팔로우 여부로
   v_id = this.props.match.params.id;
@@ -33,35 +39,48 @@ class Feed extends Component<Props, State> {
     setTimeout(async ()=>{
       const { UserActions, mId } = this.props;
       const { pageNum } = this.state;
-      await UserActions.getPreferFeedList(mId, pageNum);
-      await UserActions.getNormalFeedList(mId, pageNum);
-      this.setState({ pageNum: pageNum + 1 });
+      this.setState({isGetFeedListComplete : false},async()=>{
+        await UserActions.getPreferFeedList(mId, pageNum);
+        await UserActions.getNormalFeedList(mId, pageNum);
+        this.setState({ pageNum: pageNum + 1, isGetFeedListComplete : true});
+      })
     },300);
   }
 
   async loadMoreData() {
     const { UserActions, mId } = this.props;
     const { pageNum } = this.state;
-    await UserActions.getPreferFeedList(mId, pageNum);
-    await UserActions.getNormalFeedList(mId, pageNum);
-    this.setState({ pageNum: pageNum + 1 });
+    this.setState({isGetFeedListComplete : false}, async()=>{
+      await UserActions.getPreferFeedList(mId, pageNum);
+      await UserActions.getNormalFeedList(mId, pageNum);
+      this.setState({ pageNum: pageNum + 1 , isGetFeedListComplete : true});
+    })
+  }
+
+  shouldComponentUpdate(nextProps:any, nextState : any){
+    if(nextState.isGetFeedListComplete){
+      this.setState({isGetFeedListComplete:false})
+      return true;
+    }
+    return false;
   }
 
   setFlag = (flag : boolean) =>{
     this.setState({ flag : flag });
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     if (this.state.flag) {
       this.setState({
-        pgNum: 1,
-        flag: false},
-        ()=>{
+        pageNum: 1,
+        flag: false,
+      isGetFeedListComplete : false},
+        async()=>{
           const { UserActions, mId } = this.props;
           const { pageNum } = this.state;
-          UserActions.getPreferFeedList(mId, pageNum);
-          UserActions.getNormalFeedList(mId, pageNum);
-          this.setState({ pageNum: pageNum + 1 });
+          await UserActions.getPreferFeedList(mId, pageNum);
+          await UserActions.getNormalFeedList(mId, pageNum);
+          this.setState({ pageNum: pageNum + 1, isGetFeedListComplete : true });
       })
     }
   }
