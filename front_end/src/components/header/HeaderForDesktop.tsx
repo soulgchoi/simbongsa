@@ -31,7 +31,7 @@ class HeaderForDesktop extends React.Component<
     const { AuthActions, history } = this.props;
     storage.remove("token");
     AuthActions.loginCheck(false);
-    history.push("/");
+    window.location.href = `${process.env.REACT_APP_FRONT_URI}`;
   };
   handleItemClick = (e: any, { name }: any) => {
     this.setState({ activeItem: name });

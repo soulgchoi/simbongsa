@@ -28,7 +28,7 @@ class HeaderForMobile extends React.Component<
     const { AuthActions, history } = this.props;
     storage.remove("token");
     AuthActions.loginCheck(false);
-    history.push("/");
+    window.location.href = `${process.env.REACT_APP_FRONT_URI}`;
   };
   render() {
     const { loginCheck } = this.props;
