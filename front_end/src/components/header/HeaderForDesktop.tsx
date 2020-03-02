@@ -61,7 +61,7 @@ class HeaderForDesktop extends React.Component<
     )[1];
     return (
       <div>
-        <Responsive minWidth={Responsive.onlyTablet.minWidth} maxWidth={Responsive.onlyTablet.maxWidth}>
+        <Responsive minWidth={1001}>
         <Menu
               fixed={"top"}
               pointing
