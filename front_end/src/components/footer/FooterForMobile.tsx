@@ -38,12 +38,13 @@ class Footer extends React.Component<any, any>{
   render() {
     const { activeItem } = this.state
     const { loginCheck } = this.props;
+    console.log("모바일크기", Responsive.onlyMobile.minWidth, Responsive.onlyMobile.maxWidth)
     return (
       <div>
         {/* 작은 화면에서 보여줌 */}
         {loginCheck &&
           <Responsive
-            {...Responsive.onlyMobile.maxWidth}
+          minWidth={Responsive.onlyMobile.minWidth} maxWidth={1000}
           >
             <Menu
               borderless widths={3} fixed="bottom" style={{width:"100vw"}}
