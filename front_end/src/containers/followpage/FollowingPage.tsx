@@ -59,7 +59,7 @@ class FollowingList extends Component<Props, State> {
         <Container style={{width:"100vw"}}>
         <UserProfile profileUserId={userId} />
           
-          <Responsive {...Responsive.onlyMobile}>
+          <Responsive {...Responsive.onlyMobile.maxWidth}>
                 {userId} 님의 팔로잉
               <List celled style={{width:"92vw"}}>
                 {getProfileList(followingList)}

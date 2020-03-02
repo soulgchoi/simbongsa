@@ -10,6 +10,7 @@ import PieGraph from "components/graph/PieGraph";
 import * as volActions from "redux/modules/vol";
 import RegionList from "lib/json/region.json";
 import CategoryList from "lib/json/category.json";
+import {Container} from 'semantic-ui-react'
 
 interface Props {
   VolActions: any;
@@ -211,7 +212,6 @@ class Statistics extends Component<Props, State> {
             preferCategoryDataList.push(categoryCount);
             preferCategoryLabelList.push(categoryName);
           });
-          console.log("여기오나?",selectedElementIndex, preferCategoryDataList, preferCategoryLabelList);
           if (preferCategoryDataList.length > 0 && preferCategoryLabelList.length > 0) {
             this.setState({ preferCategoryDataList: preferCategoryDataList });
             this.setState({ preferCategoryLabelList: preferCategoryLabelList });
@@ -238,13 +238,12 @@ class Statistics extends Component<Props, State> {
     } = this.state;
     return (
       <div>
-        <div>
           <PieGraph
             title={"봉사 선호 지역 통계"}
             data={preferlocationDataList}
             labels={preferlocationLabelList}
-            width={250}
-            height={250}
+            width={270}
+            height={270}
             setUpdateFlag={this.setLocationUpdateFlag}
             setSelectedElementIndex={this.setSelectedElementIndex}
           />
@@ -252,13 +251,11 @@ class Statistics extends Component<Props, State> {
           title={"선호 봉사 분야 통계"}
           data={preferCategoryDataList}
           labels={preferCategoryLabelList}
-          width={250}
-          height={250}
+          width={270}
+          height={270}
           setUpdateFlag={this.setCategoryUpdateFlag}
           setSelectedElementIndex={this.setSelectedElementIndex}
           />
-          
-        </div>
       </div>
     );
   }

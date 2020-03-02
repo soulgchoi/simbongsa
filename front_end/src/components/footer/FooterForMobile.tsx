@@ -43,7 +43,7 @@ class Footer extends React.Component<any, any>{
         {/* 작은 화면에서 보여줌 */}
         {loginCheck &&
           <Responsive
-            {...Responsive.onlyMobile}
+            {...Responsive.onlyMobile.maxWidth}
           >
             <Menu
               borderless widths={3} fixed="bottom" style={{width:"100vw"}}

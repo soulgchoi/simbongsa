@@ -13,7 +13,7 @@ interface Props {
     p_content: "";
     v_id: 0;
     m_id: 0;
-    p_stats: string;
+    p_status: string;
     userId: "";
     files: [];
   };
@@ -31,7 +31,7 @@ class PostCard extends React.Component<Props, {}> {
       p_id: this.props.post.p_id,
       post_vote_members: [],
       vote_cnt: 0,
-      p_stats: "",
+      p_status: "",
       userId: "",
       files: []
     },
@@ -62,7 +62,7 @@ class PostCard extends React.Component<Props, {}> {
             p_content: resData.p_content,
             v_id: resData.v_id,
             m_id: resData.m_id,
-            p_stats: resData.p_status,
+            p_status: resData.p_status,
             files: resData.files,
             p_id: resData.p_id,
             post_vote_members: temp,
@@ -114,7 +114,7 @@ class PostCard extends React.Component<Props, {}> {
       <Card>
         <Card.Content style={{ backgroundColor: color}}>
           <Card.Header>
-            <PostLabel pStats={post.p_stats}/>
+            <PostLabel pStats={post.p_status}/>
             {color !== "white" &&
             <div id="prefer" >선호설정 기반 추천 게시물입니다.</div>}
             {m_id === this.props.post.m_id &&
@@ -124,7 +124,6 @@ class PostCard extends React.Component<Props, {}> {
             </span>}
             <UserProfile profileSize="mini" profileUserId={this.props.post.userId} />
           </Card.Header>
-          
               <Confirm
                 content='작성한 글을 삭제하시겠습니까?'
                 cancelButton='아니오'

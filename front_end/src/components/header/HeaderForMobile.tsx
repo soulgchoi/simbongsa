@@ -36,7 +36,7 @@ class HeaderForMobile extends React.Component<
       `${process.env.REACT_APP_FRONT_URI!}/`
     )[1];
     return (
-      <Responsive {...Responsive.onlyMobile}>
+      <Responsive {...Responsive.onlyMobile.maxWidth}>
         <Container style={{ marginTop: "10px"}}>
           <div className="header">
             <Menu

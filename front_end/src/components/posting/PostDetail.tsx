@@ -97,7 +97,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                 <img key={i} src={restBaseApi + "/uploads/" + file} />
             )
         })
-
+        console.log(this.props.post);
         return (
             <div>
                 <div>
@@ -114,7 +114,8 @@ class PostDetail extends React.Component<Props & any, Istate> {
                     </div>
                     <Divider />
                     <div className="label">
-                        {this.props.post.post_vote_members.includes(m_id) ?
+                        {this.props.post.p_status==="1" && (
+                        this.props.post.post_vote_members.includes(m_id)?
                             (<Label
                                 as='a'
                                 color='grey'
@@ -132,7 +133,7 @@ class PostDetail extends React.Component<Props & any, Istate> {
                             >
                                 <Icon name="hand paper" /> {this.props.post.post_vote_members.length} <span style={{ marginLeft: "10px", marginRight: "10px" }}>함께 해요</span>
                             </Label>)
-                        }
+                        )}
                     </div>
                     
                     <Vol volunteer={volunteer} v_id={this.props.post.v_id} ></Vol>

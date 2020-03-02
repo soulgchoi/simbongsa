@@ -78,7 +78,7 @@ class TabForMypage extends React.Component<Props, State> {
           </Container>
         </Responsive>
         {/* 모바일 용 */}
-        <Responsive {...Responsive.onlyMobile}>
+        <Responsive {...Responsive.onlyMobile.maxWidth}>
           <Tab
           panes={panes(userId)}
           activeIndex={activeIndex}
