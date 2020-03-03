@@ -1,25 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-// import "assets/css/style.scss";
-
-// import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+// import "assets/mycss";
 import validator from "validator";
-
+import '../login/Login.css'
 //storage = 데이터를 조금 더 편하게 넣고 조회하기 위한 헬퍼 모듈
-import storage from "lib/storage";
 
 // redux 관련
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as authActions from "redux/modules/auth";
 import * as userActions from "redux/modules/user";
-
+import * as AuthApi from "lib/api/AuthApi";
 // 직접 제작한 Components
-import LinkButton from "components/button/LinkButton";
-import ActionButton from "components/button/ActionButton";
-import Input from "components/input/Input";
 import AuthError from "components/error/AuthError";
+
+import { Button, Grid, Image, Form, Segment, Container, Dimmer, Loader } from 'semantic-ui-react'
 
 //debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
 import debounce from "lodash/debounce";
@@ -29,6 +23,7 @@ interface validate {
 }
 
 class Join extends React.Component<any, any> {
+  state = { isMailSending : false}
   componentWillUnmount() {
     const { AuthActions } = this.props;
     AuthActions.initializeForm("join");
@@ -61,7 +56,6 @@ class Join extends React.Component<any, any> {
         );
         return false;
       }
-      this.setError(null, "userid");
       return true;
     },
     password: (value: string) => {
@@ -87,12 +81,11 @@ class Join extends React.Component<any, any> {
   checkEmailExists = debounce(async (email: string) => {
     const { AuthActions } = this.props;
     try {
-      console.log("체크1: ", email);
       await AuthActions.checkEmailExists(email);
       if (this.props.exists.get("email")) {
-        this.setError("이미 존재하는 이메일입니다.", email);
+        this.setError("이미 존재하는 이메일입니다.", "email");
       } else {
-        this.setError(null, email);
+        this.setError(null, "email");
       }
     } catch (e) {
       console.log(e);
@@ -102,9 +95,9 @@ class Join extends React.Component<any, any> {
   checkUsernameExists = debounce(async (userid: string) => {
     const { AuthActions } = this.props;
     try {
-      console.log("아이디 체크");
 
       await AuthActions.checkUsernameExists(userid);
+
       if (this.props.exists.get("userid")) {
         this.setError("이미 존재하는 아이디입니다.", "userid");
       } else {
@@ -118,13 +111,11 @@ class Join extends React.Component<any, any> {
   handleChange = (e: any) => {
     const { AuthActions } = this.props;
     const { id, value } = e.target;
-    console.log(e.target);
     AuthActions.changeInput({
       id,
       value,
       form: "join"
     });
-    console.log();
     // 검증작업 진행
 
     const validation = this.validate[id](value);
@@ -133,15 +124,14 @@ class Join extends React.Component<any, any> {
     // TODO: 이메일, 아이디 중복 확인
     const check =
       id === "email" ? this.checkEmailExists : this.checkUsernameExists; // name 에 따라 이메일체크할지 아이디 체크 할지 결정
-    // console.log("체크2 : ", value);
     check(value);
   };
 
   handleLocalRegister = async () => {
-    const { form, AuthActions, UserActions, error, history } = this.props;
+    const { form, AuthActions, UserActions, history } = this.props;
     const { email, userid, password, passwordConfirm } = form.toJS();
     const { validate } = this;
-    if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
+    // if (error === true) return; // 현재 에러가 있는 상태라면 진행하지 않음
     if (
       !validate["email"](email) ||
       !validate["userid"](userid) ||
@@ -152,105 +142,133 @@ class Join extends React.Component<any, any> {
       return;
     }
     try {
-      if (
-        !(await AuthActions.localRegister({
-          email,
-          userid,
-          password
-        }))
-      ) {
-
-      }
-      console.log("왓다");
-      const loggedInfo = this.props.result.toJS();
-      console.log("로그인", loggedInfo);
-      // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
-      storage.set("loggedInfo", loggedInfo);
-      UserActions.setLoggedInfo(loggedInfo);
-      UserActions.setValidated(true);
-      history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      await AuthActions.localRegister({
+        email,
+        userid,
+        password
+      });
+      this.setState({isMailSending : true }, async ()=>{
+        await AuthApi.sendSignupEmail(email);
+        UserActions.setValidated(true);
+        this.setState({isMailSending : false},)
+        history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      })
+      // const loggedInfo = this.props.result.toJS();
+      // console.log("로그인", loggedInfo);
+      // // TODO: 로그인 정보 저장 (로컬스토리지/스토어)
+      // storage.set("loggedInfo", loggedInfo);
+      // UserActions.setLoggedInfo(loggedInfo);
     } catch (e) {
-      console.log("에러가뭔지", e);
-      alert("통신 실패");
       // TODO: 실패시 실패 ERROR 표현
+      if (e.response.status === 409) {
+        const { key } = e.response.data;
+        const message =
+          key === "email"
+            ? "이미 존재하는 이메일입니다."
+            : "이미 존재하는 아이디입니다.";
+        return this.setError(message, key);
+      }
     }
   };
   render() {
+    const { isMailSending } = this.state;
     const { error } = this.props;
     const error2 = error.toJS();
-    console.log("에러: ", typeof error2.email);
     const { email, userid, password, passwordConfirm } = this.props.form.toJS();
     const { handleChange, handleLocalRegister } = this;
     return (
-      <div className="user" id="join">
-        <div className="wrapC">
-          <h1 className="title">가입하기</h1>
-          <Input
-            value={userid}
-            onChange={handleChange}
-            id="userid"
-            placeholder="아이디를 입력하세요"
-            type="text"
-            nametag="아이디"
-          />
-          <AuthError error={error2.userid}></AuthError>
-          <Input
-            value={email}
-            onChange={handleChange}
-            id="email"
-            placeholder="이메일을 입력하세요"
-            type="text"
-            nametag="이메일"
-          />
-          <AuthError error={error2.email}></AuthError>
+      <Container>
+        <Dimmer active={isMailSending} inverted>
+          <Loader content='회원 가입 인증 메일 발송중...' />
+        </Dimmer>
+        <Grid
+          textAlign="center"
+          style={{ height: "70vh" }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            {/* <Header as="h2" color="orange" textAlign="center"> */}
+            <Image centered size="tiny" src="/images/logo1.png" />
+            {/* </Header> */}
 
-          <Input
-            value={password}
-            onChange={handleChange}
-            id="password"
-            placeholder="비밀번호를 입력하세요"
-            type="password"
-            nametag="비밀번호"
-          />
-          <AuthError error={error2.password}></AuthError>
 
-          <Input
-            value={passwordConfirm}
-            onChange={handleChange}
-            id="passwordConfirm"
-            placeholder="비밀번호를 다시한번 입력하세요"
-            type="password"
-            nametag="비밀번호 확인"
-          />
-          <AuthError error={error2.passwordConfirm}></AuthError>
+            <Form size="large">
+              <Segment stacked>
+                <AuthError error={error2.email} />
+                <Form.Input
+                  fluid
+                  value={email}
+                  onChange={handleChange}
+                  icon="user"
+                  iconPosition="left"
+                  id="email"
+                  placeholder="이메일을 입력하세요"
+                  type="text"
+                  nametag="이메일"
+                  autoCapitalize="none"
+                />
+                <AuthError error={error2.userid} />
+                <Form.Input
+                  fluid
+                  value={userid}
+                  onChange={handleChange}
+                  id="userid"
+                  icon="user outline"
+                  iconPosition="left"
+                  placeholder="아이디를 입력하세요"
+                  type="text"
+                  nametag="아이디"
+                  autoCapitalize="none"
+                />
+                <AuthError error={error2.password} />
+                <Form.Input
+                  fluid
+                  value={password}
+                  onChange={handleChange}
+                  id="password"
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="비밀번호를 입력하세요"
+                  type="password"
+                  nametag="비밀번호"
+                  autoCapitalize="none"
+                />
+                <AuthError error={error2.passwordConfirm} />
+                <Form.Input
+                  fluid
+                  value={passwordConfirm}
+                  onChange={handleChange}
+                  id="passwordConfirm"
+                  icon="check square"
+                  iconPosition="left"
+                  placeholder="비밀번호를 다시한번 입력하세요"
+                  type="password"
+                  nametag="비밀번호 확인"
+                  autoCapitalize="none"
+                />
 
-          {/* <label>
-            <input
-              checked={this.state.isTerm}
-              type="checkbox"
-              id="term"
-              onChange={this.handleCheckBox}
-            />
-            <span>약관을 동의합니다.</span>
-          </label> */}
+                {/* <div className="policy">
+            <Icon name="check circle outline" />
+              <span onClick={() => this.setState({ termPopup: true })}>
+                가입약관
+              </span>
+          </div> */}
+                <Button
+                  className="login"
+                  inverted
+                  valuex="true"
+                  fluid
+                  size="large"
+                  onClick={handleLocalRegister}
+                >
+                  회원가입
+                </Button>
+              </Segment>
+            </Form>
 
-          <span onClick={() => this.setState({ termPopup: true })}>
-            약관보기
-          </span>
-          <br />
-          <br />
-          <Link
-            to={{
-              pathname: "/join/complete",
-              state: { email: email }
-            }}
-            className="my--btn"
-          >
-            가입하기
-          </Link>
-          {/* <LinkButton link="/join/complete" placeholder="가입하기" /> */}
-        </div>
-      </div>
+          </Grid.Column>
+        </Grid>
+      </Container>
     );
   }
 }

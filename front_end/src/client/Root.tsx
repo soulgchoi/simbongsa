@@ -4,7 +4,6 @@ import App from "shared/App";
 import { Provider } from "react-redux";
 
 const Root: React.FunctionComponent<any> = ({ store }) => {
-  // console.log("Root: ", s2);
   return (
     <Provider store={store}>
       <BrowserRouter>

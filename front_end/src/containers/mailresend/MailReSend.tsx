@@ -1,16 +1,25 @@
 import React from "react";
-// import "assets/css/style.scss";
-// import "assets/css/user.scss";
-import "assets/mycss/components.scss";
 import * as EmailValidator from "email-validator";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authActions from "redux/modules/auth";
+import { Map } from "immutable";
 // import UserApi from "apis/UserApi";
-
+import * as AuthApi from "lib/api/AuthApi";
+//debouce 특정 함수가 반복적으로 일어나면, 바로 실행하지 않고, 주어진 시간만큼 쉬어줘야 함수가 실행된다.
+import debounce from "lodash/debounce";
+import {Container, Button, Form, Segment, Dimmer, Loader} from 'semantic-ui-react'
+import AuthError from 'components/error/AuthError'
 interface IProps {
+  AuthActions: any;
   location: {
     state: {
       email: string;
     };
   };
+  exists: Map<any, any>;
+  email: string;
+  history : any;
 }
 interface IState {
   email: string;
@@ -19,6 +28,7 @@ interface IState {
   };
   isSubmit: boolean;
   component: MailReSend;
+  isMailSending : boolean;
 }
 class MailReSend extends React.Component<IProps, IState> {
   state = {
@@ -27,13 +37,12 @@ class MailReSend extends React.Component<IProps, IState> {
       email: ""
     },
     isSubmit: false,
-    component: this
+    component: this,
+    isMailSending : false,
   };
   componentDidMount() {
-    console.log(this.props);
-    this.setState({ email: this.props.location.state.email }, () =>
-      this.checkForm()
-    );
+    const { email } = this.props;
+    this.setState({ email: email }, () => this.checkForm());
   }
   checkForm = () => {
     let error = { ...this.state.error };
@@ -41,9 +50,9 @@ class MailReSend extends React.Component<IProps, IState> {
       this.state.email.length >= 0 &&
       !EmailValidator.validate(this.state.email)
     ) {
-      error.email = "이메일 형식이 아닙니다.";
+      this.setState({ error: { email: "잘못된 이메일 형식 입니다." } });
     } else {
-      error.email = "";
+      this.setState({ error: { email: "" } });
     }
     this.setState({ error: error }, () => {
       let isSubmit = true;
@@ -56,74 +65,108 @@ class MailReSend extends React.Component<IProps, IState> {
       });
     });
   };
-  // login() {
-  //   if (this.state.isSubmit) {
-  //     let { email } = this.state;
-  //     let data = {
-  //       email,
-  //       password
-  //     };
+  setError = (message: any, name: string) => {
+    const { AuthActions } = this.props;
+    AuthActions.setError({
+      form: "join",
+      message,
+      name
+    });
+  };
+  // 중복 체크
 
-  //     //요청 후에는 버튼 비활성화
-  //     this.isSubmit = false;
+  handleSend = async () => {
+    const { isMailSending , email} = this.state;
+    const { history } = this.props;
+    try {
+      this.setState({isMailSending : true }, async ()=>{
+        await AuthApi.sendSignupEmail(email);
+        this.setState({isMailSending : false},)
+        history.push("/join/complete"); // 회원가입 성공시 홈페이지로 이동
+      })
+    } catch (e) {
+      if (e.response.status === 409) {
+        const { key } = e.response.data;
+        const message = "회원 가입한 이메일이 아닙니다.";
+        return this.setError(message, key);
+      }
+    }
+  };
 
-  //     UserApi.requestLogin(
-  //       data,
-  //       res => {
-  //         //통신을 통해 전달받은 값 콘솔에 출력
-  //         //                        console.log(res);
+  checkEmailExists = debounce(async (email: string) => {
+    const { AuthActions } = this.props;
+    try {
+      await AuthActions.checkEmailExists(email);
+      if (this.props.exists.get("email")) {
+        this.setState({ error: { email: "" } });
+      } else {
+        this.setState({ error: { email: "회원 가입한 이메일이 아닙니다." } });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, 300);
 
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       },
-  //       error => {
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       }
-  //     );
-  //   }
-  // }
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: e.currentTarget.value }, () => {
       this.checkForm();
+      this.checkEmailExists(this.state.email);
     });
   };
   render() {
+    const { email, error, isMailSending} = this.state;
     return (
-      <div className="user" id="login">
+      <Container>
+        <Dimmer active={isMailSending} inverted>
+          <Loader content='회원 가입 인증 메일 발송중...' />
+        </Dimmer>
         <div className="wrapC">
-          <h1 className="title">메일 재전송</h1>
-          <div className="input-with-label">
-            <input
-              value={this.state.email}
-              v-bind="{error : error.password, complete:!error.password&&password.length!==0}"
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  //this.login();
-                }
-              }}
-              onChange={this.handleInput}
-              id="email"
-              placeholder="이메일을 입력하세요."
-              type="text"
-            />
-            <label htmlFor="email">이메일</label>
-            <div className="error-text" v-if="error.email">
-              {this.state.error.email}
+          <h1 className="title">회원 가입 메일 인증을 완료해주세요!</h1>
+          <Form size="large">
+              <Segment stacked>
+                <AuthError error={error.email} />
+                <Form.Input
+                  fluid
+                  icon="user"
+                  id="email"
+                  value={email}
+                  iconPosition="left"
+                  placeholder="이메일을 입력하세요."
+                  onChange={this.handleInput}
+                  onKeyDown={(event:any) => {
+                    if (event.key === "Enter") {
+                      this.handleSend();
+                    }
+                  }}
+                />
+                <Button
+                  className="login"
+                  inverted
+                  valuex="true"
+                  fluid
+                  size="large"
+                  onClick={this.handleSend}
+                  disabled={!this.state.isSubmit}
+                >
+                메일 재전송
+                </Button>
+              </Segment>
+            </Form>
             </div>
-          </div>
-
-          <button
-            disabled={!this.state.isSubmit}
-            className="btn btn--back btn--login"
-            // onClick={"#"}
-          >
-            메일 재전송
-          </button>
-        </div>
-      </div>
+      </Container>
     );
   }
 }
 
-export default MailReSend;
+export default connect(
+  ({ auth }: any) => ({
+    email: auth.getIn(["login", "form", "email"]),
+    form: auth.getIn(["join", "form"]),
+    error: auth.getIn(["join", "error"]),
+    exists: auth.getIn(["join", "exists"]),
+    result: auth.get("result")
+  }),
+  dispatch => ({
+    AuthActions: bindActionCreators(authActions, dispatch)
+  })
+)(MailReSend);

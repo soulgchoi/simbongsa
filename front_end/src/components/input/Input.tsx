@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react";
-import "assets/mycss/components.scss";
-
+// import "assets/mycss";
+import { Form } from "semantic-ui-react";
 interface Props {
   value: string;
   onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
   onEnter?: (e: React.FormEvent<HTMLInputElement>) => void;
   id: string;
   placeholder: string;
-  nametag: string;
+  nametag?: string;
   type: string;
 }
 export default function Input({
@@ -20,22 +20,23 @@ export default function Input({
   nametag
 }: Props): ReactElement {
   return (
-    <div>
-      <div className="input-with-label">
+    <Form>
+      <Form.Field>
+        <label>{nametag}</label>
         <input
           value={value}
           onChange={onChange}
           id={id}
           placeholder={placeholder}
           type={type}
+          autoCapitalize="none"
           onKeyDown={event => {
             if (event.key === "Enter" && onEnter !== undefined) {
               onEnter(event);
             }
           }}
         />
-        <label htmlFor={id}>{nametag}</label>
-      </div>
-    </div>
+      </Form.Field>
+    </Form>
   );
 }

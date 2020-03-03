@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import Root from "client/Root";
 import * as serviceWorker from "serviceWorker";
 import store from "redux/configureStore";
-console.log("index: ", store);
+import 'semantic-ui-css/semantic.min.css';
+import './index.scss'
 ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change

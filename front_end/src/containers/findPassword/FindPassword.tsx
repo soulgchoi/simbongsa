@@ -2,20 +2,30 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import "assets/css/style.scss";
 // import "assets/css/user.scss";
-import "assets/mycss/components.scss";
+// import "assets/mycss/error.scss";
 import * as EmailValidator from "email-validator";
+import * as AuthApi from "lib/api/AuthApi";
+import ActionButton from "components/button/ActionButton";
 // import UserApi from "apis/UserApi";
+import { Container, Dimmer, Loader, Form, Segment, Button } from "semantic-ui-react";
+import AuthError from 'components/error/AuthError'
 
-class FindPassword extends React.Component {
+interface Props {
+  history: any;
+  AuthActions : any;
+}
+
+class FindPassword extends React.Component<Props> {
   state = {
     email: "",
     error: {
       email: ""
     },
     isSubmit: false,
-    component: this
+    component: this,
+    isMailSending : false,
   };
-  componentDidMount() {}
+  componentDidMount() { }
   checkForm = () => {
     let error = { ...this.state.error };
     if (
@@ -37,77 +47,63 @@ class FindPassword extends React.Component {
       });
     });
   };
-  // login() {
-  //   if (this.state.isSubmit) {
-  //     let { email, password } = this.state;
-  //     let data = {
-  //       email,
-  //       password
-  //     };
-
-  //     //요청 후에는 버튼 비활성화
-  //     this.isSubmit = false;
-
-  //     UserApi.requestLogin(
-  //       data,
-  //       res => {
-  //         //통신을 통해 전달받은 값 콘솔에 출력
-  //         //                        console.log(res);
-
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       },
-  //       error => {
-  //         //요청이 끝나면 버튼 활성화
-  //         this.isSubmit = true;
-  //       }
-  //     );
-  //   }
-  // }
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ email: e.currentTarget.value }, () => {
       this.checkForm();
     });
   };
+
+  sendEmail = async () => {
+    const { email} = this.state;
+    const { history, AuthActions } = this.props;
+    this.setState({isMailSending : true }, async ()=>{
+      await AuthApi.changePasswordEmailSend(email);
+      this.setState({isMailSending : false},)
+      history.push("/findpasswordmailsend"); 
+    })
+  };
   render() {
+    const { sendEmail } = this;
+    const { email , isMailSending, error} = this.state;
     return (
-      <div className="user" id="login">
+      <Container>
+      <Dimmer active={isMailSending} inverted>
+        <Loader content='비밀번호 찾기 메일 발송중...' />
+      </Dimmer>
         <div className="wrapC">
           <h1 className="title">비밀번호 찾기</h1>
-          <div className="input-with-label">
-            <input
-              value={this.state.email}
-              onKeyDown={event => {
-                if (event.key === "Enter") {
-                  // this.login();
-                }
-              }}
-              onChange={this.handleInput}
-              id="email"
-              placeholder="이메일을 입력하세요."
-              type="text"
-            />
-            <label htmlFor="email">이메일</label>
-            <div className="error-text" v-if="error.email">
-              {this.state.error.email}
-            </div>
-          </div>
-          <Link
-            to={{
-              pathname: "/findpasswordmailsend",
-              state: { email: this.state.email }
-            }}
-            className="btn--back"
-          >
-            <button
-              className="btn btn--back btn--join"
-              disabled={!this.state.isSubmit}
-            >
+          <Form size="large">
+            <Segment stacked>
+              <AuthError error={error.email} />
+              <Form.Input
+                fluid
+                icon="user"
+                id="email"
+                value={email}
+                iconPosition="left"
+                placeholder="이메일을 입력하세요."
+                onChange={this.handleInput}
+                onKeyDown={(event:any) => {
+                  if (event.key === "Enter") {
+                    this.sendEmail();
+                  }
+                }}
+              />
+              <Button
+                className="login"
+                inverted
+                valuex="true"
+                fluid
+                size="large"
+                onClick={this.sendEmail}
+                disabled={!this.state.isSubmit}
+              >
               비밀번호 찾기 메일 전송
-            </button>
-          </Link>
+              </Button>
+            </Segment>
+          </Form>
         </div>
-      </div>
+      </Container>
     );
   }
 }
