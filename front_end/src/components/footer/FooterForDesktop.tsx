@@ -25,6 +25,7 @@ class FooterForDesktop extends React.Component<any, any> {
                 프론트엔드 : 윤성민, 임학수, 최솔지<br/>
                 　　백엔드 : 김동주, 박정환, 이신호<br/>
                 <Image src="/images/logo2.png" style={{ width: "6rem", padding: "0.3rem", margin:"auto"}} />
+                <a href={`${process.env.REACT_APP_FRONT_URI}/terms.html`} style={{color:"black"}} >이용 약관</a>
               </Container>
             </Grid.Column>
           </Grid.Row>

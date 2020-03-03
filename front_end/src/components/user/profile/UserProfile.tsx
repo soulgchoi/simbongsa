@@ -25,28 +25,40 @@ enum page {
 }
 interface State {
   showPage: page;
+  isProfileUpdateFinished : boolean;
 }
 
 class UserProfile extends Component<Props, State> {
   state = {
-    showPage: page.PROFILE
+    showPage: page.PROFILE,
+    isProfileUpdateFinished : false
   };
-  async componentDidMount(){
-    await this.setProfile();
+  componentDidMount(){
+    this.setProfile();
   }
   setProfile = async () => {
     const { profileUserId, loginUserId, UserActions, userProfileMap } = this.props;
-    if (typeof userProfileMap.get(profileUserId) === 'undefined') {
-      await UserActions.setUserFollowerList(profileUserId);
-      await UserActions.setUserFollowingList(profileUserId);
-      await UserActions.setUserFollowTag(loginUserId, profileUserId);
-      await UserActions.setUserProfileImage(profileUserId);
+    if (typeof userProfileMap.get(profileUserId) === 'undefined' ||
+          (typeof userProfileMap.get(profileUserId) !== 'undefined'
+          && typeof userProfileMap.get(profileUserId).get('followerList') === 'undefined')) {
+      this.setState({isProfileUpdateFinished:false},async()=>{
+        await UserActions.setUserFollowerList(profileUserId);
+        await UserActions.setUserFollowingList(profileUserId);
+        await UserActions.setUserFollowTag(loginUserId, profileUserId);
+        await UserActions.setUserProfileImage(profileUserId);
+        this.setState({isProfileUpdateFinished: true});
+      })
     }
   }
   updateProfile = async () => {
-    const { profileUserId, UserActions } = this.props;
-    await UserActions.setUserFollowerList(profileUserId);
-    await UserActions.setUserFollowingList(profileUserId);
+    const { profileUserId, UserActions, loginUserId, userProfileMap } = this.props;
+    this.setState({isProfileUpdateFinished:false},async()=>{
+      await UserActions.setUserFollowerList(profileUserId);
+      await UserActions.setUserFollowingList(profileUserId);
+      await UserActions.setUserFollowerList(loginUserId);
+      await UserActions.setUserFollowingList(loginUserId);
+      this.setState({isProfileUpdateFinished:true});
+    })
   };
 
   handleFollow = async () => {
@@ -68,20 +80,30 @@ class UserProfile extends Component<Props, State> {
     history.push(`/follower/${profileUserId}`);
   };
 
-  shouldComponentUpdate(nextProps: any) {
-    const { profileUserId } = this.props;
-    const { userProfileMap } = nextProps;
-    if(typeof userProfileMap.get(profileUserId) === 'undefined'){
-      return false;
+  shouldComponentUpdate(nextProps: any, nextState : any) {
+    const { userProfileMap } = this.props;
+    const { isProfileUpdateFinished } = nextState;
+    if(isProfileUpdateFinished){
+      this.setState({isProfileUpdateFinished:false});
+      return true;
     }
-    if(userProfileMap.get(profileUserId).size !== 4){
-      return false;
+    if(userProfileMap !== nextProps.userProfileMap){
+      return true;
     }
-    if (typeof userProfileMap.get(profileUserId).get('followerList') === 'undefined'
-    || typeof userProfileMap.get(profileUserId).get('followingList') === 'undefined') {
-      return false;
-    }
-    return true;
+    return false;
+    // const { profileUserId } = this.props;
+    // const { userProfileMap } = nextProps;
+    // if(typeof userProfileMap.get(profileUserId) === 'undefined'){
+    //   return false;
+    // }
+    // if(userProfileMap.get(profileUserId).size !== 4){
+    //   return false;
+    // }
+    // if (typeof userProfileMap.get(profileUserId).get('followerList') === 'undefined'
+    // || typeof userProfileMap.get(profileUserId).get('followingList') === 'undefined') {
+    //   return false;
+    // }
+    // return true;
   }
 
   handleIdClick = async (e: any) => {

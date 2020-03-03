@@ -50,8 +50,9 @@ class Profile extends Component<Props, State> {
       file.append("file", selectedFiles[0]);
     }
     let data = await PostingApi.uploadProfileImage(mId, file);
-    this.setState({isSubmit: true, isDelete: false}, ()=>{
-      UserActions.setUserProfileImage(userId);
+    this.setState({isSubmit: true, isDelete: false}, async ()=>{
+     await UserActions.setUserProfileImage(userId);
+    //  window.location.href = `${process.env.REACT_APP_FRONT_URI}/usersetting`;
     })
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
@@ -62,8 +63,9 @@ class Profile extends Component<Props, State> {
     const { mId , userId, UserActions} = this.props;
     const file = new FormData();
     let data = await PostingApi.uploadProfileImage(mId, file);
-    this.setState({isDelete: true},()=>{
-      UserActions.setUserProfileImage(userId);
+    this.setState({isDelete: true},async()=>{
+      await UserActions.setUserProfileImage(userId);
+      // window.location.href = `${process.env.REACT_APP_FRONT_URI}/usersetting`;
     });
     // this.props.history.push(`/${v_id}/postinglist`);
     // this.goListPage();
