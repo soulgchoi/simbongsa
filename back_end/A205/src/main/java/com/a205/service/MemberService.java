@@ -5,6 +5,7 @@ import java.util.List;
 import com.a205.dto.Member;
 import com.a205.dto.Member_detail;
 import com.a205.dto.Post;
+import com.a205.dto.Vol;
 import com.a205.model.MemberPatchRequest;
 
 public interface MemberService {
@@ -12,7 +13,11 @@ public interface MemberService {
 
 	public List<Member> searchAll();
 
+	public Member selectByM_id(Integer m_id);
+	
 	public List<Post> searchPost(String userId);
+
+	public List<Vol> searchVote(String userId);
 
 	public boolean login(String id, String pw);
 
@@ -29,4 +34,6 @@ public interface MemberService {
 	public Member_detail searchDetail(String userId); 
 	
 	public boolean remove(String id);
+	
+	public boolean alter_userPassword(String m_email, String m_password);
 }

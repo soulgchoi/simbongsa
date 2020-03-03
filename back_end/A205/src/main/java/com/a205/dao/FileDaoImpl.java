@@ -15,16 +15,28 @@ public class FileDaoImpl implements FileDao {
 
 	@Autowired
 	SqlSession session;
-	
+
 //	@Override
 //	public Iterable<UploadFile> findAll() {
 //		return null;
 //	}
 
 	@Override
-	public List<UploadFile> findById(int p_id) {
+	public List<String> findById(int p_id) {
 		String statement = ns+ "selectFileList";
 		return session.selectList(statement, p_id);
+	}
+	
+	@Override
+	public String findByM_Id(int m_id) {
+		String statement = ns+ "selectProfile";
+		String profile = null;
+		try {
+		profile = session.selectOne(statement, m_id);
+		} finally {
+			//없음
+		}
+		return profile;
 	}
 
 	@Override
@@ -32,6 +44,20 @@ public class FileDaoImpl implements FileDao {
 		String statement = ns+ "insertFile";
 		//return session.insert(statement, map) > 0;
 		session.insert(statement, map);
+	}
+
+	@Override
+	public void insertProfile(Map<String, Object> map) {
+		String statement = ns+ "insertProfile";
+		//return session.insert(statement, map) > 0;
+		session.insert(statement, map);
+	}
+
+	@Override
+	public void deleteProFile(int m_id) {
+		String statement = ns+ "deleteProfile";
+		//return session.insert(statement, map) > 0;
+		session.delete(statement, m_id);
 	}
 
 }

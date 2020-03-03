@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Follow {
-	Integer f_id;
-	Integer f_following_id;
-	Integer f_follower_id;
+	String follower_userid;
+	String followee_userid;
 }

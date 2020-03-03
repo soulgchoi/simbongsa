@@ -15,5 +15,6 @@ public interface FollowDAO {
 	
 	public boolean remove(String userEmail, String followee);
 
+	public boolean search(String follower, String followee);
 
 }

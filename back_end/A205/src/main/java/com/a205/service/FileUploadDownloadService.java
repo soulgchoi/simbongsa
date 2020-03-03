@@ -71,7 +71,39 @@ public class FileUploadDownloadService {
 			throw new FileUploadException("[" + fileName + "] 파일 업로드에 실패하였습니다. 다시 시도하십시오.", e);
 		}
 	}
+	//프로필업로드
+	public String storeProfile(MultipartFile file, int m_id) {
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+		try {
+			// 파일명에 부적합 문자가 있는지 확인한다.
+			if (fileName.contains(".."))
+				throw new FileUploadException("파일명에 부적합 문자가 포함되어 있습니다. " + fileName);
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			// 디비저장용으로 두 정보를 만들었어용
+			String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+			String storedFileName = CommonUtils.getRandomString() + fileExtension;
+			
+			Path targetLocation = this.fileLocation.resolve(storedFileName);
+
+			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+			
+			map.put("m_id", m_id);
+			map.put("originalFileName", fileName);
+			map.put("storedFileName", storedFileName);
+			map.put("file_size", file.getSize());
+			
+			dao.insertProfile(map);
+			
+			return storedFileName;
+		} catch (Exception e) {
+			throw new FileUploadException("[" + fileName + "] 파일 업로드에 실패하였습니다. 다시 시도하십시오.", e);
+		}
+	}
+
+	//다운로드에서 필요한 부분
 	public Resource loadFileAsResource(String fileName) {
 		try {
 			Path filePath = this.fileLocation.resolve(fileName).normalize();
@@ -87,23 +119,38 @@ public class FileUploadDownloadService {
 		}
 	}
 
-//	public Iterable<UploadFile> getFileList() {
-//		Iterable<UploadFile> iterable = dao.findAll();
-//
-//		if (null == iterable) {
-//			throw new FileDownloadException("업로드 된 파일이 존재하지 않습니다.");
+	/*
+	 * public Iterable<UploadFile> getFileList() { Iterable<UploadFile> iterable =
+	 * dao.findAll();
+	 * 
+	 * if (null == iterable) { throw new
+	 * FileDownloadException("업로드 된 파일이 존재하지 않습니다."); }
+	 * 
+	 * return iterable; }
+	 */
+	
+	public List<String> getUploadFile(int p_id) {
+		//List<UploadFile> uploadFile = dao.findById(p_id);
+
+//		if (null == uploadFile) {
+//			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
 //		}
-//
-//		return iterable;
-//	}
+//		return uploadFile;
+		return dao.findById(p_id);
+	}
 
-	public List<UploadFile> getUploadFile(int p_id) {
-		List<UploadFile> uploadFile = dao.findById(p_id);
+	public String getProfile(int m_id) {
+		//List<UploadFile> uploadFile = dao.findById(p_id);
 
-		if (null == uploadFile) {
-			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
-		}
-		return uploadFile;
+//		if (null == uploadFile) {
+//			throw new FileDownloadException("해당 포스트[" + p_id + "]에 업로드 된 파일이 존재하지 않습니다.");
+//		}
+//		return uploadFile;
+		return dao.findByM_Id(m_id);
+	}
+	
+	public void deleteProfile(int m_id) {
+		dao.deleteProFile(m_id);
 	}
 
 }

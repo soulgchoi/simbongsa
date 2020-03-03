@@ -7,5 +7,10 @@
 		select * from region
 		where r_sidoCd = #{r_sidoCd} and r_gugunCd = #{r_gugunCd}
 	</select>
+	
+	<select id="selectByR_id" resultType="region" parameterType="java.lang.Integer">
+		select * from region
+		where r_id = #{r_id}
+	</select>
 
 </mapper>

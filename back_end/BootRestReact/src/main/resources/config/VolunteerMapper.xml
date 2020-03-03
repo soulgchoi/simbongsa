@@ -86,10 +86,25 @@
 		ca_highNm = #{highNm} and ca_lowNm = #{lowNm}
 	</select>
 	
-	<!-- 카테고리 코드는 빼두기 -->
  	<insert id="addVol" parameterType="Vol">
-		insert ignore into `vol`(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth, v_bgnTm, v_endTm, v_actWkdy, v_wanted, v_appnow, v_target, v_detail) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo}, #{actBeginTm}, #{actEndTm}, #{actWkdy}, #{wanted}, #{appnow}, #{target}, #{progrmCn})
+		insert into `vol`(v_title, v_organ, v_pBgnD, v_pEndD, v_pStatus, v_adult, v_young, v_location, v_mBgnD, v_mEndD, v_url, ca_id, r_id, v_Auth, v_bgnTm, v_endTm, v_actWkdy, v_wanted, v_appnow, v_target, v_detail) values(#{progrmSj}, #{nanmmbyNm}, #{progrmBgnde}, #{progrmEndde}, #{progrmSttusSe}, #{adultPosblAt}, #{yngbgsPosblAt}, #{actPlace}, #{noticeBgnde}, #{noticeEndde}, #{url}, #{cateCd},#{regionCd}, #{progrmRegistNo}, #{actBeginTm}, #{actEndTm}, #{actWkdy}, #{wanted}, #{appnow}, #{target}, #{progrmCn})
 	</insert>
+	
+ 	<update id="updateVol" parameterType="Vol">
+		update `vol` set 
+			v_bgnTm = #{actBeginTm},
+			v_endTm = #{actEndTm},
+			v_actWkdy = #{actWkdy},
+			v_wanted = #{wanted},
+			v_appnow = #{appnow},
+			v_target = #{target},
+			v_detail = #{progrmCn}
+		where v_Auth = #{progrmRegistNo}
+	</update>
+	
+	<select id="getAuth" parameterType="int" resultType="int">
+		select count(*) from vol where v_Auth = #{progrmRegistNo}
+	</select>
 	
 	<insert id="addReg" parameterType="Region">
 		insert into `region`(r_sidoCd, r_gugunCd, r_sidoNm, r_gugunNm) values(#{sidoCd}, #{gugunCd}, #{sidoNm}, #{gugunNm})
@@ -104,7 +119,7 @@
 	</insert> -->
 	
 	<insert id="addOrig" parameterType="int">
-		insert into `post`(v_id, p_content, m_id, p_status) values(#{integer}, null, 1, 0)
+		insert ignore into `post`(v_id, p_content, m_id, p_status) values(#{integer}, null, null, 0)
 	</insert>
 	
 </mapper>

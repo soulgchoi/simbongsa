@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Comment {
-	Integer c_id;
-	Integer m_id;
+	int c_id;
+	int m_id;
+	int p_id;
 	String c_content;
-	Integer p_id;
 	String c_date;
+	String userId;
 }
-

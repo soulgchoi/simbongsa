@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,26 +36,6 @@ public class MemberController {
 		resultMap.put("data", data);
 		return new ResponseEntity<>(resultMap, hStatus);
 	}
-	
-//	@PostMapping("login.do")
-//	public String getLogin(@RequestBody Member member, Model model, HttpSession session) {
-//		try {
-//			Member selected = service.search(member.getM_userid());
-//			
-//			if(selected!=null && member.getM_password().equals(selected.getM_password())) {
-//				session.setAttribute("id", selected.getM_id());
-//				session.setAttribute("member", selected);
-//				model.addAttribute("member", selected);
-//				return "redirect:index.do";
-//			}else {
-//				model.addAttribute("message", "비밀번호가 틀렸습니다");
-//				return "redirect:index.do";
-//			}
-//		}catch(RuntimeException e) {
-//			model.addAttribute("message","문제 내용 - 로그인 중 오류 발생");
-//			return "Error";
-//		}
-//	}
 	
 	@PostMapping("login.do")
 	@ApiOperation("전달받은 회원정보를 저장한다.")

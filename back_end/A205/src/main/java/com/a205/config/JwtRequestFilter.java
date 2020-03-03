@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.a205.dao.MemberDAO;
+import com.a205.dto.Member;
 import com.a205.service.JwtUserDetailsService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 
@@ -28,6 +30,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private MemberDAO memberDao;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -43,14 +48,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+				Member m = memberDao.searchByEmail(username); 
+	
+				if(m.getM_key() != null && !m.getM_key().equals("Y")) {
+					logger.warn("Member didn't enter Email");
+					}
+			
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
 				System.out.println("JWT Token has expired");
-				
 			}
 		} else {
-			logger.warn("JWT Token does not begin with Bearer String");
+//			logger.warn("JWT Token does not begin with Bearer String");
 		}
 
 		// Once we get the token validate it.

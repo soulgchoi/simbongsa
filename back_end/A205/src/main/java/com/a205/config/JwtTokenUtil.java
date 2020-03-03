@@ -20,6 +20,8 @@ public class JwtTokenUtil implements Serializable {
 	private static final long serialVersionUID = -2550185165626007488L;
 
 	public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60 * 365;
+	
+	public static final long JWT_TOKEN_VALIDITY_PASSWORD = 60 * 5;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -50,9 +52,15 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	//generate token for user
-	public String generateToken(String email, String nickname, int id) {
+	public String generateToken(String email, String nick, int id) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, email, nickname, Integer.toString(id));
+		return doGenerateToken(claims, nick, email, Integer.toString(id));
+	}
+	
+	//generate token for password
+	public String generateTokenPass(String email, String nick, int id) {
+		Map<String, Object> claims = new HashMap<>();
+		return doGenerateTokenPass(claims, nick, email, Integer.toString(id));
 	}
 
 	//while creating the token -
@@ -60,12 +68,20 @@ public class JwtTokenUtil implements Serializable {
 	//2. Sign the JWT using the HS512 algorithm and secret key.
 	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 	//   compaction of the JWT to a URL-safe string 
-	private String doGenerateToken(Map<String, Object> claims, String issure, String subject, String audience) {
+	private String doGenerateToken(Map<String, Object> claims, String issuer, String subject, String audience) {
 
-		return Jwts.builder().setClaims(claims).setIssuer(issure).setSubject(subject).setAudience(audience).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().setClaims(claims).setIssuer(issuer).setSubject(subject).setAudience(audience).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
+	
+	private String doGenerateTokenPass(Map<String, Object> claims, String issuer, String subject, String audience) {
+
+		return Jwts.builder().setClaims(claims).setIssuer(issuer).setSubject(subject).setAudience(audience).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_PASSWORD * 1000))
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
+	}
+
 	//validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = getUsernameFromToken(token);

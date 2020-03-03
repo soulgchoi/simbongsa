@@ -1,6 +1,8 @@
 package com.a205.model;
 
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class  MemberPatchRequest {
 	
-	private String prefer_region;
-	private String prefer_category;
+	private List<String> prefer_region;
+	private List<String> prefer_category;
 	private String m_bgnTm;
 	private String m_endTm;
 	private String m_age;
 
 }
-

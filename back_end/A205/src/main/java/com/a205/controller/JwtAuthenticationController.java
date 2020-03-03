@@ -1,7 +1,9 @@
 package com.a205.controller;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.a205.service.JwtUserDetailsService;
-import com.a205.config.GoogleIdTokenUtil;
+
 import com.a205.config.JwtTokenUtil;
 import com.a205.dao.MemberDAO;
 import com.a205.dto.Member;
 import com.a205.model.JwtRequest;
 import com.a205.model.JwtResponse;
-
+import com.a205.service.JwtUserDetailsService;
+import com.a205.service.UserMailSendService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,34 +43,43 @@ public class JwtAuthenticationController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
-	private GoogleIdTokenUtil googleTokenUtil;
-
-	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
 	@Autowired
 	private MemberDAO memberDao;
-	
+
+	private static final String MY_APP_GOOGLE_CLIENT_ID = "250805409546-er21fuvg0j0v3db818cs9jjirslg0lpq.apps.googleusercontent.com";
+
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-		
-//		//로컬로그인
-//		if(authenticationRequest.getPassword()!=null&&!authenticationRequest.getPassword().isEmpty()) {
-//			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());			
-//		}else {
-//			//구글 로그인
-//			Member member = memberDao.searchByEmail(authenticationRequest.getUsername());
-//			if(member.getM_email()==null||member.getM_email().isEmpty()) {
-//				throw new Exception("Not Available GoogleID");
-//			}
-//		}
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());		
+
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		final String email = authenticationRequest.getUsername();
 		final int id = userDetailsService.loadUserIdByUsername(authenticationRequest.getUsername());
 		final String userId = userDetailsService.loadUserNickByUsername(authenticationRequest.getUsername());
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
+		Member member = memberDao.searchByEmail(email);
+		
+		if(member.getM_key().equals("Y"))
+			return ResponseEntity.ok(new JwtResponse(token));
+		else 
+			return ResponseEntity.ok("EmailAuthenticateNeed");
+	}
+	
+	@RequestMapping(value = "/authenticateById", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationTokenById(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		final String userId = authenticationRequest.getUsername();
+		final String email = userDetailsService.loadEmailByUserNick(userId);
+		authenticate(email, authenticationRequest.getPassword());
+		final int id = userDetailsService.loadUserIdByUsername(email);
+		final String token = jwtTokenUtil.generateToken(email, userId, id);
+		Member member = memberDao.searchByEmail(email);
+		
+		if(member.getM_key().equals("Y"))
+			return ResponseEntity.ok(new JwtResponse(token));
+		else 
+			return ResponseEntity.ok("EmailAuthenticateNeed");
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -73,32 +89,42 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/loginByGoogle", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUserG(@RequestBody String receive_idToken) throws Exception {
-		GoogleIdToken idToken = googleTokenUtil.verify(receive_idToken);
-		Member member = new Member();
-		if (idToken != null) {
-			Payload payload = idToken.getPayload();
 
-			// Print user identifier
-			String email = payload.getEmail();
-			String userid = email.substring(0, email.lastIndexOf("@"));
-			System.out.println(userid);
-			member.setM_email(email);
-			member.setM_userid(userid);
-			
-			Member mem = memberDao.searchByEmail(email);
-			if(mem.getM_email().isEmpty()||mem.getM_email()==null) {
-				userDetailsService.saveByGoogle(member);
+		final HttpTransport transport = new NetHttpTransport();
+		final JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+				.setAudience(Collections.singletonList(MY_APP_GOOGLE_CLIENT_ID)).build();
+		GoogleIdToken idToken;
+
+		Member member = new Member();
+		try {
+			idToken = verifier.verify(receive_idToken);
+			if (idToken == null) {
+				System.out.println("토큰값이 없어요");
+			}else {
+				Payload payload = idToken.getPayload();
+
+				// Print user identifier
+				String email = payload.getEmail();
+				//String userid = email.substring(0, email.lastIndexOf("@"));
+				String userid = email.substring(0, email.lastIndexOf("@") + 1); //일단 유저아이디에도 이메일 또는 특수문자가 들어가게 함.
+				member.setM_email(email);
+				member.setM_userid(userid);
+				Member mem = memberDao.searchByEmail(email);
+				if (mem == null) {
+					userDetailsService.saveByGoogle(member);
+				}
+				member = memberDao.searchByEmail(email);
 			}
-			member = memberDao.searchByEmail(email);
-			
-		} else {
-			System.out.println("Invalid ID token.");
+		} catch (GeneralSecurityException | IOException e) {
+			e.printStackTrace();
 		}
 		final String email = member.getM_email();
 		final int id = member.getM_id();
 		final String userId = member.getM_userid();
 		final String token = jwtTokenUtil.generateToken(email, userId, id);
-		
+
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
