@@ -81,60 +81,68 @@
 			v_id
 			from vol
 			where 
-			r_id in	
-				(
-		    	<choose>
-					<when test="r_sidoNm3 != null and r_gugunNm3 != null">
-						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
-						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
-						(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
-		    		</when>
-					<when test="r_sidoNm2 != null and r_gugunNm2 != null">
-						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
-						(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
-		    		</when>
-		    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
-						(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
-		    		</when>
-					<otherwise>
-		      			 select r_id from region
-		    		</otherwise>
-		    	</choose>
-	    		)
-	    		or
-	    		ca_id in
-				(
-				<choose>
-					<when test="ca_highNm3 !=null">
-						(
-						select ca_id from category 
-						where 
-						ca_highNm = #{ca_highNm3}
-						or
-						ca_highNm = #{ca_highNm2}
-						or
-						ca_highNm = #{ca_highNm1}
-						)
+			<choose>
+				<when test="r_sidoNm1 == null and r_gugunNm1 == null and ca_highNm1 == null">
+					v_id not in (0)
+				</when>
+				<otherwise>
+					r_id in	
+					(
+			    	<choose>
+						<when test="r_sidoNm3 != null and r_gugunNm3 != null">
+							(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+							(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2}),
+							(select r_id from region where r_sidoNm = #{r_sidoNm3} and r_gugunNm = #{r_gugunNm3})
+			    		</when>
+						<when test="r_sidoNm2 != null and r_gugunNm2 != null">
+							(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1}),
+							(select r_id from region where r_sidoNm = #{r_sidoNm2} and r_gugunNm = #{r_gugunNm2})
+			    		</when>
+			    		<when test="r_sidoNm1 != null and r_gugunNm1 != null">
+							(select r_id from region where r_sidoNm = #{r_sidoNm1} and r_gugunNm = #{r_gugunNm1})
+			    		</when>
+						<otherwise>
+							0
+			    		</otherwise>
+			    	</choose>
+		    		)
+		    		or
+	    			ca_id in
+					(
+					<choose>
+						<when test="ca_highNm3 !=null">
+							(
+							select ca_id from category 
+							where 
+							ca_highNm = #{ca_highNm3}
+							or
+							ca_highNm = #{ca_highNm2}
+							or
+							ca_highNm = #{ca_highNm1}
+							)
+							
+						</when>
+						<when test="ca_highNm2 !=null">
+							(
+							select ca_id from category 
+							where 
+							ca_highNm = #{ca_highNm2}
+							or
+							ca_highNm = #{ca_highNm1}
+							)						
+						</when>
+						<when test="ca_highNm1 !=null">
+							 (select ca_id from category where ca_highNm = #{ca_highNm1})
+						</when>
 						
-					</when>
-					<when test="ca_highNm2 !=null">
-						(
-						select ca_id from category 
-						where 
-						ca_highNm = #{ca_highNm2}
-						or
-						ca_highNm = #{ca_highNm1}
-						)						
-					</when>
-					<when test="ca_highNm1 !=null">
-						 (select ca_id from category where ca_highNm = #{ca_highNm1})
-					</when>
-					
-					<otherwise>
-		      		  select ca_id from category
-		    		</otherwise>
-				</choose>
-				)
+						<otherwise>
+							0
+			    		</otherwise>
+					</choose>
+					)
+				</otherwise>
+			</choose>
+			
 	    	)
 			
 		order by p_date desc
